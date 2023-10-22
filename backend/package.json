@@ -1,0 +1,20 @@
+{
+  "name": "hitchHype",
+  "version": "1.0.0",
+  "description": "a roadtrip carpooling app",
+  "main": "bin/www",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cubeydice/hitchHype.git"
+  },
+  "keywords": [],
+  "author": "Queen, Raymond, Brit, Kirkor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cubeydice/hitchHype/issues"
+  },
+  "homepage": "https://github.com/cubeydice/hitchHype#readme"
+}
