@@ -46,7 +46,7 @@ router.get('/:id', async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
                                 .populate("drive", "_id firstName lastName");
-        return res.json(tweet);
+        return res.json(trip);
     }
     catch(err) {
         const error = new Error('Trip not found');
@@ -56,10 +56,19 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+// validation middleware should accept user.cars.passengerLimit
 router.post('/', requireUser, validateTripInput, async (req, res, next) => {
     try {
+        // Extract the required data from the request
+        const { user, body } = req;
+        const { startPoint, endPoint, passengerLimit } = body;
+
         const newTrip = new Trip({
-            driver: req.user._id,
+            driver: user._id,
+            passengers: [],
+            startPoint,
+            endPoint,
+            passengerLimit
         });
     
         let trip = await newTrip.save();
