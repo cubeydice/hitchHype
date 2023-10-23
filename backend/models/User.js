@@ -41,15 +41,11 @@ const userSchema = new Schema({
     },
     biography: {
         type: String,
-        require: true,
+        // require: true,
     },
     profilePicture: {
         type: String,
-        require: true,
-    },
-    role: { // might not be needed
-        type: String, // 'rider' or 'driver'
-        // required: true,
+        // require: true,
     },
     // location: {
         // type: {
