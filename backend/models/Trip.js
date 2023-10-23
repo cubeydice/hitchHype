@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const tripSchema = new Schema({
     driver: {
-        type: Schema.Types,ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },

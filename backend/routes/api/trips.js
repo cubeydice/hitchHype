@@ -56,6 +56,7 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+// create a trip
 // validation middleware should accept user.cars.passengerLimit
 router.post('/', requireUser, validateTripInput, async (req, res, next) => {
     try {
@@ -74,6 +75,80 @@ router.post('/', requireUser, validateTripInput, async (req, res, next) => {
         let trip = await newTrip.save();
         trip = await trip.populate('driver', '_id firstName lastName');
         return res.json(trip);
+    }
+    catch(err) {
+        next(err);
+    }
+});
+
+// update a trip
+router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
+    // Check if the trip exists
+    try {
+
+        // Find the trip by its ID
+        const trip = await Trip.findById(req.params.id);
+
+        if (!trip) {
+            const error = new Error('Trip not found');
+            error.status = 404;
+            error.errors = { message: "No trip found with that id" };
+            throw error;
+        }
+        
+        const { user, body } = req;
+
+        // Check if the user is the driver of the trip
+        if (trip.driver.toString() !== user._id.toString()) {
+            const error = new Error('Unauthorized: You are not the driver of the trip');
+            error.status = 403;
+            error.errors = { message: 'You are not the driver of the trip' }
+            throw error;
+        }
+        
+        // Extract the required data from the request
+        const { passengers, startPoint, endPoint, passengerLimit } = body;
+    
+        // Update the trip with the new data
+        trip.passengers = passengers;
+        trip.startPoint = startPoint;
+        trip.endPoint = endPoint;
+        trip.passengerLimit = passengerLimit;
+
+        // Save the updated trip
+        const updatedTrip = await trip.save();
+
+        res.json(updatedTrip);
+    }
+    catch(err) {
+        next(err);
+    }
+});
+
+// remove trip
+router.delete('/:id', requireUser, validateTripInput, async (req, res, next) => {
+    try {
+        // Find the trip by its ID
+        const trip = await Trip.findById(req.params.id);
+        
+        if (!trip) {
+            const error = new Error('Trip not found');
+            error.status = 404;
+            error.errors = { message: "No trip found with that id" };
+            throw error;
+        }
+
+        // Check if the user is the driver of the trip
+        if (trip.driver.toString() !== req.user._id.toString()) {
+            const error = new Error('Unauthorized: You are not the driver of the trip');
+            error.status = 403;
+            error.errors = { message: 'You are not the driver of the trip' }
+            throw error;
+        }
+
+        // Remove the trip from the database
+        await trip.remove();
+        res.json({ message: 'Trip deleted successfully' });
     }
     catch(err) {
         next(err);

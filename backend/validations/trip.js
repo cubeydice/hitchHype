@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
 
-const validateTweetInput = [
+const validateTripInput = [
     check('driver')
         .exists({ checkFalsy: true })
         .withMessage('Driver is required'),
@@ -20,4 +20,4 @@ const validateTweetInput = [
     handleValidationErrors
 ];
 
-module.exports = validateTweetInput;
+module.exports = validateTripInput;
