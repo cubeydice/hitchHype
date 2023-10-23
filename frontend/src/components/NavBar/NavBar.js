@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { openModal } from '../../store/modal';
 // import './NavBar.css';
 import { logout } from '../../store/session';
 
