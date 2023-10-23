@@ -1,15 +1,31 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { openModal } from '../../store/modal';
 // import './NavBar.css';
 import { logout } from '../../store/session';
 
 function NavBar () {
     const loggedIn = useSelector(state => !!state.session.user);
     const dispatch = useDispatch();
-    
+
     const logoutUser = e => {
         e.preventDefault();
         dispatch(logout());
+    }
+
+    const handleClick = (field) => (e) => {
+        e.preventDefault();
+
+        switch (field) {
+            case 'login':
+                dispatch(openModal('login-form'))
+                break;
+            case 'signup':
+                dispatch(openModal('signup-form'))
+                break;
+            default:
+                break;
+        }
     }
 
     const getLinks = () => {
@@ -25,8 +41,8 @@ function NavBar () {
         } else {
         return (
             <div className="links-auth">
-            <Link to={'/signup'}>Signup</Link>
-            <Link to={'/login'}>Login</Link>
+            <button onClick={handleClick('login')}>Login</button>
+            <button onClick={handleClick('signup')}>Sign up</button>
             </div>
         );
         }

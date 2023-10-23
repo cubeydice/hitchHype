@@ -2,11 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session';
 import trips from './trips';
+import modal from './modal';
 
 
 const rootReducer = combineReducers({
     session,
-    trips
+    tweets
 });
 
 let enhancer;
