@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
 
-const validateTripInput = (passengerLimit) = [
+const validateTripInput = (passengerLimit) => [
     check('driver')
         .exists({ checkFalsy: true })
         .withMessage('Driver is required'),

@@ -7,7 +7,7 @@ const { requireUser } = require('../../config/passport');
 const validateTripInput = require('../../validations/trip');
 
 // path = /trips
-// retrieve all trips
+// Retrieve all trips
 router.get('/', async (req, res) => {
     try {
         const trips = await Trip.find()
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
     } 
 });
 
-// retrieve a single user's trips
+// Retrieve user's trips
 router.get('/user/:userId', async (req, res, next) => {
     let user;
     try {
@@ -42,7 +42,7 @@ router.get('/user/:userId', async (req, res, next) => {
     }
 })
 
-// retrieve individual trip
+// Retrieve individual trip
 router.get('/:id', async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
@@ -57,8 +57,8 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-// create a trip
-// validation middleware should accept passengerLimit as max
+// Create a trip
+// Validation middleware should accept passengerLimit as max
 router.post('/', requireUser, validateTripInput(passengerLimit), async (req, res, next) => {
     try {
         // Extract the required data from the request
@@ -82,8 +82,8 @@ router.post('/', requireUser, validateTripInput(passengerLimit), async (req, res
     }
 });
 
-// update a trip
-router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
+// Update a trip
+router.patch('/:id', requireUser, validateTripInput(passengerLimit), async (req, res, next) => {
     // Check if the trip exists
     try {
 
