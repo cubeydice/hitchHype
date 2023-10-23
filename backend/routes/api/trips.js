@@ -6,6 +6,7 @@ const Trip = mongoose.model('Trip');
 const { requireUser } = require('../../config/passport');
 const validateTripInput = require('../../validations/trip');
 
+// path = /trips
 // retrieve all trips
 router.get('/', async (req, res) => {
     try {
@@ -57,8 +58,8 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // create a trip
-// validation middleware should accept user.cars.passengerLimit
-router.post('/', requireUser, validateTripInput, async (req, res, next) => {
+// validation middleware should accept passengerLimit as max
+router.post('/', requireUser, validateTripInput(passengerLimit), async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;

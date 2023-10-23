@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
 
-const validateTripInput = [
+const validateTripInput = (passengerLimit) = [
     check('driver')
         .exists({ checkFalsy: true })
         .withMessage('Driver is required'),
@@ -15,7 +15,7 @@ const validateTripInput = [
         .exists()
         .withMessage('End point is required'),
     check('passengerLimit')
-        .isInt({ min: 1 }) // max limit dependent on driver's vehicle
+        .isInt({ min: 1, max: passengerLimit }) // max limit dependent on driver's vehicle
         .withMessage('Passenger limit must be a positive integer'),
     handleValidationErrors
 ];
