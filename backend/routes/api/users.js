@@ -20,11 +20,14 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
   // Check to make sure no one has already registered with the proposed email or
   // username.
   const user = await User.findOne({
-    $or: [{ email: req.body.email }, { username: req.body.username }]
+    $or: [
+      { email: req.body.email }, 
+      { username: req.body.username }, 
+      { phoneNumber: req.body.phoneNumber }]
   });
 
   if (user) {
-    // Throw a 400 error if the email address and/or username already exists
+    // Throw a 400 error if the email address, username, or phone number already exists
     const err = new Error("Validation Error");
     err.statusCode = 400;
     const errors = {};
@@ -34,6 +37,9 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     if (user.username === req.body.username) {
       errors.username = "A user has already registered with this username";
     }
+    if (user.phoneNumber === req.body.phoneNumber) {
+      errors.phoneNumber = "A user has already registered with this phone number";
+    }
     err.errors = errors;
     return next(err);
   }
@@ -41,7 +47,10 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     // Otherwise create a new user
     const newUser = new User({
       username: req.body.username,
-      email: req.body.email
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
     });
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -86,7 +95,9 @@ router.get('/current', restoreUser, (req, res) => {
   res.json({
     _id: req.user._id,
     username: req.user.username,
-    email: req.user.email
+    email: req.user.email,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName
   });
 });
 
