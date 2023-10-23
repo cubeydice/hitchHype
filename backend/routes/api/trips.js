@@ -19,27 +19,6 @@ router.get('/', async (req, res) => {
     } 
 });
 
-router.get('/user/:userId', async (req, res, next) => {
-    let user;
-    try {
-        user = await User.findById(req.params.userId);
-    } catch(err) {
-        const error = new Error('User not found');
-        error.statusCode = 404;
-        error.errors = { message: "No user found with that id" };
-        return next(error);
-    }
-    try {
-        const trips = await Trip.find({ driver: user._id })
-                                .sort({ createdAt: -1 })
-                                .populate("driver", "_id firstName lastName");
-        return res.json(trips);
-    }
-    catch(err) {
-        return res.json([]);
-    }
-})
-
 // retrieve a single user's trips
 router.get('/user/:userId', async (req, res, next) => {
     let user;
@@ -76,3 +55,20 @@ router.get('/:id', async (req, res, next) => {
         return next(error);
     }
 });
+
+router.post('/', requireUser, validateTripInput, async (req, res, next) => {
+    try {
+        const newTrip = new Trip({
+            driver: req.user._id,
+        });
+    
+        let trip = await newTrip.save();
+        trip = await trip.populate('driver', '_id firstName lastName');
+        return res.json(trip);
+    }
+    catch(err) {
+        next(err);
+    }
+});
+
+module.exports = router;
