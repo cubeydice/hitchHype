@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const tripSchema = new Schema({
     driver: {
         type: Schema.Types,ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     passengers: [{ 
         type: Schema.Types.ObjectId, 

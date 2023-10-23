@@ -1,0 +1,78 @@
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
+const Trip = mongoose.model('Trip');
+const { requireUser } = require('../../config/passport');
+const validateTripInput = require('../../validations/trip');
+
+// retrieve all trips
+router.get('/', async (req, res) => {
+    try {
+        const trips = await Trip.find()
+                                .populate("driver", "_id firstName lastName")
+                                .sort({ createdAt: -1 });
+        return res.json(trips);
+    }
+    catch(err) {
+        return res.json([]);
+    } 
+});
+
+router.get('/user/:userId', async (req, res, next) => {
+    let user;
+    try {
+        user = await User.findById(req.params.userId);
+    } catch(err) {
+        const error = new Error('User not found');
+        error.statusCode = 404;
+        error.errors = { message: "No user found with that id" };
+        return next(error);
+    }
+    try {
+        const trips = await Trip.find({ driver: user._id })
+                                .sort({ createdAt: -1 })
+                                .populate("driver", "_id firstName lastName");
+        return res.json(trips);
+    }
+    catch(err) {
+        return res.json([]);
+    }
+})
+
+// retrieve a single user's trips
+router.get('/user/:userId', async (req, res, next) => {
+    let user;
+    try {
+        user = await User.findById(req.params.userId);
+    } catch(err) {
+        const error = new Error('User not found');
+        error.statusCode = 404;
+        error.errors = { message: "No user found with that id" };
+        return next(error);
+    }
+    try {
+        const trips = await Trip.find({ driver: user._id })
+                                .sort({ createdAt: -1 })
+                                .populate("driver", "_id firstName lastName");
+        return res.json(trips);
+    }
+    catch(err) {
+        return res.json([]);
+    }
+})
+
+// retrieve individual trip
+router.get('/:id', async (req, res, next) => {
+    try {
+        const trip = await Trip.findById(req.params.id)
+                                .populate("drive", "_id firstName lastName");
+        return res.json(tweet);
+    }
+    catch(err) {
+        const error = new Error('Trip not found');
+        error.statusCode = 404;
+        error.errors = { message: "No trip found with that id" };
+        return next(error);
+    }
+});
