@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import './SessionForm.css';
-
 import { login, clearSessionErrors } from '../../store/session';
+import { closeModal } from '../../store/modal';
+// import './SessionForm.css';
 
 function LoginForm () {
     const [email, setEmail] = useState('');
@@ -23,7 +23,8 @@ function LoginForm () {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login({ email, password })); 
+        dispatch(login({ email, password }));
+        dispatch(closeModal());
     }
 
     return (
