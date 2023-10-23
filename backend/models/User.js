@@ -55,15 +55,15 @@ const userSchema = new Schema({
         // coordinates: [Number],
     // },
     trips: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, 
         ref: 'Trip', 
     }],
     rides: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, 
         ref: 'Ride', 
     }],
     cars: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, 
         ref: 'Car' 
     }],
     driverLicense: licenseSchema,
