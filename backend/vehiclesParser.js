@@ -5,12 +5,12 @@ const vehicles = {};
 fs.createReadStream('vehicles.csv')
   .pipe(csv())
   .on('data', (data) => {
-    if (vehicles[data.make] === undefined) {
-      vehicles[data.make] = []
+    vehicles[data.make] = {...vehicles[data.make], [data.model]: []}
+
+    if (vehicles[data.make][data.model] !== undefined) {
+      vehicles[data.make][data.model].push(data.year);
     }
-    vehicles[data.make].push(data.model)
-    vehicles[data.make] = [...new Set(vehicles[data.make])];
   })
   .on('end', () => {
-console.log(vehicles)
+    console.log(vehicles)
   });
