@@ -6,6 +6,17 @@ const Trip = mongoose.model('Trip');
 const { requireUser } = require('../../config/passport');
 const validateTripInput = require('../../validations/trip');
 
+const formatDate = (date) => {
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
+}
+
 // path = /trips
 // Retrieve all trips
 router.get('/', async (req, res) => {
@@ -13,7 +24,13 @@ router.get('/', async (req, res) => {
         const trips = await Trip.find()
                                 .populate("driver", "_id firstName lastName")
                                 .sort({ createdAt: -1 });
-        return res.json(trips);
+        const formattedTrips = trips.map((trip) => {
+            return {
+                ...trip.toObject(),
+                departureTime: formatDate(departureTime)
+            }
+        })
+        return res.json(formattedTrips);
     }
     catch(err) {
         return res.json([]);
@@ -35,7 +52,13 @@ router.get('/user/:userId', async (req, res, next) => {
         const trips = await Trip.find({ driver: user._id })
                                 .sort({ createdAt: -1 })
                                 .populate("driver", "_id firstName lastName");
-        return res.json(trips);
+        const formattedTrips = trips.map((trip) => {
+            return {
+                ...trip.toObject(),
+                departureTime: formatDate(departureTime)
+            }
+        }) 
+        return res.json(formattedTrips);
     }
     catch(err) {
         return res.json([]);
@@ -47,7 +70,11 @@ router.get('/:id', async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
                                 .populate("driver", "_id firstName lastName");
-        return res.json(trip);
+        const formattedTrip = {
+            ...trip.toObject(),
+            departureTime: formatDate(departureTime)
+            }
+        return res.json(formattedTrip);
     }
     catch(err) {
         const error = new Error('Trip not found');
@@ -65,10 +92,12 @@ router.post('/', requireUser, validateTripInput, async (req, res, next) => {
         const { user, body } = req;
         const { departureTime, startPoint, endPoint, availableSeats } = body;
 
+        const formarttedDepartureTime = formatDate(departureTime);
+
         const newTrip = new Trip({
             driver: user._id,
             passengers: [],
-            departureTime,
+            departureTime: formarttedDepartureTime,
             startPoint,
             endPoint,
             availableSeats
@@ -110,9 +139,11 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         // Extract the required data from the request
         const { passengers, departureTime, startPoint, endPoint, availableSeats } = body;
     
+        const formarttedDepartureTime = formatDate(departureTime);
+
         // Update the trip with the new data
         trip.passengers = passengers;
-        trip.departureTime = departureTime;
+        trip.departureTime = formarttedDepartureTime;
         trip.startPoint = startPoint;
         trip.endPoint = endPoint;
         trip.availableSeats = availableSeats;
