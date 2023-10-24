@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Address Schema
+const addressSchema = new Schema({
+    street: String,
+    city: String,
+    state: String,
+    postalCode: String,
+});
+
 const tripSchema = new Schema({
     driver: {
         type: Schema.Types.ObjectId,
@@ -8,15 +16,15 @@ const tripSchema = new Schema({
         required: true
     },
     passengers: [{ 
-        // { passenger: passenger1Id, dropoffPoint: 'Dropoff point 1' },
-        // { passenger: passenger2Id, dropoffPoint: 'Dropoff point 2' },
+        // { passenger: passenger1Id, dropoffPoint: 'address1' },
+        // { passenger: passenger2Id, dropoffPoint: 'address2' },
         passenger: {
             type: Schema.Types.ObjectId,
             ref: 'User',
             required: true
         },
         dropoffPoint: {
-            type: String,
+            addressSchema,
             required: true
         }
     }],
@@ -24,12 +32,12 @@ const tripSchema = new Schema({
         type: Date,
         required: true,
     },
-    startPoint: {
-        type: String,
+    from: {
+        addressSchema,
         required: true,
     },
-    endPoint: {
-        type: String,
+    to: {
+        addressSchema,
         required: true,
     },
     availableSeats: {

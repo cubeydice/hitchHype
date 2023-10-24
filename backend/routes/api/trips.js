@@ -90,7 +90,7 @@ router.post('/', requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { departureTime, startPoint, endPoint, availableSeats } = body;
+        const { departureTime, from, to, availableSeats } = body;
 
         const formarttedDepartureTime = formatDate(departureTime);
 
@@ -98,8 +98,8 @@ router.post('/', requireUser, validateTripInput, async (req, res, next) => {
             driver: user._id,
             passengers: [],
             departureTime: formarttedDepartureTime,
-            startPoint,
-            endPoint,
+            from,
+            to,
             availableSeats
         });
     
@@ -137,15 +137,15 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         }
         
         // Extract the required data from the request
-        const { passengers, departureTime, startPoint, endPoint, availableSeats } = body;
+        const { passengers, departureTime, from, to, availableSeats } = body;
     
         const formarttedDepartureTime = formatDate(departureTime);
 
         // Update the trip with the new data
         trip.passengers = passengers;
         trip.departureTime = formarttedDepartureTime;
-        trip.startPoint = startPoint;
-        trip.endPoint = endPoint;
+        trip.from = from;
+        trip.to = to;
         trip.availableSeats = availableSeats;
 
         // Save the updated trip
