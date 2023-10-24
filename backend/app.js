@@ -8,13 +8,13 @@ const { isProduction } = require('./config/keys');
 
 require('./models/User');
 require('./models/Tweet');
-// require('./models/Trip');
+require('./models/Trip');
 require('./config/passport'); 
 const passport = require('passport'); 
 
 const usersRouter = require('./routes/api/users'); // update the import file path
 const tweetsRouter = require('./routes/api/tweets');
-// const tripssRouter = require('./routes/api/trips');
+const tripsRouter = require('./routes/api/trips');
 const csrfRouter = require('./routes/api/csrf');
 const debug = require('debug');
 
@@ -49,7 +49,7 @@ app.use(
 // Attach Express routers
 app.use('/api/users', usersRouter); // update the path
 app.use('/api/tweets', tweetsRouter);
-// app.use('/api/trips', tripsRouter);
+app.use('/api/trips', tripsRouter);
 app.use('/api/csrf', csrfRouter);
 
 // Express custom middleware for catching all unmatched requests and formatting
