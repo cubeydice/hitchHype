@@ -7,7 +7,7 @@ import modal from './modal';
 
 const rootReducer = combineReducers({
     session,
-    tweets
+    trips
 });
 
 let enhancer;

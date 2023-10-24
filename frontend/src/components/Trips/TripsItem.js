@@ -1,21 +1,22 @@
 
 
-export function TripItem ({ trip }) {
-
+export function TripsItem ({ trip }) {
+    const showPage = '/trips/' + trip._id;
+    const price = '$0'
 
     return (
-        <div className="TripItem-container">
+        <a href={ showPage } className="TripItem-container">
             <div className="TripItem-photo">
-                {/* {trip.} */}
+                {/* {trip.photo} */}
             </div>
             <div className="TripItem-details">
                 <div className="TripItem-destination">
-
+                    { trip.endPoint }
                 </div>
                 <div className="TripItem-price">
-                    
+                    { price }
                 </div>
             </div>
-        </div>
+        </a>
     )
 }
