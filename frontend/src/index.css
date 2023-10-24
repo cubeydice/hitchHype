@@ -106,14 +106,16 @@ a, .link {
   color: var(--brand-pink);
 }
 
-a:hover:not([disabled]), .link:hover:not([disabled]) {
+a:hover:not([disabled]),
+.link:hover:not([disabled]) {
   transition: 0.2s;
   filter: brightness(80%);
 }
 
-
 /* BUTTONS */
-button, input[type=button], input[type=submit] {
+button,
+input[type=button],
+input[type=submit] {
   background-color: var(--brand);
   border-radius: var(--rounded-border);
   border: none;
@@ -151,7 +153,8 @@ input[type=submit]:hover:not([disabled]) {
 
 
 /* FORMS */
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password] {
   border: none;
   padding: 8px;
   margin: 4px;
