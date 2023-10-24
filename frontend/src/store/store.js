@@ -4,11 +4,13 @@ import session from './session';
 import trips from './trips';
 import modal from './modal';
 import errors from './errors'
+import tweets from './tweets'
 
 const rootReducer = combineReducers({
     session,
     trips,
-    errors
+    errors,
+    tweets
 });
 
 let enhancer;
