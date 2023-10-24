@@ -8,10 +8,19 @@ const tripSchema = new Schema({
         required: true
     },
     passengers: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'User', 
+        // { passenger: passenger1Id, dropoffPoint: 'Dropoff point 1' },
+        // { passenger: passenger2Id, dropoffPoint: 'Dropoff point 2' },
+        passenger: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        dropoffPoint: {
+            type: String,
+            required: true
+        }
     }],
-    date: {
+    departureTime: {
         type: Date,
         required: true,
     },
@@ -23,9 +32,12 @@ const tripSchema = new Schema({
         type: String,
         required: true,
     },
-    passengerLimit: {
+    availableSeats: {
         type: Number,
         required: true,
+    },
+    destinationPicutre: {
+        type: String,
     }
 })
 
