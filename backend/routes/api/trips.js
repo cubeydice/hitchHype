@@ -46,7 +46,7 @@ router.get('/user/:userId', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
-                                .populate("drive", "_id firstName lastName");
+                                .populate("driver", "_id firstName lastName");
         return res.json(trip);
     }
     catch(err) {
@@ -63,11 +63,12 @@ router.post('/', requireUser, validateTripInput(passengerLimit), async (req, res
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { startPoint, endPoint, passengerLimit } = body;
+        const { date, startPoint, endPoint, passengerLimit } = body;
 
         const newTrip = new Trip({
             driver: user._id,
             passengers: [],
+            date,
             startPoint,
             endPoint,
             passengerLimit
@@ -108,10 +109,11 @@ router.patch('/:id', requireUser, validateTripInput(passengerLimit), async (req,
         }
         
         // Extract the required data from the request
-        const { passengers, startPoint, endPoint, passengerLimit } = body;
+        const { passengers, date, startPoint, endPoint, passengerLimit } = body;
     
         // Update the trip with the new data
         trip.passengers = passengers;
+        trip.date = date;
         trip.startPoint = startPoint;
         trip.endPoint = endPoint;
         trip.passengerLimit = passengerLimit;
