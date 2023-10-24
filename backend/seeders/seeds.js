@@ -56,10 +56,17 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     const randomDriver = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
     const randomPassengers = [];
 
-    // Choose two random passengers from the users array
+    // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
-        randomPassengers.push(randomPassenger);
+        const dropoffPoint = faker.address.city(); 
+
+        const passengerInfo = {
+            passenger: randomPassenger,
+            dropoffPoint: dropoffPoint,
+        };
+
+        randomPassengers.push(passengerInfo);
     }
     trips.push(
         new Trip ({
