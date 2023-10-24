@@ -11,6 +11,10 @@ const tripSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'User', 
     }],
+    date: {
+        type: Date,
+        required: true,
+    },
     startPoint: {
         type: String,
         required: true,
