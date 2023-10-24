@@ -58,20 +58,20 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // Create a trip
-// Validation middleware should accept passengerLimit as max
+// Validation middleware should accept vehicle passenger limit as max
 router.post('/', requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { date, startPoint, endPoint, passengerLimit } = body;
+        const { departureTime, startPoint, endPoint, availableSeats } = body;
 
         const newTrip = new Trip({
             driver: user._id,
             passengers: [],
-            date,
+            departureTime,
             startPoint,
             endPoint,
-            passengerLimit
+            availableSeats
         });
     
         let trip = await newTrip.save();
@@ -109,14 +109,14 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         }
         
         // Extract the required data from the request
-        const { passengers, date, startPoint, endPoint, passengerLimit } = body;
+        const { passengers, departureTime, startPoint, endPoint, availableSeats } = body;
     
         // Update the trip with the new data
         trip.passengers = passengers;
-        trip.date = date;
+        trip.departureTime = departureTime;
         trip.startPoint = startPoint;
         trip.endPoint = endPoint;
-        trip.passengerLimit = passengerLimit;
+        trip.availableSeats = availableSeats;
 
         // Save the updated trip
         const updatedTrip = await trip.save();

@@ -11,7 +11,7 @@ const tripSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'User', 
     }],
-    date: {
+    departureTime: {
         type: Date,
         required: true,
     },
@@ -23,7 +23,7 @@ const tripSchema = new Schema({
         type: String,
         required: true,
     },
-    passengerLimit: {
+    availableSeats: {
         type: Number,
         required: true,
     }

@@ -65,10 +65,10 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
         new Trip ({
             driver: randomDriver,
             passengers: randomPassengers,
-            date: faker.date.future(),
+            departureTime: faker.date.future(),
             startPoint: faker.address.city(), 
             endPoint: faker.address.city(), 
-            passengerLimit: Math.floor(Math.random() * 6) + 1
+            availableSeats: Math.floor(Math.random() * 6) + 1
         })
     )
 }
