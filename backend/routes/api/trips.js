@@ -58,20 +58,20 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // Create a trip
-// Validation middleware should accept passengerLimit as max
+// Validation middleware should accept vehicle passenger limit as max
 router.post('/', requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { date, startPoint, endPoint, passengerLimit } = body;
+        const { departureTime, startPoint, endPoint, availableSeats } = body;
 
         const newTrip = new Trip({
             driver: user._id,
             passengers: [],
-            date,
+            departureTime,
             startPoint,
             endPoint,
-            passengerLimit
+            availableSeats
         });
     
         let trip = await newTrip.save();
@@ -87,7 +87,6 @@ router.post('/', requireUser, validateTripInput, async (req, res, next) => {
 router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
     // Check if the trip exists
     try {
-
         // Find the trip by its ID
         const trip = await Trip.findById(req.params.id);
 
@@ -95,7 +94,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
             const error = new Error('Trip not found');
             error.status = 404;
             error.errors = { message: "No trip found with that id" };
-            throw error;
+            return next(error);
         }
         
         const { user, body } = req;
@@ -105,18 +104,18 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
             const error = new Error('Unauthorized: You are not the driver of the trip');
             error.status = 403;
             error.errors = { message: 'You are not the driver of the trip' }
-            throw error;
+            return next(error);
         }
         
         // Extract the required data from the request
-        const { passengers, date, startPoint, endPoint, passengerLimit } = body;
+        const { passengers, departureTime, startPoint, endPoint, availableSeats } = body;
     
         // Update the trip with the new data
         trip.passengers = passengers;
-        trip.date = date;
+        trip.departureTime = departureTime;
         trip.startPoint = startPoint;
         trip.endPoint = endPoint;
-        trip.passengerLimit = passengerLimit;
+        trip.availableSeats = availableSeats;
 
         // Save the updated trip
         const updatedTrip = await trip.save();
@@ -128,7 +127,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
     }
 });
 
-// remove trip
+// Remove trip
 router.delete('/:id', requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Find the trip by its ID
@@ -138,7 +137,7 @@ router.delete('/:id', requireUser, validateTripInput, async (req, res, next) => 
             const error = new Error('Trip not found');
             error.status = 404;
             error.errors = { message: "No trip found with that id" };
-            throw error;
+            return next(error);
         }
 
         // Check if the user is the driver of the trip
@@ -146,7 +145,7 @@ router.delete('/:id', requireUser, validateTripInput, async (req, res, next) => 
             const error = new Error('Unauthorized: You are not the driver of the trip');
             error.status = 403;
             error.errors = { message: 'You are not the driver of the trip' }
-            throw error;
+            return next(error);
         }
 
         // Remove the trip from the database
