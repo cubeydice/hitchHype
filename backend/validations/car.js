@@ -26,6 +26,14 @@ const validateCarInput = [
     check('insurance')
         .exists({ checkFalsy: true })
         .withMessage('Insurance is required'),
+    check('mpg')
+        .optional()
+        .isNumeric()
+        .withMessage('Miles per gallon (mpg) must be a number'),
+    check('fueleconomyId')
+        .optional()
+        .isNumeric()
+        .withMessage('Fuel economy ID must be a number'),
     handleValidationErrors
 ];
 
