@@ -32,6 +32,13 @@ export const clearTripErrors = errors => ({
     errors
 });
 
+// export const getTripts = state => {
+//     // console.log(state)
+//     // return state?.trips ? Object.values(state.events) : [];
+//     return state?.trips ?  state.trips : [];
+
+// }
+
 export const fetchTrips = () => async dispatch => {
     try {
         const res = await jwtFetch('/api/trips');
