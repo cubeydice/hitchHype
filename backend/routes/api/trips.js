@@ -59,7 +59,7 @@ router.get('/:id', async (req, res, next) => {
 
 // Create a trip
 // Validation middleware should accept passengerLimit as max
-router.post('/', requireUser, validateTripInput(passengerLimit), async (req, res, next) => {
+router.post('/', requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
@@ -84,7 +84,7 @@ router.post('/', requireUser, validateTripInput(passengerLimit), async (req, res
 });
 
 // Update a trip
-router.patch('/:id', requireUser, validateTripInput(passengerLimit), async (req, res, next) => {
+router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
     // Check if the trip exists
     try {
 
