@@ -1,0 +1,8 @@
+.trip-show-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.trip-show-driver-name{
+    display: flex;
+}
