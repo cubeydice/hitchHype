@@ -1,9 +1,9 @@
 import sfPic from "../../assets/icons/sf-img.jpg"
-
+import "./TripsItem.css"
 export function TripsItem ({ trip }) {
-    // const showPage = '/trips/' + trip._id;
+    const showPage = '/trips/' + trip._id;
     // console.log(trip)
-    const showPage = '/trips'
+    // const showPage = '/trips'
     const price = '$0'
 
     return (

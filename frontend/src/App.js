@@ -15,6 +15,7 @@ import { Trips } from './components/Trips/Trips';
 import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
 import { Route } from 'react-router-dom/cjs/react-router-dom.min';
+import { TripShow } from './components/Trips/TripShow';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -34,7 +35,8 @@ function App() {
         <Route exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/profile" component={Profile} />
         <ProtectedRoute exact path="/tweets/new" component={TweetCompose} />
-        <Route exact path="/trips" component={ Trips} />
+        <Route exact path="/trips" component={ Trips } />
+        <Route exact path="/trips/:tripId" component={ TripShow } />
 
       </Switch>
     </>

@@ -2,18 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { clearTripErrors, fetchTrips } from "../../store/trips";
 import { TripsItem } from "./TripsItem";
+import "./Trips.css"
 
 export function Trips () {
 
     const dispatch = useDispatch();
-    const trips = Object.values( useSelector(state => state.trips.all));
+    const trips = Object.values( useSelector(state => state.trips));
     const [filteredTrips, setFilteredTrips] = useState();
     const [startPoint, setStartPoint] = useState();
     const [endPoint, setEndPoint] = useState();
     const [tripDate, setTripDate] = useState();
     const [fetchedTrips, setFetchedTrips] = useState(false);
-    // console.log("trips:", trips);
-//  debugger
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -30,11 +29,7 @@ export function Trips () {
         dispatch(clearTripErrors());
     }, [dispatch])
 
-    if (trips.length === 0) return <div>There are no Trips</div>;
-
-
-    // console.log("trips:", trips)
-    else return (
+   return (
         <>
             { trips ? (
                 <div className="trip-page">

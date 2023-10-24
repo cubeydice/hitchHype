@@ -2,6 +2,7 @@ import jwtFetch from './jwt';
 import { RECEIVE_USER_LOGOUT } from './session';
 
 const RECEIVE_TRIPS = "trips/RECEIVE_TRIPS";
+const RECEIVE_TRIP = "trips/RECEIVE_TRIP";
 const RECEIVE_USER_TRIPS = "trips/RECEIVE_USER_TRIPS";
 const RECEIVE_NEW_TRIP = "trips/RECEIVE_NEW_TRIP";
 const RECEIVE_TRIP_ERRORS = "trips/RECEIVE_TRIP_ERRORS";
@@ -11,6 +12,11 @@ const receiveTrips = trips => ({
     type: RECEIVE_TRIPS,
     trips
 });
+const receiveTrip = trip => ({
+    type: RECEIVE_TRIP,
+    trip
+});
+
 
 const receiveUserTrips = trips => ({
     type: RECEIVE_USER_TRIPS,
@@ -36,8 +42,26 @@ export const clearTripErrors = errors => ({
 //     // console.log(state)
 //     // return state?.trips ? Object.values(state.events) : [];
 //     return state?.trips ?  state.trips : [];
-
 // }
+
+export const getTrip = tripId => state => {
+    // console.log('state: ',state.events[eventId])
+    return state?.trips.all ? state.trips.all[tripId] : null;
+}
+
+export const fetchTrip = (tripId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/trips/${tripId}`);
+        const trip = await res.json();
+        dispatch(receiveTrip(trip));
+        return trip;
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveErrors(resBody.errors));
+        }
+    }
+}
 
 export const fetchTrips = () => async dispatch => {
     try {
@@ -96,16 +120,19 @@ export const tripErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const tripsReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
+const tripsReducer = (state = {}, action) => {
+    const nextState = { ...state };
     switch(action.type) {
+        case RECEIVE_TRIP:
+            return { ...state, ...action.trip};
         case RECEIVE_TRIPS:
-            return { ...state, all: action.trips, new: undefined};
-        case RECEIVE_USER_TRIPS:
-            return { ...state, user: action.trips, new: undefined};
-        case RECEIVE_NEW_TRIP:
-            return { ...state, new: action.trip};
-        case RECEIVE_USER_LOGOUT:
-            return { ...state, user: {}, new: undefined }
+            return { ...state, ...action.trips};
+        // case RECEIVE_USER_TRIPS:
+        //     return { ...state, user: action.trips, new: undefined};
+        // case RECEIVE_NEW_TRIP:
+        //     return { ...state, new: action.trip};
+        // case RECEIVE_USER_LOGOUT:
+        //     return { ...state, user: {}, new: undefined }
         default:
             return state;
     }
