@@ -28,7 +28,7 @@ const authors = [
 const Footer = () => {
 
   return (
-    <div className='footer-container' id='footer'>
+    <div className='footer-container' id='footer' >
       <h3>
         ABOUT US
       </h3>

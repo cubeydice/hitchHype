@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { openModal } from '../../store/modal';
-import './NavBar.css';
 import { logout } from '../../store/session';
 import GitHubLogo from '../../assets/logos/github-mark.png'
 import LinkedInLogo from '../../assets/logos/linkedin-blue.png'
+import './NavBar.css';
 
 function NavBar () {
     const loggedIn = useSelector(state => !!state.session.user);
