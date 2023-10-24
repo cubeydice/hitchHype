@@ -36,7 +36,9 @@ function NavBar () {
             <div className="links-nav">
                 <div className='nav-logos'>
                     <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
-                    <img src={GitHubLogo} alt='github' className='medium-icon'/>
+                    <a href='https://github.com/cubeydice/hitchHype/' target="_blank" rel='noreferrer'>
+                        <img src={GitHubLogo} alt='github' className='medium-icon'/>
+                    </a>
                 </div>
                 <Link to={'/profile'}>Profile</Link>
                 <button onClick={logoutUser}>Logout</button>
@@ -47,7 +49,9 @@ function NavBar () {
             <div className="links-auth">
                 <div className='nav-logos'>
                     <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
-                    <img src={GitHubLogo} alt='github' className='medium-icon'/>
+                    <a href='https://github.com/cubeydice/hitchHype/' target="_blank" rel='noreferrer'>
+                        <img src={GitHubLogo} alt='github' className='medium-icon'/>
+                    </a>
                 </div>
                 <h1 onClick={handleClick('login')} className='bgless-button'>Login</h1>
                 <button onClick={handleClick('signup')}>Sign up</button>
