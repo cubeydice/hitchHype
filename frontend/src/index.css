@@ -1,3 +1,54 @@
+/*CSS RESET*/
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* --------------------------------------------- */
+
 :root {
   --brand: #077187;
   --brand-pink: #f87666;
@@ -5,21 +56,66 @@
   --brand-dark-teal: #074f57;
   --brand-black: #2c2f33;
   --off-white: #f6f6f6;
+  --rounded-border: 6px;
 }
 
 body {
   background-color: var(--off-white);
-  color: var(--brand-black)
+  color: var(--brand-black);
+  font-family: 'Roboto', sans-serif;
 }
 
 h1 {
-  color: var(--brand)
+  color: var(--brand);
+  font-size: 36px;
+  font-weight: 700;
 }
 
 h2 {
-  color: var(--brand-dark-teal)
+  color: var(--brand-dark-teal);
+  font-size: 30px;
+  font-weight: 500;
 }
 
-a {
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--brand-dark-teal);
+}
+
+a, .link {
   color: var(--brand-pink);
+}
+
+.errors {
+  color: red;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+button, input[type=button], input[type=submit] {
+  background-color: var(--brand);
+  border-radius: var(--rounded-border);
+  border: none;
+  padding: 8px;
+  margin: 4px;
+  color: var(--off-white);
+}
+
+button:disabled, input[type=button]:disabled, input[type=submit]:disabled {
+  background-color: gray;
+  filter: brightness(80%);
+}
+
+input[type=text], input[type=password] {
+  border: none;
+  padding: 8px;
+  margin: 4px;
+  height: 20px;
+  border-radius: var(--rounded-border);
+  width: 300px;
+}
+
+.large-icon {
+  height: 100px;
 }

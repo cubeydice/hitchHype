@@ -31,7 +31,7 @@ export const signup = user => startSession(user, 'api/users/register');
 export const login = user => startSession(user, 'api/users/login');
 
 const startSession = (userInfo, route) => async dispatch => {
-    try {  
+    try {
         const res = await jwtFetch(route, {
         method: "POST",
         body: JSON.stringify(userInfo)
@@ -63,12 +63,12 @@ const nullErrors = null;
 export const sessionErrorsReducer = (state = nullErrors, action) => {
     switch(action.type) {
         case RECEIVE_SESSION_ERRORS:
-        return action.errors;
+            return action.errors;
         case RECEIVE_CURRENT_USER:
         case CLEAR_SESSION_ERRORS:
-        return nullErrors;
+            return nullErrors;
         default:
-        return state;
+            return state;
     }
 };
 
