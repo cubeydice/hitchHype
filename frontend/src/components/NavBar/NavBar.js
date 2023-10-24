@@ -35,7 +35,9 @@ function NavBar () {
         return (
             <div className="links-nav">
                 <div className='nav-logos'>
-                    <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
+                    <a href="#footer">
+                        <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
+                    </a>
                     <a href='https://github.com/cubeydice/hitchHype/' target="_blank" rel='noreferrer'>
                         <img src={GitHubLogo} alt='github' className='medium-icon'/>
                     </a>

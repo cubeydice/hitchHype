@@ -94,15 +94,23 @@ h3 {
   color: var(--brand-dark-teal);
 }
 
-a, .link {
-  color: var(--brand-pink);
-}
 
 .errors {
   color: red;
   font-size: 12px;
   margin-left: 4px;
 }
+
+/* LINKS */
+a, .link {
+  color: var(--brand-pink);
+}
+
+a:hover, .link:hover {
+  transition: 0.2s;
+  filter: brightness(80%);
+}
+
 
 /* BUTTONS */
 button, input[type=button], input[type=submit] {
