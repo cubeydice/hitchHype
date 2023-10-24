@@ -35,6 +35,9 @@ const tripSchema = new Schema({
     availableSeats: {
         type: Number,
         required: true,
+    },
+    destinationPicutre: {
+        type: String,
     }
 })
 
