@@ -15,6 +15,11 @@ const tripSchema = new Schema({
         ref: 'User',
         required: true
     },
+    car: {
+        type: Schema.Types.ObjectId,
+        ref: 'Car',
+        required: true
+    },
     passengers: [{ 
         // { passenger: passenger1Id, dropoffPoint: 'address1' },
         // { passenger: passenger2Id, dropoffPoint: 'address2' },
@@ -32,11 +37,11 @@ const tripSchema = new Schema({
         type: Date,
         required: true,
     },
-    from: {
+    origin: {
         addressSchema,
         required: true,
     },
-    to: {
+    destination: {
         addressSchema,
         required: true,
     },
