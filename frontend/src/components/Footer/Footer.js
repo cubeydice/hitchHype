@@ -28,17 +28,17 @@ const authors = [
 const Footer = () => {
 
   return (
-    <div className='footer-container'>
+    <div className='footer-container' id='footer'>
       <h3>
         ABOUT US
       </h3>
         <br/><br/>
-    <div className='footer'>
+    <div className='footer-authors'>
       {authors.map((author)=>{
         return (
-        <div className='footer-items'>
+        <div className='footer-author'>
         {author.name}
-        <div>
+        <div className='footer-author-icons'>
           <a href={author.linkedIn} alt='linkedin'>
             <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
           </a>

@@ -8,17 +8,11 @@
   padding: 40px 0;
 }
 
-.footer {
+.footer-authors {
   display: flex;
   justify-content: space-evenly;
 }
 
-.footer-items {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
-.footer-items div > * {
+.footer-author-icons > * {
   margin: 10px
 }
