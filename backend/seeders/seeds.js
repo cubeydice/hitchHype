@@ -59,7 +59,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
             date: faker.date.future(),
             startPoint: faker.address.city(), 
             endPoint: faker.address.city(), 
-            passengerLimit: faker.random.number({ min: 1, max: 6 });
+            passengerLimit: faker.random.number({ min: 1, max: 6 })
         })
     )
 }
