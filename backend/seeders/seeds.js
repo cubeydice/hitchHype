@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { mongoURI: db } = require('../config/keys.js');
 const User = require('../models/User');
 const Tweet = require('../models/Tweet');
-const Trip = require('../models/Trip')
+const Trip = require('../models/Trip');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 
@@ -32,7 +32,7 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
             firstName: firstName,
             lastName: lastName,
-            phoneNumber: faker.random.number({ min: 1000000000, max: 9999999999 })
+            phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000)
         })
     )
 }
@@ -53,14 +53,22 @@ for (let i = 0; i < NUM_SEED_TWEETS; i++) {
 const trips = [];
 
 for (let i = 0; i < NUM_SEED_TRIPS; i++) {
+    const randomDriver = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
+    const randomPassengers = [];
+
+    // Choose two random passengers from the users array
+    for (let j = 0; j < 2; j++) {
+        const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
+        randomPassengers.push(randomPassenger);
+    }
     trips.push(
-        new Trip({
-            driver: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
-            passengers: Array.from({ length: 2 }, () => faker.random.arrayElement(users)),
+        new Trip ({
+            driver: randomDriver,
+            passengers: randomPassengers,
             date: faker.date.future(),
             startPoint: faker.address.city(), 
             endPoint: faker.address.city(), 
-            passengerLimit: faker.random.number({ min: 1, max: 6 })
+            passengerLimit: Math.floor(Math.random() * 6) + 1
         })
     )
 }
@@ -84,6 +92,7 @@ const insertSeeds = () => {
                     .then(() => Tweet.collection.drop())
                     .then(() => User.insertMany(users))
                     .then(() => Tweet.insertMany(tweets))
+                    .then(() => Trip.insertMany(trips))
                     .then(() => {
                         console.log("Done!");
                         mongoose.disconnect();
