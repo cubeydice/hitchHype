@@ -14,7 +14,7 @@ const validateTripInput = [
     check('passengers')
         .isArray()
         .withMessage('Passengers must be an array'),
-    check('date')
+    check('departureTime')
         .exists({ checkFalsy: true })
         .withMessage('Date is required')
         .custom((value) => {
@@ -29,9 +29,9 @@ const validateTripInput = [
     check('endPoint')
         .exists()
         .withMessage('End point is required'),
-    check('passengerLimit')
-        .isInt({ min: 1 }) // max limit dependent on driver's vehicle
-        .withMessage('Passenger limit must be a positive integer'),
+    check('availableSeats')
+        .isInt({ min: 0 }) // max limit dependent on driver's vehicle
+        .withMessage('Available seats must be a positive integer'),
     handleValidationErrors
 ];
 
