@@ -106,7 +106,7 @@ a, .link {
   color: var(--brand-pink);
 }
 
-a:hover, .link:hover {
+a:hover:not([disabled]), .link:hover:not([disabled]) {
   transition: 0.2s;
   filter: brightness(80%);
 }
@@ -123,12 +123,16 @@ button, input[type=button], input[type=submit] {
   display: inline-block;
 }
 
-button:disabled, input[type=button]:disabled, input[type=submit]:disabled {
+button:disabled,
+input[type=button]:disabled,
+input[type=submit]:disabled {
   background-color: gray;
   filter: brightness(80%);
 }
 
-button:hover, input[type=button]:hover, input[type=submit]:hover {
+button:hover:not([disabled]),
+input[type=button]:hover:not([disabled]),
+input[type=submit]:hover:not([disabled]) {
   filter: brightness(110%);
   box-shadow: 0 2px 6px 0 gray;
 }
