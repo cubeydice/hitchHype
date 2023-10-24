@@ -1,0 +1,38 @@
+.navbar {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.links-nav, .links-auth {
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+}
+
+.links-nav > *, .links-auth > * {
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  margin-left: 35px;
+  gap: 20px;
+}
+
+.links-nav > h1, .links-auth > h1 {
+  line-height: 40px;
+}
+
+.links-nav > button, .links-auth > button {
+  width: 80px;
+}
+
+.nav-logos {
+  display: flex;
+  justify-content: space-between;
+}
+
+.brand-logo {
+  font-style: italic;
+  font-weight: 800;
+}

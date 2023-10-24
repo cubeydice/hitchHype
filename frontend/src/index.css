@@ -59,8 +59,19 @@ table {
   --rounded-border: 6px;
 }
 
+.main-container {
+  position: relative;
+  height: 100vh;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.main-content {
+  padding: 15px;
+}
+
 body {
-  background-color: var(--off-white);
+  background-color: white;
   color: var(--brand-black);
   font-family: 'Roboto', sans-serif;
 }
@@ -93,6 +104,7 @@ a, .link {
   margin-left: 4px;
 }
 
+/* BUTTONS */
 button, input[type=button], input[type=submit] {
   background-color: var(--brand);
   border-radius: var(--rounded-border);
@@ -100,6 +112,7 @@ button, input[type=button], input[type=submit] {
   padding: 8px;
   margin: 4px;
   color: var(--off-white);
+  display: inline-block;
 }
 
 button:disabled, input[type=button]:disabled, input[type=submit]:disabled {
@@ -107,6 +120,25 @@ button:disabled, input[type=button]:disabled, input[type=submit]:disabled {
   filter: brightness(80%);
 }
 
+button:hover, input[type=button]:hover, input[type=submit]:hover {
+  filter: brightness(110%);
+  box-shadow: 0 2px 6px 0 gray;
+}
+
+.bgless-button {
+  background: none;
+  color: var(--brand-black)
+}
+
+.bgless-button:hover {
+  background: none;
+  box-shadow: none;
+  border-bottom: 2px solid #2c2f33;
+  transition: 0.2s;
+}
+
+
+/* FORMS */
 input[type=text], input[type=password] {
   border: none;
   padding: 8px;
@@ -114,6 +146,11 @@ input[type=text], input[type=password] {
   height: 20px;
   border-radius: var(--rounded-border);
   width: 300px;
+}
+
+/* ICONS */
+.medium-icon {
+  height: 32px;
 }
 
 .large-icon {

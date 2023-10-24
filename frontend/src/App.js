@@ -20,7 +20,8 @@ function App() {
   }, [dispatch]);
 
   return loaded && (
-    <>
+    <div className='main-container'>
+      <div className='main-content'>
       <NavBar />
       <Modal />
       <Switch>
@@ -32,7 +33,8 @@ function App() {
         <ProtectedRoute exact path="/profile" component={Profile} />
         <ProtectedRoute exact path="/tweets/new" component={TweetCompose} />
       </Switch>
-    </>
+      </div>
+    </div>
   );
 }
 

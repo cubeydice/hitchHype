@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '../../store/modal';
-// import './NavBar.css';
+import './NavBar.css';
 import { logout } from '../../store/session';
+import GitHubLogo from '../../assets/logos/github-mark.png'
+import LinkedInLogo from '../../assets/logos/linkedin-blue.png'
 
 function NavBar () {
     const loggedIn = useSelector(state => !!state.session.user);
@@ -32,17 +34,23 @@ function NavBar () {
         if (loggedIn) {
         return (
             <div className="links-nav">
-            <Link to={'/tweets'}>All Tweets</Link>
-            <Link to={'/profile'}>Profile</Link>
-            <Link to={'/tweets/new'}>Write a Tweet</Link>
-            <button onClick={logoutUser}>Logout</button>
+                <div className='nav-logos'>
+                    <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
+                    <img src={GitHubLogo} alt='github' className='medium-icon'/>
+                </div>
+                <Link to={'/profile'}>Profile</Link>
+                <button onClick={logoutUser}>Logout</button>
             </div>
         );
         } else {
         return (
             <div className="links-auth">
-            <button onClick={handleClick('login')}>Login</button>
-            <button onClick={handleClick('signup')}>Sign up</button>
+                <div className='nav-logos'>
+                    <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
+                    <img src={GitHubLogo} alt='github' className='medium-icon'/>
+                </div>
+                <h1 onClick={handleClick('login')} className='bgless-button'>Login</h1>
+                <button onClick={handleClick('signup')}>Sign up</button>
             </div>
         );
         }
@@ -50,8 +58,10 @@ function NavBar () {
 
     return (
         <>
-            <h1>Chirper</h1>
+        <nav className='navbar'>
+            <div><h1>hitch<span className='brand-logo'>Hype</span></h1></div>
             { getLinks() }
+        </nav>
         </>
     );
 }
