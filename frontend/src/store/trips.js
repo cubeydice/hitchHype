@@ -34,9 +34,10 @@ export const clearTripErrors = errors => ({
 
 export const fetchTrips = () => async dispatch => {
     try {
-        const res = await jwtFetch ('/api/trips');
+        const res = await jwtFetch('/api/trips');
         const trips = await res.json();
         dispatch(receiveTrips(trips));
+        return trips;
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -91,11 +92,11 @@ export const tripErrorsReducer = (state = nullErrors, action) => {
 const tripsReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
     switch(action.type) {
         case RECEIVE_TRIPS:
-            return { ...state, all: action.tweets, new: undefined};
+            return { ...state, all: action.trips, new: undefined};
         case RECEIVE_USER_TRIPS:
-            return { ...state, user: action.tweets, new: undefined};
+            return { ...state, user: action.trips, new: undefined};
         case RECEIVE_NEW_TRIP:
-            return { ...state, new: action.tweet};
+            return { ...state, new: action.trip};
         case RECEIVE_USER_LOGOUT:
             return { ...state, user: {}, new: undefined }
         default:
