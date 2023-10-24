@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import NavBar from "../NavBar/NavBar";
 import { useEffect, useState } from "react";
 import { clearTripErrors, fetchTrips } from "../../store/trips";
 import { TripsItem } from "./TripsItem";
@@ -7,7 +6,7 @@ import { TripsItem } from "./TripsItem";
 export function Trips () {
 
     const dispatch = useDispatch();
-    const trips = useSelector(state => state.trips.all);
+    const trips = Object.values( useSelector(state => state.trips.all));
     const [filteredTrips, setFilteredTrips] = useState();
     const [startPoint, setStartPoint] = useState();
     const [endPoint, setEndPoint] = useState();
@@ -25,21 +24,20 @@ export function Trips () {
         setFilteredTrips(filtered)
     }
 
-    useEffect( async () => {
-        await dispatch(fetchTrips());
-        setFetchedTrips(true);
-        return () => dispatch(clearTripErrors());
-    }, [dispatch ])
+    useEffect(() => {
+        dispatch(fetchTrips());
+        // setFetchedTrips(true);
+        dispatch(clearTripErrors());
+    }, [dispatch])
 
     if (trips.length === 0) return <div>There are no Trips</div>;
 
 
-    console.log("trips:", trips)
-    return (
+    // console.log("trips:", trips)
+    else return (
         <>
             { trips ? (
                 <div className="trip-page">
-                <NavBar/>
                 <div className="page-layout">
                     <div className="search-bar">
                         <form className="search-form" onSubmit={ handleSearch }>
@@ -68,18 +66,18 @@ export function Trips () {
                         <h4>Trips leaving from start location</h4>
                     </div>
                     <div className="trip-items-container">
-                    {/* { filteredTrips ? 
+                    { filteredTrips ? 
                     (
                         filteredTrips.map(trip => (
-                            <TripsItem key={trip._id} Trip={trip} />
+                            <TripsItem key={trip._id} trip={trip} />
                         ))
                     ) : 
-                    ( */}
-                        {/* {trips.map(trip => (
-                            <TripsItem key={trip._id} Trip={trip} />
-                        ))} */}
+                    (
+                        trips.map(trip => (
+                            <TripsItem key={trip._id} trip={trip} />
+                        ))
                         // <></>
-                    {/* )} */}
+                     )}
                     </div>
                 </div>
                 <footer/>

@@ -34,7 +34,7 @@ function App() {
         <Route exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/profile" component={Profile} />
         <ProtectedRoute exact path="/tweets/new" component={TweetCompose} />
-        <ProtectedRoute exact path="/trips" component={ Trips} />
+        <Route exact path="/trips" component={ Trips} />
 
       </Switch>
     </>
