@@ -2,7 +2,7 @@ const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
 
 // Custom validation function to check date format
-const isvalidDate = (value) => {
+const isValidDate = (value) => {
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/; // Assuming MM-DD-YYYY
     return dateRegex.test(value);
 }
@@ -18,7 +18,7 @@ const validateTripInput = [
         .exists({ checkFalsy: true })
         .withMessage('Date is required')
         .custom((value) => {
-            if (!isvalidDate(value)) {
+            if (!isValidDate(value)) {
                 throw new Error('Invalid date format');
             }
             return true;
