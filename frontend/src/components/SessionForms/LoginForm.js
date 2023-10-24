@@ -25,7 +25,7 @@ function LoginForm () {
         dispatch(login({ email, password }))
             .then((res)=> {
                 console.log(res)
-                if (!res.errors) {
+                if (res && !res.errors) {
                     dispatch(clearSessionErrors());
                     dispatch(closeModal());
                 };
