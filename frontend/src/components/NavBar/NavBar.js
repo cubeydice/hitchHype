@@ -42,8 +42,9 @@ function NavBar () {
                         <img src={GitHubLogo} alt='github' className='medium-icon'/>
                     </a>
                 </div>
-                <Link to={'/account'}>Profile</Link>
-                <Link to={'/account'}>Profile</Link>
+                <Link to={'/trips' } className='bgless-button'>Find a Ride</Link>
+                <Link to={'/trips/new'} className='bgless-button'>Make a Trip</Link>
+                <Link to={'/account'} className='bgless-button'>Account</Link>
                 <button onClick={logoutUser}>Logout</button>
             </div>
         );
