@@ -21,8 +21,8 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
   // username.
   const user = await User.findOne({
     $or: [
-      { email: req.body.email }, 
-      { username: req.body.username }, 
+      { email: req.body.email },
+      { username: req.body.username },
       { phoneNumber: req.body.phoneNumber }]
   });
 

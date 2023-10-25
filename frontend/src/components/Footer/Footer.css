@@ -1,0 +1,17 @@
+.footer-container {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.footer-authors {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.footer-author-icons > * {
+  margin: 10px
+}
