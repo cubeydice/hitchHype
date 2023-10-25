@@ -1,27 +1,45 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import map from "../../../assets/images/map-api-dummy.jpg"
 import profilePic from "../../../assets/images/profile-pic-dummy.jpg"
 import "./RiderTripShow.css"
 import { useState } from "react"
+import { updateTrip } from "../../../store/trips"
 
 export function RiderTripShow ({ trip }) {
+    const dispatch = useDispatch();
     const date = new Date(trip.departureDate);
-    const sesionUser = useSelector(state => state.session.user);
+    const sessionUser = useSelector(state => state.session.user);
     const [rider, setRider] = useState(false);
 
     const handleClick = () => {
+        if(rider){
+            // dispatch(updateTrip({passengers}))
+        }else{
 
+        }
     }
 
-    // if(trip){
-    //     trip.passengers.forEach( payload => {
-    //         if(payload.passenger._id === sesionUser._id){
-    //             setRider(true);
-    //         }
-    //     })
-    // }
+    //can only request if logged in.
+
+    const passengerFn = () => {
+        const passengerArr = [];
+        for(let payload of trip.passengers)
+        {
+            if(sessionUser._id === payload.passenger._is){
+                setRider(true);
+            }
+            console.log(payload)
+            passengerArr.push(
+                //will update with users profile once those are up
+                <a href="">
+                    <button id="passengers-list-btns">{payload.passenger.firstName}</button>
+                </a>
+            )
+        }
+        return passengerArr;
+    }
 
 
     return (
@@ -55,9 +73,16 @@ export function RiderTripShow ({ trip }) {
                                     <h3>Trip will take place on {date.toDateString()}.</h3>
                                 </div>
                                 <div className="Rider-show-btn">
-                                    {/* {} */}
-                                    <button onClick={ handleClick }>Request Ride</button>
-                                    <button onClick={ handleClick }>Leave Trip</button>
+                                    { sessionUser ? (
+                                        <> { rider ? (
+                                            <button onClick={ handleClick }>Leave Trip</button>
+                                        ) : (
+                                            <button onClick={ handleClick }>Request Ride</button>
+                                        )} 
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -77,6 +102,9 @@ export function RiderTripShow ({ trip }) {
                                 </div>
                                 <div className="Rider-show-passenger-info">
                                     <h3>PASSENGERS</h3>
+                                    <div className="Rider-show-passengers-list">
+                                        {passengerFn()}
+                                    </div>
                                 </div>
                             </div>
                         </div>

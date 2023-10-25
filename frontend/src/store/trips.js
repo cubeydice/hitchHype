@@ -107,6 +107,34 @@ export const composeTrip = data => async dispatch => {
         }
     }
 };
+export const updateTrip = data => async (dispatch) => {
+    try {
+        const res = await jwtFetch(`/api/trips/${data._id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(trip)
+    });
+        const trip = await res.json();
+        dispatch(receiveTrip(trip));
+    } catch(err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors));
+        }
+    }
+};
+
+// export const deleteEvent = eventId => async (dispatch) => {
+//     const response = await csrfFetch (`/api/events/${eventId}`, {
+//         method: 'DELETE'
+//     });
+
+//     if (response.ok) {
+//         // console.log('check')
+//         dispatch(removeEvent(eventId));
+//     }
+
+//     return response;
+// };
 
 const nullErrors = null;
 
