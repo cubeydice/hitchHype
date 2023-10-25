@@ -61,13 +61,24 @@ table {
 
 .main-container {
   position: relative;
-  height: 100vh;
   max-width: 1440px;
   margin: 0 auto;
 }
 
+.main-content:after {
+  content: "";
+  display: block;
+}
+
+#footer, .main-content:after {
+  content: "";
+  display: block;
+  height: 142px;
+}
+
 .main-content {
   padding: 15px;
+  min-height: 100%;
 }
 
 body {
@@ -106,14 +117,16 @@ a, .link {
   color: var(--brand-pink);
 }
 
-a:hover, .link:hover {
+a:hover:not([disabled]),
+.link:hover:not([disabled]) {
   transition: 0.2s;
   filter: brightness(80%);
 }
 
-
 /* BUTTONS */
-button, input[type=button], input[type=submit] {
+button,
+input[type=button],
+input[type=submit] {
   background-color: var(--brand);
   border-radius: var(--rounded-border);
   border: none;
@@ -123,12 +136,16 @@ button, input[type=button], input[type=submit] {
   display: inline-block;
 }
 
-button:disabled, input[type=button]:disabled, input[type=submit]:disabled {
+button:disabled,
+input[type=button]:disabled,
+input[type=submit]:disabled {
   background-color: gray;
   filter: brightness(80%);
 }
 
-button:hover, input[type=button]:hover, input[type=submit]:hover {
+button:hover:not([disabled]),
+input[type=button]:hover:not([disabled]),
+input[type=submit]:hover:not([disabled]) {
   filter: brightness(110%);
   box-shadow: 0 2px 6px 0 gray;
 }
@@ -147,7 +164,8 @@ button:hover, input[type=button]:hover, input[type=submit]:hover {
 
 
 /* FORMS */
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password] {
   border: none;
   padding: 8px;
   margin: 4px;
