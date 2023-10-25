@@ -10,14 +10,6 @@ const licenseSchema = new Schema({
     stateIssued: String,
 });
 
-// Address Schema
-const addressSchema = new Schema({
-    street: String,
-    city: String,
-    state: String,
-    postalCode: String,
-});
-
 const userSchema = new Schema({
     email: {
         type: String,
@@ -67,8 +59,9 @@ const userSchema = new Schema({
         ref: 'Car' 
     }],
     driverLicense: licenseSchema,
-    address: addressSchema,
-    insurance: String,
+    address: {
+        type: String
+    }
 }, {
     timestamps: true
 });
