@@ -155,8 +155,9 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         trip.availableSeats = availableSeats;
 
         // Save the updated trip
-        const updatedTrip = await trip.save();
-
+        let updatedTrip = await trip.save();
+        updatedTrip = await trip.populate('driver', '_id firstName lastName')
+                        .populate("passenger", "_id firstName lastName");
         res.json(updatedTrip);
     }
     catch(err) {
