@@ -33,7 +33,7 @@ function NavBar () {
     const getLinks = () => {
         if (loggedIn) {
         return (
-            <div className="links-nav">
+            <div className="nav-items">
                 <div className='nav-logos'>
                     <a href="#footer">
                         <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
@@ -42,13 +42,17 @@ function NavBar () {
                         <img src={GitHubLogo} alt='github' className='medium-icon'/>
                     </a>
                 </div>
-                <Link to={'/profile'}>Profile</Link>
+                <div className='nav-links'>
+                    <Link to={'/trips' } className='bgless-button'>Find a Ride</Link>
+                    <Link to={'/trips/new'} className='bgless-button'>Make a Trip</Link>
+                    <Link to={'/account'} className='bgless-button'>Account</Link>
+                </div>
                 <button onClick={logoutUser}>Logout</button>
             </div>
         );
         } else {
         return (
-            <div className="links-auth">
+            <div className="nav-items">
                 <div className='nav-logos'>
                     <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
                     <a href='https://github.com/cubeydice/hitchHype/' target="_blank" rel='noreferrer'>
@@ -65,7 +69,11 @@ function NavBar () {
     return (
         <>
         <nav className='navbar'>
-            <div><h1>hitch<span className='brand-logo'>Hype</span></h1></div>
+            <Link to={loggedIn ? '/account' : '/'}>
+                <h1 className='brand-logo'>
+                    hitch<span className='brand-logo'>Hype</span>
+                </h1>
+            </Link>
             { getLinks() }
         </nav>
         </>
