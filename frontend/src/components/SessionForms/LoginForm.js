@@ -9,7 +9,6 @@ function LoginForm () {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const errors = useSelector(state => state.errors.session);
-    // console.log(errors)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,7 +23,6 @@ function LoginForm () {
         e.preventDefault();
         dispatch(login({ email, password }))
             .then((res)=> {
-                console.log(res)
                 if (res && !res.errors) {
                     dispatch(clearSessionErrors());
                     dispatch(closeModal());
