@@ -23,7 +23,7 @@ export function TripShow () {
             {trip ? (
                 <>
                     {/* <DriverTripShow trip={trip}/> */}
-                    {/* <RiderTripShow trip={trip}/> */}
+                    <RiderTripShow trip={trip}/>
                 </>
             ) : (
                 <></>

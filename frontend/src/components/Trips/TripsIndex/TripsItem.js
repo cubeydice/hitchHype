@@ -1,4 +1,4 @@
-import sfPic from "../../assets/icons/sf-img.jpg"
+import sfPic from "../../../assets/icons/sf-img.jpg"
 import "./TripsItem.css"
 export function TripsItem ({ trip }) {
     const showPage = '/trips/' + trip._id;
@@ -15,7 +15,7 @@ export function TripsItem ({ trip }) {
             </div>
             <div className="TripItem-details">
                 <div className="TripItem-destination">
-                    { trip.endPoint }
+                    { trip.destination.city}
                 </div>
                 <div className="TripItem-price">
                     { price }

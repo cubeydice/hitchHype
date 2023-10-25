@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { clearTripErrors, fetchTrips } from "../../store/trips";
+import { clearTripErrors, fetchTrips } from "../../../store/trips";
 import { TripsItem } from "./TripsItem";
 import "./Trips.css"
 

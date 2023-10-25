@@ -12,7 +12,7 @@ import Modal from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
 
 import { getCurrentUser } from './store/session';
-import { Trips } from './components/Trips/Trips';
+import { Trips } from './components/Trips/TripsIndex/Trips';
 import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
 import { Route } from 'react-router-dom/cjs/react-router-dom.min';

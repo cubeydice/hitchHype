@@ -4,7 +4,7 @@ import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import "./DriverTripShow.css"
 import { Passenger } from '../Passenger/Passenger';
 
-export function DriverTripShow ({ trip }) {
+export function DriverTripShow({ trip }) {
     const date = new Date(trip.departureDate);
 
     return (
@@ -66,7 +66,7 @@ export function DriverTripShow ({ trip }) {
                             <div className='trip-show-passengers'>
                                 <h3 id='header'>Passengers</h3>
                                 {trip.passengers.map( passenger => (
-                                    <Passenger key={passenger._id} passenger={passenger}/>
+                                    <Passenger key={passenger.passenger._id} passenger={passenger}/>
                                 ))}
                             </div>
                         </div>
