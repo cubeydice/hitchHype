@@ -27,7 +27,7 @@ export function RiderTripShow ({ trip }) {
         const passengerArr = [];
         for(let payload of trip.passengers)
         {
-            if(sessionUser._id === payload.passenger._is){
+            if(sessionUser && sessionUser._id === payload.passenger._is){
                 setRider(true);
             }
             console.log(payload)

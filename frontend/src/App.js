@@ -17,6 +17,7 @@ import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
 import { Route } from 'react-router-dom/cjs/react-router-dom.min';
 import { TripShow } from './components/Trips/TripShow';
+import { DriverUpdateForm } from './components/Trips/Driver/DriverTripUpdate';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -39,7 +40,7 @@ function App() {
         <ProtectedRoute exact path="/tweets/new" component={TweetCompose} />
         <Route exact path="/trips" component={ Trips } />
         <Route exact path="/trips/:tripId" component={ TripShow } />
-
+        <Route exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
       </Switch>
       </div>
       <Footer/>
