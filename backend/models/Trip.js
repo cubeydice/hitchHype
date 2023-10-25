@@ -1,26 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Address Schema
-const addressSchema = {
-    street: {
-        type: String,
-        required: true,
-    },
-    city: {
-        type: String,
-        required: true,
-    },
-    state: {
-        type: String,
-        required: true,
-    },
-    postalCode: {
-        type: String,
-        required: true,
-    },
-};
-
 const tripSchema = new Schema({
     driver: {
         type: Schema.Types.ObjectId,
@@ -40,14 +20,23 @@ const tripSchema = new Schema({
             ref: 'User',
             required: true
         },
-        dropoffPoint: addressSchema,
+        dropoffPoint: {
+            type: String,
+            required: true
+        },
     }],
     departureDate: {
         type: Date,
         required: true,
     },
-    origin: addressSchema,
-    destination: addressSchema,
+    origin: {
+        type: String,
+        required: true
+    },
+    destination: {
+        type: String,
+        required: true
+    },
     availableSeats: {
         type: Number,
         required: true,
