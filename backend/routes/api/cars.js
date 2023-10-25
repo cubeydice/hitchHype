@@ -42,13 +42,14 @@ router.post('/', requireUser, validateCarInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { make, model, year, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
+        const { make, model, year, maxPassengers, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
 
         const newCar = new Car({
             owner: user._id,
             make,
             model,
             year,
+            maxPassengers,
             licensePlateNumber,
             insurance,
             mpg,
@@ -89,12 +90,13 @@ router.patch('/:id', requireUser, validateCarInput, async (req, res, next) => {
         }
         
         // Extract the required data from the request
-        const { make, model, year, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
+        const { make, model, year, maxPassengers, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
     
         // Update the car with the new data
         car.make = make;
         car.model = model;
         car.year = year;
+        car.maxPassengers = maxPassengers,
         car.licensePlateNumber = licensePlateNumber;
         car.insurance = insurance;
         car.mpg = mpg;

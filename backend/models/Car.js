@@ -19,6 +19,10 @@ const carSchema = new Schema({
         type: Number,
         required: true,
     },
+    maxPassengers: {
+        type: Number,
+        required: true,
+    },
     licensePlateNumber: {
         type: String,
         required: true,
@@ -32,7 +36,7 @@ const carSchema = new Schema({
     },
     fueleconomyId: {
         type: Number,
-    },
+    }
 });
 
 module.exports = mongoose.model('Car', carSchema);
