@@ -21,7 +21,29 @@ users.push(
         hashedPassword: bcrypt.hashSync('starwars', 10),
         firstName: 'demo',
         lastName: 'user',
-        phoneNumber: '1234567890'
+        phoneNumber: '1234567890',
+        biography: faker.lorem.sentences(2)
+    })
+)
+const driverTrips = []
+const driverCars = []
+
+users.push(
+    new User ({
+        email: 'demo-user2@appacademy.io',
+        hashedPassword: bcrypt.hashSync('starwars', 10),
+        firstName: 'demo',
+        lastName: 'user',
+        phoneNumber: '1234567890',
+        biography: faker.lorem.sentences(2),
+        trips: driverTrips,
+        cars: driverCars,
+        address: {
+            street: faker.address.streetAddress(),
+            city: faker.address.city(),
+            state: faker.address.stateAbbr(),
+            postalCode: faker.address.zipCode(),
+        }
     })
 )
 
@@ -34,7 +56,13 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
             firstName: firstName,
             lastName: lastName,
-            phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000)
+            phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
+            address: {
+                street: faker.address.streetAddress(),
+                city: faker.address.city(),
+                state: faker.address.stateAbbr(),
+                postalCode: faker.address.zipCode(),
+            }
         })
     )
 }
@@ -52,38 +80,13 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
 //     )
 // }
 
-// Create trips
-const trips = [];
-
-for (let i = 0; i < NUM_SEED_TRIPS; i++) {
-    const randomDriver = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
-    const randomPassengers = [];
-
-    // Choose two random passengers and generate two dropoff points from the users array
-    for (let j = 0; j < 2; j++) {
-        const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
-        const dropoffPoint = faker.address.city(); 
-
-        const passengerInfo = {
-            passenger: randomPassenger,
-            dropoffPoint: dropoffPoint,
-        };
-
-        randomPassengers.push(passengerInfo);
-    }
-    trips.push(
-        new Trip ({
-            driver: randomDriver,
-            passengers: randomPassengers,
-            departureTime: faker.date.future(),
-            startPoint: faker.address.city(), 
-            endPoint: faker.address.city(), 
-            availableSeats: Math.floor(Math.random() * 6) + 1
-        })
-    )
-}
-
 const cars = [];
+const sampleInsuranceCompanies = [
+    "Company A",
+    "Company B",
+    "Company C",
+    // Add more company names here
+];
 
 for (let i = 0; i < NUM_SEED_CARS; i++) {
     const randomOwner = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
@@ -94,13 +97,68 @@ for (let i = 0; i < NUM_SEED_CARS; i++) {
             make: faker.vehicle.manufacturer(),
             model: faker.vehicle.model(),
             year: faker.datatype.number({ min: 2000, max: 2022 }),
+            maxPassengers: faker.datatype.number({ min: 2, max: 5 }),
             licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
-            insurance: faker.company.companyName(),
+            insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
             mpg: faker.datatype.number({ min: 10, max: 50 }),
             fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
         })
     )
 }
+
+// Create trips
+const trips = [];
+
+for (let i = 0; i < NUM_SEED_TRIPS; i++) {
+    const randomDriver = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+    const randomCarId = cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id
+    const randomPassengers = []
+
+    // Choose two random passengers and generate two dropoff points from the users array
+    for (let j = 0; j < 2; j++) {
+        const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+
+        const passengerInfo = {
+            passenger: randomPassenger,
+            dropoffPoint: {
+                street: faker.address.streetAddress(),
+                city: faker.address.city(),
+                state: faker.address.stateAbbr(),
+                postalCode: faker.address.zipCode(),
+            },
+        };
+
+        randomPassengers.push(passengerInfo);
+
+        
+    }
+    trips.push(
+        new Trip ({
+            driver: randomDriver,
+            car: randomCarId,
+            passengers: randomPassengers,
+            departureDate: faker.date.future(),
+            origin: {
+                street: faker.address.streetAddress(),
+                city: faker.address.city(),
+                state: faker.address.stateAbbr(),
+                postalCode: faker.address.zipCode(),
+            }, 
+            destination: {
+                street: faker.address.streetAddress(),
+                city: faker.address.city(),
+                state: faker.address.stateAbbr(),
+                postalCode: faker.address.zipCode(),
+            }, 
+            availableSeats: Math.floor(Math.random() * 6) + 1
+        })
+    )
+}
+
+for (let j = 0; j < 3; j++) {
+    driverTrips.push(trips[Math.floor(Math.random() * NUM_SEED_TRIPS)])
+}
+driverCars.push(cars[Math.floor(Math.random() * NUM_SEED_CARS)])
 
 mongoose
     .connect(db, { useNewUrlParser: true })
@@ -118,9 +176,10 @@ const insertSeeds = () => {
     console.log("Resetting db and seeding users and tweets...");
 
     User.collection.drop()
-                    .then(() => Tweet.collection.drop())
+                    .then(() => Trip.collection.drop())
+                    .then(() => Car.collection.drop())
                     .then(() => User.insertMany(users))
-                    .then(() => Tweet.insertMany(tweets))
+                    // .then(() => Tweet.insertMany(tweets))
                     .then(() => Trip.insertMany(trips))
                     .then(() => Car.insertMany(cars))
                     .then(() => {
