@@ -2,14 +2,14 @@ const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
 
 // Custom validation function to check date format
-const isValidDate = (value) => {
-    const dateRegex = /^\d{2}-\d{2}-\d{4}$/; // Assuming MM-DD-YYYY
-    return dateRegex.test(value);
-}
+// const isValidDate = (value) => {
+//     const dateRegex = /^\d{2}-\d{2}-\d{4}$/; // Assuming MM-DD-YYYY
+//     return dateRegex.test(value);
+// }
 
 // Custom validation function to limit max available seats to car passenger limit
 const validateAvailableSeats = (value, { req }) => {
-    const maxPassengers = req.car.maxPassengers; // Assuming you've passed the car object in the request
+    const maxPassengers = req.body.car.maxPassengers; // Assuming you've passed the car object in the request
     if (value > maxPassengers) {
         throw new Error(`Available seats cannot exceed ${maxPassengers}`);
     }
@@ -26,21 +26,32 @@ const validateTripInput = [
     check('passengers')
         .isArray()
         .withMessage('Passengers must be an array'),
-    check('passengers.passenger')
-        .exists({ checkFalsy: true })
-        .withMessage('Passenger is required'),
-    check('passengers.dropoffPoint')
-        .exists({ checkFalsy: true })
-        .withMessage('Drop-off point is required'),
+    (req, res, next) => {
+        if (req.body.passengers.length > 0) {
+            for (let i = 0; i < req.body.passengers.length; i++) {
+                check(`passengers[${i}].passenger`, 'Passenger is required')
+                    .exists({ checkFalsy: true });
+                check(`passengers[${i}].dropoffPoint`, 'Drop-off point is required')
+                    .exists({ checkFalsy: true });
+            }
+        }
+        next();
+    },
+    // check('passengers.passenger')
+    //     .exists({ checkFalsy: true })
+    //     .withMessage('Passenger is required'),
+    // check('passengers.dropoffPoint')
+    //     .exists({ checkFalsy: true })
+    //     .withMessage('Drop-off point is required'),
     check('departureDate')
         .exists({ checkFalsy: true })
-        .withMessage('Date is required')
-        .custom((value) => {
-            if (!isValidDate(value)) {
-                throw new Error('Invalid date format');
-            }
-            return true;
-        }),
+        .withMessage('Date is required'),
+        // .custom((value) => {
+        //     if (!isValidDate(value)) {
+        //         throw new Error('Invalid date format');
+        //     }
+        //     return true;
+        // }),
     check('origin.street')
         .exists({ checkFalsy: true })
         .withMessage('Start point street is required'),

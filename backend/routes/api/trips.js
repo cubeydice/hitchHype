@@ -6,16 +6,16 @@ const Trip = mongoose.model('Trip');
 const { requireUser } = require('../../config/passport');
 const validateTripInput = require('../../validations/trip');
 
-const formatDate = (date) => {
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
+// const formatDate = (date) => {
+//     const month = (date.getMonth() + 1).toString().padStart(2, '0');
+//     const day = date.getDate().toString().padStart(2, '0');
+//     const year = date.getFullYear();
+//     const hours = date.getHours().toString().padStart(2, '0');
+//     const minutes = date.getMinutes().toString().padStart(2, '0');
+//     const seconds = date.getSeconds().toString().padStart(2, '0');
 
-    return `${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
-}
+//     return `${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
+// }
 
 // path = /trips
 // Retrieve all trips
@@ -98,23 +98,24 @@ router.post('/', requireUser, validateTripInput, async (req, res, next) => {
         const { user, body } = req;
         const { car, departureDate, origin, destination, availableSeats } = body;
 
-        const formarttedDepartureDate = formatDate(departureDate);
+        // const formarttedDepartureDate = formatDate(departureDate);
 
         const newTrip = new Trip({
             driver: user._id,
             car,
             passengers: [],
-            departureDate: formarttedDepartureDate,
+            departureDate,
             origin,
             destination,
             availableSeats
         });
     
-        let trip = await newTrip.save();
-        trip = await trip.populate('driver', '_id firstName lastName')
-                        .populate('car', 'make model year' )
-                        .populate("passengers.passenger", "_id firstName lastName");
-        return res.json(trip);
+        const trip = await newTrip.save();
+        const populatedTrip = await Trip.populate(trip, [
+            { path: 'driver', select: '_id firstName lastName' },
+            { path: 'car', select: 'make model year' },
+        ]);
+        return res.json(populatedTrip);
     }
     catch(err) {
         next(err);
@@ -161,7 +162,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         // Save the updated trip
         let updatedTrip = await trip.save();
         updatedTrip = await trip.populate('driver', '_id firstName lastName')
-                                .populate('car', 'make model year' )
+                                .populate('car', 'make model year licensePlateNumber' )
                                 .populate("passengers.passenger", "_id firstName lastName");
         res.json(updatedTrip);
     }
