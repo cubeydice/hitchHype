@@ -75,7 +75,6 @@ export function Trips () {
                      )}
                     </div>
                 </div>
-                <footer/>
             </div>
             ) : (
                 <></>
