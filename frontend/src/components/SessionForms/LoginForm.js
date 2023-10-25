@@ -32,6 +32,18 @@ function LoginForm () {
             });
     }
 
+    const handleClick = (e) => {
+        e.preventDefault();
+
+        const demoUser = {
+            email:'demo-user@appacademy.io',
+            password:'starwars'
+        }
+
+        dispatch(login(demoUser))
+        dispatch(closeModal());
+    }
+
     return (
         <form className="session-form" onSubmit={handleSubmit}>
         <LoginIcon className='large-icon'/> <br/>
@@ -59,7 +71,12 @@ function LoginForm () {
             type="submit"
             value="Log In"
             disabled={!email || !password}
-        /><br/><br/>
+            /> <br/>
+        <div>
+            <button onClick={handleClick}>Demo User</button>
+        </div>
+
+        <br/><br/>
             Don't have an account? <span className='link'>Register</span>
         </form>
     );
