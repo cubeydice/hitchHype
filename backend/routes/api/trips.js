@@ -53,7 +53,8 @@ router.get('/user/:userId', async (req, res, next) => {
         const trips = await Trip.find({ driver: user._id })
                                 .sort({ createdAt: -1 })
                                 .populate("driver", "_id firstName lastName")
-                                .populate("passenger", "_id firstName lastName");
+                                .populate('car', 'make model year' )
+                                .populate("passengers.passenger", "_id firstName lastName");
         const formattedTrips = trips.map((trip) => {
             return {
                 ...trip.toObject(),
@@ -72,7 +73,8 @@ router.get('/:id', async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
                                 .populate("driver", "_id firstName lastName")
-                                .populate("passenger", "_id firstName lastName");
+                                .populate('car', 'make model year' )
+                                .populate("passengers.passenger", "_id firstName lastName");
         const formattedTrip = {
             ...trip.toObject(),
             departureDate: formatDate(departureDate)
@@ -109,7 +111,8 @@ router.post('/', requireUser, validateTripInput, async (req, res, next) => {
     
         let trip = await newTrip.save();
         trip = await trip.populate('driver', '_id firstName lastName')
-                        .populate("passenger", "_id firstName lastName");
+                        .populate('car', 'make model year' )
+                        .populate("passengers.passenger", "_id firstName lastName");
         return res.json(trip);
     }
     catch(err) {
@@ -157,7 +160,8 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         // Save the updated trip
         let updatedTrip = await trip.save();
         updatedTrip = await trip.populate('driver', '_id firstName lastName')
-                        .populate("passenger", "_id firstName lastName");
+                                .populate('car', 'make model year' )
+                                .populate("passengers.passenger", "_id firstName lastName");
         res.json(updatedTrip);
     }
     catch(err) {
