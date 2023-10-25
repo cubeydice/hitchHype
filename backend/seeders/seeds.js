@@ -28,6 +28,13 @@ users.push(
 const driverTrips = []
 const driverCars = []
 
+const fakeAddress = {
+    street: faker.address.streetAddress(),
+    city: faker.address.city(),
+    state: faker.address.state(),
+    postalCode: faker.address.zipCode(),
+};
+
 users.push(
     new User ({
         email: 'demo-user2@appacademy.io',
@@ -38,11 +45,18 @@ users.push(
         biography: faker.lorem.sentences(2),
         trips: driverTrips,
         cars: driverCars,
-        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+        address: fakeAddress
     })
 )
 
 for (let i = 1; i < NUM_SEED_USERS; i++) {
+    const fakeAddress = {
+        street: faker.address.streetAddress(),
+        city: faker.address.city(),
+        state: faker.address.state(),
+        postalCode: faker.address.zipCode(),
+    };
+
     const firstName = faker.name.firstName()
     const lastName = faker.name.lastName()
     users.push(
@@ -52,7 +66,7 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
-            address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+            address: fakeAddress
         })
     )
 }
