@@ -20,15 +20,15 @@ function App() {
 
   return loaded && (
     <div className='main-container'>
+      <Modal />
       <div className='main-content'>
       <NavBar />
-      <Modal />
       <Switch>
         <AuthRoute exact path="/" component={MainPage} />
         <ProtectedRoute exact path="/profile" component={Profile} />
       </Switch>
-      <Footer/>
       </div>
+      <Footer/>
     </div>
   );
 }
