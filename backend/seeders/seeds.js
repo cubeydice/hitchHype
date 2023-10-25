@@ -38,18 +38,13 @@ users.push(
         biography: faker.lorem.sentences(2),
         trips: driverTrips,
         cars: driverCars,
-        address: {
-            street: faker.address.streetAddress(),
-            city: faker.address.city(),
-            state: faker.address.stateAbbr(),
-            postalCode: faker.address.zipCode(),
-        }
+        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
     })
 )
 
 for (let i = 1; i < NUM_SEED_USERS; i++) {
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
+    const firstName = faker.name.firstName()
+    const lastName = faker.name.lastName()
     users.push(
         new User ({
             email: faker.internet.email(firstName, lastName),
@@ -57,12 +52,7 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
-            address: {
-                street: faker.address.streetAddress(),
-                city: faker.address.city(),
-                state: faker.address.stateAbbr(),
-                postalCode: faker.address.zipCode(),
-            }
+            address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
         })
     )
 }
@@ -120,12 +110,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
 
         const passengerInfo = {
             passenger: randomPassenger,
-            dropoffPoint: {
-                street: faker.address.streetAddress(),
-                city: faker.address.city(),
-                state: faker.address.stateAbbr(),
-                postalCode: faker.address.zipCode(),
-            },
+            dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
         };
 
         randomPassengers.push(passengerInfo);
@@ -138,18 +123,8 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
             car: randomCarId,
             passengers: randomPassengers,
             departureDate: faker.date.future(),
-            origin: {
-                street: faker.address.streetAddress(),
-                city: faker.address.city(),
-                state: faker.address.stateAbbr(),
-                postalCode: faker.address.zipCode(),
-            }, 
-            destination: {
-                street: faker.address.streetAddress(),
-                city: faker.address.city(),
-                state: faker.address.stateAbbr(),
-                postalCode: faker.address.zipCode(),
-            }, 
+            origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+            destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
             availableSeats: Math.floor(Math.random() * 6) + 1
         })
     )
