@@ -10,7 +10,7 @@ import Profile from './components/Profile/Profile';
 import TweetCompose from './components/Tweets/TweetCompose';
 import Modal from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
-
+import GasPrices from './components/GasPrices/GasPrices';
 import { getCurrentUser } from './store/session';
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
     <div className='main-container'>
       <Modal />
       <div className='main-content'>
+        <GasPrices/>
       <NavBar />
       <Switch>
         <AuthRoute exact path="/" component={MainPage} />
