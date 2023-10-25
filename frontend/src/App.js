@@ -34,8 +34,8 @@ function App() {
         <ProtectedRoute exact path="/profile" component={Profile} />
         <ProtectedRoute exact path="/tweets/new" component={TweetCompose} />
       </Switch>
-      <Footer/>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -61,13 +61,24 @@ table {
 
 .main-container {
   position: relative;
-  height: 100vh;
   max-width: 1440px;
   margin: 0 auto;
 }
 
+.main-content:after {
+  content: "";
+  display: block;
+}
+
+#footer, .main-content:after {
+  content: "";
+  display: block;
+  height: 142px;
+}
+
 .main-content {
   padding: 15px;
+  min-height: 100%;
 }
 
 body {
