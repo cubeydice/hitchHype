@@ -24,7 +24,7 @@ function App() {
     <div className='main-container'>
       <Modal />
       <div className='main-content'>
-        <GasPrices/>
+        {/* <GasPrices/> */}
       <NavBar />
       <Switch>
         <AuthRoute exact path="/" component={MainPage} />
