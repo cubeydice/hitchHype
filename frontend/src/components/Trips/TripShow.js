@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { clearTripErrors, fetchTrip } from '../../store/trips';
-import { DriverTripShow } from './DriverTripShow';
+import { DriverTripShow } from './Driver/DriverTripShow';
 import { RiderTripShow } from './RiderTripShow';
 
 export function TripShow () {
@@ -10,11 +10,11 @@ export function TripShow () {
     const dispatch = useDispatch();
     const trip = useSelector(state => state.trips);
     // const sesionUser = useSelector(state => state.session.user);
-    const date = new Date(trip.departureTime);
-    console.log(date.toDateString())
+    const date = new Date(trip.departureDate);
+    // console.log(date.toDateString())
 
     useEffect( () => {
-        dispatch(fetchTrip(tripId)) //.then( trip => console.log(trip))
+        dispatch(fetchTrip(tripId)).then( trip => console.log(trip))
         dispatch(clearTripErrors());
     }, [dispatch])
 

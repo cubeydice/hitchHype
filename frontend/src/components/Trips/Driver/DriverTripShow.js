@@ -1,14 +1,11 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { clearTripErrors, fetchTrip } from '../../store/trips';
-import map from "../../assets/images/map-dummy.jpg"
-import linearMap from "../../assets/images/linear-map-dummy.jpg"
+
+import map from "../../../assets/images/map-dummy.jpg"
+import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import "./DriverTripShow.css"
-import { Passenger } from './Passenger';
+import { Passenger } from '../Passenger';
 
 export function DriverTripShow ({ trip }) {
-    const date = new Date(trip.departureTime);
+    const date = new Date(trip.departureDate);
 
     return (
         <div>
@@ -19,13 +16,13 @@ export function DriverTripShow ({ trip }) {
 
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-endPoint'>
-                                    <h3 id='trip-show-points'>{trip.endPoint}</h3>
+                                    <h3 id='trip-show-points'>{trip.origin.city}</h3>
                                 </div>
                                 <div>
                                     <h3 id='trip-show-points'>→</h3>
                                 </div>
                                 <div className='trip-show-StartPoint'>
-                                    <h3 id='trip-show-points'>{trip.startPoint}</h3>
+                                    <h3 id='trip-show-points'>{trip.destination.city}</h3>
                                 </div>
                             </div>
                             <div>
@@ -57,13 +54,13 @@ export function DriverTripShow ({ trip }) {
                             <div className='trip-show-address'>
                                 <div className='trips-show-address-display'>
                                     <h3 id='header'>Start Address</h3>
-                                    <h3>XXXX</h3>
-                                    <h3>XXXX</h3>
+                                    <h3>{trip.origin.street}</h3>
+                                    <h3>{trip.origin.city}, {trip.origin.state} {trip.origin.postalCode}</h3>
                                 </div>
                                 <div className='trips-show-address-display'>
                                     <h3 id='header'>Destination Address</h3>
-                                    <h3>XXXX</h3>
-                                    <h3>XXXX</h3>
+                                    <h3>{trip.destination.street}</h3>
+                                    <h3>{trip.destination.city}, {trip.destination.state} {trip.destination.postalCode}</h3>
                                 </div>
                             </div>
                             <div className='trip-show-passengers'>
