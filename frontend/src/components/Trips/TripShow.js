@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { clearTripErrors, fetchTrip } from '../../store/trips';
 import { DriverTripShow } from './Driver/DriverTripShow';
-import { RiderTripShow } from './RiderTripShow';
+import { RiderTripShow } from './Rider/RiderTripShow';
 
 export function TripShow () {
     const { tripId } = useParams();
@@ -22,7 +22,7 @@ export function TripShow () {
         <div>
             {trip ? (
                 <>
-                    <DriverTripShow trip={trip}/>
+                    {/* <DriverTripShow trip={trip}/> */}
                     {/* <RiderTripShow trip={trip}/> */}
                 </>
             ) : (

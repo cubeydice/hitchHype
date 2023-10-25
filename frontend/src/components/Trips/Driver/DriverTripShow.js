@@ -2,7 +2,7 @@
 import map from "../../../assets/images/map-dummy.jpg"
 import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import "./DriverTripShow.css"
-import { Passenger } from '../Passenger';
+import { Passenger } from '../Passenger/Passenger';
 
 export function DriverTripShow ({ trip }) {
     const date = new Date(trip.departureDate);
