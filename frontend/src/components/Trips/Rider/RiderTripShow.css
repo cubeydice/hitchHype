@@ -1,0 +1,10 @@
+.Rider-show-destination-details-container{
+    display: flex;
+}
+.Rider-show-driver-maps-container{
+    display: flex;
+}
+#driver-img{
+    height: 180px;
+    width: 180px;
+}

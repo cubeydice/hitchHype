@@ -5,13 +5,17 @@ import { AuthRoute, ProtectedRoute } from './components/Routes/Routes';
 
 import NavBar from './components/NavBar/NavBar';
 import MainPage from './components/MainPage/MainPage';
-import Tweets from './components/Tweets/Tweets';
 import Profile from './components/Profile/Profile';
-import TweetCompose from './components/Tweets/TweetCompose';
 import Modal from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
 
 import { getCurrentUser } from './store/session';
+import { Trips } from './components/Trips/TripsIndex/Trips';
+import LoginForm from './components/SessionForms/LoginForm';
+import SignupForm from './components/SessionForms/SignupForm';
+import { Route } from 'react-router-dom/cjs/react-router-dom.min';
+import { TripShow } from './components/Trips/TripShow';
+import { DriverUpdateForm } from './components/Trips/Driver/DriverTripUpdate';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -27,12 +31,11 @@ function App() {
       <NavBar />
       <Switch>
         <AuthRoute exact path="/" component={MainPage} />
-        {/* <AuthRoute exact path="/login" component={LoginForm} />
-        <AuthRoute exact path="/signup" component={SignupForm} /> */}
-
-        <ProtectedRoute exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/profile" component={Profile} />
-        <ProtectedRoute exact path="/tweets/new" component={TweetCompose} />
+        <ProtectedRoute exact path="/profile" component={Profile} />
+        <Route exact path="/trips" component={ Trips } />
+        <Route exact path="/trips/:tripId" component={ TripShow } />
+        <Route exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
       </Switch>
       </div>
       <Footer/>
