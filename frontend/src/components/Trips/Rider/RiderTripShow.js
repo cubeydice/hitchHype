@@ -30,7 +30,7 @@ export function RiderTripShow ({ trip }) {
             if(sessionUser && sessionUser._id === payload.passenger._is){
                 setRider(true);
             }
-            console.log(payload)
+            // console.log(payload)
             passengerArr.push(
                 //will update with users profile once those are up
                 <a href="">
