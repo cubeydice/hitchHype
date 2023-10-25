@@ -2,6 +2,7 @@ import jwtFetch from './jwt';
 
 //ACTION CONSTANTS
 const RECEIVE_USER = "users/RECEIVE_USER";
+const RECEIVE_CURRENT_USER = "users/RECEIVE_CURRENT_USER"
 const REMOVE_USER = "users/REMOVE_USER";
 const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const CLEAR_USER_ERRORS = "users/CLEAR_USER_ERRORS";
@@ -11,6 +12,12 @@ const receiveUser = user => ({
     type: RECEIVE_USER,
     user
 });
+
+const receiveCurrentUser = user => ({
+  type: RECEIVE_USER,
+  user
+});
+
 
 const removeUser = user => ({
     type: REMOVE_USER,
