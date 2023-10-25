@@ -10,7 +10,7 @@ import Profile from './components/Profile/Profile';
 import TweetCompose from './components/Tweets/TweetCompose';
 import Modal from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
-import CreateTrip from './components/Map/Map';
+import CreateTrip from './components/CreateTrip/CreateTrip';
 
 import { getCurrentUser } from './store/session';
 
