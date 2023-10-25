@@ -9,9 +9,7 @@ export function TripShow () {
     const { tripId } = useParams();
     const dispatch = useDispatch();
     const trip = useSelector(state => state.trips);
-    // const sesionUser = useSelector(state => state.session.user);
-    const date = new Date(trip.departureDate);
-    // console.log(date.toDateString())
+    const sesionUser = useSelector(state => state.session.user);
 
     useEffect( () => {
         dispatch(fetchTrip(tripId)).then( trip => console.log(trip))
@@ -22,8 +20,11 @@ export function TripShow () {
         <div>
             {trip ? (
                 <>
-                    {/* <DriverTripShow trip={trip}/> */}
-                    <RiderTripShow trip={trip}/>
+                    { sesionUser._id === trip.driver._id ? (
+                        <DriverTripShow trip={trip}/>
+                    ) : (
+                        <RiderTripShow trip={trip}/>
+                    )}
                 </>
             ) : (
                 <></>
