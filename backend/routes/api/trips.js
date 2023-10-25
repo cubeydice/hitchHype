@@ -23,12 +23,13 @@ router.get('/', async (req, res) => {
     try {
         const trips = await Trip.find()
                                 .populate("driver", "_id firstName lastName")
-                                .populate("passenger", "_id firstName lastName")
+                                .populate('car', 'make model year' )
+                                .populate("passengers.passenger", "_id firstName lastName")
                                 .sort({ createdAt: -1 });
         const formattedTrips = trips.map((trip) => {
             return {
                 ...trip.toObject(),
-                departureDate: formatDate(departureDate)
+                departureDate: formatDate(trip.departureDate)
             }
         })
         return res.json(formattedTrips);
@@ -58,7 +59,7 @@ router.get('/user/:userId', async (req, res, next) => {
         const formattedTrips = trips.map((trip) => {
             return {
                 ...trip.toObject(),
-                departureDate: formatDate(departureDate)
+                departureDate: formatDate(trip.departureDate)
             }
         }) 
         return res.json(formattedTrips);
@@ -77,7 +78,7 @@ router.get('/:id', async (req, res, next) => {
                                 .populate("passengers.passenger", "_id firstName lastName");
         const formattedTrip = {
             ...trip.toObject(),
-            departureDate: formatDate(departureDate)
+            departureDate: formatDate(trip.departureDate)
             }
         return res.json(formattedTrip);
     }
