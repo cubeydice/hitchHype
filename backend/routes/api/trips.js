@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
         const formattedTrips = trips.map((trip) => {
             return {
                 ...trip.toObject(),
-                departureTime: formatDate(departureTime)
+                departureDate: formatDate(departureDate)
             }
         })
         return res.json(formattedTrips);
@@ -55,7 +55,7 @@ router.get('/user/:userId', async (req, res, next) => {
         const formattedTrips = trips.map((trip) => {
             return {
                 ...trip.toObject(),
-                departureTime: formatDate(departureTime)
+                departureDate: formatDate(departureDate)
             }
         }) 
         return res.json(formattedTrips);
@@ -72,7 +72,7 @@ router.get('/:id', async (req, res, next) => {
                                 .populate("driver", "_id firstName lastName");
         const formattedTrip = {
             ...trip.toObject(),
-            departureTime: formatDate(departureTime)
+            departureDate: formatDate(departureDate)
             }
         return res.json(formattedTrip);
     }
@@ -90,15 +90,15 @@ router.post('/', requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { car, departureTime, origin, destination, availableSeats } = body;
+        const { car, departureDate, origin, destination, availableSeats } = body;
 
-        const formarttedDepartureTime = formatDate(departureTime);
+        const formarttedDepartureDate = formatDate(departureDate);
 
         const newTrip = new Trip({
             driver: user._id,
             car,
             passengers: [],
-            departureTime: formarttedDepartureTime,
+            departureDate: formarttedDepartureDate,
             origin,
             destination,
             availableSeats
@@ -138,14 +138,14 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         }
         
         // Extract the required data from the request
-        const { car, passengers, departureTime, origin, destination, availableSeats } = body;
+        const { car, passengers, departureDate, origin, destination, availableSeats } = body;
     
-        const formarttedDepartureTime = formatDate(departureTime);
+        const formarttedDepartureDate = formatDate(departureDate);
 
         // Update the trip with the new data
         trip.passengers = passengers;
         trip.car = car;
-        trip.departureTime = formarttedDepartureTime;
+        trip.departureDate = formarttedDepartureDate;
         trip.origin = origin;
         trip.destination = destination;
         trip.availableSeats = availableSeats;

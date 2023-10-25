@@ -32,7 +32,7 @@ const validateTripInput = [
     check('passengers.dropoffPoint')
         .exists({ checkFalsy: true })
         .withMessage('Drop-off point is required'),
-    check('departureTime')
+    check('departureDate')
         .exists({ checkFalsy: true })
         .withMessage('Date is required')
         .custom((value) => {

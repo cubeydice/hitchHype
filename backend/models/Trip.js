@@ -42,7 +42,7 @@ const tripSchema = new Schema({
         },
         dropoffPoint: addressSchema,
     }],
-    departureTime: {
+    departureDate: {
         type: Date,
         required: true,
     },
