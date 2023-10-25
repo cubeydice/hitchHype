@@ -159,8 +159,8 @@ const tripsReducer = (state = {}, action) => {
             return { ...state, ...action.trips};
         // case RECEIVE_USER_TRIPS:
         //     return { ...state, user: action.trips, new: undefined};
-        // case RECEIVE_NEW_TRIP:
-        //     return { ...state, new: action.trip};
+        case RECEIVE_NEW_TRIP:
+            return { ...state, new: action.trip};
         // case RECEIVE_USER_LOGOUT:
         //     return { ...state, user: {}, new: undefined }
         default:

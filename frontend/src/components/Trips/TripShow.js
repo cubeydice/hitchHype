@@ -18,13 +18,12 @@ export function TripShow () {
 
     return (
         <div>
-            {trip && sesionUser ? (
+            {trip.driver && sesionUser ? (
                 <>
                     { sesionUser._id === trip.driver._id ? (
                         <DriverTripShow trip={trip}/>
                     ) : (
                         <RiderTripShow trip={trip}/>
-                        // <></>
                     )}
                 </>
             ) : (
