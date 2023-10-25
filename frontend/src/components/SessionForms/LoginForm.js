@@ -39,7 +39,12 @@ function LoginForm () {
         }
 
         dispatch(login(demoUser))
-        dispatch(closeModal());
+        .then((res)=> {
+            if (res && !res.errors) {
+                dispatch(clearSessionErrors());
+                dispatch(closeModal());
+            };
+        });
     }
 
     return (
