@@ -1,12 +1,6 @@
 const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
 
-// Custom validation function to check date format
-const isvalidDate = (value) => {
-    const dateRegex = /^\d{2}-\d{2}-\d{4}$/; // Assuming MM-DD-YYYY
-    return dateRegex.test(value);
-}
-
 const validateCarInput = [
     check('owner')
         .exists({ checkFalsy: true })
@@ -19,7 +13,12 @@ const validateCarInput = [
         .withMessage('Model is required'),
     check('year')
         .exists({ checkFalsy: true })
-        .withMessage('Year is required'),
+        .withMessage('Year is required')
+        .isLength({ min: 4, max: 4 }) 
+        .withMessage('Year must be a 4-digit number'),
+    check('maxPassengers')
+        .isInt()
+        .withMessage('maxPassengers must be a integer'),
     check('licensePlateNumber')
         .exists({ checkFalsy: true })
         .withMessage('License plate number is required'),
@@ -28,12 +27,12 @@ const validateCarInput = [
         .withMessage('Insurance is required'),
     check('mpg')
         .optional()
-        .isNumeric()
-        .withMessage('Miles per gallon (mpg) must be a number'),
+        .isInt()
+        .withMessage('Miles per gallon (mpg) must be a integer'),
     check('fueleconomyId')
         .optional()
-        .isNumeric()
-        .withMessage('Fuel economy ID must be a number'),
+        .isInt()
+        .withMessage('Fuel economy ID must be a integer'),
     handleValidationErrors
 ];
 
