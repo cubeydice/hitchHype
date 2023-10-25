@@ -22,9 +22,9 @@ function App() {
 
   return loaded && (
     <div className='main-container'>
+      <Modal />
       <div className='main-content'>
       <NavBar />
-      <Modal />
       <Switch>
         <AuthRoute exact path="/" component={MainPage} />
         {/* <AuthRoute exact path="/login" component={LoginForm} />
