@@ -2,7 +2,6 @@ import jwtFetch from './jwt';
 
 //ACTION CONSTANTS
 const RECEIVE_USER = "users/RECEIVE_USER";
-const RECEIVE_CURRENT_USER = "users/RECEIVE_CURRENT_USER"
 const REMOVE_USER = "users/REMOVE_USER";
 const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const CLEAR_USER_ERRORS = "users/CLEAR_USER_ERRORS";
@@ -12,12 +11,6 @@ const receiveUser = user => ({
     type: RECEIVE_USER,
     user
 });
-
-const receiveCurrentUser = user => ({
-  type: RECEIVE_USER,
-  user
-});
-
 
 const removeUser = user => ({
     type: REMOVE_USER,
@@ -29,7 +22,7 @@ const receiveErrors = errors => ({
     errors
 });
 
-export const clearTripErrors = errors => ({
+export const clearUserErrors = errors => ({
     type: CLEAR_USER_ERRORS,
     errors
 });
@@ -38,6 +31,7 @@ export const clearTripErrors = errors => ({
 export const getUser = userId => state => {
     return state?.users.all ? state.users.all[userId] : null;
 }
+
 export const fetchUser = (userId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}`);
@@ -45,25 +39,27 @@ export const fetchUser = (userId) => async dispatch => {
         dispatch(receiveUser(user));
         return user;
     } catch (err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            dispatch(receiveErrors(resBody.errors));
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            dispatch(receiveErrors(res.errors));
         }
     }
 }
 
-export const updateUser = data => async (dispatch) => {
+export const updateUser = (user) => async (dispatch) => {
     try {
-        const res = await jwtFetch(`/api/users/${data._id}`, {
+        // debugger
+        const res = await jwtFetch(`/api/users/${user._id}`, {
             method: 'PATCH',
             body: JSON.stringify(user)
-    });
-        const user = await res.json();
+        });
+        user = await res.json();
+        console.log(user)
         dispatch(receiveUser(user));
     } catch(err) {
-        const resBody = await err.json();
-        if (resBody.statusCode === 400) {
-            return dispatch(receiveErrors(resBody.errors));
+        const res = await err.json();
+        if (res.statusCode === 400) {
+            return dispatch(receiveErrors(res.errors));
         }
     }
 };
@@ -82,7 +78,7 @@ export const deleteUser = userId => async (dispatch) => {
 
 const nullErrors = null;
 
-export const tripErrorsReducer = (state = nullErrors, action) => {
+export const usersErrorsReducer = (state = nullErrors, action) => {
     switch(action.type) {
         case RECEIVE_USER_ERRORS:
             return action.errors;
