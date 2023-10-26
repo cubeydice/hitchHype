@@ -8,17 +8,16 @@ const CarSettings = ({sessionUser}) => {
   const dispatch = useDispatch();
   let user = sessionUser;
   let car;
-  const errors = useSelector(state => state.errors.users);
+
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
   const [year, setYear] = useState('');
   const [insurance, setInsurance] = useState('');
   const [licensePlateNumber, setLicensePlateNumber] = useState('');
 
-  debugger
-let makeOptions = jwtFetch(`/api/cars/list`).then(res => {
-    console.log(res)})
-    console.log(makeOptions)
+// let makeOptions = jwtFetch(`/api/cars/list`).then(res => {
+//     console.log(res)})
+//     console.log(makeOptions)
   const [modelOptions, setModelOptions] = useState('');
   const [yearOptions, setYearOptions] = useState('');
 

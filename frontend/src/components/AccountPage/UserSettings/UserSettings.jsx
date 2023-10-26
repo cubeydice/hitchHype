@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserErrors, updateUser } from "../../../store/users";
+import { clearUserErrors, deleteUser, updateUser } from "../../../store/users";
 import './UserSettings.css'
 
 const UserSettings = ({sessionUser}) => {
@@ -39,6 +39,12 @@ const UserSettings = ({sessionUser}) => {
   });
   }
 
+  const handleClick = (e) => {
+    e.preventDefault(e);
+
+    dispatch(deleteUser(user._id))
+  }
+
   return (
     <>
       <h2>Tell us about yourself!</h2>
@@ -61,6 +67,7 @@ const UserSettings = ({sessionUser}) => {
           type="submit"
           value="Save"
           />
+        <button onClick={handleClick} className="delete-button">Delete Account</button>
         </form>
       </div>
     </>

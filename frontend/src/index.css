@@ -168,6 +168,9 @@ input[type=submit]:hover:not([disabled]) {
   transition: 0.2s;
 }
 
+.delete-button {
+  background: red;
+}
 
 /* FORMS */
 input[type=text],
