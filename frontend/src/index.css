@@ -83,7 +83,7 @@ table {
 }
 
 body {
-  background-color: white;
+  background-color: var(--off-white);
   color: var(--brand-black);
   font-family: 'Roboto', sans-serif;
 }
@@ -177,7 +177,6 @@ input[type=password] {
   margin: 4px;
   height: 20px;
   border-radius: var(--rounded-border);
-  width: 300px;
 }
 
 /* ICONS */
