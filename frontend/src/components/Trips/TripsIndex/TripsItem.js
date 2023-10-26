@@ -1,9 +1,19 @@
+
+
+import { useState } from "react"
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import "./TripsItem.css"
+import explodeAddress from "../AddressParser"
+
 export function TripsItem ({ trip }) {
+    let city
+ 
+    explodeAddress(trip.destination, function(err,addressStr)
+    {
+        city = addressStr.city;
+    })
     const showPage = '/trips/' + trip._id;
-    // console.log(trip)
-    // const showPage = '/trips'
+
     const price = '$0'
 
     return (
@@ -15,7 +25,7 @@ export function TripsItem ({ trip }) {
             </div>
             <div className="TripItem-details">
                 <div className="TripItem-destination">
-                    { trip.destination.city}
+                    { city }
                 </div>
                 <div className="TripItem-price">
                     { price }
@@ -24,3 +34,4 @@ export function TripsItem ({ trip }) {
         </a>
     )
 }
+
