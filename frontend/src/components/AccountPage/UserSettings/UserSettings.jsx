@@ -6,11 +6,6 @@ const UserSettings = ({sessionUser}) => {
   const dispatch = useDispatch();
   const userId = sessionUser._id;
   const [bio, setBio] = useState('');
-  const [street, setStreet] = useState('');
-  const [street2, setStreet2] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [postalCode, setPostalCode] = useState('');
 
   return (
     <>
@@ -18,7 +13,8 @@ const UserSettings = ({sessionUser}) => {
       <div className="account-form-container">
         <form className="account-form">
           <label> About Me
-
+            <input>
+            </input>
           </label>
         </form>
       </div>
