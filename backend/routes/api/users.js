@@ -137,8 +137,10 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
         return next(error);
     }
 
+
     const { biography, profilePicture, trips, rides, car, driverLicense, address } = body;
     
+
     // Update user properties
     // user.phoneNumber = phoneNumber;
     user.biography = biography;

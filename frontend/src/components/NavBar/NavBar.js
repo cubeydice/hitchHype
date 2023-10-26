@@ -5,15 +5,12 @@ import { logout } from '../../store/session';
 import GitHubLogo from '../../assets/logos/github-mark.png'
 import LinkedInLogo from '../../assets/logos/linkedin-blue.png'
 import './NavBar.css';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function NavBar () {
     const loggedIn = useSelector(state => !!state.session.user);
     const dispatch = useDispatch();
-
-    const logoutUser = e => {
-        e.preventDefault();
-        dispatch(logout());
-    }
+    const history = useHistory();
 
     const handleClick = (field) => (e) => {
         e.preventDefault();
@@ -24,6 +21,10 @@ function NavBar () {
                 break;
             case 'signup':
                 dispatch(openModal('signup-form'))
+                break;
+            case 'logout':
+                dispatch(logout())
+                history.push("/")
                 break;
             default:
                 break;
@@ -47,7 +48,7 @@ function NavBar () {
                     <Link to={'/trips/new'} className='bgless-button'>Make a Trip</Link>
                     <Link to={'/account'} className='bgless-button'>Account</Link>
                 </div>
-                <button onClick={logoutUser}>Logout</button>
+                <button onClick={handleClick('logout')}>Logout</button>
             </div>
         );
         } else {
@@ -69,7 +70,7 @@ function NavBar () {
     return (
         <>
         <nav className='navbar'>
-            <Link to={loggedIn ? '/account' : '/'}>
+            <Link to={loggedIn ? '/trips' : '/'}>
                 <h1 className='brand-logo'>
                     hitch<span className='brand-logo'>Hype</span>
                 </h1>
