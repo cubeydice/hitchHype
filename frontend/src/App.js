@@ -29,7 +29,7 @@ function App() {
       <div className='main-content'>
       <NavBar />
       <Switch>
-        <AuthRoute exact path="/" component={MainPage} />
+        <Route exact path="/" component={MainPage} />
         <Route exact path="/trips" component={ Trips } />
         <ProtectedRoute exact path="/trips/new" component={ CreateTrip } />
         <Route exact path="/trips/:tripId" component={ TripShow } />

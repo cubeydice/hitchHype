@@ -9,6 +9,7 @@ const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
 const validateUserInput = require('../../validations/user');
+const Car = mongoose.model('Car')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -17,24 +18,32 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/current', restoreUser, (req, res) => {
-  if (!isProduction) {
-    // In development, allow React server to gain access to the CSRF token
-    // whenever the current user information is first loaded into the
-    // React application
-    const csrfToken = req.csrfToken();
-    res.cookie("CSRF-TOKEN", csrfToken);
+router.get('/current', restoreUser, async (req, res) => {
+  try{
+    if (!isProduction) {
+      // In development, allow React server to gain access to the CSRF token
+      // whenever the current user information is first loaded into the
+      // React application
+      const csrfToken = req.csrfToken();
+      res.cookie("CSRF-TOKEN", csrfToken);
+    }
+    if (!req.user) return res.json(null);
+    const userCar = await Car.findById(req.user.car)
+    res.json({
+      _id: req.user._id,
+      username: req.user.username,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      email: req.user.email,
+      biography: req.user.biography,
+      address: req.user.address,
+      car: req.user.car ? req.user.car : null,
+      maxPassengers: userCar ? userCar.maxPassengers : null
+    });
+  } catch(error) {
+    console.error('Error fetching user car:', error);
+    res.status(500).send("Internal Server Error");
   }
-  if (!req.user) return res.json(null);
-  res.json({
-    _id: req.user._id,
-    username: req.user.username,
-    email: req.user.email,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    biography: req.user.biography,
-    address: req.user.address
-  });
 });
 
 // Retrieve one user

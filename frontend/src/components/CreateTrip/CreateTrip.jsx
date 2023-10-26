@@ -39,7 +39,7 @@ const CreateTrip = () => {
     const handleCreateTripSubmit = (e) => {
         e.preventDefault()
         const driver = sessionUser._id 
-        const car = sessionUser.car[0]
+        const car = sessionUser.car
         const passengers = []
         dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats}))
         .then((res) => {
