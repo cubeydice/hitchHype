@@ -1,16 +1,25 @@
 import {useJsApiLoader, GoogleMap, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
 import { useState, useRef } from 'react'
 import './CreateTrip.css'
+import { useDispatch, useSelector } from 'react-redux'
+import * as tripActions from '../../store/trips'
 
 const center = {lat: 37.7749, lng: -122.4194}    // where the map initially loads (San Francisco)
 /* global google */
 
 const CreateTrip = () => {
+    //pull driver from state
+    //pull car from state
+    //send departureDate, origin, destination, availableSteats
+    const sessionUser = useSelector(state => state.session.user)
+
     const [ googleMapsLibraries ] = useState(['places'])
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries: googleMapsLibraries
     })
+    const [availableSeats, setAvailableSeats] = useState()
+    const [departureDate, setDeparturedate] = useState()
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
@@ -19,10 +28,20 @@ const CreateTrip = () => {
     const [map, setMap] = useState( /** @type google.maps.Map */ (null))
     const originRef = useRef(null);
     const destinationRef = useRef(null);
+    const dispatch = useDispatch()
     
     if(!isLoaded) {
         return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
     }
+
+
+    const handleCreateTripSubmit = (e) => {
+        e.preventDefault()
+        const driver = sessionUser.id 
+        //const car = sessionUser.car
+        dispatch(tripActions.composeTrip({driver, departureDate, origin, destination, availableSeats}))
+    }
+
     
     //handles the route calculation
     async function calculateRoute(e) {
@@ -86,8 +105,24 @@ const CreateTrip = () => {
         <>
             <div className='create-trip'>
                 <div className='routes-controller'>
-                    <form className='routes-form' onSubmit={calculateRoute}>
+                    <form className='routes-form' onSubmit={handleCreateTripSubmit} >
                         <h2 id='routes-form-title'>Let's Create a Trip!</h2>
+                        <input 
+                            type="date" 
+                            id='departure-date' 
+                            placeholder='Departure date'
+                            value={departureDate}
+                            onChange={(e) => setDeparturedate(e.target.value)}
+                        />
+                        <input 
+                            type="number" 
+                            id="available-seats" 
+                            palceholder='Number of available seats'
+                            value={availableSeats}
+                            onChange={(e) => setAvailableSeats(e.target.value)}
+                            min={1}
+                            max={20}
+                        />
                         <Autocomplete 
                             className='origin-autocomplete' 
                             onLoad={(autocomplete) => (originRef.current = autocomplete)}
@@ -112,7 +147,7 @@ const CreateTrip = () => {
                                 type="text" 
                             />
                         </Autocomplete>
-                        <button id='calculate' type='submit'>Calculate Route</button>
+                        <button id='calculate' onClick={calculateRoute}>Calculate Route</button>
                         <button id='clear' onClick={clearRoute}>Clear Route</button>
                     </form>
                     <div id='results'>

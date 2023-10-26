@@ -115,6 +115,7 @@ h3 {
 /* LINKS */
 a, .link {
   color: var(--brand-pink);
+  text-decoration: none;
 }
 
 a:hover:not([disabled]),
