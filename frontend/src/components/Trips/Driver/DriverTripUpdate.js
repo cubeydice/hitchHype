@@ -1,7 +1,7 @@
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { Passenger } from "../Passenger/Passenger";
 import { useDispatch, useSelector } from "react-redux";
-import { clearTripErrors, deleteTrip, fetchTrip } from "../../../store/trips";
+import { clearTripErrors, deleteTrip, fetchTrip, updateTrip } from "../../../store/trips";
 import { useEffect } from "react";
 import "./DriverTripUpdate.css"
 
@@ -23,10 +23,14 @@ export function DriverUpdateForm () {
     const handleClick = (e) => {
         // console.log(e.target.value)
         e.target.value === "delete" ? (
-            dispatch(deleteTrip(tripId)).then( res => history.push('/trips'))
+            dispatch(deleteTrip(tripId)).then( res =>{
+                console.log(res);
+                 history.push('/trips')
+                })
             // console.log(e.target.value)
         ) : (
             console.log(e.target.value)
+            // dispatch(updateTrip({}));
         );
     }
 
