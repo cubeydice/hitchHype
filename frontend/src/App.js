@@ -5,15 +5,13 @@ import { AuthRoute, ProtectedRoute } from './components/Routes/Routes';
 
 import NavBar from './components/NavBar/NavBar';
 import MainPage from './components/MainPage/MainPage';
-import Profile from './components/Profile/Profile';
+import AccountPage from './components/AccountPage';
 import Modal from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
 import CreateTrip from './components/CreateTrip/CreateTrip';
 
 import { getCurrentUser } from './store/session';
 import { Trips } from './components/Trips/TripsIndex/Trips';
-import LoginForm from './components/SessionForms/LoginForm';
-import SignupForm from './components/SessionForms/SignupForm';
 import { Route } from 'react-router-dom/cjs/react-router-dom.min';
 import { TripShow } from './components/Trips/TripShow';
 import { DriverUpdateForm } from './components/Trips/Driver/DriverTripUpdate';
