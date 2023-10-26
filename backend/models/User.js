@@ -54,10 +54,10 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'Ride', 
     }],
-    cars: [{ 
+    car: { 
         type: Schema.Types.ObjectId, 
         ref: 'Car' 
-    }],
+    },
     driverLicense: licenseSchema,
     address: {
         type: String
