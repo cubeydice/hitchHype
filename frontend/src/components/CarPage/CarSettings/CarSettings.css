@@ -1,0 +1,8 @@
+.car-form-container {
+  background-color: var(--brand-mustard);
+  border-radius: var(--rounded-border);
+}
+
+select {
+  width: 200px;
+}
