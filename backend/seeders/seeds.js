@@ -119,12 +119,10 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
 
 // Create demo driver, needs trips and cars to be initialized beforehand
 const driverTrips = []
-const driverCars = []
 
 for (let j = 0; j < 3; j++) {
     driverTrips.push(trips[Math.floor(Math.random() * NUM_SEED_TRIPS)])
 }
-driverCars.push(cars[Math.floor(Math.random() * NUM_SEED_CARS)])
 
 users.push(
     new User ({
@@ -135,7 +133,7 @@ users.push(
         // phoneNumber: '1234567890',
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
-        cars: driverCars,
+        cars: cars[Math.floor(Math.random() * NUM_SEED_CARS)],
         address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
     })
 )
