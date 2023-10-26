@@ -75,7 +75,7 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
         const { user, body } = req;
         const { car, departureDate, origin, destination, availableSeats } = body;
 
-        const fetchCar = Car.findById(car)
+        const fetchCar = await Car.findById(car)
 
         if (availableSeats > fetchCar.maxPassengers) {
             const error = new Error("Available seats cannot be more than vehicle's max passenger");
