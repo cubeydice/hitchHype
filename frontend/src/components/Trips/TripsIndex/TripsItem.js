@@ -6,18 +6,13 @@ import "./TripsItem.css"
 import explodeAddress from "../AddressParser"
 
 export function TripsItem ({ trip }) {
-    // const [city, setCity] = useState();
     let city
-    // console.log("hi") 
  
     explodeAddress(trip.destination, function(err,addressStr)
     {
-        // console.log(addressStr.city)
         city = addressStr.city;
     })
     const showPage = '/trips/' + trip._id;
-    // console.log(trip)
-    // const showPage = '/trips'
 
     const price = '$0'
 
