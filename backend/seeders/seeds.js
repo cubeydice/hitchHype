@@ -119,9 +119,34 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
 
 // Create demo driver, needs trips and cars to be initialized beforehand
 const driverTrips = []
+const driverCar = cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id
+for (let i = 0; i < 3; i++) {
+    const randomPassengers = []
 
-for (let j = 0; j < 3; j++) {
-    driverTrips.push(trips[Math.floor(Math.random() * NUM_SEED_TRIPS)])
+    // Choose two random passengers and generate two dropoff points from the users array
+    for (let j = 0; j < 2; j++) {
+        const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+
+        const passengerInfo = {
+            passenger: randomPassenger,
+            dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+        };
+
+        randomPassengers.push(passengerInfo);
+
+        
+    }
+    driverTrips.push(
+        new Trip ({
+            driver: "653a1cece0594cd09acb1d8a",
+            car: driverCar,
+            passengers: randomPassengers,
+            departureDate: faker.date.future(),
+            origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+            destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+            availableSeats: Math.floor(Math.random() * 6) + 1
+        })
+    )
 }
 
 users.push(
@@ -133,7 +158,7 @@ users.push(
         // phoneNumber: '1234567890',
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
-        car: cars[Math.floor(Math.random() * NUM_SEED_CARS)],
+        car: driverCar,
         address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
     })
 )
