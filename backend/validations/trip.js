@@ -12,11 +12,11 @@ const validateTripInput = [
         .isArray()
         .withMessage('Passengers must be an array'),
     (req, res, next) => {
-        if (req.body.passengers.length > 0) {
+        if (req.body.passengers && req.body.passengers.length > 0) {
             for (let i = 0; i < req.body.passengers.length; i++) {
-                check(`passengers[${i}].passenger`, 'Passenger is required')
+                check(`passengers[${i}].passenger`)
                     .exists({ checkFalsy: true });
-                check(`passengers[${i}].dropoffPoint`, 'Drop-off point is required')
+                check(`passengers[${i}].dropoffPoint`)
                     .exists({ checkFalsy: true });
             }
         }

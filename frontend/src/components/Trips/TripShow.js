@@ -23,8 +23,8 @@ export function TripShow () {
                     { sesionUser._id === trip.driver._id ? (
                         <DriverTripShow trip={trip}/>
                     ) : (
-                        <DriverTripShow trip={trip}/>
-                        // <RiderTripShow trip={trip}/>
+                        // <DriverTripShow trip={trip}/>
+                        <RiderTripShow trip={trip}/>
                     )}
                 </>
             ) : (
