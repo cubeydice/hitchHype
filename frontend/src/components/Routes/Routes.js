@@ -9,7 +9,7 @@ export const AuthRoute = ({ component: Component, path, exact }) => {
         !loggedIn ? (
             <Component {...props} />
         ) : (
-            <Redirect to="/tweets" />
+            <Redirect to="/trips" />
         )
         )} />
     );
@@ -25,7 +25,7 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
             loggedIn ? (
             <Component {...props} />
             ) : (
-            <Redirect to="/login" />
+            <Redirect to="/" />
             )
         }
         />

@@ -10,11 +10,6 @@ function NavBar () {
     const loggedIn = useSelector(state => !!state.session.user);
     const dispatch = useDispatch();
 
-    const logoutUser = e => {
-        e.preventDefault();
-        dispatch(logout());
-    }
-
     const handleClick = (field) => (e) => {
         e.preventDefault();
 
@@ -24,6 +19,9 @@ function NavBar () {
                 break;
             case 'signup':
                 dispatch(openModal('signup-form'))
+                break;
+            case 'logout':
+                dispatch(logout())
                 break;
             default:
                 break;
@@ -47,7 +45,7 @@ function NavBar () {
                     <Link to={'/trips/new'} className='bgless-button'>Make a Trip</Link>
                     <Link to={'/account'} className='bgless-button'>Account</Link>
                 </div>
-                <button onClick={logoutUser}>Logout</button>
+                <button onClick={handleClick('logout')}>Logout</button>
             </div>
         );
         } else {
