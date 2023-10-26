@@ -12,7 +12,7 @@ export function TripShow () {
     const sesionUser = useSelector(state => state.session.user);
 
     useEffect( () => {
-        dispatch(fetchTrip(tripId)).then( trip => console.log(trip))
+        dispatch(fetchTrip(tripId))  //.then( trip => console.log(trip))
         dispatch(clearTripErrors());
     }, [dispatch])
 
@@ -27,7 +27,8 @@ export function TripShow () {
                     )}
                 </>
             ) : (
-                <></>
+                // <></>
+                <RiderTripShow trip={trip}/>
             )}
         </div>
     )

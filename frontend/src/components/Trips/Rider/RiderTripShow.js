@@ -6,12 +6,16 @@ import profilePic from "../../../assets/images/profile-pic-dummy.jpg"
 import "./RiderTripShow.css"
 import { useState } from "react"
 import { updateTrip } from "../../../store/trips"
+import explodeAddress from "../AddressParser"
+
 
 export function RiderTripShow ({ trip }) {
     const dispatch = useDispatch();
     const date = new Date(trip.departureDate);
     const sessionUser = useSelector(state => state.session.user);
     const [rider, setRider] = useState(false);
+    let city;
+    // console.log("trip:", trip)
 
     const handleClick = () => {
         if(rider){
@@ -20,9 +24,12 @@ export function RiderTripShow ({ trip }) {
 
         }
     }
+    explodeAddress(trip.destination, function(err,addressStr)
+    {
+        city = addressStr.city;
+    })
 
     //can only request if logged in.
-
     const passengerFn = () => {
         const passengerArr = [];
         for(let payload of trip.passengers)
@@ -30,7 +37,7 @@ export function RiderTripShow ({ trip }) {
             if(sessionUser && sessionUser._id === payload.passenger._is){
                 setRider(true);
             }
-            console.log(payload)
+            // console.log(payload)
             passengerArr.push(
                 //will update with users profile once those are up
                 <a href="">

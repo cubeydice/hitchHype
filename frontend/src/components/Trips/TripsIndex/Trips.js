@@ -12,7 +12,7 @@ export function Trips () {
     const [startPoint, setStartPoint] = useState();
     const [endPoint, setEndPoint] = useState();
     const [tripDate, setTripDate] = useState();
-    const [fetchedTrips, setFetchedTrips] = useState(false);
+    // const [fetchedTrips, setFetchedTrips] = useState(false);
 
     const handleSearch = (e) => {
         e.preventDefault();
