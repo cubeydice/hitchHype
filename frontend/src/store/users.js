@@ -46,14 +46,15 @@ export const fetchUser = (userId) => async dispatch => {
     }
 }
 
-export const updateUser = user => async (dispatch) => {
+export const updateUser = (user) => async (dispatch) => {
     try {
-        debugger
+        // debugger
         const res = await jwtFetch(`/api/users/${user._id}`, {
             method: 'PATCH',
             body: JSON.stringify(user)
         });
-        const user = await res.json();
+        user = await res.json();
+        console.log(user)
         dispatch(receiveUser(user));
     } catch(err) {
         const res = await err.json();

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserErrors, fetchCurrentUser, fetchUser, updateUser } from "../../../store/users";
+import { clearUserErrors, updateUser } from "../../../store/users";
 import './UserSettings.css'
-import { getCurrentUser } from "../../../store/session";
 
 const UserSettings = ({sessionUser}) => {
   const dispatch = useDispatch();
+  let user = sessionUser;
   const errors = useSelector(state => state.errors.users);
   const [bio, setBio] = useState('');
   const [bioCount, setBioCount] = useState(0);
@@ -26,8 +26,8 @@ const UserSettings = ({sessionUser}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const user = {
-      // ...user,
+    user = {
+      ...user,
       biography: bio,
     }
 
