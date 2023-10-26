@@ -30,21 +30,40 @@ function LoginForm () {
             });
     }
 
-    const handleClick = (e) => {
+    const handleClick = (field) => (e) => {
         e.preventDefault();
 
-        const demoUser = {
+        const demoRider = {
             email:'demo-user@appacademy.io',
             password:'starwars'
         }
+        const demoDriver = {
+            email:'demo-user2@appacademy.io',
+            password:'starwars'
+        }
 
-        dispatch(login(demoUser))
-        .then((res)=> {
-            if (res && !res.errors) {
-                dispatch(clearSessionErrors());
-                dispatch(closeModal());
-            };
-        });
+        switch (field) {
+            case 'demo-rider':
+                dispatch(login(demoRider))
+                .then((res)=> {
+                    if (res && !res.errors) {
+                        dispatch(clearSessionErrors());
+                        dispatch(closeModal());
+                    };
+                });
+                break;
+            case 'demo-driver':
+                dispatch(login(demoDriver))
+                .then((res)=> {
+                    if (res && !res.errors) {
+                        dispatch(clearSessionErrors());
+                        dispatch(closeModal());
+                    };
+                });
+                break;
+            default:
+                break;
+        }
     }
 
     return (
@@ -76,7 +95,8 @@ function LoginForm () {
             disabled={!email || !password}
             /> <br/>
         <div>
-            <button onClick={handleClick}>Demo User</button>
+            <button onClick={handleClick('demo-rider')}>Demo Rider</button>
+            <button onClick={handleClick('demo-driver')}>Demo Driver</button>
         </div>
 
         <br/><br/>
