@@ -21,27 +21,12 @@ users.push(
         hashedPassword: bcrypt.hashSync('starwars', 10),
         firstName: 'demo',
         lastName: 'user',
-        // phoneNumber: '1234567890',
+        phoneNumber: '1234567890',
         biography: faker.lorem.sentences(5),
         address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
     })
 )
-const driverTrips = []
-const driverCars = []
 
-users.push(
-    new User ({
-        email: 'demo-user2@appacademy.io',
-        hashedPassword: bcrypt.hashSync('starwars', 10),
-        firstName: 'demo',
-        lastName: 'user',
-        // phoneNumber: '1234567890',
-        biography: faker.lorem.sentences(5),
-        trips: driverTrips,
-        cars: driverCars,
-        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
-    })
-)
 
 for (let i = 1; i < NUM_SEED_USERS; i++) {
     const firstName = faker.name.firstName()
@@ -52,7 +37,7 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
             firstName: firstName,
             lastName: lastName,
-            // phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
+            phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
             address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
         })
     )
@@ -97,6 +82,29 @@ for (let i = 0; i < NUM_SEED_CARS; i++) {
     )
 }
 
+// Create demo driver
+const driverTrips = []
+const driverCars = []
+
+for (let j = 0; j < 3; j++) {
+    driverTrips.push(trips[Math.floor(Math.random() * NUM_SEED_TRIPS)])
+}
+driverCars.push(cars[Math.floor(Math.random() * NUM_SEED_CARS)])
+
+users.push(
+    new User ({
+        email: 'demo-user2@appacademy.io',
+        hashedPassword: bcrypt.hashSync('starwars', 10),
+        firstName: 'demo',
+        lastName: 'user',
+        phoneNumber: '1234567890',
+        biography: faker.lorem.sentences(5),
+        trips: driverTrips,
+        cars: driverCars,
+        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+    })
+)
+
 // Create trips
 const trips = [];
 
@@ -131,10 +139,9 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     )
 }
 
-for (let j = 0; j < 3; j++) {
-    driverTrips.push(trips[Math.floor(Math.random() * NUM_SEED_TRIPS)])
-}
-driverCars.push(cars[Math.floor(Math.random() * NUM_SEED_CARS)])
+
+
+
 
 mongoose
     .connect(db, { useNewUrlParser: true })
