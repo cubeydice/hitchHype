@@ -9,6 +9,7 @@ import explodeAddress from "../AddressParser"
 export function DriverTripShow({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     const date = new Date(trip.departureDate);
+    const editPage = `/trips/${trip._id}/update`
     let destination = {
         city: "",
         state: "",
@@ -73,7 +74,7 @@ export function DriverTripShow({ trip }) {
                                 </div>
                             </div>
                             <div className='trip-show-edit-btn-container'>
-                                <a href='' className='trip-show-edit-btn'> 
+                                <a href={editPage} className='trip-show-edit-btn'> 
                                     <div className='edit-btn-container'>
                                         <h3>Edit trip</h3>
                                     </div>

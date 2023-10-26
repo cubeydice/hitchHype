@@ -1,0 +1,61 @@
+.Driver-update-page-layout{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+.Driver-update-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.Driver-update-header-h3{
+    font-size: x-large;
+}
+.Driver-update-map-container{
+    height: 30%;
+    width: 80%;
+    background-color: rgb(42, 65, 133);
+    margin-left: 10%;
+}
+.map-api{
+    height: 350px;
+    width: 400px;
+}
+.Driver-update-passengers-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    margin-left: 10%;
+}
+.Driver-update-passengers-items{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80vw;
+}
+.Driver-update-passenger-item{
+    width: 60vw;
+    display: flex;
+    justify-content: space-evenly;
+}
+#Driver-update-rmv-passenger{
+    height: 40px;
+}
+.Driver-update-rmv-passenger-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Driver-update-edit-btns{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.Driver-update-btn{
+    width: 125px;
+    padding: 15px;
+}
