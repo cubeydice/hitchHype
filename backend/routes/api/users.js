@@ -137,7 +137,7 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
         return next(error);
     }
 
-    const { biography, profilePicture, trips, rides, cars, driverLicense, address } = body;
+    const { biography, profilePicture, trips, rides, car, driverLicense, address } = body;
     
     // Update user properties
     // user.phoneNumber = phoneNumber;
@@ -145,7 +145,7 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
     user.profilePicture = profilePicture;
     user.trips = trips;
     user.rides = rides;
-    user.cars = cars;
+    user.car = car;
     user.driverLicense = driverLicense;
     user.address = address;
 
