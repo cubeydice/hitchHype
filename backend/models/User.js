@@ -27,10 +27,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    phoneNumber: {
-        type: String,
-        required: true,
-    },
+    // phoneNumber: {
+    //     type: String,
+    //     required: true,
+    // },
     biography: {
         type: String,
         // require: true,
