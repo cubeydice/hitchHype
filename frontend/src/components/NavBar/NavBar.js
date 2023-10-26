@@ -70,7 +70,7 @@ function NavBar () {
     return (
         <>
         <nav className='navbar'>
-            <Link to={loggedIn ? '/account' : '/'}>
+            <Link to={loggedIn ? '/trips' : '/'}>
                 <h1 className='brand-logo'>
                     hitch<span className='brand-logo'>Hype</span>
                 </h1>
