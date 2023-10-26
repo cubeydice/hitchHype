@@ -90,7 +90,7 @@ const CarSettings = ({sessionUser}) => {
 
   return (
     <div className="settings-container">
-      <h1 className="settings-form-title">{`Tell us about your sweet ride 🚙💨`}</h1>
+      <h1 className="settings-form-title">Tell us about your <span className="italic">sweet ride</span> 🚙💨</h1>
       <div className="car-form-container">
         <div>
           <img src={CarImage} alt='car'/>

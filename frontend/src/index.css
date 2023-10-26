@@ -52,12 +52,16 @@ table {
 :root {
   --brand: #60992D;
   --brand-pink: #f87666;
-  --brand-mustard: #f6ae2d;
+  --brand-mustard: #e8ae42;
   --brand-dark-teal: #074f57;
   --brand-black: #2c2f33;
   --sub-gray: #a2a3a7;
   --off-white: #f6f6f6;
   --rounded-border: 6px;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .main-container {

@@ -1,7 +1,7 @@
 .account-nav {
   width: 250px;
   height: 300px;
-  margin-left:60px;
+  margin-left:50px;
   display: flex;
   flex-direction: column;
   border-style: solid;
@@ -23,9 +23,6 @@
   width: 200px;
   height:30px;
   background-color: var(--brand-mustard);
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--brand-mustard);
   border-radius: var(--rounded-border);
   margin: 5px;
 }
@@ -35,11 +32,11 @@
 }
 
 .account-nav ul *:hover {
-  background-color: var(--brand-pink);
+  background-color: var(--brand-dark-teal);
   color: white
 }
 
 .account-nav ul a.active li {
-  background-color: var(--brand-pink);
+  background-color: var(--brand-dark-teal);
   color: white
 }
