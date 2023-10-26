@@ -18,24 +18,24 @@ const validateLoginInput = [
         .exists({ checkFalsy: true })
         .isLength({ min: 6, max: 30 })
         .withMessage('Password must be between 6 and 30 characters'),
-        check('firstname')
+        check('firstName')
         .exists({ checkFalsy: true })
         .withMessage('First name is required'),
-    check('lastname')
+    check('lastName')
         .exists({ checkFalsy: true })
         .withMessage('Last name is required'),
-    check('phonenumber')
-        .exists({ checkFalsy: true })
-        .withMessage('Phone number is required')
-        .custom((value) => {
-            if (!isPhoneNumberValid(value)) {
-                throw new Error('Invalid phone number format');
-            }
-            return true;
-        })
-        .withMessage('Invalid phone number format')
-        .isLength({ min: 10, max: 10 })
-        .withMessage('Phone number must be 10 digits'),
+    // check('phonenumber')
+    //     .exists({ checkFalsy: true })
+    //     .withMessage('Phone number is required')
+    //     .custom((value) => {
+    //         if (!isPhoneNumberValid(value)) {
+    //             throw new Error('Invalid phone number format');
+    //         }
+    //         return true;
+    //     })
+    //     .withMessage('Invalid phone number format')
+    //     .isLength({ min: 10, max: 10 })
+    //     .withMessage('Phone number must be 10 digits'),
     handleValidationErrors
 ];
 
