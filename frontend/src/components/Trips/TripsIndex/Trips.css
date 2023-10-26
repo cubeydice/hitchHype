@@ -1,6 +1,6 @@
 .page-layout{
     width: 100vw;
-    height: 80vh;
+    height: fit-content;
 }
 /* .search-bar{
     width: 100%; */
