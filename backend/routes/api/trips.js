@@ -133,7 +133,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         // Extract the required data from the request
         const { car, passengers, departureDate, origin, destination, availableSeats } = body;
 
-        const fetchCar = Car.findById(car)
+        const fetchCar = await Car.findById(car)
 
         if (availableSeats > fetchCar.maxPassengers) {
             const error = new Error("Available seats cannot be more than vehicle's max passenger");
