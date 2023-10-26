@@ -23,7 +23,8 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     $or: [
       { email: req.body.email },
       { username: req.body.username },
-      { phoneNumber: req.body.phoneNumber }]
+      { phoneNumber: req.body.phoneNumber }
+    ]
   });
 
   if (user) {
