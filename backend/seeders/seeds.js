@@ -139,7 +139,7 @@ driverCars.push(cars[Math.floor(Math.random() * NUM_SEED_CARS)])
 mongoose
     .connect(db, { useNewUrlParser: true })
     .then(() => {
-        console.log('Connected to MongoDB successfully');
+        // console.log('Connected to MongoDB successfully');
         insertSeeds();
     })
     .catch(err => {
@@ -149,7 +149,7 @@ mongoose
 
 // Reset and seed db
 const insertSeeds = () => {
-    console.log("Resetting db and seeding users and tweets...");
+    // console.log("Resetting db and seeding users and tweets...");
 
     User.collection.drop()
                     .then(() => Trip.collection.drop())
@@ -159,7 +159,7 @@ const insertSeeds = () => {
                     .then(() => Trip.insertMany(trips))
                     .then(() => Car.insertMany(cars))
                     .then(() => {
-                        console.log("Done!");
+                        // console.log("Done!");
                         mongoose.disconnect();
                     })
                     .catch(err => {

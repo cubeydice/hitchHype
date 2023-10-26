@@ -20,5 +20,5 @@ fs.createReadStream('vehicles.csv')
     }
   })
   .on('end', () => {
-    console.log(vehicles)
+    // console.log(vehicles)
   });

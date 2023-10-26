@@ -10,14 +10,6 @@ const licenseSchema = new Schema({
     stateIssued: String,
 });
 
-// Address Schema
-const addressSchema = new Schema({
-    street: String,
-    city: String,
-    state: String,
-    postalCode: String,
-});
-
 const userSchema = new Schema({
     email: {
         type: String,
@@ -55,20 +47,21 @@ const userSchema = new Schema({
         // coordinates: [Number],
     // },
     trips: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, 
         ref: 'Trip', 
     }],
     rides: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, 
         ref: 'Ride', 
     }],
     cars: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, 
         ref: 'Car' 
     }],
     driverLicense: licenseSchema,
-    address: addressSchema,
-    insurance: String,
+    address: {
+        type: String
+    }
 }, {
     timestamps: true
 });
