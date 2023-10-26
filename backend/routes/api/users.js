@@ -39,8 +39,7 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
   // username.
   const user = await User.findOne({
     $or: [
-      { email: req.body.email },
-      { username: req.body.username }
+      { email: req.body.email }
       // { phoneNumber: req.body.phoneNumber }
     ]
   });
@@ -52,9 +51,6 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     const errors = {};
     if (user.email === req.body.email) {
       errors.email = "A user has already registered with this email";
-    }
-    if (user.username === req.body.username) {
-      errors.username = "A user has already registered with this username";
     }
     // if (user.phoneNumber === req.body.phoneNumber) {
     //   errors.phoneNumber = "A user has already registered with this phone number";
