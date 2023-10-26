@@ -21,7 +21,7 @@ users.push(
         hashedPassword: bcrypt.hashSync('starwars', 10),
         firstName: 'demo',
         lastName: 'user',
-        phoneNumber: '1234567890',
+        // phoneNumber: '1234567890',
         biography: faker.lorem.sentences(5),
         address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
     })
@@ -35,7 +35,7 @@ users.push(
         hashedPassword: bcrypt.hashSync('starwars', 10),
         firstName: 'demo',
         lastName: 'user',
-        phoneNumber: '1234567890',
+        // phoneNumber: '1234567890',
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
         cars: driverCars,
@@ -52,7 +52,7 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
             firstName: firstName,
             lastName: lastName,
-            phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
+            // phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
             address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
         })
     )
