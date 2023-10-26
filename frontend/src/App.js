@@ -8,6 +8,7 @@ import MainPage from './components/MainPage/MainPage';
 import AccountPage from './components/AccountPage';
 import Modal from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
+import CreateTrip from './components/CreateTrip/CreateTrip';
 
 import { getCurrentUser } from './store/session';
 import { Trips } from './components/Trips/TripsIndex/Trips';
@@ -29,10 +30,10 @@ function App() {
       <NavBar />
       <Switch>
         <AuthRoute exact path="/" component={MainPage} />
-        <ProtectedRoute exact path="/account" component={AccountPage} />
-        <Route exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
-        <Route exact path="/trips/:tripId" component={ TripShow } />
         <Route exact path="/trips" component={ Trips } />
+        <ProtectedRoute exact path="/trips/new" component={ CreateTrip } />
+        <Route exact path="/trips/:tripId" component={ TripShow } />
+        <ProtectedRoute exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
       </Switch>
       </div>
       <Footer/>

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 // const parserAddress = require('parse-address-string');
 const User = mongoose.model("User");
 const Trip = mongoose.model("Trip");
+const Car = mongoose.model("Car");
 const { requireUser } = require("../../config/passport");
 const validateTripInput = require("../../validations/trip");
 
@@ -68,9 +69,20 @@ router.get("/:id", async (req, res, next) => {
 // Validation middleware should accept vehicle passenger limit as max
 router.post("/", requireUser, validateTripInput, async (req, res, next) => {
     try {
+
+
         // Extract the required data from the request
         const { user, body } = req;
         const { car, departureDate, origin, destination, availableSeats } = body;
+
+        const fetchCar = await Car.findById(car)
+
+        if (availableSeats > fetchCar.maxPassengers) {
+            const error = new Error("Available seats cannot be more than vehicle's max passenger");
+            error.status = 404;
+            error.errors = { message: "Available seats cannot be more than vehicle's max passenger" };
+            return next(error);
+        }
 
         const newTrip = new Trip({
             driver: user._id,
@@ -108,7 +120,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
             return next(error);
         }
         
-        const { user, body } = req;
+    const { user, body } = req;
 
         // Check if the user is the driver of the trip
         if (trip.driver.toString() !== user._id.toString()) {
@@ -121,6 +133,14 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         // Extract the required data from the request
         const { car, passengers, departureDate, origin, destination, availableSeats } = body;
 
+        const fetchCar = await Car.findById(car)
+
+        if (availableSeats > fetchCar.maxPassengers) {
+            const error = new Error("Available seats cannot be more than vehicle's max passenger");
+            error.status = 422;
+            error.errors = { message: "Available seats cannot be more than vehicle's max passenger" };
+            return next(error);
+        }
         // Update the trip with the new data
         trip.passengers = passengers;
         trip.car = car;

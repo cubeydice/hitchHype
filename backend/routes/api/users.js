@@ -17,6 +17,26 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/current', restoreUser, (req, res) => {
+  if (!isProduction) {
+    // In development, allow React server to gain access to the CSRF token
+    // whenever the current user information is first loaded into the
+    // React application
+    const csrfToken = req.csrfToken();
+    res.cookie("CSRF-TOKEN", csrfToken);
+  }
+  if (!req.user) return res.json(null);
+  res.json({
+    _id: req.user._id,
+    username: req.user.username,
+    email: req.user.email,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    biography: req.user.biography,
+    address: req.user.address
+  });
+});
+
 // Retrieve one user
 router.get('/:id', async (req, res, next) => {
   let user;
@@ -98,25 +118,25 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/current', restoreUser, (req, res) => {
-  if (!isProduction) {
-    // In development, allow React server to gain access to the CSRF token
-    // whenever the current user information is first loaded into the
-    // React application
-    const csrfToken = req.csrfToken();
-    res.cookie("CSRF-TOKEN", csrfToken);
-  }
-  if (!req.user) return res.json(null);
-  res.json({
-    _id: req.user._id,
-    username: req.user.username,
-    email: req.user.email,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    biography: req.user.biography,
-    address: req.user.address
-  });
-});
+// router.get('/current', restoreUser, (req, res) => {
+//   if (!isProduction) {
+//     // In development, allow React server to gain access to the CSRF token
+//     // whenever the current user information is first loaded into the
+//     // React application
+//     const csrfToken = req.csrfToken();
+//     res.cookie("CSRF-TOKEN", csrfToken);
+//   }
+//   if (!req.user) return res.json(null);
+//   res.json({
+//     _id: req.user._id,
+//     username: req.user.username,
+//     email: req.user.email,
+//     firstName: req.user.firstName,
+//     lastName: req.user.lastName,
+//     biography: req.user.biography,
+//     address: req.user.address
+//   });
+// });
 
 router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
   try {
@@ -137,7 +157,9 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
         return next(error);
     }
 
-    const { biography, profilePicture, trips, rides, cars, driverLicense, address } = body;
+
+    const { biography, profilePicture, trips, rides, car, driverLicense, address } = body;
+    
 
     // Update user properties
     // user.phoneNumber = phoneNumber;
@@ -145,7 +167,7 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
     user.profilePicture = profilePicture;
     user.trips = trips;
     user.rides = rides;
-    user.cars = cars;
+    user.car = car;
     user.driverLicense = driverLicense;
     user.address = address;
 
