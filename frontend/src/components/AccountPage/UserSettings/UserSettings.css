@@ -1,3 +1,7 @@
+.account-form-container {
+  background-color: var(--brand-mustard);
+}
+
 textarea {
   resize: none;
   font-family: 'Roboto', sans-serif;

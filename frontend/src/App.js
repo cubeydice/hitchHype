@@ -3,10 +3,11 @@ import { useDispatch } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from './components/Routes/Routes';
 
+import Modal from './components/Modal/Modal';
 import NavBar from './components/NavBar/NavBar';
 import MainPage from './components/MainPage/MainPage';
 import AccountPage from './components/AccountPage';
-import Modal from './components/Modal/Modal';
+import CarPage from './components/CarPage';
 import Footer from './components/Footer/Footer';
 
 import { getCurrentUser } from './store/session';
@@ -30,6 +31,7 @@ function App() {
       <Switch>
         <AuthRoute exact path="/" component={MainPage} />
         <ProtectedRoute exact path="/account" component={AccountPage} />
+        <ProtectedRoute exact path="/car" component={CarPage} />
         <Route exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
         <Route exact path="/trips/:tripId" component={ TripShow } />
         <Route exact path="/trips" component={ Trips } />

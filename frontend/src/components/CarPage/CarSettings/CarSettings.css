@@ -1,0 +1,4 @@
+.car-form-container {
+  background-color: var(--brand-mustard);
+  border-radius: var(--rounded-border);
+}
