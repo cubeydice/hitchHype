@@ -14,7 +14,8 @@ export function DriverUpdateForm () {
     const trip = useSelector(state => state.trips);
     const [availableSeats, setAvailableSeats] = useState()
     const tripsPage = "/trips/"
-    let passengersArr
+    let passengersArr;
+    let seats;
     // const sesionUser = useSelector(state => state.session.user);
 
     useEffect( () => {
@@ -38,10 +39,11 @@ export function DriverUpdateForm () {
                     })
                 break;
             case "addSeat":
-                setAvailableSeats(availableSeats + 1)
+                seats = availableSeats + 1 > 5 ? availableSeats + 1 : availableSeats
+                setAvailableSeats(seats)
                 break;
             case "subtractSeat":
-                let seats = availableSeats - 1 > 0 ? availableSeats - 1 : 0
+                seats = availableSeats - 1 > 0 ? availableSeats - 1 : 0
                 setAvailableSeats(seats)
                 break;
             case "updateTrip":
