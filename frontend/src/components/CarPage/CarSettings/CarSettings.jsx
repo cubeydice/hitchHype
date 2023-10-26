@@ -15,8 +15,8 @@ const CarSettings = ({sessionUser}) => {
   const [insurance, setInsurance] = useState('');
   const [licensePlateNumber, setLicensePlateNumber] = useState('');
 
-// let makeOptions = jwtFetch(`/api/cars/list`).then(res => {
-//     console.log(res)})
+let makeOptions = jwtFetch(`/api/cars/list`).then(res => {
+    console.log(res)})
 //     console.log(makeOptions)
   const [modelOptions, setModelOptions] = useState('');
   const [yearOptions, setYearOptions] = useState('');

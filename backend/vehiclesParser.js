@@ -36,7 +36,7 @@ async function getVehicles() {
       }
       return vehiclesObj;
   } catch (error) {
-      console.error("testGetData: An error occurred: ", error.message);
+      console.error("getVehicles: An error occurred: ", error.message);
   }
 }
 

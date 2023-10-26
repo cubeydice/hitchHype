@@ -42,7 +42,7 @@ router.get('/user/:userId', async (req, res, next) => {
 router.get('/list', async (req, res) => {
     try {
         const vehiclesObj = await getVehicles();
-        return res.json(vehiclesObj[0]);
+        return res.json(vehiclesObj);
     } catch(err) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
