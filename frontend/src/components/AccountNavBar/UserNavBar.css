@@ -1,0 +1,45 @@
+.account-nav {
+  width: 250px;
+  height: 300px;
+  margin-left:60px;
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-width: 5px;
+  border-color: var(--brand-mustard);
+  border-radius: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-nav ul {
+  margin: 5px;
+}
+.account-nav li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height:30px;
+  background-color: var(--brand-mustard);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--brand-mustard);
+  border-radius: var(--rounded-border);
+  margin: 5px;
+}
+
+.account-nav li {
+  color: var(--brand-black);
+}
+
+.account-nav ul *:hover {
+  background-color: var(--brand-pink);
+  color: white
+}
+
+.account-nav ul a.active li {
+  background-color: var(--brand-pink);
+  color: white
+}

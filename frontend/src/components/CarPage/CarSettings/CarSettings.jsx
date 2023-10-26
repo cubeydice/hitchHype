@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, updateUser } from "../../../store/users";
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
+import CarImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg'
 import './CarSettings.css'
 
 const CarSettings = ({sessionUser}) => {
@@ -88,11 +89,14 @@ const CarSettings = ({sessionUser}) => {
   }
 
   return (
-    <>
-      <h2>{`Tell us about your sweet ride 🚙💨`}</h2>
+    <div className="settings-container">
+      <h1 className="settings-form-title">{`Tell us about your sweet ride 🚙💨`}</h1>
       <div className="car-form-container">
-        <h3>You need a car to create a trip!</h3>
+        <div>
+          <img src={CarImage} alt='car'/>
+        </div>
         <form className="car-form" onSubmit={handleSubmit}>
+        <h3>You need a car to create a trip!</h3>
         <label> <h3>Insurance</h3>
             <input type="text"
             name="insurance"
@@ -105,7 +109,7 @@ const CarSettings = ({sessionUser}) => {
             value={licensePlateNumber}
             onChange={handleChange('licensePlateNumber')}/>
           </label>
-          { !makeOptionsReady ? <div> <label> <h3>Make</h3>
+          { !makeOptionsReady ? <div className="car-form-dropdown"> <label> <h3>Make</h3>
             <select onChange={handleChange('make')} autoFocus disabled={makeOptionsReady} required>
               <option value=""></option>
               {Object.keys(makeOptions).sort().map(make => <option value={make}>{make}</option>)}
@@ -136,7 +140,7 @@ const CarSettings = ({sessionUser}) => {
           />
         </form>
       </div>
-    </>
+    </div>
   )
  }
 

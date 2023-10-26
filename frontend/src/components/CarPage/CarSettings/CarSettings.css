@@ -1,8 +1,50 @@
+.settings-form-title {
+  position: absolute;
+  z-index: 20;
+  color: var(--brand-pink);
+  font-size: 50px;
+  top: 140px;
+  left: 445px;
+}
 .car-form-container {
   background-color: var(--brand-mustard);
-  border-radius: var(--rounded-border);
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.car-form-container img {
+  display: absolute;
+  left: 50px;
+  transform: translateX(-50px);
+  height: 500px;
+}
+
+.car-form {
+  padding: 20px;
+  height:400px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.car-form input[type=submit] {
+  margin-top: 10px;
+  width: 100px;
+}
+
+.car-form input[type=text] {
+  width: 380px;
+}
+
+.car-form-dropdown {
+  display: flex;
+  flex-direction: column;
 }
 
 select {
-  width: 200px;
+  width: 400px;
+  border-radius: var(--rounded-border);
+  height: 38px;
 }
