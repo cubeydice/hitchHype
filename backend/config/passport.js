@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const jwt = require('jsonwebtoken');
 const { secretOrKey } = require('./keys');
+const Car = mongoose.model('Car')
 
 
 passport.use(new LocalStrategy({
@@ -24,7 +25,7 @@ passport.use(new LocalStrategy({
 }));
 
 exports.loginUser = async function(user) {
-    const userCar = Car.findById(user.car)
+    const userCar = await Car.findById(user.car)
     const userInfo = {
         _id: user._id,
         // username: user.username,
