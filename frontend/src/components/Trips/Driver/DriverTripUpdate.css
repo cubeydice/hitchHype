@@ -59,3 +59,10 @@
     width: 125px;
     padding: 15px;
 }
+.Driver-update-available-seats{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
