@@ -3,6 +3,6 @@
   border-radius: var(--rounded-border);
 }
 
-select {
+.select {
   width: 200px;
 }

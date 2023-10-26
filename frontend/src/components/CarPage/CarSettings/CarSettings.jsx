@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, updateUser } from "../../../store/users";
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import './CarSettings.css'
-import jwtFetch from "../../../store/jwt";
 
 const CarSettings = ({sessionUser}) => {
   const dispatch = useDispatch();
@@ -71,10 +70,6 @@ const CarSettings = ({sessionUser}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    user = {
-      ...user,
-    }
-
     car = {
         ...car,
         make,
@@ -96,7 +91,20 @@ const CarSettings = ({sessionUser}) => {
     <>
       <h2>{`Tell us about your sweet ride 🚙💨`}</h2>
       <div className="car-form-container">
+        <h3>You need a car to create a trip!</h3>
         <form className="car-form" onSubmit={handleSubmit}>
+        <label> <h3>Insurance</h3>
+            <input type="text"
+            name="insurance"
+            value={insurance}
+            onChange={handleChange('insurance')}/>
+          </label>
+          <label> <h3>License Plate Number</h3>
+            <input type="text"
+            name="license-plate-number"
+            value={licensePlateNumber}
+            onChange={handleChange('licensePlateNumber')}/>
+          </label>
           { !makeOptionsReady ? <div> <label> <h3>Make</h3>
             <select onChange={handleChange('make')} autoFocus disabled={makeOptionsReady} required>
               <option value=""></option>
@@ -121,19 +129,7 @@ const CarSettings = ({sessionUser}) => {
           </label>
           <label> <h3>Average MPG</h3>
             {mpgList[yearOptions[year]]}
-          </label> </div> : <div><Loading/><br/><h3>Loading vehicle options...</h3></div>}
-          <label> <h3>Insurance</h3>
-            <input type="text"
-            name="insurance"
-            value={insurance}
-            onChange={handleChange('insurance')}/>
-          </label>
-          <label> <h3>License Plate Number</h3>
-            <input type="text"
-            name="license-plate-number"
-            value={licensePlateNumber}
-            onChange={handleChange('licensePlateNumber')}/>
-          </label>
+          </label> </div> : <div><h3>Loading vehicle options...</h3><Loading/><br/></div>}
           <input
           type="submit"
           value="Save"
