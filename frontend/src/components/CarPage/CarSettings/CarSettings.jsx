@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, updateUser } from "../../../store/users";
 import './CarSettings.css'
+import jwtFetch from "../../../store/jwt";
 
 const CarSettings = ({sessionUser}) => {
   const dispatch = useDispatch();
@@ -14,7 +15,10 @@ const CarSettings = ({sessionUser}) => {
   const [insurance, setInsurance] = useState('');
   const [licensePlateNumber, setLicensePlateNumber] = useState('');
 
-let makeOptions
+  debugger
+let makeOptions = jwtFetch(`/api/cars/list`).then(res => {
+    console.log(res)})
+    console.log(makeOptions)
   const [modelOptions, setModelOptions] = useState('');
   const [yearOptions, setYearOptions] = useState('');
 
