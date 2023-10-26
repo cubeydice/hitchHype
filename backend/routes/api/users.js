@@ -39,8 +39,7 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
   // username.
   const user = await User.findOne({
     $or: [
-      { email: req.body.email },
-      { username: req.body.username }
+      { email: req.body.email }
       // { phoneNumber: req.body.phoneNumber }
     ]
   });
@@ -52,9 +51,6 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     const errors = {};
     if (user.email === req.body.email) {
       errors.email = "A user has already registered with this email";
-    }
-    if (user.username === req.body.username) {
-      errors.username = "A user has already registered with this username";
     }
     // if (user.phoneNumber === req.body.phoneNumber) {
     //   errors.phoneNumber = "A user has already registered with this phone number";
@@ -141,15 +137,17 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
         return next(error);
     }
 
-    const { biography, profilePicture, trips, rides, cars, driverLicense, address } = body;
+
+    const { biography, profilePicture, trips, rides, car, driverLicense, address } = body;
     
+
     // Update user properties
     // user.phoneNumber = phoneNumber;
     user.biography = biography;
     user.profilePicture = profilePicture;
     user.trips = trips;
     user.rides = rides;
-    user.cars = cars;
+    user.car = car;
     user.driverLicense = driverLicense;
     user.address = address;
 
