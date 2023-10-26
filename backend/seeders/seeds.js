@@ -83,7 +83,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
 mongoose
     .connect(db, { useNewUrlParser: true })
     .then(() => {
-        console.log('Connected to MongoDB successfully');
+        // console.log('Connected to MongoDB successfully');
         insertSeeds();
     })
     .catch(err => {
@@ -93,7 +93,7 @@ mongoose
 
 // Reset and seed db
 const insertSeeds = () => {
-    console.log("Resetting db and seeding users and tweets...");
+    // console.log("Resetting db and seeding users and tweets...");
 
     User.collection.drop()
                     .then(() => Tweet.collection.drop())
@@ -101,7 +101,7 @@ const insertSeeds = () => {
                     .then(() => Tweet.insertMany(tweets))
                     .then(() => Trip.insertMany(trips))
                     .then(() => {
-                        console.log("Done!");
+                        // console.log("Done!");
                         mongoose.disconnect();
                     })
                     .catch(err => {
