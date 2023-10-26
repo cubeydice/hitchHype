@@ -66,3 +66,6 @@
     margin-top: 10px;
     margin-bottom: 20px;
 }
+button{
+    cursor: pointer;
+}
