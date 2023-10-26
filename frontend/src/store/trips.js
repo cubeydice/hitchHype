@@ -3,6 +3,7 @@ import { RECEIVE_USER_LOGOUT } from './session';
 
 const RECEIVE_TRIPS = "trips/RECEIVE_TRIPS";
 const RECEIVE_TRIP = "trips/RECEIVE_TRIP";
+const REMOVE_TRIP = "trips/REMOVE_TRIP";
 const RECEIVE_USER_TRIPS = "trips/RECEIVE_USER_TRIPS";
 const RECEIVE_NEW_TRIP = "trips/RECEIVE_NEW_TRIP";
 const RECEIVE_TRIP_ERRORS = "trips/RECEIVE_TRIP_ERRORS";
@@ -16,7 +17,10 @@ const receiveTrip = trip => ({
     type: RECEIVE_TRIP,
     trip
 });
-
+const removeTrip = trip => ({
+    type: REMOVE_TRIP,
+    trip
+});
 
 const receiveUserTrips = trips => ({
     type: RECEIVE_USER_TRIPS,
@@ -122,19 +126,21 @@ export const updateTrip = data => async (dispatch) => {
         }
     }
 };
+export const deleteTrip = tripId => async (dispatch) => {
+    try {
+        const res = await jwtFetch(`/api/trips/${tripId}`, {
+            method: 'DELETE'
+    });
+        const trip = await res.json();
+        dispatch(removeTrip(trip));
+    } catch(err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors));
+        }
+    }
+};
 
-// export const deleteEvent = eventId => async (dispatch) => {
-//     const response = await csrfFetch (`/api/events/${eventId}`, {
-//         method: 'DELETE'
-//     });
-
-//     if (response.ok) {
-//         // console.log('check')
-//         dispatch(removeEvent(eventId));
-//     }
-
-//     return response;
-// };
 
 const nullErrors = null;
 
@@ -155,6 +161,10 @@ const tripsReducer = (state = {}, action) => {
     switch(action.type) {
         case RECEIVE_TRIP:
             return { ...state, ...action.trip};
+        case REMOVE_TRIP:
+            const newState = { ...state };
+            delete newState[action.eventId];
+            return newState;
         case RECEIVE_TRIPS:
             return { ...state, ...action.trips};
         // case RECEIVE_USER_TRIPS:

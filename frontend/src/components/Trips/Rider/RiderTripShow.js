@@ -13,7 +13,7 @@ export function RiderTripShow ({ trip }) {
     const dispatch = useDispatch();
     const date = new Date(trip.departureDate);
     const sessionUser = useSelector(state => state.session.user);
-    const [rider, setRider] = useState(false);
+    let rider = false;
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     let destinationCity;
     let originCity;
@@ -41,7 +41,7 @@ export function RiderTripShow ({ trip }) {
         for(let payload of trip.passengers)
         {
             if(sessionUser && sessionUser._id === payload.passenger._is){
-                setRider(true);
+                rider = true;
             }
             // console.log(payload)
             passengerArr.push(

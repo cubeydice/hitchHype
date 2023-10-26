@@ -1,16 +1,18 @@
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { Passenger } from "../Passenger/Passenger";
 import { useDispatch, useSelector } from "react-redux";
-import { clearTripErrors, fetchTrip } from "../../../store/trips";
+import { clearTripErrors, deleteTrip, fetchTrip } from "../../../store/trips";
 import { useEffect } from "react";
 import "./DriverTripUpdate.css"
 
 
 export function DriverUpdateForm () {
     const { tripId } = useParams();
-    console.log(tripId)
+    // console.log(tripId)
     const dispatch = useDispatch();
+    const history = useHistory();
     const trip = useSelector(state => state.trips);
+    const tripsPage = "/trips/"
     // const sesionUser = useSelector(state => state.session.user);
 
     useEffect( () => {
@@ -18,6 +20,15 @@ export function DriverUpdateForm () {
         dispatch(clearTripErrors());
     }, [dispatch])
 
+    const handleClick = (e) => {
+        // console.log(e.target.value)
+        e.target.value === "delete" ? (
+            dispatch(deleteTrip(tripId)).then( res => history.push('/trips'))
+            // console.log(e.target.value)
+        ) : (
+            console.log(e.target.value)
+        );
+    }
 
     return (
         <>
@@ -38,15 +49,15 @@ export function DriverUpdateForm () {
                                 <>
                                     <Passenger key={passenger.passenger._id} passenger={passenger} className="Driver-update-passenger-item"/>
                                     <div className="Driver-update-rmv-passenger-container">
-                                        <button id="Driver-update-rmv-passenger">Remove passenger</button>
+                                        <button id="Driver-update-rmv-passenger" value={passenger._id} onClick={handleClick}>Remove passenger</button>
                                     </div>
                                 </>
                             ))}
                         </div>
                     </div>
                     <div className="Driver-update-edit-btns">
-                        <button className="Driver-update-btn">Save changes</button>
-                        <button className="Driver-update-btn">Delete trip</button>
+                        {/* <button className="Driver-update-btn" onClick={handleClick} value="save">Save changes</button> */}
+                        <button className="Driver-update-btn" onClick={handleClick} value="delete">Delete trip</button>
                     </div>
                 </div>
                 // <></>
