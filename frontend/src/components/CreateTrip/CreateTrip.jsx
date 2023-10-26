@@ -2,7 +2,9 @@ import {useJsApiLoader, GoogleMap, Autocomplete, DirectionsRenderer } from '@rea
 import { useState, useRef } from 'react'
 import './CreateTrip.css'
 import { useDispatch, useSelector } from 'react-redux'
-import * as tripActions from '../../store/trips'
+import {composeTrip} from '../../store/trips'
+import { clearSessionErrors } from '../../store/session'
+
 
 const center = {lat: 37.7749, lng: -122.4194}    // where the map initially loads (San Francisco)
 /* global google */
@@ -29,17 +31,28 @@ const CreateTrip = () => {
     const originRef = useRef(null);
     const destinationRef = useRef(null);
     const dispatch = useDispatch()
-    
+
     if(!isLoaded) {
         return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
     }
 
-
     const handleCreateTripSubmit = (e) => {
         e.preventDefault()
-        const driver = sessionUser.id 
-        //const car = sessionUser.car
-        dispatch(tripActions.composeTrip({driver, departureDate, origin, destination, availableSeats}))
+        const driver = sessionUser._id 
+        const car = sessionUser.cars[0]
+        const passengers = []
+        dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats}))
+            .then((res) => {
+                if (res && !res.errors) {
+                    dispatch(clearSessionErrors())
+                    
+                } else if (res && res.errors) {
+                    console.error(res.errors)
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     
@@ -110,18 +123,18 @@ const CreateTrip = () => {
                         <input 
                             type="date" 
                             id='departure-date' 
-                            placeholder='Departure date'
                             value={departureDate}
                             onChange={(e) => setDeparturedate(e.target.value)}
+                            placeholder='Departure date'
                         />
                         <input 
                             type="number" 
                             id="available-seats" 
-                            palceholder='Number of available seats'
                             value={availableSeats}
                             onChange={(e) => setAvailableSeats(e.target.value)}
                             min={1}
                             max={20}
+                            palceholder='Number of available seats'
                         />
                         <Autocomplete 
                             className='origin-autocomplete' 
@@ -149,15 +162,16 @@ const CreateTrip = () => {
                         </Autocomplete>
                         <button id='calculate' onClick={calculateRoute}>Calculate Route</button>
                         <button id='clear' onClick={clearRoute}>Clear Route</button>
+                        <button id='submit' type='submit'>Create Your Trip</button>
                     </form>
                     <div id='results'>
                         <div className='distance-container'>
-                            <text id='distance-text'>Distance:</text>
-                            <text id='distance-result'>{distance}</text>
+                            <p id='distance-text'>Distance:</p>
+                            <p id='distance-result'>{distance}</p>
                         </div>
                         <div className='duration-container'>
-                            <text id='duration-text'>Duration:</text>
-                            <text id='duration-result'>{duration}</text>
+                            <p id='duration-text'>Duration:</p>
+                            <p id='duration-result'>{duration}</p>
                         </div>
                     </div>
                 </div>

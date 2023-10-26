@@ -27,36 +27,38 @@
     border-radius: 10px;
 }
 
-
 .routes-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 4%;
 }
 
 #routes-form-title {
     margin-bottom: 4%;
 }
 
-#calculate {
-    width: 100%;
-    margin-top: 6%;
-    height: 40px;
-}
-
-#clear {
-    width: 100%;
-    margin-top: 4%;
-    margin-bottom: 6%;
-    height: 40px;
-}
-
-
-.results {
+#departure-date {
     display: flex;
-    flex-direction: column;
-    margin-top: 2%;
+    width: 93%;
+    height: 28px;
+    border-radius: 7px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border: 1px solid black;
+    padding: 2%;
+}
+
+#available-seats{
+    display: flex;
+    width: 93%;
+    height: 25px;
+    border-radius: 7px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border: 1px solid black;
+    padding: 2%;
 }
 
 .origin-autocomplete, .destination-autocomplete {
@@ -71,12 +73,33 @@
     margin-bottom: 5%;
 }
 
+#calculate {
+    width: 100%;
+    margin-top: 6%;
+    margin-bottom: 4%;
+    height: 40px;
+}
+
+#clear {
+    width: 100%;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    height: 40px;
+}
+
+#submit {
+    width: 100%;
+    margin-top: 4%;
+    margin-bottom: 6%;
+    height: 40px;
+}
+
 #results {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     margin-top: 6%;
-    height: 100px;
+    height: 150px;
     border-top: 1px solid rgb(201, 201, 201);
 }
 
