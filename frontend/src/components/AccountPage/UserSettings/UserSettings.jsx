@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchUser, updateUser } from "../../../store/users";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUserErrors, fetchCurrentUser, fetchUser, updateUser } from "../../../store/users";
 import './UserSettings.css'
+import { getCurrentUser } from "../../../store/session";
 
 const UserSettings = ({sessionUser}) => {
   const dispatch = useDispatch();
-  const userId = sessionUser._id;
+  const errors = useSelector(state => state.errors.users);
   const [bio, setBio] = useState('');
   const [bioCount, setBioCount] = useState(0);
 
@@ -26,10 +27,16 @@ const UserSettings = ({sessionUser}) => {
     e.preventDefault();
 
     const user = {
+      // ...user,
       biography: bio,
     }
 
     dispatch(updateUser(user))
+    .then((res)=> {
+      if (res && !res.errors) {
+          dispatch(clearUserErrors());
+      };
+  });
   }
 
   return (
@@ -37,7 +44,7 @@ const UserSettings = ({sessionUser}) => {
       <h2>Tell us about yourself!</h2>
       <div className="account-form-container">
         <form className="account-form" onSubmit={handleSubmit}>
-          <label> About Me
+          <label> About Me <span className="errors">{errors?.biography}</span><br/>
             <textarea
             name='bio'
             placeholder="Write something about yourself to share with other hitchHypers!"
