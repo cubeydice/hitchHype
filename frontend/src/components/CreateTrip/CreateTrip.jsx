@@ -80,6 +80,8 @@ const CreateTrip = () => {
         setDuration('')
         setOrigin('')
         setDestination('')
+        setAvailableSeats('')
+        setDepartureDate('')
     }
     
     //called specifically for the autofill functionality
@@ -147,6 +149,8 @@ const CreateTrip = () => {
                         >
                             <input 
                                 id='origin'
+                                value={origin}
+                                onChange={(e) => setOrigin(e.target.value)}
                                 placeholder='Origin' 
                                 onBlur={handleOrigin}
                                 type="text" 
@@ -161,6 +165,8 @@ const CreateTrip = () => {
                         >
                             <input 
                                 id='destination'
+                                value={destination}
+                                onChange={(e) => setDestination(e.target.value)}
                                 placeholder='Destination'
                                 onBlur={handleDestination} 
                                 type="text" 
