@@ -10,16 +10,16 @@ const center = {lat: 37.7749, lng: -122.4194}    // where the map initially load
 /* global google */
 
 const CreateTrip = () => {
-    const sessionUser = useSelector(state => state.session.user)
-    const errors = useSelector(state => state.errors.trips)
-
     const [ googleMapsLibraries ] = useState(['places'])
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries: googleMapsLibraries
     })
+    const sessionUser = useSelector(state => state.session.user)
+    const errors = useSelector(state => state.errors.trips)
+    const maxPassengers = useSelector(state => state.session.user.maxPassengers)
     const [availableSeats, setAvailableSeats] = useState()
-    const [departureDate, setDeparturedate] = useState()
+    const [departureDate, setDepartureDate] = useState()
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
@@ -39,7 +39,7 @@ const CreateTrip = () => {
     const handleCreateTripSubmit = (e) => {
         e.preventDefault()
         const driver = sessionUser._id 
-        const car = sessionUser.cars[0]
+        const car = sessionUser.car[0]
         const passengers = []
         dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats}))
         .then((res) => {
@@ -124,7 +124,7 @@ const CreateTrip = () => {
                             type="date" 
                             id='departure-date' 
                             value={departureDate}
-                            onChange={(e) => setDeparturedate(e.target.value)}
+                            onChange={(e) => setDepartureDate(e.target.value)}
                             placeholder='Departure date'
                         />
                         <h3 className='headers' >Available Seats</h3>
@@ -135,7 +135,7 @@ const CreateTrip = () => {
                             value={availableSeats}
                             onChange={(e) => setAvailableSeats(e.target.value)}
                             min={1}
-                            max={20}
+                            max={maxPassengers}
                             palceholder='Number of available seats'
                         />
                         <h3 className='headers' >Origin</h3>
