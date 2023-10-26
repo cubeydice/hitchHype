@@ -8,13 +8,15 @@ const { isProduction } = require('./config/keys');
 
 require('./models/User');
 require('./models/Tweet');
-// require('./models/Trip');
+require('./models/Trip');
+require('./models/Car');
 require('./config/passport'); 
 const passport = require('passport'); 
 
 const usersRouter = require('./routes/api/users'); // update the import file path
 const tweetsRouter = require('./routes/api/tweets');
-// const tripssRouter = require('./routes/api/trips');
+const tripsRouter = require('./routes/api/trips');
+const carsRouter = require('./routes/api/cars');
 const csrfRouter = require('./routes/api/csrf');
 const debug = require('debug');
 
@@ -49,8 +51,32 @@ app.use(
 // Attach Express routers
 app.use('/api/users', usersRouter); // update the path
 app.use('/api/tweets', tweetsRouter);
-// app.use('/api/trips', tripsRouter);
+app.use('/api/trips', tripsRouter);
+app.use('/api/cars', tripsRouter);
 app.use('/api/csrf', csrfRouter);
+
+// Serve static React build files statically in production
+if (isProduction) {
+    const path = require('path');
+    // Serve the frontend's index.html file at the root route
+    app.get('/', (req, res) => {
+      res.cookie('CSRF-TOKEN', req.csrfToken());
+      res.sendFile(
+        path.resolve(__dirname, '../frontend', 'build', 'index.html')
+      );
+    });
+  
+    // Serve the static assets in the frontend's build folder
+    app.use(express.static(path.resolve("../frontend/build")));
+  
+    // Serve the frontend's index.html file at all other routes NOT starting with /api
+    app.get(/^(?!\/?api).*/, (req, res) => {
+      res.cookie('CSRF-TOKEN', req.csrfToken());
+      res.sendFile(
+        path.resolve(__dirname, '../frontend', 'build', 'index.html')
+      );
+    });
+}
 
 // Express custom middleware for catching all unmatched requests and formatting
 // a 404 error to be sent as the response.

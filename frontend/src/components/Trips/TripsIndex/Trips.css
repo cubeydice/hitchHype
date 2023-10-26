@@ -1,0 +1,21 @@
+.page-layout{
+    width: 100vw;
+    height: fit-content;
+}
+/* .search-bar{
+    width: 100%; */
+    /* height: 20%; */
+/* }
+.search-form{
+    width: 100%;
+} */
+
+.trip-page-header{
+    display: flex;
+    justify-content: center;
+}
+.trip-items-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}

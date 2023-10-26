@@ -1,0 +1,31 @@
+.passenger-container{
+    display: flex;
+    padding-top: 15px;
+    width: 60vw;
+    /* justify-content: space-between; */
+}
+.profile-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    /* margin-right: 30px; */
+    width: 50%;
+}
+#profile-img{
+    height: 100px;
+    width: 100px;
+    border-radius: 90px;
+}
+.passenger-name{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.passenger-profile-pic{
+    margin-right: 30px;
+}
+.passenger-dropoff{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
