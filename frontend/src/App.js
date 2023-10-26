@@ -31,6 +31,7 @@ function App() {
       <Switch>
         <AuthRoute exact path="/" component={MainPage} />
         <ProtectedRoute exact path="/account" component={AccountPage} />
+        <ProtectedRoute exact path="/profile/:userId" component={AccountPage} />
         <ProtectedRoute exact path="/car" component={CarPage} />
         <Route exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
         <Route exact path="/trips/:tripId" component={ TripShow } />
