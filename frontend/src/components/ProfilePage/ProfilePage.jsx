@@ -16,6 +16,8 @@ const ProfilePage = () => {
 
     return (
         <>
+        {user.name}
+        {user.biography}
         </>
     )
 }
