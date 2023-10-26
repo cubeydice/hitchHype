@@ -152,7 +152,7 @@ for (let i = 0; i < 3; i++) {
         
     }
     const trip = new Trip ({
-        driver: "653a1cece0594cd09acb1d8a",
+        driver: demoDriver._id,
         car: driverCar,
         passengers: randomPassengers,
         departureDate: faker.date.future(),
