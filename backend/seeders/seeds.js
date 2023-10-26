@@ -136,17 +136,17 @@ for (let i = 0; i < 3; i++) {
 
         
     }
-    driverTrips.push(
-        new Trip ({
-            driver: "653a1cece0594cd09acb1d8a",
-            car: driverCar,
-            passengers: randomPassengers,
-            departureDate: faker.date.future(),
-            origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
-            destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
-            availableSeats: Math.floor(Math.random() * 6) + 1
-        })
-    )
+    const trip = new Trip ({
+        driver: "653a1cece0594cd09acb1d8a",
+        car: driverCar,
+        passengers: randomPassengers,
+        departureDate: faker.date.future(),
+        origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        availableSeats: Math.floor(Math.random() * 6) + 1
+    })
+    driverTrips.push(trip)
+    trips.push(trip)
 }
 
 users.push(
