@@ -37,26 +37,6 @@ router.get('/current', restoreUser, (req, res) => {
   });
 });
 
-router.get('/current', restoreUser, (req, res) => {
-  if (!isProduction) {
-    // In development, allow React server to gain access to the CSRF token
-    // whenever the current user information is first loaded into the
-    // React application
-    const csrfToken = req.csrfToken();
-    res.cookie("CSRF-TOKEN", csrfToken);
-  }
-  if (!req.user) return res.json(null);
-  res.json({
-    _id: req.user._id,
-    username: req.user.username,
-    email: req.user.email,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    biography: req.user.biography,
-    address: req.user.address
-  });
-});
-
 // Retrieve one user
 router.get('/:id', async (req, res, next) => {
   let user;
