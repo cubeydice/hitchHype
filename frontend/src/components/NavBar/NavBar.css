@@ -4,32 +4,34 @@
   justify-content: space-between;
 }
 
-.links-nav, .links-auth {
+.nav-items {
   display: flex;
   align-items: center;
   vertical-align: center;
 }
 
-.links-nav > *, .links-auth > * {
+.nav-items > * {
   height: 40px;
   font-size: 16px;
   font-weight: 400;
   text-align: center;
-  margin-left: 35px;
   gap: 20px;
 }
 
-.links-nav > h1, .links-auth > h1 {
+.nav-items > h1, .nav-links > * {
   line-height: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.links-nav > button, .links-auth > button {
+.nav-items > button {
   width: 80px;
 }
 
 .nav-logos {
   display: flex;
   justify-content: space-between;
+  margin-right: 10px;
 }
 
 .brand-logo {

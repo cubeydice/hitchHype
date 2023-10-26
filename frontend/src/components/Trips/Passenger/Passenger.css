@@ -1,0 +1,19 @@
+.passenger-container{
+    display: flex;
+    padding-top: 15px;
+    /* justify-content: space-between; */
+}
+.profile-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+#profile-img{
+    height: 100px;
+    width: 100px;
+    border-radius: 90px;
+}
+.passenger-name{
+    padding-left: 20px;
+    padding-right: 20px;
+}
