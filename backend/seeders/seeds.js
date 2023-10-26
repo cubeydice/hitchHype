@@ -133,7 +133,7 @@ users.push(
         // phoneNumber: '1234567890',
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
-        cars: cars[Math.floor(Math.random() * NUM_SEED_CARS)],
+        car: cars[Math.floor(Math.random() * NUM_SEED_CARS)],
         address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
     })
 )
