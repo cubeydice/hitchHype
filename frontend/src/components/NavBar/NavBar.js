@@ -5,10 +5,12 @@ import { logout } from '../../store/session';
 import GitHubLogo from '../../assets/logos/github-mark.png'
 import LinkedInLogo from '../../assets/logos/linkedin-blue.png'
 import './NavBar.css';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function NavBar () {
     const loggedIn = useSelector(state => !!state.session.user);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleClick = (field) => (e) => {
         e.preventDefault();
@@ -22,6 +24,7 @@ function NavBar () {
                 break;
             case 'logout':
                 dispatch(logout())
+                history.push("/")
                 break;
             default:
                 break;
