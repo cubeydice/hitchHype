@@ -2,8 +2,11 @@
   position: absolute;
   z-index: 20;
   font-size: 50px;
-  top: 140px;
+  top: 120px;
   left: 445px;
+  color: var(--off-white);
+  text-decoration-line: overline;
+  text-shadow: 8px 3px 8px var(--brand-dark-teal);
 }
 .car-form-container {
   background-color: var(--brand-mustard);
