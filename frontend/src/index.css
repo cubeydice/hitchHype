@@ -140,6 +140,7 @@ a:hover:not([disabled]),
 .link:hover:not([disabled]) {
   transition: 0.2s;
   filter: brightness(80%);
+  cursor: pointer;
 }
 
 .warning {
@@ -185,6 +186,7 @@ input[type=submit]:hover:not([disabled]) {
   box-shadow: none;
   border-bottom: 2px solid #2c2f33;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 
