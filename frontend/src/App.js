@@ -16,6 +16,7 @@ import { Trips } from './components/Trips/TripsIndex/Trips';
 import { Route } from 'react-router-dom/cjs/react-router-dom.min';
 import { TripShow } from './components/Trips/TripShow';
 import { DriverUpdateForm } from './components/Trips/Driver/DriverTripUpdate';
+import { UserTrips } from './components/UserTrips/UserTrips';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -37,6 +38,7 @@ function App() {
         <ProtectedRoute exact path="/trips/new" component={ CreateTrip } />
         <Route exact path="/trips/:tripId" component={ TripShow } />
         <ProtectedRoute exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
+        <ProtectedRoute exact path="/users/:userId/trips" component={ UserTrips }/>
       </Switch>
       </div>
       <Footer/>
