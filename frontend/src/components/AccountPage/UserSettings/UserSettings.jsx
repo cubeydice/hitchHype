@@ -46,7 +46,7 @@ const UserSettings = ({sessionUser}) => {
       <div className="account-form-container">
         <img src={AccountImage} alt='account'/>
         <form className="account-form" onSubmit={handleSubmit}>
-          <h2>{user.firstName} {user.lastName}</h2>
+          <h2>hello {user.firstName} {user.lastName}!</h2><br/>
           <label><h3>About Me</h3> <span className="errors">{errors?.biography}</span><br/>
             <textarea
             name='bio'

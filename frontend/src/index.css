@@ -99,20 +99,23 @@ body {
 }
 
 h1 {
+  letter-spacing: 0.5px;
   color: var(--brand);
   font-size: 36px;
   font-weight: 700;
 }
 
 h2 {
+  letter-spacing: 1px;
   color: var(--brand-dark-teal);
   font-size: 30px;
   font-weight: 500;
 }
 
 h3 {
+  letter-spacing: 0.75px;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--brand-dark-teal);
 }
 
