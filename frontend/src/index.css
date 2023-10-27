@@ -203,3 +203,8 @@ input[type=password] {
 .large-icon {
   height: 100px;
 }
+
+/* IMAGES */
+img {
+  border-radius: var(--rounded-border);
+}

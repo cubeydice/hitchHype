@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, updateUser } from "../../../store/users";
-import AccountImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg'
+import AccountImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg' // eslint-disable-next-line
 import './UserSettings.css'
 
 const UserSettings = ({sessionUser}) => {
