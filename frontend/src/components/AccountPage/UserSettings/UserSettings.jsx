@@ -40,7 +40,7 @@ const UserSettings = ({sessionUser}) => {
   }
 
   return (
-    <>
+    <div className="settings-container">
       <h2>Tell us about yourself!</h2>
       <div className="account-form-container">
         <form className="account-form" onSubmit={handleSubmit}>
@@ -63,7 +63,7 @@ const UserSettings = ({sessionUser}) => {
           />
         </form>
       </div>
-    </>
+    </div>
   )
  }
 
