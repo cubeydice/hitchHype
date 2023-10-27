@@ -109,34 +109,40 @@ const CarSettings = ({sessionUser}) => {
             value={licensePlateNumber}
             onChange={handleChange('licensePlateNumber')}/>
           </label>
-          { !makeOptionsReady ? <div className="car-form-dropdown"> <label> <h3>Make</h3>
-            <select onChange={handleChange('make')} autoFocus disabled={makeOptionsReady} required>
-              <option value=""></option>
-              {Object.keys(makeOptions).sort().map(make => <option value={make}>{make}</option>)}
-            </select>
-          </label>
-          <label> <h3>Model</h3>
-          <select onChange={handleChange('model')} disabled={makeOptionsReady}>
-            <option value=""></option>
-              {modelOptions ?
-              Object.keys(modelOptions).sort().map(make => <option value={make}>{make}</option>)
-              : ''}
-            </select>
-          </label>
-          <label> <h3>Year</h3>
-            <select onChange={handleChange('year')} disabled={makeOptionsReady}>
-              <option value=""></option>
-                {yearOptions ?
-                Object.keys(yearOptions).sort().map(make => <option value={make}>{make}</option>)
-                : <Loading/>}
-            </select>
-          </label>
-          <label> <h3>Average MPG</h3>
-            {mpgList[yearOptions[year]]}
-          </label> </div> : <div><h3>Loading vehicle options...</h3><Loading/><br/></div>}
+          { !makeOptionsReady ?
+            <div className="car-form-dropdown">
+              <label> <h3>Make</h3>
+                <select onChange={handleChange('make')} autoFocus disabled={makeOptionsReady} required>
+                  <option value=""></option>
+                  {Object.keys(makeOptions).sort().map(make => <option value={make}>{make}</option>)}
+                </select>
+              </label>
+
+              <label> <h3>Model</h3>
+                <select onChange={handleChange('model')} disabled={makeOptionsReady}>
+                  <option value=""></option>
+                  {modelOptions ?
+                  Object.keys(modelOptions).sort().map(make => <option value={make}>{make}</option>)
+                  : ''}
+                </select>
+              </label>
+
+              <label> <h3>Year</h3>
+                <select onChange={handleChange('year')} disabled={makeOptionsReady}>
+                  <option value=""></option>
+                    {yearOptions ?
+                    Object.keys(yearOptions).sort().map(make => <option value={make}>{make}</option>) :''}
+                </select>
+              </label>
+              <label> <h3>Average MPG</h3>
+                {mpgList[yearOptions[year]]}
+              </label>
+            </div>
+            : <div><h3>Loading vehicle options...</h3><Loading/><br/></div>}
           <input
           type="submit"
           value="Save"
+          disabled={!make || !model || !year ||!insurance || licensePlateNumber }
           />
         </form>
       </div>

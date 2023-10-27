@@ -7,6 +7,7 @@ const UserNavBar = () => {
   const userId = sessionUser._id
   return (
     <nav className="account-nav">
+      <h2>your account</h2><br/>
       <h3>Finding Yourself 🧘</h3>
       <ul>
 
