@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, updateUser } from "../../../store/users";
+import AccountImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg'
 import './UserSettings.css'
 
 const UserSettings = ({sessionUser}) => {
@@ -41,7 +42,7 @@ const UserSettings = ({sessionUser}) => {
 
   return (
     <div className="settings-container">
-      <h2>Tell us about yourself!</h2>
+      <h1 className="settings-form-title">Tell us about yourself!</h1>
       <div className="account-form-container">
         <form className="account-form" onSubmit={handleSubmit}>
           <label> About Me <span className="errors">{errors?.biography}</span><br/>
