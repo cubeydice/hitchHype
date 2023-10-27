@@ -2,6 +2,7 @@ import { closeModal } from '../../store/modal'
 import { useSelector, useDispatch} from 'react-redux';
 import LoginForm from '../SessionForms/LoginForm'
 import SignupForm from '../SessionForms/SignupForm'
+import { RiderRequestForm } from '../Trips/Rider/RiderRequestForm';
 import './Modal.css'
 
 const Modal = () => {
@@ -20,6 +21,9 @@ const Modal = () => {
         break;
       case 'signup-form':
         component = <SignupForm />;
+        break;
+      case 'request-ride-form':
+        component = <RiderRequestForm/>
         break;
       case 'other':
         break;

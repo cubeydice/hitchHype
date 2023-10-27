@@ -58,13 +58,14 @@ export function DriverUpdateForm () {
     return (
         <>
             { trip.passengers ? (
-                <div className="Driver-update-page-layout">
-                    <div className="Driver-update-header">
-                        <h3 className="Driver-update-header-h3">Update your trip!</h3>
+                <div className="driver-update-page-layout">
+                    <div className="driver-update-header">
+                        <h3 className="driver-update-header-h3">Update your trip!</h3>
                     </div>
-                    <div className="Driver-update-map-container">
+                    <div className="driver-update-map-container">
                         <div className="map-api">Map Api</div>
                     </div>
+
                     <div className="Driver-update-passengers-container">
                         <div className="Driver-update-available-seats">
                             <h3 className="Driver-update-header-h3">Available seats: {availableSeats}</h3>
@@ -74,21 +75,26 @@ export function DriverUpdateForm () {
 
                         <div className="Driver-update-passengers-header">
                             <h3 className="Driver-update-header-h3">Passengers</h3>
+
                         </div>
-                        <div className="Driver-update-passengers-items">
+                        <div className="driver-update-passengers-items">
                             {trip.passengers.map( passenger => (
                                 <>
                                     <Passenger key={passenger.passenger._id} passenger={passenger} className="Driver-update-passenger-item"/>
+
                                     <div className="Driver-update-rmv-passenger-container">
                                         <button id="Driver-update-rmv-passenger" value={passenger._id} onClick={handleClick("deletePassenger")}>Remove passenger</button>
+
                                     </div>
                                 </>
                             ))}
                         </div>
                     </div>
+
                     <div className="Driver-update-edit-btns">
                         <button className="Driver-update-btn" onClick={handleClick("updateTrip")}>Submit changes</button>
                         <button className="Driver-update-btn" onClick={handleClick("deleteTrip")}>Delete trip</button>
+
                     </div>
                 </div>
                 // <></>
