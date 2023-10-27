@@ -2,6 +2,7 @@ import { closeModal } from '../../store/modal'
 import { useSelector, useDispatch} from 'react-redux';
 import LoginForm from '../SessionForms/LoginForm'
 import SignupForm from '../SessionForms/SignupForm'
+import { RiderRequestForm } from '../Trips/Rider/RiderRequestForm';
 import './Modal.css'
 import Error from '../Error/Error';
 
@@ -24,6 +25,8 @@ const Modal = () => {
         break;
       case 'error':
         component = <Error />;
+      case 'request-ride-form':
+        component = <RiderRequestForm/>
         break;
       case 'other':
         break;
