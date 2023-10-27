@@ -9,6 +9,7 @@ import AccountPage from './components/AccountPage';
 import Modal from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
 import CreateTrip from './components/CreateTrip/CreateTrip';
+import CarPage from './components/CarPage';
 
 import { getCurrentUser } from './store/session';
 import { Trips } from './components/Trips/TripsIndex/Trips';
@@ -30,6 +31,8 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path="/" component={MainPage} />
+        <ProtectedRoute exact path="/account" component={AccountPage} />
+        <ProtectedRoute exact path="/car" component={CarPage} />
         <Route exact path="/trips" component={ Trips } />
         <ProtectedRoute exact path="/trips/new" component={ CreateTrip } />
         <Route exact path="/trips/:tripId" component={ TripShow } />

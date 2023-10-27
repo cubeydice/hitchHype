@@ -1,3 +1,13 @@
+.settings-container {
+  max-width: 800px;
+  padding-right: 200px;
+}
+
+.account-form-container {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 textarea {
   resize: none;
   font-family: 'Roboto', sans-serif;

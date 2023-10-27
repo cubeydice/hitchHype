@@ -1,17 +1,17 @@
 import UserNavBar from "../AccountNavBar/UserNavBar";
 import { useSelector } from "react-redux";
-import UserSettings from "./UserSettings/UserSettings";
-import './AccountPage.css'
+import CarSettings from "./CarSettings/CarSettings.jsx";
+import './CarPage.css'
 
-const AccountPage = () => {
+const CarPage = () => {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
     <div className="settings-page-container">
       <UserNavBar />
-      <UserSettings sessionUser={sessionUser}/>
+      <CarSettings sessionUser={sessionUser}/>
     </div>
   )
 }
 
-export default AccountPage;
+export default CarPage;
