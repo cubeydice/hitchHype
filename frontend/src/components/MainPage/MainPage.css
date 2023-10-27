@@ -57,11 +57,10 @@
 
 .image-container {
     position: relative;
-    margin-top: 100px;
+    margin-top: 70px;
     margin-bottom: 100px;
     width: 100%;
-    height: 400px;
-
+    height: 100%;
 }
 .search-form {
     position: absolute;
@@ -113,24 +112,69 @@
 }
 
 .roadtrip-image {
-    width: 100%;
-    height: 140%;
+    /* width: 100%; */
+    width: 100vw;
+    /* height: 200px; */
+    /* height: auto; */
     max-width: 100%;
     border-radius: 40px;
+    /* object-fit: contain; */
     display: block;
 }
 
 .positive-container {
-    margin-top: 135px;
+    /* margin-top: 135px; */
     width: 100%;
     display: flex;
     justify-content: space-around;
 }
 
-.positive-container p {
-    font-size: 14px;
+.positive-note {
+    width: 300px;
 }
 
-.positive {
+.positive-note h2 {
+    padding-bottom: 10px;
+}
 
+.positive-note p {
+    line-height: 30px;
+}
+
+.positive-source-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.positive-source {
+    margin-top: 20px;
+    position: relative;
+}
+
+.source-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.source-redirect {
+    background-color: var(--brand);
+    color: #fff;
+    padding: 10px 20px;
+    top: 150px;
+    right: 150px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    position: absolute;
+}
+
+.source-redirect:hover {
+    background-color: #0a5c6d;
 }

@@ -22,7 +22,7 @@ function MainPage() {
                         />
                         <input 
                             type='text'
-                            placeholder='To'
+                            placeholder='To (Optional)'
                         />
                         <input type='date' />
                         <input type='submit' value='Search'/>
@@ -30,20 +30,35 @@ function MainPage() {
                 </div>  
             </div>
             <div className='positive-container'>
-                <div className='positive'>
+                <div className='positive-note'>
                     <h2>Save on gas</h2>
                     <p>A cost-effective way to reduce your expenses on fuel and transportation.</p>
                 </div>
-                <div className='positive'>
+                <div className='positive-note'>
                     <h2>Skip on driving</h2>
                     <p>Allows you to skip the stress of driving alone by sharing the ride with others.</p>
                 </div>
-                <div className='positive'>
+                <div className='positive-note'>
                     <h2>Save the planet</h2>
                     <p>An environmentally-friendly choice that helps reduce the carbon footprint and lower emissions.</p>
                 </div>
             </div>
-
+            <div className='positive-source-container'>
+                <div className='positive-source'>
+                    <img className='source-image' src="https://via.placeholder.com/350x300"/>
+                    <NavLink className='source-redirect'
+                        to="https://www.google.com/" 
+                        target="_blank"
+                    >X</NavLink> 
+                </div>
+                <div className='positive-source'>
+                    <img className='source-image' src="https://via.placeholder.com/350x300"/>
+                    <NavLink className='source-redirect'
+                        to="https://www.google.com/" 
+                        target="_blank"
+                    >X</NavLink> 
+                </div>
+            </div>
         </div>
     );
 }
