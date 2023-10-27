@@ -30,7 +30,7 @@ function App() {
       <div className='main-content'>
       <NavBar />
       <Switch>
-        <Route exact path="/" component={MainPage} />
+        <Route exact path="/"component={MainPage} />
         <ProtectedRoute exact path="/account" component={AccountPage} />
         <ProtectedRoute exact path="/car" component={CarPage} />
         <Route exact path="/trips" component={ Trips } />
