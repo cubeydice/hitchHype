@@ -25,6 +25,7 @@ const Modal = () => {
         break;
       case 'error':
         component = <Error />;
+        break;
       case 'request-ride-form':
         component = <RiderRequestForm/>
         break;

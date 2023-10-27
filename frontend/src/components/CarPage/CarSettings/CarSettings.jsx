@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, updateUser } from "../../../store/users";
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
-import CarImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg'
+import CarImage from '../../../assets/images/car-3046424_1920.jpg'
 import './CarSettings.css'
 
 const CarSettings = ({sessionUser}) => {
