@@ -19,35 +19,35 @@ function MainPage() {
                     <NavLink className='to-index-button' to='/trips'>Check out our available trips</NavLink>
                 </div>
             <div className='image-container'>
-                <img className='roadtrip-image' src={roadtrip} alt=""></img>
+                <img className='roadtrip-image' src={roadtrip} alt="road-trip"></img>
                 <div className='search-form'>
                 <form>
-                        <input 
+                        <input
                             type='text'
                             placeholder='From'
                         />
-                        <input 
+                        <input
                             type='text'
                             placeholder='To (Optional)'
                         />
                         <input type='date' />
                         <input type='submit' value='Search'/>
                     </form>
-                </div>  
+                </div>
             </div>
             <div className='positive-container'>
                 <div className='positive-note'>
-                    <img className='piggy-icon' src={piggyBank} alt=''/>
+                    <img className='piggy-icon' src={piggyBank} alt='save-gas'/>
                     <h2>Save on gas</h2>
                     <p>A cost-effective way to reduce your expenses on fuel and transportation.</p>
                 </div>
                 <div className='positive-note'>
-                    <img className='car-icon' src={carSharing} alt=''/>
+                    <img className='car-icon' src={carSharing} alt='skip-driving'/>
                     <h2>Skip on driving</h2>
                     <p>Allows you to skip the stress of driving alone by sharing the ride with others.</p>
                 </div>
                 <div className='positive-note'>
-                    <img className='planet-icon' src={planetEarth} alt=''/>
+                    <img className='planet-icon' src={planetEarth} alt='save-planet'/>
                     <h2>Save the planet</h2>
                     <p>An environmentally-friendly choice that helps reduce the carbon footprint and lower emissions.</p>
                 </div>
@@ -55,18 +55,20 @@ function MainPage() {
             <div className='positive-source-container'>
                 <div className='positive-source'>
                     <a className='source-redirect'
-                            href="https://www.google.com/" 
-                            target="_blank">
-                    <img className='source-image' src={gasImg}/>
-                    </a> 
+                            href="https://www.google.com/"
+                            target="_blank"
+                            rel="noreferrer">
+                    <img className='source-image' src={gasImg} alt='gas-prices'/>
+                    </a>
                     <span className='source-text'>Rising gas prices & inflation</span>
                 </div>
                 <div className='positive-source'>
                     <a className='source-redirect'
-                        href="https://www.google.com/" 
-                        target="_blank">
-                    <img className='source-image' src={ecoImg}/>
-                    </a> 
+                        href="https://www.google.com/"
+                        target="_blank"
+                        rel="noreferrer">
+                    <img className='source-image' src={ecoImg} alt='environment'/>
+                    </a>
                     <span className='source-text'>Sustainable travel, economic benefits.</span>
                 </div>
             </div>
