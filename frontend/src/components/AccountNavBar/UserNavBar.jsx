@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import './UserNavBar.css'
+import { useSelector } from "react-redux";
 
 const UserNavBar = () => {
+  const sessionUser = useSelector(state => state.session.user)
+  const userId = sessionUser._id
   return (
     <nav className="account-nav">
       <h3>Finding Yourself 🧘</h3>
@@ -14,7 +17,7 @@ const UserNavBar = () => {
 
       <h3>Your Journeys 📍</h3>
       <ul>
-        <NavLink to="/your-trips"><li>Your Trips</li></NavLink>
+        <NavLink to={`/users/${userId}/trips`}><li>Your Trips</li></NavLink>
         <NavLink to="/your-rides"><li>Your Rides</li></NavLink>
       </ul>
     </nav>
