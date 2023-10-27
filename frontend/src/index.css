@@ -133,6 +133,12 @@ a:hover:not([disabled]),
   filter: brightness(80%);
 }
 
+.warning {
+  background-color: red;
+  font-size: 12px;
+  width: 100px;
+}
+
 /* BUTTONS */
 button,
 input[type=button],
