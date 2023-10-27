@@ -4,8 +4,10 @@ import { useState } from "react"
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import "./TripsItem.css"
 import explodeAddress from "../AddressParser"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 export function TripsItem ({ trip }) {
+    const id = useParams();
     let city
  
     explodeAddress(trip.destination, function(err,addressStr)
@@ -27,9 +29,13 @@ export function TripsItem ({ trip }) {
                 <div className="TripItem-destination">
                     { city }
                 </div>
-                <div className="TripItem-price">
+                { id ? (
+                    <></>
+                ) : (
+                    <div className="TripItem-price">
                     { price }
-                </div>
+                    </div>
+                ) }
             </div>
         </a>
     )

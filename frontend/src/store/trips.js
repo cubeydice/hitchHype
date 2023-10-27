@@ -4,7 +4,6 @@ import { RECEIVE_USER_LOGOUT } from './session';
 const RECEIVE_TRIPS = "trips/RECEIVE_TRIPS";
 const RECEIVE_TRIP = "trips/RECEIVE_TRIP";
 const REMOVE_TRIP = "trips/REMOVE_TRIP";
-const RECEIVE_USER_TRIPS = "trips/RECEIVE_USER_TRIPS";
 const RECEIVE_NEW_TRIP = "trips/RECEIVE_NEW_TRIP";
 const RECEIVE_TRIP_ERRORS = "trips/RECEIVE_TRIP_ERRORS";
 const CLEAR_TRIP_ERRORS = "trips/CLEAR_TRIP_ERRORS";
@@ -20,11 +19,6 @@ const receiveTrip = trip => ({
 const removeTrip = tripId => ({
     type: REMOVE_TRIP,
     tripId
-});
-
-const receiveUserTrips = trips => ({
-    type: RECEIVE_USER_TRIPS,
-    trips
 });
 
 const receiveNewTrip = trip => ({
@@ -83,11 +77,12 @@ export const fetchTrips = () => async dispatch => {
     }
 };
 
-export const fetchUserTrips = id => async dispatch => {
+export const fetchUserTrips = userId => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/trips/user/${id}`);
+        const res = await jwtFetch(`/api/trips/user/${userId}`);
         const trips = await res.json();
-        dispatch(receiveUserTrips(trips));
+        dispatch(receiveTrips(trips));
+        return trips;
     } catch(err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -170,8 +165,6 @@ const tripsReducer = (state = {}, action) => {
             return newState;
         case RECEIVE_TRIPS:
             return { ...state, ...action.trips};
-        // case RECEIVE_USER_TRIPS:
-        //     return { ...state, user: action.trips, new: undefined};
         case RECEIVE_NEW_TRIP:
             return { ...state, new: action.trip};
         // case RECEIVE_USER_LOGOUT:
