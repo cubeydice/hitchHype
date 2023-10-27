@@ -29,15 +29,17 @@ function App() {
       <Modal />
       <div className='main-content'>
       <NavBar />
-      <Switch>
-        <Route exact path="/"component={MainPage} />
-        <ProtectedRoute exact path="/account" component={AccountPage} />
-        <ProtectedRoute exact path="/car" component={CarPage} />
-        <Route exact path="/trips" component={ Trips } />
-        <ProtectedRoute exact path="/trips/new" component={ CreateTrip } />
-        <Route exact path="/trips/:tripId" component={ TripShow } />
-        <ProtectedRoute exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
-      </Switch>
+        <div className='main-body'>
+        <Switch>
+          <Route exact path="/" component={MainPage} />
+          <ProtectedRoute exact path="/account" component={AccountPage} />
+          <ProtectedRoute exact path="/car" component={CarPage} />
+          <Route exact path="/trips" component={ Trips } />
+          <ProtectedRoute exact path="/trips/new" component={ CreateTrip } />
+          <Route exact path="/trips/:tripId" component={ TripShow } />
+          <ProtectedRoute exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
+        </Switch>
+        </div>
       </div>
       <Footer/>
     </div>

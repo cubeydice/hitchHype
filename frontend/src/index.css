@@ -78,7 +78,13 @@ table {
 #footer, .main-content:after {
   content: "";
   display: block;
-  height: 142px;
+  height: 50px;
+}
+
+.main-body:before {
+  content: "";
+  display: block;
+  height: 50px;
 }
 
 .main-content {
