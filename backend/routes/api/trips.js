@@ -123,7 +123,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
     const { user, body } = req;
 
         // Check if the user is the driver of the trip
-        if (trip.driver.toString() !== user._id.toString()) {
+        if (trip.driver._id.toString() !== user._id.toString()) {
             const error = new Error("Unauthorized: You are not the driver of the trip");
             error.status = 403;
             error.errors = { message: "You are not the driver of the trip" }
@@ -164,7 +164,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
 });
 
 // Remove trip
-router.delete("/:id", requireUser, validateTripInput, async (req, res, next) => {
+router.delete("/:id", requireUser, async (req, res, next) => {
     try {
         // Find the trip by its ID
         const trip = await Trip.findById(req.params.id);
@@ -177,7 +177,7 @@ router.delete("/:id", requireUser, validateTripInput, async (req, res, next) => 
         }
 
         // Check if the user is the driver of the trip
-        if (trip.driver.toString() !== req.user._id.toString()) {
+        if (trip.driver._id.toString() !== req.user._id.toString()) {
             const error = new Error("Unauthorized: You are not the driver of the trip");
             error.status = 403;
             error.errors = { message: "You are not the driver of the trip" }
@@ -186,7 +186,7 @@ router.delete("/:id", requireUser, validateTripInput, async (req, res, next) => 
 
         // Remove the trip from the database
         await trip.deleteOne();
-        res.json({ message: "Trip deleted successfully" });
+        return res.json({ message: "Trip deleted successfully" });
     }
     catch(err) {
         next(err);
