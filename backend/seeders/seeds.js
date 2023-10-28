@@ -15,18 +15,21 @@ const NUM_SEED_CARS = 10;
 // Create users
 const users = [];
 
-users.push(
-    new User ({
-        email: 'demo-user@appacademy.io',
-        hashedPassword: bcrypt.hashSync('starwars', 10),
-        firstName: 'demo',
-        lastName: 'user',
-        // phoneNumber: '1234567890',
-        biography: faker.lorem.sentences(5),
-        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
-    })
-)
-
+const demoRider = new User ({
+    email: 'demo-user@appacademy.io',
+    hashedPassword: bcrypt.hashSync('starwars', 10),
+    firstName: 'demo',
+    lastName: 'user',
+    // phoneNumber: '1234567890',
+    biography: faker.lorem.sentences(5),
+    address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+})
+users.push(demoRider)
+// Used to add demo rider to trips
+const demoInfo = {
+    passenger: demoRider._id,
+    dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+}
 
 for (let i = 1; i < NUM_SEED_USERS; i++) {
     const firstName = faker.name.firstName()
@@ -89,7 +92,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     const randomDriver = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
     const randomCarId = cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id
     const randomPassengers = []
-
+    const randomBoolean = Math.random() < 0.3;
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
@@ -100,9 +103,9 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
         };
 
         randomPassengers.push(passengerInfo);
-
-        
     }
+    if (randomBoolean) randomPassengers.push(demoInfo);
+
     trips.push(
         new Trip ({
             driver: randomDriver,
@@ -148,9 +151,10 @@ for (let i = 0; i < 3; i++) {
         };
 
         randomPassengers.push(passengerInfo);
-
-        
     }
+    // Add demo rider to passengers
+    randomPassengers.push(demoInfo);
+
     const trip = new Trip ({
         driver: demoDriver._id,
         car: driverCar,
