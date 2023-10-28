@@ -75,7 +75,7 @@ const SignupForm = () => {
 
             <label>
                 <h3>First Name</h3>
-                <span className="errors">{errors?.firstName}</span>
+                <p className="errors">{errors?.firstName}</p>
                 <input type="text"
                     value={firstName}
                     onChange={update('firstName')}
@@ -85,7 +85,7 @@ const SignupForm = () => {
 
             <label>
                 <h3>Last Name</h3>
-                <span className="errors">{errors?.lastName}</span>
+                <p className="errors">{errors?.lastName}</p>
                 <input type="text"
                     value={lastName}
                     onChange={update('lastName')}
@@ -95,7 +95,7 @@ const SignupForm = () => {
 
             <label>
                 <h3>Email</h3>
-                <span className="errors">{errors?.email}</span>
+                <p className="errors">{errors?.email}</p>
                 <input type="text"
                 value={email}
                 onChange={update('email')}
@@ -105,7 +105,7 @@ const SignupForm = () => {
 
             <label>
                 <h3>Password</h3>
-                <span className="errors">{errors?.password}</span>
+                <p className="errors">{errors?.password}</p>
                 <input type="password"
                     value={password}
                     onChange={update('password')}
@@ -115,9 +115,9 @@ const SignupForm = () => {
 
             <label>
                 <h3>Confirm Password</h3>
-                <span className="errors">
-                    {password !== password2 && 'Confirm Password field must match'}
-                </span>
+                <p className="errors">
+                    {password !== password2 && `Confirm Password field must match`}
+                </p>
                 <input type="password"
                     value={password2}
                     onChange={update('password2')}

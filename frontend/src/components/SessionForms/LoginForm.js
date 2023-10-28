@@ -76,7 +76,8 @@ function LoginForm () {
         <h2>Log in and start your trip!</h2> <br/>
         <div>
             <label>
-                <h3>Email</h3> <span className="errors">{errors?.email}</span>
+                <h3>Email</h3>
+                <p className="errors">{errors?.email}</p>
                 <input type="text"
                 value={email}
                 onChange={update('email')}
@@ -84,7 +85,8 @@ function LoginForm () {
                 />
             </label>
             <label>
-                <h3>Password</h3> <span className="errors">{errors?.password}</span>
+                <h3>Password</h3>
+                <p className="errors">{errors?.password}</p>
                 <input type="password"
                 value={password}
                 onChange={update('password')}

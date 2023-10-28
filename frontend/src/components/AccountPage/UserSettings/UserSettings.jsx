@@ -64,7 +64,6 @@ const UserSettings = ({sessionUser}) => {
           type="submit"
           value="Save"
           /><br/>
-        <button className="warning">Delete Account</button>
         </form>
       </div>
     </div>
