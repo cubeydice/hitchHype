@@ -22,7 +22,7 @@ export function UserRides () {
             </div>
             <div >
                 <div className="user-trips-header-container">
-                    <h3 className="user-trips-header-h3">Your Rides 🗺️</h3>
+                    <h3 className="user-trips-header-h3">Your Rides 🚌</h3>
                 </div>
                 <div className="user-trips-index-container">
                     { trips.map(trip => (
