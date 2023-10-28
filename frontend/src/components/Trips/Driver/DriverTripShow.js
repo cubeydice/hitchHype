@@ -4,6 +4,7 @@ import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import "./DriverTripShow.css"
 import { Passenger } from '../Passenger/Passenger';
 import explodeAddress from "../AddressParser"
+import RouteShow from "../../RouteShow/RouteShow";
 
 
 export function DriverTripShow({ trip }) {
@@ -50,13 +51,13 @@ export function DriverTripShow({ trip }) {
 
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-endPoint'>
-                                    <h3 id='trip-show-points'>{origin["city"]}</h3>
+                                    <h3 id='trip-show-points'>{origin.city}</h3>
                                 </div>
                                 <div>
                                     <h3 id='trip-show-points'>→</h3>
                                 </div>
                                 <div className='trip-show-StartPoint'>
-                                    <h3 id='trip-show-points'>{destination["city"]}</h3>
+                                    <h3 id='trip-show-points'>{destination.city}</h3>
                                 </div>
                             </div>
                             <div>
@@ -69,9 +70,6 @@ export function DriverTripShow({ trip }) {
                                 <div className='trip-show-departure-time'>
                                     <h3>Trip will take place on {date.toDateString()}.</h3>
                                 </div>
-                                <div className="trip-show-min-distance">
-                                    <h3>Min. distance: 100mi</h3>
-                                </div>
                             </div>
                             <div className='trip-show-edit-btn-container'>
                                 <a href={editPage} className='trip-show-edit-btn'> 
@@ -83,7 +81,7 @@ export function DriverTripShow({ trip }) {
 
                         </div>
                         <div className='trip-show-map'>
-                        <img src={map} alt="show-img" id='show-img'/>
+                            <RouteShow trip={trip}/>
                         </div>
                     </div>
                     <div className='trip-show-address-details-and-linear-map'>
@@ -92,12 +90,12 @@ export function DriverTripShow({ trip }) {
                                 <div className='trips-show-address-display'>
                                     <h3 id='header'>Start Address</h3>
                                     <h3>{origin.streetAddress}</h3>
-                                    <h3>{origin.city}, {origin.state} {origin.postalCode}</h3>
+                                    <h3>{origin.city}{(origin.city && origin.state) ? ',' : ''} {origin.state} {origin.postalCode}</h3>
                                 </div>
                                 <div className='trips-show-address-display'>
                                     <h3 id='header'>Destination Address</h3>
                                     <h3>{destination.streetAddress}</h3>
-                                    <h3>{destination.city}, {destination.state} {destination.postalCode}</h3>
+                                    <h3>{destination.city}{(destination.city && destination.state) ? ',' : ''} {destination.state} {destination.postalCode}</h3>
                                 </div>
                             </div>
                             <div className='trip-show-passengers'>

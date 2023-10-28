@@ -47,6 +47,7 @@ const CreateTrip = () => {
                 if (res && !res.errors) {
                     dispatch(clearTripErrors())   
                     history.push(`/trips/${res._id}`)
+                    history.go()
                 } else if (res && res.errors) {
                     console.error(res.errors)
                     if(res.errors.car && !res.errors.origin && !res.errors.destination && !res.errors.availableSeats && !res.errors.departureDate) {

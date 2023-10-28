@@ -1,36 +1,54 @@
 import {useJsApiLoader, GoogleMap, DirectionsRenderer } from '@react-google-maps/api'
-import { useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import './RouteShow.css'
 
-const RouteShow = () => {
-    const {tripId} = useParams()
+const center = {lat: 37.7749, lng: -122.4194}
+/* global google */
+
+const RouteShow = ({trip}) => {
     const [ googleMapsLibraries ] = useState(['places'])
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries: googleMapsLibraries
     })
+    const origin = trip.origin
+    const destination = trip.destination
+    const waypoints = trip.waypoints
+    const [distance, setDistance] = useState('')
+    const [duration, setDuration] = useState('')
+    const [directionsResponse, setDirectionsResponse] = useState(null)
+    const [map, setMap] = useState( /** @type google.maps.Map */ (null))
+
 
     if(!isLoaded) {
         return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
     }
 
-    async function calculateRoute(e) {
-        e.preventDefault()
-        if (origin === '' || destination === '') {
-            return
+    async function calculateRoute() {
+        try {
+            if (origin === '' || destination === '') {
+                return
+            }
+            const direcitonsService = new google.maps.DirectionsService()
+            const results = await direcitonsService.route({
+                origin: origin,
+                destination: destination,
+                travelMode: google.maps.TravelMode.DRIVING
+                //add waypoints
+            })
+            if (results) {
+                       setDirectionsResponse(results)
+                setDistance(results.routes[0].legs[0].distance.text)
+                setDuration(results.routes[0].legs[0].duration.text)
+            }
+        } catch (error) {
+            console.error(error)
+            console.log('invalid origin and destinaiton. Please ensure your route can be driven from start to finish')
         }
-        const direcitonsService = new google.maps.DirectionsService()
-        const results = await direcitonsService.route({
-            origin: origin,
-            destination: destination,
-            travelMode: google.maps.TravelMode.DRIVING
-        })
-        setDirectionsResponse(results)
-        setDistance(results.routes[0].legs[0].distance.text)
-        setDuration(results.routes[0].legs[0].duration.text)
     }
 
     return (
-        <>
+        <div className='route-show-container'>
             <div className='distance-container'>
                 <p id='distance-text'>Distance:</p>
                 <p id='distance-result'>{distance}</p>
@@ -41,18 +59,21 @@ const RouteShow = () => {
             </div>
             <GoogleMap  
                 center={center} 
-                zoom={13} 
+                zoom={14} 
                 mapContainerClassName='map'
+                id='map'
                 options={{
                     streetViewControl: false
                 }}
-                onLoad={map => setMap(map)}
+                onLoad={() => {
+                    calculateRoute()
+                }}
             >
                 {directionsResponse && (
                     <DirectionsRenderer directions={directionsResponse}/>
                 )}
             </GoogleMap>
-        </>
+        </div>
     )
 
 }
