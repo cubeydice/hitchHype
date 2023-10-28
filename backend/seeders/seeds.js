@@ -19,7 +19,7 @@ const demoRider = new User ({
     email: 'demo-user@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10),
     firstName: 'demo',
-    lastName: 'user',
+    lastName: 'rider',
     // phoneNumber: '1234567890',
     biography: faker.lorem.sentences(5),
     address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
@@ -129,7 +129,7 @@ const demoDriver = new User ({
         email: 'demo-user2@appacademy.io',
         hashedPassword: bcrypt.hashSync('starwars', 10),
         firstName: 'demo',
-        lastName: 'user',
+        lastName: 'driver',
         // phoneNumber: '1234567890',
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
