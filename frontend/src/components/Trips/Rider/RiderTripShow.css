@@ -1,10 +1,17 @@
 .rider-show-destination-details-container{
     display: flex;
+    flex-direction: column;
 }
 .rider-show-driver-maps-container{
     display: flex;
+    flex-direction: column;
 }
 #driver-img{
     height: 180px;
     width: 180px;
+}
+
+.rider-show-maps-api {
+    width: 50%;
+    height: 500px;
 }
