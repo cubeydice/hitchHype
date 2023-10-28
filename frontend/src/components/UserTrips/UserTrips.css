@@ -1,0 +1,27 @@
+.user-trips-layout{
+    width: 100vw;
+}
+.user-trips-header-container{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 25px;
+}
+.user-trips-header-h3{
+    font-size: xx-large;
+}
+.user-trips-container{
+    display: flex;
+    flex-direction: row;
+}
+.user-trips-nav-container{
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    justify-content: space-between;
+}
+.user-trips-index-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

@@ -7,6 +7,7 @@ import "./RiderTripShow.css"
 import { useState } from "react"
 import { updateTrip } from "../../../store/trips"
 import explodeAddress from "../AddressParser"
+import { openModal } from "../../../store/modal"
 
 
 export function RiderTripShow ({ trip }) {
@@ -23,7 +24,7 @@ export function RiderTripShow ({ trip }) {
         if(rider){
             // dispatch(updateTrip({passengers}))
         }else{
-
+            dispatch(openModal('request-ride-form'))
         }
     }
     explodeAddress(trip.destination, function(err,addressStr)
@@ -59,11 +60,11 @@ export function RiderTripShow ({ trip }) {
         <> 
             { trip.origin ? (
                 <>
-                    <div className="Rider-show-destination-details-container">
+                    <div className="rider-show-destination-details-container">
                         <div className="Rider-show-destination-pic">
                             <img src={sfPic} alt="show-img" id='show-img'/>
                         </div>
-                        <div className="Rider-show-destintion-info">
+                        <div className="rider-show-destintion-info">
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-endPoint'>
                                     <h3 id='trip-show-points'>{originCity}</h3>
@@ -91,7 +92,7 @@ export function RiderTripShow ({ trip }) {
                                 <div className="trip-show-min-price">
                                     <h3>Max. price for additional rider: $45</h3>
                                 </div>
-                                <div className="Rider-show-btn">
+                                <div className="rider-show-btn">
                                     { sessionUser ? (
                                         <> { rider ? (
                                             <button onClick={ handleClick }>Leave Trip</button>
@@ -106,31 +107,31 @@ export function RiderTripShow ({ trip }) {
                             </div>
                         </div>
                     </div>
-                    <div className="Rider-show-driver-maps-container">
-                        <div className="Rider-show-driver-details">
-                            <div className="Rider-show-driver-pic">
+                    <div className="rider-show-driver-maps-container">
+                        <div className="rider-show-driver-details">
+                            <div className="rider-show-driver-pic">
                                 <img src={profilePic} alt="show-img" id='driver-img'/>
                             </div>
-                            <div className="Rider-show-driver-passenger-container">
-                                <div className="Rider-show-driver-info">
+                            <div className="rider-show-driver-passenger-container">
+                                <div className="rider-show-driver-info">
                                     <h3>Driver: {trip.driver.firstName}</h3>
-                                    <div className="Rider-show-driver-ratings">
+                                    <div className="rider-show-driver-ratings">
                                         <h3>driver review ratings</h3>
                                     </div>
                                     <h3>Driver Bio</h3>
                                 </div>
-                                <div className="Rider-show-passenger-info">
+                                <div className="rider-show-passenger-info">
                                     <h3>PASSENGERS</h3>
-                                    <div className="Rider-show-passengers-list">
+                                    <div className="rider-show-passengers-list">
                                         {passengerFn()}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="Rider-show-linear-map">
+                        <div className="rider-show-linear-map">
                             <img src={linearMap} alt="show-img" id='show-linear-map-img'/>
                         </div>
-                        <div className="Rider-show-maps-api">
+                        <div className="rider-show-maps-api">
                         <img src={map} alt="show-img" id='show-linear-map-img'/>
                         </div>
                     </div>

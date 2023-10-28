@@ -2,18 +2,12 @@ import jwtFetch from './jwt';
 
 //ACTION CONSTANTS
 const RECEIVE_USER = "users/RECEIVE_USER";
-const REMOVE_USER = "users/REMOVE_USER";
 const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const CLEAR_USER_ERRORS = "users/CLEAR_USER_ERRORS";
 
 //POJO ACTIONS
 const receiveUser = user => ({
     type: RECEIVE_USER,
-    user
-});
-
-const removeUser = user => ({
-    type: REMOVE_USER,
     user
 });
 
@@ -64,18 +58,6 @@ export const updateUser = (user) => async (dispatch) => {
     }
 };
 
-export const deleteUser = userId => async (dispatch) => {
-    const response = await jwtFetch (`/api/users/${userId}`, {
-        method: 'DELETE'
-    });
-
-    if (response.ok) {
-        dispatch(removeUser(userId));
-    }
-
-    return response;
-};
-
 const nullErrors = null;
 
 export const usersErrorsReducer = (state = nullErrors, action) => {
@@ -90,13 +72,9 @@ export const usersErrorsReducer = (state = nullErrors, action) => {
 };
 
 const usersReducer = (state = {}, action) => {
-    const nextState = { ...state };
     switch(action.type) {
         case RECEIVE_USER:
             return { ...state, ...action.user};
-        case REMOVE_USER:
-            delete nextState[action.user]
-            return nextState;
         default:
             return state;
     }

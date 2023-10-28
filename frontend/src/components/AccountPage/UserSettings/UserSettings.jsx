@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, updateUser } from "../../../store/users";
+import AccountImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg' // eslint-disable-next-line
 import './UserSettings.css'
 
 const UserSettings = ({sessionUser}) => {
@@ -40,11 +41,13 @@ const UserSettings = ({sessionUser}) => {
   }
 
   return (
-    <>
-      <h2>Tell us about yourself!</h2>
+    <div className="settings-container">
+      <h1 className="settings-form-title">Tell us about yourself!</h1>
       <div className="account-form-container">
+        <img src={AccountImage} alt='account'/>
         <form className="account-form" onSubmit={handleSubmit}>
-          <label> About Me <span className="errors">{errors?.biography}</span><br/>
+          <h2>hello {user.firstName} {user.lastName}!</h2><br/>
+          <label><h3>About Me</h3> <span className="errors">{errors?.biography}</span><br/>
             <textarea
             name='bio'
             placeholder="Write something about yourself to share with other hitchHypers!"
@@ -54,16 +57,16 @@ const UserSettings = ({sessionUser}) => {
             max-length='500'
             wrap='soft'
             rows={10}
-            cols={80}/>
+            cols={80}/><br/>
             <sub>{`${bioCount}/500`}</sub>
-          </label>
+          </label><br/>
           <input
           type="submit"
           value="Save"
-          />
+          /><br/>
         </form>
       </div>
-    </>
+    </div>
   )
  }
 

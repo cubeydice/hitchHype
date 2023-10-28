@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, clearSessionErrors } from '../../store/session';
-import { closeModal } from '../../store/modal';
+import { closeModal, openModal } from '../../store/modal';
 import { ReactComponent as LoginIcon} from '../../assets/icons/login.svg'
+import LoginPic from '../../assets/images/will-truettner-I5qfABs2vwk-unsplash.jpg'
 import './SessionForm.css';
 
 function LoginForm () {
@@ -61,6 +62,9 @@ function LoginForm () {
                     };
                 });
                 break;
+            case 'register':
+                dispatch(openModal('signup-form'))
+                break;
             default:
                 break;
         }
@@ -68,39 +72,38 @@ function LoginForm () {
 
     return (
         <form className="session-form" onSubmit={handleSubmit}>
-        <LoginIcon className='large-icon'/> <br/>
+        <LoginIcon className='large-icon' id='login-icon'/>
         <h2>Log in and start your trip!</h2> <br/>
         <div>
             <label>
-                <h3>Email</h3> <span className="errors">{errors?.email}</span><br/>
+                <h3>Email</h3>
+                <p className="errors">{errors?.email}</p>
                 <input type="text"
                 value={email}
                 onChange={update('email')}
                 placeholder="Email"
                 />
             </label>
-            <br/> <br/>
             <label>
-                <h3>Password</h3> <span className="errors">{errors?.password}</span><br/>
+                <h3>Password</h3>
+                <p className="errors">{errors?.password}</p>
                 <input type="password"
                 value={password}
                 onChange={update('password')}
                 placeholder="Password"
                 />
-            </label> <br/>
-        </div> <br/>
+            </label>
+        </div>
         <input
             type="submit"
             value="Log In"
             disabled={!email || !password}
-            /> <br/>
+            />
         <div>
-            <button onClick={handleClick('demo-rider')}>Demo Rider</button>
-            <button onClick={handleClick('demo-driver')}>Demo Driver</button>
+            <button onClick={handleClick('demo-rider')} className='demo-button'>Demo Rider  🙋</button>
+            <button onClick={handleClick('demo-driver')} className='demo-button'>Demo Driver 🚙</button>
         </div>
-
-        <br/><br/>
-            Don't have an account? <span className='link'>Register</span>
+            Don't have an account? <span className='link' onClick={handleClick('register')}>Sign up</span>
         </form>
     );
 }

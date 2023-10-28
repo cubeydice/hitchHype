@@ -1,22 +1,25 @@
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import './UserNavBar.css'
+import { useSelector } from "react-redux";
 
 const UserNavBar = () => {
+  const sessionUser = useSelector(state => state.session.user)
+  const userId = sessionUser._id
   return (
-    <nav>
-      <h3>Finding Yourself</h3>
+    <nav className="account-nav">
+      <h2>your account</h2><br/>
+      <h3>Finding Yourself 🧘</h3>
       <ul>
-        <li>
-          <NavLink to="/account">Account Info</NavLink>
-          <NavLink to="/car">Driver/Car Info</NavLink>
-        </li>
+
+        <NavLink to="/account"><li>Account Info</li></NavLink>
+        <NavLink to="/car"><li>Driver/Car Info</li></NavLink>
+
       </ul>
 
-      <h3>Your Journeys</h3>
+      <h3>Your Journeys 📍</h3>
       <ul>
-        <li>
-          <NavLink to="/your-trips">Your Trips</NavLink>
-          <NavLink to="/your-rides">Your Rides</NavLink>
-        </li>
+        <NavLink to={`/users/${userId}/trips`}><li>Your Trips</li></NavLink>
+        <NavLink to="/your-rides"><li>Your Rides</li></NavLink>
       </ul>
     </nav>
   )
