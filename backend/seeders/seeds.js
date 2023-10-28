@@ -89,7 +89,8 @@ for (let i = 0; i < NUM_SEED_CARS; i++) {
 const trips = [];
 
 for (let i = 0; i < NUM_SEED_TRIPS; i++) {
-    const randomDriver = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+    const usersDup = users.slice(1, users.length);
+    const randomDriver = usersDup[Math.floor(Math.random() * usersDup.length)]._id;
     const randomCarId = cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id
     const randomPassengers = []
     const randomBoolean = Math.random() < 0.3;
