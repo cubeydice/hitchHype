@@ -105,7 +105,7 @@ export const composeTrip = data => async dispatch => {
             body: JSON.stringify(data)
     });
         const trip = await res.json();
-        dispatch(receiveNewTrip(trip));
+        dispatch(receiveTrip(trip));
         return trip
     } catch(err) {
         const resBody = await err.json();

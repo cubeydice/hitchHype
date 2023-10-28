@@ -13,7 +13,7 @@ export function UserTrips () {
     // const userId = useParams();
 
     useEffect(() => {
-        dispatch(fetchUserTrips(user._id));
+        dispatch(fetchUserTrips(user._id)).then(res => console.log(res));
     }, [dispatch])
 
     return (
