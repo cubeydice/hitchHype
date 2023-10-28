@@ -8,6 +8,7 @@ import MainPage from './components/MainPage/MainPage';
 import AccountPage from './components/AccountPage';
 import Modal from './components/Modal/Modal';
 import Footer from './components/Footer/Footer';
+import GasPrices from './components/GasPrices/GasPrices';
 import CreateTrip from './components/CreateTrip/CreateTrip';
 import CarPage from './components/CarPage';
 
