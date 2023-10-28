@@ -18,6 +18,7 @@ import { Route } from 'react-router-dom/cjs/react-router-dom.min';
 import { TripShow } from './components/Trips/TripShow';
 import { DriverUpdateForm } from './components/Trips/Driver/DriverTripUpdate';
 import { UserTrips } from './components/UserTrips/UserTrips';
+import { UserRides } from './components/UserRides/UserRides';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -41,6 +42,7 @@ function App() {
             <Route exact path="/trips/:tripId" component={ TripShow } />
             <ProtectedRoute exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
             <ProtectedRoute exact path="/users/:userId/trips" component={ UserTrips }/>
+            <ProtectedRoute exact path="/users/:userId/rides" component={ UserRides }/>
           </Switch>
         </div>
       </div>
