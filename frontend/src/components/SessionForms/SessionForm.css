@@ -1,3 +1,27 @@
 .session-form input[type=submit] {
   width: 120px;
+  margin-bottom: 20px;
+  height: 40px;
+}
+
+.session-form input[type=text], .session-form input[type=password] {
+  width: 250px;
+  margin-bottom: 10px;
+}
+
+.demo-button {
+  margin: 10px 5px 30px 5px;
+  width: 120px;
+}
+
+#login-icon {
+  margin-bottom: 20px;
+}
+
+.session-form h2 {
+  margin-bottom: 10px;
+}
+
+.session-form span {
+  font-weight: 700;
 }

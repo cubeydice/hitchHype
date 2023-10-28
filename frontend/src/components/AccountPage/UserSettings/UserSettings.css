@@ -1,0 +1,38 @@
+.settings-container {
+  max-width: 800px;
+  padding-right: 200px;
+}
+
+.account-form-container {
+  background-color: var(--brand-mustard);
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+textarea {
+  resize: none;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 8px;
+}
+
+.account-form {
+  padding: 20px;
+  height:400px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.account-form input[type=submit] {
+  width: 200px;
+}
+
+.account-form-container img {
+  display: absolute;
+  left: 50px;
+  transform: translateX(-50px);
+  height: 500px;
+}

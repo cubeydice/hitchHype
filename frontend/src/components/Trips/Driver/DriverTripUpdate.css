@@ -1,0 +1,71 @@
+.driver-update-page-layout{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+.driver-update-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.driver-update-header-h3{
+    font-size: x-large;
+}
+.driver-update-map-container{
+    height: 30%;
+    width: 80%;
+    background-color: rgb(42, 65, 133);
+    margin-left: 10%;
+}
+.map-api{
+    height: 350px;
+    width: 400px;
+}
+.driver-update-passengers-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    margin-left: 10%;
+}
+.driver-update-passengers-items{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80vw;
+}
+.driver-update-passenger-item{
+    width: 60vw;
+    display: flex;
+    justify-content: space-evenly;
+}
+#driver-update-rmv-passenger{
+    height: 40px;
+}
+.driver-update-rmv-passenger-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.driver-update-edit-btns{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.driver-update-btn{
+    width: 125px;
+    padding: 15px;
+}
+.Driver-update-available-seats{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+button{
+    cursor: pointer;
+}

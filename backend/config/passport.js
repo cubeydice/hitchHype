@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const jwt = require('jsonwebtoken');
 const { secretOrKey } = require('./keys');
+const Car = mongoose.model('Car')
 
 
 passport.use(new LocalStrategy({
@@ -24,20 +25,33 @@ passport.use(new LocalStrategy({
 }));
 
 exports.loginUser = async function(user) {
-    const userInfo = {
-        _id: user._id,
-        username: user.username,
-        email: user.email
-    };
-    const token = await jwt.sign(
-        userInfo, // payload
-        secretOrKey, // sign with secret key
-        { expiresIn: 3600 } // tell the key to expire in one hour
-    );
-    return {
-        user: userInfo,
-        token
-    };
+    try {
+        const userCar = await Car.findById(user.car)
+        const userInfo = {
+            _id: user._id,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            biography: user.biography,
+            address: user.address,
+            car: user.car ? user.car : null,
+            maxPassengers: userCar ? userCar.maxPassengers : null
+        };
+    
+        const token = await jwt.sign(
+            userInfo, // payload
+            secretOrKey, // sign with secret key
+            { expiresIn: 3600 } // tell the key to expire in one hour
+        );
+        return {
+            user: userInfo,
+            token
+        };
+    } catch (error) {
+        console.error('Error during user login:', error);
+        throw error;  
+    }
 };
 
 // JwtStrategy is a Passport extension that will allow your application to use

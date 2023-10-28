@@ -1,0 +1,61 @@
+#show-linear-map-img{
+    height: 550px;
+    width: 250px;
+}
+.trip-show-address-details-and-linear-map{
+    display: flex;
+    height: fit-content;
+    width: 100%;
+    justify-content: space-around;
+}
+.trip-show-address-details-container{
+    width: 60vw;
+    padding-left: 40px;
+}
+.trip-show-address{
+    display: flex;
+    /* justify-content: space-between; */
+}
+.trips-show-address-display{
+    padding-right: 75px;
+}
+#header{
+    font-size: x-large;
+}
+.trip-show-passengers{
+    padding-top: 25px;
+}
+.trips-show-address-display{
+
+}
+.trip-show-edit-btn-container{
+    display:flex;
+    justify-content: center;
+    padding: 20px;
+}
+.edit-btn-container{
+    background-color: blanchedalmond;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.trip-show-edit-btn{
+    text-decoration: none;
+}
+.trip-show-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.trip-show-driver-name{
+    display: flex;
+}
+.trip-show-points-container{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 20px;
+}
+#trip-show-points{
+    font-size: xx-large;
+}

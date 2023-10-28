@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { signup, clearSessionErrors } from '../../store/session';
-import { closeModal } from '../../store/modal';
+import { closeModal, openModal } from '../../store/modal';
 import { ReactComponent as SignUpIcon} from '../../assets/icons/signup.svg'
 import './SessionForm.css';
 
@@ -63,14 +63,19 @@ const SignupForm = () => {
         });
     }
 
+    const handleClick = e => {
+        e.preventDefault();
+        dispatch(openModal('login-form'))
+    }
+
     return (
         <form className="session-form" onSubmit={handleSubmit}>
-            <SignUpIcon className="large-icon"/> <br/>
+            <SignUpIcon className="large-icon"/>
             <h2>Create an account</h2> <br/>
 
             <label>
                 <h3>First Name</h3>
-                <span className="errors">{errors?.firstName}</span><br/>
+                <p className="errors">{errors?.firstName}</p>
                 <input type="text"
                     value={firstName}
                     onChange={update('firstName')}
@@ -78,9 +83,9 @@ const SignupForm = () => {
                 />
             </label>
 
-            <label><br/><br/>
+            <label>
                 <h3>Last Name</h3>
-                <span className="errors">{errors?.lastName}</span><br/>
+                <p className="errors">{errors?.lastName}</p>
                 <input type="text"
                     value={lastName}
                     onChange={update('lastName')}
@@ -88,9 +93,9 @@ const SignupForm = () => {
                 />
             </label>
 
-            <label><br/><br/>
+            <label>
                 <h3>Email</h3>
-                <span className="errors">{errors?.email}</span><br/>
+                <p className="errors">{errors?.email}</p>
                 <input type="text"
                 value={email}
                 onChange={update('email')}
@@ -98,9 +103,9 @@ const SignupForm = () => {
                 />
             </label>
 
-            <label><br/><br/>
+            <label>
                 <h3>Password</h3>
-                <span className="errors">{errors?.password}</span><br/>
+                <p className="errors">{errors?.password}</p>
                 <input type="password"
                     value={password}
                     onChange={update('password')}
@@ -108,22 +113,23 @@ const SignupForm = () => {
                 />
             </label>
 
-            <label><br/><br/>
-                <h3>Confirm Password</h3><br/>
-                <span className="errors">
-                    {password !== password2 && 'Confirm Password field must match'}
-                </span>
+            <label>
+                <h3>Confirm Password</h3>
+                <p className="errors">
+                    {password !== password2 && `Confirm Password field must match`}
+                </p>
                 <input type="password"
                     value={password2}
                     onChange={update('password2')}
                     placeholder="Confirm Password"
                 />
-            </label> <br/><br/>
+            </label> <br/>
             <input
                 type="submit"
                 value="Sign Up"
                 disabled={!email || !firstName || !lastName ||!password || password !== password2}
-            />
+            /> <br/>
+            Already have an account? <span className='link' onClick={handleClick}>Sign in</span>
         </form>
     );
 }
