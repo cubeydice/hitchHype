@@ -7,7 +7,14 @@ const validateReviewInput = [
         .withMessage('Reviewer is required'),
     check('reviewee')
         .exists({ checkFalsy: true })
-        .withMessage('Reviewer is required'),
+        .withMessage('Reviewee is required'),
+    check('trip')
+        .exists({ checkFalsy: true })
+        .withMessage('Trip is required'),
+    check('isDriver')
+        .optional()
+        .isBoolean()
+        .withMessage('IsDriver must be a boolean'),
     check('rating')
         .exists({ checkFalsy: true })
         .isInt({ min: 1, max: 5 })
@@ -19,7 +26,7 @@ const validateReviewInput = [
     check('body')
         .exists({ checkFalsy: true })
         .isLength({ min: 50, max: 1000 })
-        .withMessage('Title must be between 50 and 1,000 characters'),
+        .withMessage('Body must be between 50 and 1,000 characters'),
     handleValidationErrors
 ];
 

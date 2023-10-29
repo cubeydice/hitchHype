@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const Trip = mongoose.model("Trip");
 const { requireUser } = require("../../config/passport");
 const validateReviewInput = require("../../validations/review");
 const Review = require("../../models/Review");
@@ -56,12 +57,26 @@ router.get('/reviewee', async (req, res, next) => {
 });
 
 // Create a review
+// path = trips/:id/reviews
 router.post('/', requireUser, validateReviewInput, async (req, res, next) => {
     try {
-        const { rating, title, body } = req.body
+        const trip = await Trip.findById(req.params.id)
+
+        // Check if user is part of trip (either driver or passenger)
+        const isDriver = trip.driver._id === req.user._id
+        const isPassenger = trip.passengers.some(passenger => passenger.passenger._id.equals(req.user._id));
+
+        if (!isDriver || !isPassenger) {
+            const error = new Error('Unauthorized: User is not part of this trip');
+            error.status = 403; 
+            error.errors = { message: 'You cannot review this trip because you are not part of it' };
+            return next(error);
+        }
+
+        const { reviewee, rating, title, body } = req.body
 
         // Check if reviewer and reviewee are the same user
-        if (req.params.id === req.user._id.toString()) {
+        if (reviewee === req.user._id.toString()) {
             const error = new Error('User cannot review themself');
             error.status = 400;
             error.errors = { message: 'You cannot review yourself' };
@@ -70,7 +85,9 @@ router.post('/', requireUser, validateReviewInput, async (req, res, next) => {
 
         const newReview = new Review({
             reviewer: req.user._id,
-            reviewee: req.params.id,
+            reviewee,
+            trip: req.params.id,
+            isDriver,
             rating,
             title,
             body

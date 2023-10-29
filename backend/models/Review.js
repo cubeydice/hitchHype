@@ -13,6 +13,14 @@ const reviewSchema = new Schema({
         required: true,
         index: true
     },
+    trip: {
+        type: Schema.Types.ObjectId,
+        ref: 'Trip',
+        required: true,
+    },
+    isDriver: {
+        type: Boolean,
+    },
     rating: {
         type: Number,
         required: true
