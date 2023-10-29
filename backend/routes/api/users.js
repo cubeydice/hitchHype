@@ -61,21 +61,21 @@ router.get('/:id', async (req, res, next) => {
         return next(error);
       }
 
-      const driverTrips = Trip.find({driver: user._id})
+      const driverTrips = await Trip.find({driver: user._id})
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
                               .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
                               .populate("passengers.passenger", "_id firstName lastName");
-      const riderTrips = Trip.find({"passengers.passenger": user._id})
+      const riderTrips = await Trip.find({"passengers.passenger": user._id})
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
                               .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
                               .populate("passengers.passenger", "_id firstName lastName");
-      const reviewer = Review.find({reviewer: user._id})
+      const reviewer = await Review.find({reviewer: user._id})
                               .sort({ createdAt: -1 })
                               .populate("reviewee", "_id firstName lastName")
                               .populate("trip", "origin destination")
-      const reviewee = Review.find({reviewee: user._id})
+      const reviewee = await Review.find({reviewee: user._id})
                               .sort({ createdAt: -1 })
                               .populate("reviewer", "_id firstName lastName")
                               .populate("trip", "origin destination")
