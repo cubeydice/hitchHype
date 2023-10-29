@@ -1,5 +1,4 @@
 import jwtFetch from './jwt';
-import { RECEIVE_USER_LOGOUT } from './session';
 
 const RECEIVE_TRIPS = "trips/RECEIVE_TRIPS";
 const RECEIVE_TRIP = "trips/RECEIVE_TRIP";
@@ -166,13 +165,10 @@ const tripsReducer = (state = {}, action) => {
         case RECEIVE_TRIP:
             return { ...state, ...action.trip};
         case REMOVE_TRIP:
-            const newState = { ...state };
-            delete newState[action.tripId];
-            return newState;
+            delete nextState[action.tripId];
+            return nextState;
         case RECEIVE_TRIPS:
             return { ...state, ...action.trips};
-        // case RECEIVE_USER_LOGOUT:
-        //     return { ...state, user: {}, new: undefined }
         default:
             return state;
     }
