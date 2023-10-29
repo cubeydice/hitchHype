@@ -83,13 +83,16 @@ router.get("/:id", async (req, res, next) => {
         const reviewee = await Review.find({reviewee: trip.driver._id})
         let ratingTotal = 0;
         let avgRating = 0;
-        if (reviewee) {
+        if (reviewee.length > 0) {
             for (const review of reviewee) {
                 ratingTotal += review.rating
             }
             avgRating = ratingTotal / reviewee.length
         }
-        return res.json({trip, ["avgRating"]: avgRating});
+
+        const newTrip = { ...trip.toObject() };
+        newTrip.driver.avgRating = avgRating;
+        return res.json(newTrip);
     }
     catch(err) {
         const error = new Error("Trip not found");
