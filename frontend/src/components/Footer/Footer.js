@@ -36,7 +36,7 @@ const Footer = () => {
     <div className='footer-authors'>
       {authors.map((author)=>{
         return (
-        <div className='footer-author'>
+        <div className='footer-author' key={author.name}>
         {author.name}
         <div className='footer-author-icons'>
           <a href={author.linkedIn} alt='linkedin'>

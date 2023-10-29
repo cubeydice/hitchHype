@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, clearSessionErrors } from '../../store/session';
 import { closeModal, openModal } from '../../store/modal';
 import { ReactComponent as LoginIcon} from '../../assets/icons/login.svg'
-import LoginPic from '../../assets/images/will-truettner-I5qfABs2vwk-unsplash.jpg'
 import './SessionForm.css';
 
 function LoginForm () {

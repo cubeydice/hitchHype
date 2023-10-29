@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 // const parserAddress = require('parse-address-string');
 const User = mongoose.model("User");
 const Trip = mongoose.model("Trip");
+const Review = mongoose.model("Review");
 const Car = mongoose.model("Car");
 const { requireUser } = require("../../config/passport");
 const validateTripInput = require("../../validations/trip");
@@ -24,7 +25,30 @@ router.get("/", async (req, res) => {
     } 
 });
 
-// Retrieve user"s trips
+// Retrieve passenger's rides
+router.get("/user/:userId/rides", async (req, res, next) => {
+    let user;
+    try {
+        user = await User.findById(req.params.userId);
+    } catch(err) {
+        const error = new Error("User not found");
+        error.statusCode = 404;
+        error.errors = { message: "No user found with that id" };
+        return next(error);
+    }
+    try {
+        const rides = await Trip.find({ "passengers.passenger": user._id })
+                                .sort({ createdAt: -1 })
+                                .populate("driver", "_id firstName lastName")
+                                .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                                .populate("passengers.passenger", "_id firstName lastName");
+        return res.json(rides);
+    } catch(err) {
+        return res.json([]);
+    }
+})
+
+// Retrieve driver's trips
 router.get("/user/:userId", async (req, res, next) => {
     let user;
     try {
@@ -55,7 +79,17 @@ router.get("/:id", async (req, res, next) => {
                                 .populate("driver", "_id firstName lastName")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName");
-        return res.json(trip);
+        
+        const reviewee = await Review.find({reviewee: trip.driver._id})
+        let ratingTotal = 0;
+        let avgRating = 0;
+        if (reviewee) {
+            for (const review of reviewee) {
+                ratingTotal += review.rating
+            }
+            avgRating = ratingTotal / reviewee.length
+        }
+        return res.json({trip, ["avgRating"]: avgRating});
     }
     catch(err) {
         const error = new Error("Trip not found");

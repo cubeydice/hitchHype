@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const Trip = mongoose.model('Trip');
+const Review = mongoose.model('Review');
 const passport = require('passport');
 const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
@@ -51,15 +53,51 @@ router.get('/:id', async (req, res, next) => {
   let user;
   try {
       user = await User.findById(req.params.id).select("-address");
+
       if (!user) {
         const error = new Error("User not found");
         error.statusCode = 404;
         error.errors = { message: "No user found with that id" };
         return next(error);
       }
-      return res.json(user)
+
+      const driverTrips = await Trip.find({driver: user._id})
+                              .sort({ createdAt: -1 })
+                              .populate("driver", "_id firstName lastName")
+                              .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                              .populate("passengers.passenger", "_id firstName lastName");
+      const riderTrips = await Trip.find({"passengers.passenger": user._id})
+                              .sort({ createdAt: -1 })
+                              .populate("driver", "_id firstName lastName")
+                              .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                              .populate("passengers.passenger", "_id firstName lastName");
+      const reviewer = await Review.find({reviewer: user._id})
+                              .sort({ createdAt: -1 })
+                              .populate("reviewee", "_id firstName lastName")
+                              .populate("trip", "origin destination")
+      const reviewee = await Review.find({reviewee: user._id})
+                              .sort({ createdAt: -1 })
+                              .populate("reviewer", "_id firstName lastName")
+                              .populate("trip", "origin destination")
+      let ratingTotal = 0;
+      let avgRating = 0;
+      if (reviewee) {
+        for (const review of reviewee) {
+          ratingTotal += review.rating
+        }
+        avgRating = ratingTotal / reviewee.length
+      }
+
+      return res.json({
+        user, 
+        ["driverTrips"]: driverTrips || [],
+        ["riderTrips"]: riderTrips || [],
+        ["reviewer"]: reviewer || [],
+        ["reviewee"]: reviewee || [],
+        ["avgRating"]: avgRating
+      })
   } catch(err) {
-    return res.json([]);
+    return res.json({});
   }
 })
 

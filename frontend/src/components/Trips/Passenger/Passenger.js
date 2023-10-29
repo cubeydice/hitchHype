@@ -1,6 +1,7 @@
-import profilePic from "../../../assets/images/profile-pic-dummy.jpg"
-import "./Passenger.css"
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import defaultProfilePic from '../../../assets/icons/user.png'
 import explodeAddress from "../AddressParser"
+import "./Passenger.css"
 
 export function Passenger({ passenger: { dropoffPoint, passenger }}){
     let dropOff= {
@@ -12,7 +13,7 @@ export function Passenger({ passenger: { dropoffPoint, passenger }}){
     };
     explodeAddress(dropoffPoint, function(err,addressStr)
     {
-        dropOff["city"] = addressStr.city; 
+        dropOff["city"] = addressStr.city;
         dropOff["state"] = addressStr.state;
         dropOff["country"] = addressStr.country;
         dropOff["postalCode"] = addressStr.postal_code;
@@ -21,14 +22,14 @@ export function Passenger({ passenger: { dropoffPoint, passenger }}){
 
     return (
         <div className="passenger-container">
-            <a href="" className="profile-link">
+            <Link to={`/profile/${passenger._id}`}>
                 <div className="passenger-profile-pic">
-                    <img src={profilePic} alt="show-img" id='profile-img'/>
+                    <img src={passenger.profilePicture ? passenger.profilePicture : defaultProfilePic } alt="show-img" className='large-icon'/>
                 </div>
                 <div className="passenger-name">
                     <h3>{passenger.firstName} {passenger.lastName}</h3>
                 </div>
-            </a>
+            </Link>
             <div className="passenger-dropoff">
                 <h3>{dropOff["streetAddress"]}</h3>
                 <h3>{dropOff["city"]}, {dropOff["state"]} {dropOff["postalCode"]}</h3>
