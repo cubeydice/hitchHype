@@ -59,3 +59,7 @@
 #trip-show-points{
     font-size: xx-large;
 }
+
+.trip-show-map {
+    width: 50%;
+}

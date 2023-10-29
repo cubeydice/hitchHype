@@ -19,7 +19,7 @@ const UserNavBar = () => {
       <h3>Your Journeys 📍</h3>
       <ul>
         <NavLink to={`/users/${userId}/trips`}><li>Your Trips</li></NavLink>
-        <NavLink to="/your-rides"><li>Your Rides</li></NavLink>
+        <NavLink to={`/users/${userId}/rides`}><li>Your Rides</li></NavLink>
       </ul>
     </nav>
   )
