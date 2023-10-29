@@ -28,7 +28,7 @@ export function UserTrips () {
                 </div>
                 <div className="user-trips-index-container">
                     { trips.map(trip => (
-                                (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
+                        (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
                     ))}
                 </div>
             </div>
