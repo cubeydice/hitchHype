@@ -22,7 +22,7 @@ router.get('/', async (req, res, next) => {
         const reviews = await Review.find({ reviewer: user._id })
                                 .sort({ createdAt: -1 })
                                 .populate("reviewer", "_id firstName lastName")
-                                .populate("reviewed", "_id firstName lastName" )
+                                .populate("reviewee", "_id firstName lastName" )
         return res.json(reviews);
     }
     catch(err) {
@@ -34,7 +34,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // Retreive reviews made to user
-router.get('/reviewed', async (req, res, next) => {
+router.get('/reviewee', async (req, res, next) => {
     let user;
     try {
         user = await User.findById(req.params.id);
@@ -45,10 +45,10 @@ router.get('/reviewed', async (req, res, next) => {
         return next(error);
     }
     try {
-        const rides = await Trip.find({ "reviewed": user._id })
+        const rides = await Trip.find({ "reviewee": user._id })
                                 .sort({ createdAt: -1 })
                                 .populate("reviewer", "_id firstName lastName")
-                                .populate("reviewed", "_id firstName lastName")
+                                .populate("reviewee", "_id firstName lastName")
         return res.json(rides);
     } catch(err) {
         return res.json([]);
@@ -60,7 +60,7 @@ router.post('/', requireUser, validateReviewInput, async (req, res, next) => {
     try {
         const { rating, title, body } = req.body
 
-        // Check if reviewer and reviewed are the same user
+        // Check if reviewer and reviewee are the same user
         if (req.params.id === req.user._id.toString()) {
             const error = new Error('User cannot review themself');
             error.status = 400;
@@ -70,7 +70,7 @@ router.post('/', requireUser, validateReviewInput, async (req, res, next) => {
 
         const newReview = new Review({
             reviewer: req.user._id,
-            reviewed: req.params.id,
+            reviewee: req.params.id,
             rating,
             title,
             body
@@ -78,7 +78,7 @@ router.post('/', requireUser, validateReviewInput, async (req, res, next) => {
         const review = await newReview.save();
         const populatedReview = await Review.populate(review, [
             { path: "reviewer", select: "_id firstName lastName" },
-            { path: "reviewed", select: "_id firstName lastName" }
+            { path: "reviewee", select: "_id firstName lastName" }
         ]);
         return res.json(populatedReview);
     } catch(err) {
@@ -116,7 +116,7 @@ router.patch('/:reviewId', requireUser, validateReviewInput, async (req, res, ne
         const updatedReview = await review.save();
         const populatedReview = await Review.populate(updatedReview, [
             { path: "reviewer", select: "_id firstName lastName" },
-            { path: "reviewed", select: "_id firstName lastName" }
+            { path: "reviewee", select: "_id firstName lastName" }
         ]);
         return res.json(populatedReview);
     } catch(err) {
