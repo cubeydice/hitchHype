@@ -71,7 +71,7 @@ function LoginForm () {
 
     return (
         <form className="session-form" onSubmit={handleSubmit}>
-        <LoginIcon className='large-icon' id='login-icon'/>
+        <LoginIcon className='large-icon-unrounded' id='login-icon'/>
         <h2>Log in and start your trip!</h2> <br/>
         <div>
             <label>

@@ -212,6 +212,11 @@ input[type=password] {
   border-radius: 50%;
 }
 
+.large-icon-unrounded {
+  height: 100px;
+  width: 100px;
+}
+
 /* IMAGES */
 img {
   border-radius: var(--rounded-border);
