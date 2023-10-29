@@ -7,12 +7,12 @@ const { requireUser } = require("../../config/passport");
 const validateReviewInput = require("../../validations/review");
 const Review = require("../../models/Review");
 
-// path = user/:id/reviews
+// path = /reviews
 // Retrieve user's reviews
-router.get('/', async (req, res, next) => {
+router.get('/:reviewerId', async (req, res, next) => {
     let user;
     try {
-        user = await User.findById(req.params.id);
+        user = await User.findById(req.params.reviewerId);
     } catch(err) {
         const error = new Error("User not found");
         error.statusCode = 404;
