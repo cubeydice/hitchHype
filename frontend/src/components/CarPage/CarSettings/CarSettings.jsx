@@ -29,7 +29,7 @@ const CarSettings = ({fromOriginalPage}) => {
   useEffect(() => {
     dispatch(fetchCar(carId)).then(car => {
       if (car) setInsurance(car[0].insurance);
-      setLicensePlateNumber(car[0].licensePlateNumber);
+      if (car) setLicensePlateNumber(car[0].licensePlateNumber);
     })
   }, [])
 
@@ -60,6 +60,7 @@ const CarSettings = ({fromOriginalPage}) => {
       case 'make':
         setMake(e.currentTarget.value);
         setModel("")
+        setYear("")
         break;
       case 'model':
         setModel(e.currentTarget.value);
@@ -134,7 +135,7 @@ const CarSettings = ({fromOriginalPage}) => {
                 <select onChange={handleChange('model')} disabled={makeOptionsReady}>
                   <option value={model}></option>
                   {modelOptions ?
-                  Object.keys(modelOptions).sort().map(make => <option value={make}>{make}</option>)
+                  Object.keys(modelOptions).sort().map(model => <option value={model}>{model}</option>)
                   : ''}
                 </select>
               </label>
@@ -143,18 +144,18 @@ const CarSettings = ({fromOriginalPage}) => {
                 <select onChange={handleChange('year')} disabled={makeOptionsReady}>
                   <option value={year}></option>
                     {yearOptions ?
-                    Object.keys(yearOptions).sort().map(make => <option value={make}>{make}</option>) :''}
+                    Object.keys(yearOptions).sort().map(year => <option value={year}>{year}</option>) :''}
                 </select>
               </label>
               <label> <h3>Average MPG</h3>
-                {mpgList[yearOptions[year]]}
+                {year ? mpgList[yearOptions[year]] :""}
               </label>
             </div>
             : <div><h3>Loading vehicle options...</h3><Loading/><br/></div>}
           <input
           type="submit"
           value="Save"
-          disabled={!make || !model || !year ||!insurance || licensePlateNumber }
+          disabled={!make || !model || !year ||!insurance || !licensePlateNumber }
           />
         </form>
       </div>
