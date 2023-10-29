@@ -10,11 +10,10 @@ export function UserTrips () {
     const dispatch = useDispatch();
     const trips = Object.values(useSelector(state => state.trips))
     const user = useSelector(state => state.session.user)
-    // const userId = useParams();
 
     useEffect(() => {
         dispatch(fetchUserTrips(user._id)).then(res => console.log(res));
-    }, [dispatch])
+    }, [dispatch,user._id])
 
     return (
     <div className="user-trips-layout">
@@ -29,7 +28,7 @@ export function UserTrips () {
                 </div>
                 <div className="user-trips-index-container">
                     { trips.map(trip => (
-                                <TripsItem key={trip._id} trip={trip} />
+                        (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
                     ))}
                 </div>
             </div>

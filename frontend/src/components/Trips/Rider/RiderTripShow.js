@@ -1,16 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
-import sfPic from "../../../assets/icons/sf-img.jpg"
-import linearMap from "../../../assets/images/linear-map-dummy.jpg"
-import map from "../../../assets/images/map-api-dummy.jpg"
-import profilePic from "../../../assets/images/profile-pic-dummy.jpg"
-import "./RiderTripShow.css"
-import { useState } from "react"
-import { updateTrip } from "../../../store/trips"
-import explodeAddress from "../AddressParser"
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { openModal } from "../../../store/modal"
 import RouteShow from "../../RouteShow/RouteShow"
-
-
+import sfPic from "../../../assets/icons/sf-img.jpg"
+import linearMap from "../../../assets/images/linear-map-dummy.jpg"
+import defaultProfilePic from '../../../assets/icons/user.png'
+import explodeAddress from "../AddressParser"
+import "./RiderTripShow.css"
 
 export function RiderTripShow ({ trip }) {
     const dispatch = useDispatch();
@@ -20,7 +16,6 @@ export function RiderTripShow ({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     let destinationCity;
     let originCity;
-    // console.log("trip:", trip)
 
     const handleClick = () => {
         if(rider){
@@ -31,11 +26,11 @@ export function RiderTripShow ({ trip }) {
     }
     explodeAddress(trip.destination, function(err,addressStr)
     {
-        destinationCity = addressStr.city; 
+        destinationCity = addressStr.city;
     })
     explodeAddress(trip.origin, function(err,addressStr)
     {
-        originCity = addressStr.city; 
+        originCity = addressStr.city;
     })
 
     //can only request if logged in.
@@ -46,12 +41,11 @@ export function RiderTripShow ({ trip }) {
             if(sessionUser && sessionUser._id === payload.passenger._is){
                 rider = true;
             }
-            // console.log(payload)
+
             passengerArr.push(
-                //will update with users profile once those are up
-                <a href="">
+                <Link to={`/profile/${payload.passenger._id}`}>
                     <button key={payload.passenger._id} id="passengers-list-btns">{payload.passenger.firstName}</button>
-                </a>
+                </Link>
             )
         }
         return passengerArr;
@@ -59,7 +53,7 @@ export function RiderTripShow ({ trip }) {
 
 
     return (
-        <> 
+        <>
             { trip.origin ? (
                 <>
                     <div className="rider-show-destination-details-container">
@@ -97,7 +91,7 @@ export function RiderTripShow ({ trip }) {
                                             <button onClick={ handleClick }>Leave Trip</button>
                                         ) : (
                                             <button onClick={ handleClick }>Request Ride</button>
-                                        )} 
+                                        )}
                                         </>
                                     ) : (
                                         <></>
@@ -109,7 +103,7 @@ export function RiderTripShow ({ trip }) {
                     <div className="rider-show-driver-maps-container">
                         <div className="rider-show-driver-details">
                             <div className="rider-show-driver-pic">
-                                <img src={profilePic} alt="show-img" id='driver-img'/>
+                                <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" id='driver-img'/>
                             </div>
                             <div className="rider-show-driver-passenger-container">
                                 <div className="rider-show-driver-info">
@@ -118,6 +112,7 @@ export function RiderTripShow ({ trip }) {
                                         <h3>driver review ratings</h3>
                                     </div>
                                     <h3>Driver Bio</h3>
+                                    <p>{trip.driver.biography}</p>
                                 </div>
                                 <div className="rider-show-passenger-info">
                                     <h3>PASSENGERS</h3>
