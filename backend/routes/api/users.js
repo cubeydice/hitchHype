@@ -81,7 +81,7 @@ router.get('/:id', async (req, res, next) => {
                               .populate("trip", "origin destination")
       let ratingTotal = 0;
       let avgRating = 0;
-      if (reviewee) {
+      if (reviewee.length > 0) {
         for (const review of reviewee) {
           ratingTotal += review.rating
         }
