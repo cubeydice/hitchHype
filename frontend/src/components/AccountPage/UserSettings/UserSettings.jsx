@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserErrors, updateUser } from "../../../store/users";
+import { clearUserErrors, fetchUser, updateUser } from "../../../store/users";
 import AccountImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg' // eslint-disable-next-line
 import './UserSettings.css'
-
+import { getCurrentUser } from "../../../store/session";
 const UserSettings = ({sessionUser}) => {
   const dispatch = useDispatch();
   let user = sessionUser;
   const errors = useSelector(state => state.errors.users);
   const [bio, setBio] = useState('');
   const [bioCount, setBioCount] = useState(0);
+
+  useEffect(()=>{
+    fetchUser(sessionUser._id)
+    if (user.biography) setBio(user.biography);
+  }, [dispatch])
 
   const handleChange = (field) => (e) => {
     e.preventDefault();
@@ -35,7 +40,8 @@ const UserSettings = ({sessionUser}) => {
     dispatch(updateUser(user))
     .then((res)=> {
       if (res && !res.errors) {
-          dispatch(clearUserErrors());
+        dispatch(getCurrentUser())
+        dispatch(clearUserErrors());
       };
   });
   }
@@ -46,6 +52,7 @@ const UserSettings = ({sessionUser}) => {
       <div className="account-form-container">
         <img src={AccountImage} alt='account'/>
         <form className="account-form" onSubmit={handleSubmit}>
+          {user.profilePicture}
           <h2>hello {user.firstName} {user.lastName}!</h2><br/>
           <label><h3>About Me</h3> <span className="errors">{errors?.biography}</span><br/>
             <textarea

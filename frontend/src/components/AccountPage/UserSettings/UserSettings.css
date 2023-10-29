@@ -13,6 +13,8 @@ textarea {
   resize: none;
   font-family: 'Roboto', sans-serif;
   border-radius: 8px;
+  padding: 12px;
+  line-height: 20px;
 }
 
 .account-form {
