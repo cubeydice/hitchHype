@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Tweet = require('../models/Tweet');
 const Trip = require('../models/Trip');
 const Car = require('../models/Car');
+const Review = require('../models/Review');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 
@@ -11,6 +12,21 @@ const NUM_SEED_USERS = 10;
 // const NUM_SEED_TWEETS = 10;
 const NUM_SEED_TRIPS = 10;
 const NUM_SEED_CARS = 10;
+
+images = [
+    "https://i.imgur.com/IQ1jIms.jpg",
+    "https://i.imgur.com/Vvloh4k.jpg",
+    "https://i.imgur.com/wqrZnL0.jpg",
+    "https://i.imgur.com/Iyf3OjN.jpg",
+    "https://i.imgur.com/cbF3pdG.jpg",
+    "https://i.imgur.com/byhJpky.jpg",
+    "https://i.imgur.com/QeLYhPo.jpg",
+    "https://i.imgur.com/Zi33294.jpg",
+    "https://i.imgur.com/1ATg0SM.png",
+    "https://i.imgur.com/PJase7X.jpg",
+    "https://i.imgur.com/wwj1ABD.jpg",
+    "https://i.imgur.com/zrAWDKG.jpg"
+]
 
 // Create users
 const users = [];
@@ -22,8 +38,10 @@ const demoRider = new User ({
     lastName: 'rider',
     // phoneNumber: '1234567890',
     biography: faker.lorem.sentences(5),
-    address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+    address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+    profilePicture: 'https://i.imgur.com/3EES7Zo.jpg'
 })
+
 users.push(demoRider)
 // Used to add demo rider to trips
 const demoInfo = {
@@ -32,6 +50,7 @@ const demoInfo = {
 }
 
 for (let i = 1; i < NUM_SEED_USERS; i++) {
+    const randomImage = images[Math.floor(Math.random() * images.length)]
     const firstName = faker.name.firstName()
     const lastName = faker.name.lastName()
     users.push(
@@ -41,7 +60,8 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             firstName: firstName,
             lastName: lastName,
             // phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
-            address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+            address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+            profilePicture: randomImage
         })
     )
 }
@@ -134,7 +154,8 @@ const demoDriver = new User ({
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
         car: driverCar,
-        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        profilePicture: 'https://i.imgur.com/XQYR7uu.jpg'
 });
 
 
@@ -171,6 +192,94 @@ for (let i = 0; i < 3; i++) {
 users.push(demoDriver);
 
 
+// Create reviews
+// Generate mock review titles and bodies for the driver
+const  passengerReviewTitles= [
+    "Excellent Driver",
+    "Smooth Ride",
+    "Great Experience",
+    "Highly Recommended",
+    "Pleasant Journey",
+    "Terrible Driver",
+    "Worst Experience",
+    "Unpleasant Journey",
+    "Late and Reckless",
+    "Avoid this Driver"
+    // Add more driver review titles here
+];
+
+const passengerReviewBodies = [
+    "The driver was punctual and professional. I had a great trip with them.",
+    "I highly recommend this driver. The ride was comfortable, and I reached my destination on time.",
+    "The driver provided a smooth and safe journey. I would ride with them again.",
+    "It was an excellent experience. The driver was friendly, and the car was clean.",
+    "The driver was terrible. They were late, and the ride was uncomfortable.",
+    "This was the worst ride I've ever had. The driver was reckless, and I felt unsafe.",
+    "The journey was very unpleasant. I do not recommend this driver.",
+    "The driver was late and drove recklessly. It was a stressful experience."
+    // Add more driver review bodies here
+];
+
+// Generate mock review titles and bodies for the passengers
+const driverReviewTitles = [
+    "Grateful Passenger",
+    "Friendly Rider",
+    "Five Stars!",
+    "Amazing Journey",
+    "Best Carpool Ever",
+    "Horrible Passenger",
+    "Nightmare Ride",
+    "Unruly Behavior",
+    "Rude and Inconsiderate",
+    "Avoid this Passenger",
+    "The passenger was horrible. They were rude and made the ride uncomfortable.",
+    "This was a nightmare ride. The passenger's behavior was unruly and disruptive.",
+    "The passenger exhibited rude and inconsiderate behavior throughout the journey.",
+    "It was a terrible experience with this passenger. I would not recommend them."
+    // Add more passenger review titles here
+];
+
+const driverReviewBodies = [
+    "I had a great time as a passenger. The driver was courteous and the ride was enjoyable.",
+    "This passenger was friendly and punctual. I would ride with them again.",
+    "I gave this ride five stars. It was a fantastic experience.",
+    "The journey was amazing, and the driver was very accommodating.",
+    // Add more passenger review bodies here
+];
+
+reviews = []
+
+// Iterate through the trips and create reviews
+for (const trip of trips) {
+    // Get the driver and passengers for the current trip
+    const driverId = trip.driver;
+    const passengers = trip.passengers;
+
+    // Create a review where the driver reviews a passenger
+    reviews.push(
+        new Review({
+            reviewer: driverId,
+            reviewee: passengers[0].passenger,
+            trip: trip._id, // Use the trip's _id
+            isDriver: true, // Since the driver is the reviewer
+            rating: Math.floor(Math.random() * 5) + 1, // Random rating between 1 and 5
+            title: driverReviewTitles[Math.floor(Math.random() * driverReviewTitles.length)], 
+            body: driverReviewBodies[Math.floor(Math.random() * driverReviewBodies.length)], 
+        })
+    );
+    // Create a review where a passenger reviews the driver
+    reviews.push(
+        new Review({
+            reviewer: passengers[0].passenger,
+            reviewee: driverId,
+            trip: trip._id, // Use the trip's _id
+            isDriver: false, // Since the passenger is the reviewer
+            rating: Math.floor(Math.random() * 5) + 1, // Random rating between 1 and 5
+            title: passengerReviewTitles[Math.floor(Math.random() * passengerReviewTitles.length)], 
+            body: passengerReviewBodies[Math.floor(Math.random() * passengerReviewBodies.length)], 
+        })
+    );
+}
 
 
 mongoose
@@ -191,10 +300,12 @@ const insertSeeds = () => {
     User.collection.drop()
                     .then(() => Trip.collection.drop())
                     .then(() => Car.collection.drop())
+                    .then(() => Review.collection.drop())
                     .then(() => User.insertMany(users))
                     // .then(() => Tweet.insertMany(tweets))
                     .then(() => Trip.insertMany(trips))
                     .then(() => Car.insertMany(cars))
+                    .then(() => Review.insertMany(reviews))
                     .then(() => {
                         // console.log("Done!");
                         mongoose.disconnect();
