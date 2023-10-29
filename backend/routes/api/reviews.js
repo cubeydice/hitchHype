@@ -9,7 +9,7 @@ const Review = require("../../models/Review");
 
 // path = /reviews
 // Retrieve user's reviews
-router.get('/:reviewerId', async (req, res, next) => {
+router.get('/user/:userId/reviewer', async (req, res, next) => {
     let user;
     try {
         user = await User.findById(req.params.reviewerId);
@@ -34,8 +34,8 @@ router.get('/:reviewerId', async (req, res, next) => {
     }
 });
 
-// Retreive reviews made to user
-router.get('/:revieweeId', async (req, res, next) => {
+// Retrieve reviews made to user
+router.get('/user/:userId/reviewee', async (req, res, next) => {
     let user;
     try {
         user = await User.findById(req.params.revieweeId);
@@ -46,18 +46,20 @@ router.get('/:revieweeId', async (req, res, next) => {
         return next(error);
     }
     try {
-        const rides = await Trip.find({ "reviewee": user._id })
+        const reviews = await Trip.find({ "reviewee": user._id })
                                 .sort({ createdAt: -1 })
                                 .populate("reviewer", "_id firstName lastName")
                                 .populate("reviewee", "_id firstName lastName")
-        return res.json(rides);
+        return res.json(reviews);
     } catch(err) {
-        return res.json([]);
+        const error = new Error("Error fetching reviews");
+        error.statusCode = 500;
+        error.errors = { message: "An error occurred while fetching reviews" };
+        return next(error);
     }
 });
 
 // Create a review
-// path = trips/:id/reviews
 router.post('/:tripId', requireUser, validateReviewInput, async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.tripId);
