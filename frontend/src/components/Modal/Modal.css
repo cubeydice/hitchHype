@@ -9,19 +9,20 @@
 }
 
 .modal-child {
+  background-color: var(--off-white);
   display: flex;
   position: absolute;
-  width: 500px;
-  height: 600px;
+  width: 400px;
+  height: 540px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--off-white);
   border-radius: 40px;
-  padding: 10px 20px 40px 20px;
-  text-align: center;
+  padding: 10px 20px 50px 20px;
   margin: 0 auto;
+  text-align: center;
   align-items: center;
+  justify-content: center;
   z-index: 90;
 }
 

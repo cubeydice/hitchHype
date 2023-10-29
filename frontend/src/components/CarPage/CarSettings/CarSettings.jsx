@@ -4,11 +4,15 @@ import { clearUserErrors, updateUser } from "../../../store/users";
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
 import './CarSettings.css'
+import { fetchCar } from "../../../store/cars";
+import UserNavBar from "../../AccountNavBar/UserNavBar";
 
-const CarSettings = ({sessionUser}) => {
+const CarSettings = ({fromOriginalPage}) => {
+  const user = useSelector(state => state.session.user)
   const dispatch = useDispatch();
-  let user = sessionUser;
-  let car;
+  let carId;
+  if (user) if (user.car) carId = user.car;
+  let car = useSelector(state => state.cars)[0];
 
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -21,6 +25,13 @@ const CarSettings = ({sessionUser}) => {
   const [yearOptions, setYearOptions] = useState('');
   const [makeOptionsReady, setMakeOptionsReady] = useState(true)
   const [mpgList, setMpgList] = useState('')
+
+  useEffect(() => {
+    dispatch(fetchCar(carId)).then(car => {
+      if (car) setInsurance(car[0].insurance);
+      if (car) setLicensePlateNumber(car[0].licensePlateNumber);
+    })
+  }, [])
 
   useEffect(()=>{
     if (makeOptions !== '') setModelOptions(makeOptions[make]);
@@ -51,6 +62,7 @@ const CarSettings = ({sessionUser}) => {
       case 'make':
         setMake(e.currentTarget.value);
         setModel("")
+        setYear("")
         break;
       case 'model':
         setModel(e.currentTarget.value);
@@ -91,6 +103,7 @@ const CarSettings = ({sessionUser}) => {
   }
 
   return (
+    <>
     <div className="settings-container">
       <h1 className="settings-form-title">Tell us about your <span className="italic">sweet ride</span> 🚙💨</h1>
       <div className="car-form-container">
@@ -115,40 +128,41 @@ const CarSettings = ({sessionUser}) => {
             <div className="car-form-dropdown">
               <label> <h3>Make</h3>
                 <select onChange={handleChange('make')} autoFocus disabled={makeOptionsReady} required>
-                  <option value=""></option>
+                  <option value={make}></option>
                   {Object.keys(makeOptions).sort().map(make => <option value={make}>{make}</option>)}
                 </select>
               </label>
 
               <label> <h3>Model</h3>
                 <select onChange={handleChange('model')} disabled={makeOptionsReady}>
-                  <option value=""></option>
+                  <option value={model}></option>
                   {modelOptions ?
-                  Object.keys(modelOptions).sort().map(make => <option value={make}>{make}</option>)
+                  Object.keys(modelOptions).sort().map(model => <option value={model}>{model}</option>)
                   : ''}
                 </select>
               </label>
 
               <label> <h3>Year</h3>
                 <select onChange={handleChange('year')} disabled={makeOptionsReady}>
-                  <option value=""></option>
+                  <option value={year}></option>
                     {yearOptions ?
-                    Object.keys(yearOptions).sort().map(make => <option value={make}>{make}</option>) :''}
+                    Object.keys(yearOptions).sort().map(year => <option value={year}>{year}</option>) :''}
                 </select>
               </label>
               <label> <h3>Average MPG</h3>
-                {mpgList[yearOptions[year]]}
+                {year ? mpgList[yearOptions[year]] :""}
               </label>
             </div>
             : <div><h3>Loading vehicle options...</h3><Loading/><br/></div>}
           <input
           type="submit"
           value="Save"
-          disabled={!make || !model || !year ||!insurance || licensePlateNumber }
+          disabled={!make || !model || !year ||!insurance || !licensePlateNumber }
           />
         </form>
       </div>
     </div>
+    </>
   )
  }
 

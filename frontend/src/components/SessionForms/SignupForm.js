@@ -70,7 +70,7 @@ const SignupForm = () => {
 
     return (
         <form className="session-form" onSubmit={handleSubmit}>
-            <SignUpIcon className="large-icon"/>
+            <SignUpIcon className="large-icon-unrounded"/>
             <h2>Create an account</h2> <br/>
 
             <label>

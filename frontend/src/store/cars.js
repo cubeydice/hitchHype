@@ -112,9 +112,9 @@ const carsReducer = (state = {}, action) => {
   const nextState = { ...state };
   switch(action.type) {
       case RECEIVE_CAR:
-          return { ...state, ...action.trip};
+          return { ...state, ...action.car};
       case REMOVE_CAR:
-          delete nextState[action.tripId];
+          delete nextState[action.carId];
           return nextState;
       default:
           return state;

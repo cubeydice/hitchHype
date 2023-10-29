@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 // const parserAddress = require('parse-address-string');
 const User = mongoose.model("User");
 const Trip = mongoose.model("Trip");
+const Review = mongoose.model("Review");
 const Car = mongoose.model("Car");
 const { requireUser } = require("../../config/passport");
 const validateTripInput = require("../../validations/trip");
@@ -78,7 +79,20 @@ router.get("/:id", async (req, res, next) => {
                                 .populate("driver", "_id firstName lastName")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName");
-        return res.json(trip);
+        
+        const reviewee = await Review.find({reviewee: trip.driver._id})
+        let ratingTotal = 0;
+        let avgRating = 0;
+        if (reviewee.length > 0) {
+            for (const review of reviewee) {
+                ratingTotal += review.rating
+            }
+            avgRating = ratingTotal / reviewee.length
+        }
+
+        const newTrip = { ...trip.toObject() };
+        newTrip.driver.avgRating = avgRating;
+        return res.json(newTrip);
     }
     catch(err) {
         const error = new Error("Trip not found");

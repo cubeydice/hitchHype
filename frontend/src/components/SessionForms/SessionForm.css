@@ -1,3 +1,7 @@
+.session-form {
+  align-content: center;
+}
+
 .session-form input[type=submit] {
   width: 120px;
   margin-bottom: 20px;

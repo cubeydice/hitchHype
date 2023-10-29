@@ -8,14 +8,12 @@ import "./DriverTripUpdate.css"
 
 export function DriverUpdateForm () {
     const { tripId } = useParams();
-    // console.log(tripId)
     const dispatch = useDispatch();
     const history = useHistory();
     const trip = useSelector(state => state.trips);
     const [availableSeats, setAvailableSeats] = useState()
     let passengersArr;
     let seats;
-    // const sesionUser = useSelector(state => state.session.user);
 
     useEffect( () => {
         dispatch(fetchTrip(tripId)).then( trip => setAvailableSeats(trip.availableSeats - trip.passengers.length));   //.then( trip => console.log(trip))
