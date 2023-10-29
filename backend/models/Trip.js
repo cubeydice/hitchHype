@@ -5,7 +5,8 @@ const tripSchema = new Schema({
     driver: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
+        index: true
     },
     car: {
         type: Schema.Types.ObjectId,
@@ -18,7 +19,8 @@ const tripSchema = new Schema({
         passenger: {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: true
+            required: true,
+            index: true
         },
         dropoffPoint: {
             type: String,
@@ -44,6 +46,8 @@ const tripSchema = new Schema({
     destinationPicutre: {
         type: String,
     }
-})
+}, {
+    timestamps: true, 
+});
 
 module.exports = mongoose.model('Trip', tripSchema);

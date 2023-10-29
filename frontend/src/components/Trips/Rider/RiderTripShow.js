@@ -8,6 +8,8 @@ import { useState } from "react"
 import { updateTrip } from "../../../store/trips"
 import explodeAddress from "../AddressParser"
 import { openModal } from "../../../store/modal"
+import RouteShow from "../../RouteShow/RouteShow"
+
 
 
 export function RiderTripShow ({ trip }) {
@@ -86,9 +88,6 @@ export function RiderTripShow ({ trip }) {
                                 <div className='trip-show-departure-time'>
                                     <h3>The trip will take place on {date.toDateString()}.</h3>
                                 </div>
-                                <div className="trip-show-min-distance">
-                                    <h3>Min. distance: 100mi</h3>
-                                </div>
                                 <div className="trip-show-min-price">
                                     <h3>Max. price for additional rider: $45</h3>
                                 </div>
@@ -131,10 +130,10 @@ export function RiderTripShow ({ trip }) {
                         <div className="rider-show-linear-map">
                             <img src={linearMap} alt="show-img" id='show-linear-map-img'/>
                         </div>
-                        <div className="rider-show-maps-api">
-                        <img src={map} alt="show-img" id='show-linear-map-img'/>
-                        </div>
                     </div>
+                        <div className="rider-show-maps-api">
+                            <RouteShow trip={trip} />
+                        </div>
                 </>
             ) : (
                 <></>
