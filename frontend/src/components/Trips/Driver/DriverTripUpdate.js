@@ -13,7 +13,6 @@ export function DriverUpdateForm () {
     const history = useHistory();
     const trip = useSelector(state => state.trips);
     const [availableSeats, setAvailableSeats] = useState()
-    const tripsPage = "/trips/"
     let passengersArr;
     let seats;
     // const sesionUser = useSelector(state => state.session.user);
@@ -21,7 +20,7 @@ export function DriverUpdateForm () {
     useEffect( () => {
         dispatch(fetchTrip(tripId)).then( trip => setAvailableSeats(trip.availableSeats - trip.passengers.length));   //.then( trip => console.log(trip))
         dispatch(clearTripErrors());
-    }, [dispatch])
+    }, [dispatch, tripId])
 
     const handleClick = field => (e) => {
         e.preventDefault();
@@ -30,7 +29,7 @@ export function DriverUpdateForm () {
             case "deletePassenger":
                 passengersArr = trip.passengers.filter((payload) => (payload._id !== e.target.value))
                 dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${tripId}`) )
-                
+
                 break;
             case "deleteTrip":
                 dispatch(deleteTrip(tripId)).then( res =>{
@@ -52,7 +51,7 @@ export function DriverUpdateForm () {
             default:
                 break;
         }
-       
+
     }
 
     return (

@@ -1,11 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import linearMap from "../../../assets/images/linear-map-dummy.jpg"
-import map from "../../../assets/images/map-api-dummy.jpg"
 import profilePic from "../../../assets/images/profile-pic-dummy.jpg"
 import "./RiderTripShow.css"
-import { useState } from "react"
-import { updateTrip } from "../../../store/trips"
 import explodeAddress from "../AddressParser"
 import { openModal } from "../../../store/modal"
 import RouteShow from "../../RouteShow/RouteShow"
@@ -20,7 +17,6 @@ export function RiderTripShow ({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     let destinationCity;
     let originCity;
-    // console.log("trip:", trip)
 
     const handleClick = () => {
         if(rider){
@@ -31,11 +27,11 @@ export function RiderTripShow ({ trip }) {
     }
     explodeAddress(trip.destination, function(err,addressStr)
     {
-        destinationCity = addressStr.city; 
+        destinationCity = addressStr.city;
     })
     explodeAddress(trip.origin, function(err,addressStr)
     {
-        originCity = addressStr.city; 
+        originCity = addressStr.city;
     })
 
     //can only request if logged in.
@@ -59,7 +55,7 @@ export function RiderTripShow ({ trip }) {
 
 
     return (
-        <> 
+        <>
             { trip.origin ? (
                 <>
                     <div className="rider-show-destination-details-container">
@@ -97,7 +93,7 @@ export function RiderTripShow ({ trip }) {
                                             <button onClick={ handleClick }>Leave Trip</button>
                                         ) : (
                                             <button onClick={ handleClick }>Request Ride</button>
-                                        )} 
+                                        )}
                                         </>
                                     ) : (
                                         <></>

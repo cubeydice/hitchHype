@@ -10,10 +10,10 @@ export function UserRides () {
     const user = useSelector(state => state.session.user)
     useEffect(() => {
         dispatch(fetchUserRides(user._id)).then(res => console.log(res));
-    }, [dispatch])
+    }, [dispatch, user._id])
 
 
-    return( 
+    return(
         <div className="user-rider-layout">
 
         <div className="user-trips-container">

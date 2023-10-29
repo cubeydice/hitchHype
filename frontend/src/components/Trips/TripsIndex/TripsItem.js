@@ -1,6 +1,3 @@
-
-
-import { useState } from "react"
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import "./TripsItem.css"
 import explodeAddress from "../AddressParser"
@@ -9,7 +6,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 export function TripsItem ({ trip }) {
     const id = useParams();
     let city
- 
+
     explodeAddress(trip.destination, function(err,addressStr)
     {
         city = addressStr.city;
