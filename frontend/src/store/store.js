@@ -5,13 +5,15 @@ import trips from './trips';
 import modal from './modal';
 import errors from './errors';
 import users from './users';
+import cars from './cars'
 
 const rootReducer = combineReducers({
     session,
     trips,
     errors,
     users,
-    modal
+    modal,
+    cars
 });
 
 let enhancer;
