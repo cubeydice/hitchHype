@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
 const { mongoURI: db } = require('../config/keys.js');
 const User = require('../models/User');
-const Tweet = require('../models/Tweet');
 const Trip = require('../models/Trip');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 
 const NUM_SEED_USERS = 10;
-const NUM_SEED_TWEETS = 10;
 const NUM_SEED_TRIPS = 10;
 
 // Create users
@@ -37,17 +35,6 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
     )
 }
 
-// Create tweets
-const tweets = [];
-
-for (let i = 0; i < NUM_SEED_TWEETS; i++) {
-    tweets.push(
-        new Tweet ({
-        text: faker.hacker.phrase(),
-        author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-        })
-    )
-}
 
 // Create trips
 const trips = [];
@@ -59,7 +46,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
-        const dropoffPoint = faker.address.city(); 
+        const dropoffPoint = faker.address.city();
 
         const passengerInfo = {
             passenger: randomPassenger,
@@ -73,8 +60,8 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
             driver: randomDriver,
             passengers: randomPassengers,
             departureTime: faker.date.future(),
-            startPoint: faker.address.city(), 
-            endPoint: faker.address.city(), 
+            startPoint: faker.address.city(),
+            endPoint: faker.address.city(),
             availableSeats: Math.floor(Math.random() * 6) + 1
         })
     )
@@ -93,12 +80,8 @@ mongoose
 
 // Reset and seed db
 const insertSeeds = () => {
-    // console.log("Resetting db and seeding users and tweets...");
-
     User.collection.drop()
-                    .then(() => Tweet.collection.drop())
                     .then(() => User.insertMany(users))
-                    .then(() => Tweet.insertMany(tweets))
                     .then(() => Trip.insertMany(trips))
                     .then(() => {
                         // console.log("Done!");

@@ -1,0 +1,12 @@
+.profile-sidebar-container {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  gap:20px;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-bio-container p {
+  text-align: left;
+}

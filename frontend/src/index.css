@@ -203,10 +203,12 @@ input[type=password] {
 /* ICONS */
 .medium-icon {
   height: 32px;
+  width: 32px;
 }
 
 .large-icon {
   height: 100px;
+  width: 100px;
 }
 
 /* IMAGES */
