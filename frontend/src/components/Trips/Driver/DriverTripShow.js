@@ -1,5 +1,4 @@
 
-import map from "../../../assets/images/map-dummy.jpg"
 import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import "./DriverTripShow.css"
 import { Passenger } from '../Passenger/Passenger';
@@ -27,7 +26,7 @@ export function DriverTripShow({ trip }) {
     };
     explodeAddress(trip.destination, function(err,addressStr)
     {
-        destination["city"] = addressStr.city; 
+        destination["city"] = addressStr.city;
         destination["state"] = addressStr.state;
         destination["country"] = addressStr.country;
         destination["postalCode"] = addressStr.postal_code;
@@ -35,7 +34,7 @@ export function DriverTripShow({ trip }) {
     })
     explodeAddress(trip.origin, function(err,addressStr)
     {
-        origin["city"] = addressStr.city; 
+        origin["city"] = addressStr.city;
         origin["state"] = addressStr.state;
         origin["country"] = addressStr.country;
         origin["postalCode"] = addressStr.postal_code;
@@ -72,7 +71,7 @@ export function DriverTripShow({ trip }) {
                                 </div>
                             </div>
                             <div className='trip-show-edit-btn-container'>
-                                <a href={editPage} className='trip-show-edit-btn'> 
+                                <a href={editPage} className='trip-show-edit-btn'>
                                     <div className='edit-btn-container'>
                                         <h3>Edit trip</h3>
                                     </div>

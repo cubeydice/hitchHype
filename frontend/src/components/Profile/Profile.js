@@ -1,25 +1,28 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { TripsItem } from '../Trips/TripsIndex/TripsItem';
 import { fetchUser } from '../../store/users';
-import DefaultProfilePic from '../../assets/icons/user.png'
+import defaultProfilePic from '../../assets/icons/user.png'
 import './Profile.css'
+import { fetchUserTrips } from '../../store/trips';
 
-function Profile ({defaultPic}) {
+function Profile () {
     const dispatch = useDispatch();
     const { userId } = useParams();
     const user = useSelector(state => state.users)
-    console.log(user)
+    const sessionUserId = useSelector(state => state.session.user._id)
+    const trips = Object.values(useSelector(state => state.trips))
 
     useEffect(() => {
         dispatch(fetchUser(userId))
+        dispatch(fetchUserTrips(userId));
     }, [dispatch, userId])
 
         return (
-        <>
+        <div className='profile-container'>
         <div className='profile-sidebar-container'>
-            <img src={user.profilePicture ? user.profilePicture : DefaultProfilePic}
+            <img src={user.profilePicture ? user.profilePicture : defaultProfilePic}
             alt='profile-pic'
             className='large-icon'/>
 
@@ -32,22 +35,23 @@ function Profile ({defaultPic}) {
             <div className='profile-bio-container'>
                 <h3>About Me</h3>
                 <p>{user.biography}</p>
+                {sessionUserId === userId ? <Link to='/account'><button>Edit Bio</button></Link> : ""}
             </div>
 
             <div className='profile-journeys-container'></div>
                 <h3>Journeys</h3>
                 {(!user.rides || !user.trips || (user.trips.length === 0 && user.rides.length === 0)) ?
                 `${user.firstName} hasn't made any rides or trips yet!` :
-                user.trips.map(trip => {
+                trips.map(trip => {
                     return (
                         <>
-                            <TripsItem key={trip._id} trip={trip} className='profile-trips'/>
+                            {(trip._id !== undefined) ? <TripsItem key={trip._id} trip={trip} className='profile-trips'/> : ""}
                         </>
                     )
                 })
                 }
         </div>
-        </>
+        </div>
         );
 }
 
