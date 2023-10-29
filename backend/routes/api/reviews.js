@@ -35,10 +35,10 @@ router.get('/', async (req, res, next) => {
 });
 
 // Retreive reviews made to user
-router.get('/reviewee', async (req, res, next) => {
+router.get('/:revieweeId', async (req, res, next) => {
     let user;
     try {
-        user = await User.findById(req.params.id);
+        user = await User.findById(req.params.revieweeId);
     } catch(err) {
         const error = new Error("User not found");
         error.statusCode = 404;
@@ -58,15 +58,23 @@ router.get('/reviewee', async (req, res, next) => {
 
 // Create a review
 // path = trips/:id/reviews
-router.post('/', requireUser, validateReviewInput, async (req, res, next) => {
+router.post('/:tripId', requireUser, validateReviewInput, async (req, res, next) => {
     try {
-        const trip = await Trip.findById(req.params.id)
+        const trip = await Trip.findById(req.params.tripId);
 
+        if (!trip) {
+            const error = new Error('1Trip not found');
+            error.status = 404;
+            error.errors = { message: '2Trip not found' };
+            return next(error);
+        }
         // Check if user is part of trip (either driver or passenger)
-        const isDriver = trip.driver._id === req.user._id
-        const isPassenger = trip.passengers.some(passenger => passenger.passenger._id.equals(req.user._id));
-
-        if (!isDriver || !isPassenger) {
+        const isDriver = trip.driver._id.toString() === req.user._id.toString()
+        const isPassenger = trip.passengers.some(passenger => passenger.passenger._id.toString() === req.user._id.toString());
+        console.log(trip.driver._id)
+        console.log(req.user._id)
+        console.log(isDriver)
+        if (!isDriver && !isPassenger) {
             const error = new Error('Unauthorized: User is not part of this trip');
             error.status = 403; 
             error.errors = { message: 'You cannot review this trip because you are not part of it' };
@@ -86,7 +94,7 @@ router.post('/', requireUser, validateReviewInput, async (req, res, next) => {
         const newReview = new Review({
             reviewer: req.user._id,
             reviewee,
-            trip: req.params.id,
+            trip: req.params.tripId,
             isDriver,
             rating,
             title,
@@ -104,9 +112,9 @@ router.post('/', requireUser, validateReviewInput, async (req, res, next) => {
 });
 
 // Update a review
-router.patch('/:reviewId', requireUser, validateReviewInput, async (req, res, next) => {
+router.patch('/:id', requireUser, validateReviewInput, async (req, res, next) => {
     try {
-        const review = await Review.findById(req.params.reviewId)
+        const review = await Review.findById(req.params.id)
 
         if (!review) {
             const error = new Error("Review not found");
@@ -118,7 +126,7 @@ router.patch('/:reviewId', requireUser, validateReviewInput, async (req, res, ne
         const { rating, title, body } = req.body
 
         // Check if user is the reviewer
-        if (review.reviewer._id !== req.user._id.toString()) {
+        if (review.reviewer._id.toString() !== req.user._id.toString()) {
             const error = new Error('Unauthorized: User is not the reviewer');
             error.status = 403;
             error.errors = { message: 'User did not write this review' };
@@ -142,9 +150,9 @@ router.patch('/:reviewId', requireUser, validateReviewInput, async (req, res, ne
 });
 
 // Remove a review
-router.delete('/:reviewId', requireUser, async (req, res, next) => {
+router.delete('/:id', requireUser, async (req, res, next) => {
     try{
-        const review = await Review.findById(req.params.reviewId);
+        const review = await Review.findById(req.params.id);
         
         if (!review) {
             const error = new Error('Review not found');
@@ -154,7 +162,7 @@ router.delete('/:reviewId', requireUser, async (req, res, next) => {
         }
     
         // Check if user is the reviewer
-        if (review.reviewer._id !== req.user._id.toString()) {
+        if (review.reviewer._id.toString() !== req.user._id.toString()) {
             const error = new Error('Unauthorized: User is not the reviewer');
             error.status = 403;
             error.errors = { message: 'User did not write this review' };
