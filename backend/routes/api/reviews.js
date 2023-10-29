@@ -73,9 +73,7 @@ router.post('/:tripId', requireUser, validateReviewInput, async (req, res, next)
         // Check if user is part of trip (either driver or passenger)
         const isDriver = trip.driver._id.toString() === req.user._id.toString()
         const isPassenger = trip.passengers.some(passenger => passenger.passenger._id.toString() === req.user._id.toString());
-        console.log(trip.driver._id)
-        console.log(req.user._id)
-        console.log(isDriver)
+        
         if (!isDriver && !isPassenger) {
             const error = new Error('Unauthorized: User is not part of this trip');
             error.status = 403; 
