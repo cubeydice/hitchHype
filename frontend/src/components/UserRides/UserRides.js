@@ -13,7 +13,7 @@ export function UserRides () {
     }, [dispatch])
 
 
-    return( 
+    return(
         <div className="user-rider-layout">
 
         <div className="user-trips-container">
@@ -26,7 +26,7 @@ export function UserRides () {
                 </div>
                 <div className="user-trips-index-container">
                     { trips.map(trip => (
-                        <TripsItem key={trip._id} trip={trip} />
+                        (trip.driver._id !== user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
                     ))}
                 </div>
             </div>

@@ -16,7 +16,6 @@ export function RiderTripShow ({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     let destinationCity;
     let originCity;
-    // console.log("trip:", trip)
 
     const handleClick = () => {
         if(rider){
@@ -104,7 +103,7 @@ export function RiderTripShow ({ trip }) {
                     <div className="rider-show-driver-maps-container">
                         <div className="rider-show-driver-details">
                             <div className="rider-show-driver-pic">
-                                <img src={sessionUser.profilePicture ? sessionUser.profilePicture : defaultProfilePic} alt="show-img" id='driver-img'/>
+                                <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" id='driver-img'/>
                             </div>
                             <div className="rider-show-driver-passenger-container">
                                 <div className="rider-show-driver-info">

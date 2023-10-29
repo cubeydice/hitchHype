@@ -40,12 +40,12 @@ function Profile () {
 
             <div className='profile-journeys-container'></div>
                 <h3>Journeys</h3>
-                {(!user.rides || !user.trips || (user.trips.length === 0 && user.rides.length === 0)) ?
+                {(trips.length === 0 ) ?
                 `${user.firstName} hasn't made any rides or trips yet!` :
                 trips.map(trip => {
                     return (
                         <>
-                            {(trip._id !== undefined) ? <TripsItem key={trip._id} trip={trip} className='profile-trips'/> : ""}
+                            {(trip.driver !== undefined) ? <TripsItem key={trip._id} trip={trip} className='profile-trips'/> : ""}
                         </>
                     )
                 })

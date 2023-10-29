@@ -4,12 +4,12 @@ import "./DriverTripShow.css"
 import { Passenger } from '../Passenger/Passenger';
 import explodeAddress from "../AddressParser"
 import RouteShow from "../../RouteShow/RouteShow";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 
 export function DriverTripShow({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     const date = new Date(trip.departureDate);
-    const editPage = `/trips/${trip._id}/update`
     let destination = {
         city: "",
         state: "",
@@ -71,11 +71,11 @@ export function DriverTripShow({ trip }) {
                                 </div>
                             </div>
                             <div className='trip-show-edit-btn-container'>
-                                <a href={editPage} className='trip-show-edit-btn'>
-                                    <div className='edit-btn-container'>
+                                <Link to={`/trips/${trip._id}/update`} className='trip-show-edit-btn'>
+                                    <button className='edit-btn-container'>
                                         <h3>Edit trip</h3>
-                                    </div>
-                                </a>
+                                    </button>
+                                </Link>
                             </div>
 
                         </div>
