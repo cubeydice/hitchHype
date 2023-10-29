@@ -1,5 +1,5 @@
 import {useJsApiLoader, GoogleMap, DirectionsRenderer } from '@react-google-maps/api'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './RouteShow.css'
 
 const center = {lat: 37.7749, lng: -122.4194}
@@ -13,10 +13,12 @@ const RouteShow = ({trip}) => {
     })
     const origin = trip.origin
     const destination = trip.destination
+     // eslint-disable-next-line
     const waypoints = trip.waypoints
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
     const [directionsResponse, setDirectionsResponse] = useState(null)
+     // eslint-disable-next-line
     const [map, setMap] = useState( /** @type google.maps.Map */ (null))
 
 
@@ -57,9 +59,9 @@ const RouteShow = ({trip}) => {
                 <p id='duration-text'>Duration:</p>
                 <p id='duration-result'>{duration}</p>
             </div>
-            <GoogleMap  
-                center={center} 
-                zoom={14} 
+            <GoogleMap
+                center={center}
+                zoom={14}
                 mapContainerClassName='map'
                 id='map'
                 options={{

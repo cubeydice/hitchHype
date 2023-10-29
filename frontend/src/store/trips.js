@@ -132,6 +132,7 @@ export const updateTrip = data => async (dispatch) => {
 export const deleteTrip = tripId => async (dispatch) => {
     // debugger
     try {
+         // eslint-disable-next-line
         const res = await jwtFetch(`/api/trips/${tripId}`, {
             method: 'DELETE'
     });

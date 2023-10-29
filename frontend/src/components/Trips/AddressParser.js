@@ -20,7 +20,7 @@ function explodeAddress(singleLineAddress,cb){
     if (postalCode) {
         postalCode = postalCode.pop() // pick match closest to end
         indexOfPostalCode = singleLineAddress.lastIndexOf(postalCode)
-        if (indexOfPostalCode == 0 && singleLineAddress.length > 10) {
+        if (indexOfPostalCode === 0 && singleLineAddress.length > 10) {
             // postal code is probably part of street address
             postalCode = null
             indexOfPostalCode = -1
@@ -41,7 +41,7 @@ function explodeAddress(singleLineAddress,cb){
 
     // Handle special cases...
     // Neighborhood, City, State
-    if (addySplit.length == 3 && looksLikeState(addySplit[2])) {
+    if (addySplit.length === 3 && looksLikeState(addySplit[2])) {
         addressObj.street_address1 = addySplit[0].trim()
         addressObj.city = addySplit[1].trim()
         addressObj.state = addySplit[2].trim()
@@ -84,7 +84,7 @@ if (!countries) {
     }
 }
 str = str.trim().toLowerCase()
-if (str == 'usa') {
+if (str === 'usa') {
     return true
 }
 return !!countries[str]
