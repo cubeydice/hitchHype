@@ -39,10 +39,10 @@ const Footer = () => {
         <div className='footer-author' key={author.name}>
         {author.name}
         <div className='footer-author-icons'>
-          <a href={author.linkedIn} alt='linkedin'>
+          <a href={author.linkedIn} alt='linkedin' target="_blank" rel="noreferrer">
             <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
           </a>
-          <a href={author.gitHub} alt='linkedin'>
+          <a href={author.gitHub} alt='github' target="_blank" rel="noreferrer">
             <img src={GitHubLogo} alt='github' className='medium-icon'/>
           </a>
         </div>
