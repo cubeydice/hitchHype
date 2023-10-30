@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { openModal } from "../../../store/modal"
 import RouteShow from "../../RouteShow/RouteShow"
 import sfPic from "../../../assets/icons/sf-img.jpg"
@@ -8,17 +8,21 @@ import defaultProfilePic from '../../../assets/icons/user.png'
 import explodeAddress from "../AddressParser"
 import "./RiderTripShow.css"
 import { useState } from "react";
+import { updateTrip } from "../../../store/trips";
 
 export function RiderTripShow ({ trip }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
     const date = new Date(trip.departureDate);
     const todaysDate =  new Date();
     let rider = false;
+    let riderId;
     // const [rider, setRider] = useState(false)
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     let destinationCity;
     let originCity;
+    let passengersArr;
     const [tripOver, setTripOver] = useState(false)
 
     if(date.getFullYear() < todaysDate.toDateString()){
@@ -33,7 +37,9 @@ export function RiderTripShow ({ trip }) {
 
     const handleClick = () => {
         if(rider){
-            // dispatch(updateTrip({passengers}))
+            console.log(riderId)
+            passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
+            dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`) )
         }else{
             dispatch(openModal('request-ride-form'))
         }
@@ -73,14 +79,13 @@ export function RiderTripShow ({ trip }) {
             {
                 if(sessionUser && sessionUser._id === payload.passenger._id){
                     rider = true;
+                    riderId = payload._id;
                     // setRider(true)
                 }
             }
         }
         return rider
     }
-
-    // checkUserPassenger();
 
 
     return (
