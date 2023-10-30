@@ -11,6 +11,7 @@ const NUM_SEED_USERS = 10;
 const NUM_SEED_TRIPS = 10;
 const NUM_SEED_CARS = 10;
 
+
 const images = [
     "https://i.imgur.com/IQ1jIms.jpg",
     "https://i.imgur.com/Vvloh4k.jpg",
@@ -101,16 +102,16 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-
+        
         const passengerInfo = {
             passenger: randomPassenger,
             dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
         };
-
+        
         randomPassengers.push(passengerInfo);
     }
     if (randomBoolean) randomPassengers.push(demoInfo);
-
+    
     trips.push(
         new Trip ({
             driver: randomDriver,
@@ -143,24 +144,24 @@ const demoDriver = new User ({
 });
 
 
-
+// Create demo drivers trips
 for (let i = 0; i < 3; i++) {
     const randomPassengers = []
-
+    
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-
+        
         const passengerInfo = {
             passenger: randomPassenger,
             dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
         };
-
+        
         randomPassengers.push(passengerInfo);
     }
     // Add demo rider to passengers
     randomPassengers.push(demoInfo);
-
+    
     const trip = new Trip ({
         driver: demoDriver._id,
         car: driverCar,
@@ -174,6 +175,28 @@ for (let i = 0; i < 3; i++) {
     trips.push(trip)
 }
 users.push(demoDriver);
+
+// Create trip where demo driver is a passenger
+trips.push(
+    new Trip ({
+        driver: users[Math.floor(Math.random() * users.length)]._id,
+        car: cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id,
+        passengers: [
+            {
+                passenger: demoDriver._id,
+                dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}`
+            },
+            {
+                passenger: users[Math.floor(Math.random() * users.length)]._id,
+                dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}`
+            }
+        ],
+        departureDate: faker.date.future(),
+        origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        availableSeats: Math.floor(Math.random() * 6) + 1
+    })
+)
 
 
 // Create reviews
@@ -231,6 +254,7 @@ const driverReviewBodies = [
     // Add more passenger review bodies here
 ];
 
+
 const reviews = []
 
 // Iterate through the trips and create reviews
@@ -238,7 +262,7 @@ for (const trip of trips) {
     // Get the driver and passengers for the current trip
     const driverId = trip.driver;
     const passengers = trip.passengers;
-
+    
     // Create a review where the driver reviews a passenger
     reviews.push(
         new Review({
@@ -277,7 +301,7 @@ mongoose
         process.exit(1);
     });
 
-// Reset and seed db
+    // Reset and seed db
 const insertSeeds = () => {
     User.collection.drop()
                     .then(() => Trip.collection.drop())
