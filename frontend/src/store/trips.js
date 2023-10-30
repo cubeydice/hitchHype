@@ -121,6 +121,7 @@ export const updateTrip = data => async (dispatch) => {
         }
     }
 };
+
 export const deleteTrip = tripId => async (dispatch) => {
     // debugger
     try {
