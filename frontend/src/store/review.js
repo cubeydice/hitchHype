@@ -118,7 +118,7 @@ export const reviewReducer = (state = {}, action) => {
             delete nextState[action.reviewId];
             return nextState;
         default:
-            break;
+            return state;
     }
 }
 
