@@ -172,7 +172,6 @@ export function RiderTripShow ({ trip }) {
                             <RouteShow trip={trip} driver={false} />
                         </div>
                     </div>
-                </div>
             ) : (
                 <></>
             )}
