@@ -11,8 +11,7 @@ export function DriverTripShow({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     const date = new Date(trip.departureDate);
     const todaysDate =  new Date();
-    const [tripOver, setTripOver] = useState(date < todaysDate);
-    // console.log(date > todaysDate)
+    const [tripOver, setTripOver] = useState(todaysDate > date);
     let destination = {
         city: "",
         state: "",
