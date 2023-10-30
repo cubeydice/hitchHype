@@ -24,11 +24,11 @@ export function UserRides () {
                     <h3 className="user-trips-header-h3">Your Rides 🚌</h3>
                 </div>
                 <div className="user-trips-index-container">
-                    { trips ? (
+                    { trips && trips.length > 0 ? (
                         trips.map(trip => (
-                           (trip.driver._id !== user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
+                            <TripsItem key={trip._id} trip={trip} />
+                        //    (trip.driver._id !== user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
                        ))
-
                     ) : (
                         <></>
                     )}
