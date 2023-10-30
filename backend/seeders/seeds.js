@@ -11,7 +11,7 @@ const NUM_SEED_USERS = 10;
 const NUM_SEED_TRIPS = 10;
 const NUM_SEED_CARS = 10;
 
-images = [
+const images = [
     "https://i.imgur.com/IQ1jIms.jpg",
     "https://i.imgur.com/Vvloh4k.jpg",
     "https://i.imgur.com/wqrZnL0.jpg",
@@ -64,6 +64,30 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
     )
 }
 
+// Create cars
+const cars = [];
+const sampleInsuranceCompanies = [
+    "Company A",
+    "Company B",
+    "Company C",
+    // Add more company names here
+];
+for (let i = 0; i < NUM_SEED_CARS; i++) {
+    const randomOwner = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
+    cars.push(
+        new Car ({
+            owner: randomOwner,
+            make: faker.vehicle.manufacturer(),
+            model: faker.vehicle.model(),
+            year: faker.datatype.number({ min: 2000, max: 2022 }),
+            maxPassengers: faker.datatype.number({ min: 2, max: 5 }),
+            licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
+            insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
+            mpg: faker.datatype.number({ min: 10, max: 50 }),
+            fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
+        })
+    )
+}
 
 // Create trips
 const trips = [];
@@ -207,7 +231,7 @@ const driverReviewBodies = [
     // Add more passenger review bodies here
 ];
 
-reviews = []
+const reviews = []
 
 // Iterate through the trips and create reviews
 for (const trip of trips) {
@@ -256,12 +280,13 @@ mongoose
 // Reset and seed db
 const insertSeeds = () => {
     User.collection.drop()
-                    .then(() => Tweet.collection.drop())
+                    .then(() => Trip.collection.drop())
+                    .then(() => Review.collection.drop())
+                    .then(() => Car.collection.drop())
                     .then(() => User.insertMany(users))
-                    .then(() => Tweet.insertMany(tweets))
                     .then(() => Trip.insertMany(trips))
-                    .then(() => Car.insertMany(cars))
                     .then(() => Review.insertMany(reviews))
+                    .then(() => Car.insertMany(cars))
                     .then(() => {
                         // console.log("Done!");
                         mongoose.disconnect();
