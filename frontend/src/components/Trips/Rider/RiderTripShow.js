@@ -156,7 +156,9 @@ export function RiderTripShow ({ trip }) {
                                 <div className="rider-show-driver-info">
                                     <h2 id="trip-passenger-show-details">Driver: {trip.driver.firstName}</h2>
                                     <div className="rider-show-driver-ratings">
-                                        <h3 id="trip-passenger-show-details">Avg Rating: {Math.round(trip.driver.avgRating * 10) / 10}</h3>
+                                        {trip.driver.avgRating ? (
+                                            <h3 id="trip-passenger-show-details">Avg Rating: {Math.round(trip.driver.avgRating * 10) / 10}</h3>
+                                        ) : (<></>) }
                                     </div>
                                     {
                                         trip.driver.biography ? (
