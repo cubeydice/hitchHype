@@ -3,15 +3,21 @@ import UserNavBar from "../AccountNavBar/UserNavBar";
 import { TripsItem } from "../Trips/TripsIndex/TripsItem";
 import { fetchUserRides } from "../../store/trips";
 import { useEffect } from "react";
+import { useState } from "react";
 
 export function UserRides () {
     const dispatch = useDispatch();
-    const trips = Object.values(useSelector(state => state.trips))
+    const [trips, setTrips] = useState();
+    // const trips = Object.values(useSelector(state => state.trips))
     const user = useSelector(state => state.session.user)
     useEffect(() => {
+// <<<<<<< TripPagesStyling
+//         dispatch(fetchUserRides(user._id)).then(res => setTrips(res));
+//     }, [dispatch])
+=======
         dispatch(fetchUserRides(user._id)).then(res => console.log(res));
     }, [dispatch, user._id])
-
+// >>>>>>> main
 
     return(
         <div className="user-rider-layout">
@@ -25,9 +31,14 @@ export function UserRides () {
                     <h3 className="user-trips-header-h3">Your Rides 🚌</h3>
                 </div>
                 <div className="user-trips-index-container">
-                    { trips.map(trip => (
-                        (trip.driver._id !== user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
-                    ))}
+                    { trips && !trips.empty ? (
+                        trips.map(trip => (
+                            // <TripsItem key={trip._id} trip={trip} />
+                           (trip.driver._id !== user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
+                       ))
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         </div>

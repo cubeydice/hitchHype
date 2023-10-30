@@ -26,9 +26,18 @@ export function UserTrips () {
                     <h3 className="user-trips-header-h3">Your Trips 🗺️</h3>
                 </div>
                 <div className="user-trips-index-container">
-                    { trips.map(trip => (
-                        (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
-                    ))}
+                    { trips && !trips.empty ? (
+                        trips.map(trip => (
+                            (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
+                            // <TripsItem key={trip._id} trip={trip} />    
+                       ))
+                    ) : (
+                        <></>
+                    )}
+                    {/* { trips.map(trip => (
+                        // (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
+                        <TripsItem key={trip._id} trip={trip} />
+                    ))} */}
                 </div>
             </div>
         </div>
