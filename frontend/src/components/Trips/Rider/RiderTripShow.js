@@ -150,7 +150,7 @@ export function RiderTripShow ({ trip }) {
                     <div className="rider-show-driver-maps-container">
                         <div className="rider-show-driver-details">
                             <div className="rider-show-driver-pic">
-                                <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" id='driver-img'/>
+                                <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" className="large-icon" id='driver-img'/>
                             </div>
                             <div className="rider-show-driver-passenger-container">
                                 <div className="rider-show-driver-info">
