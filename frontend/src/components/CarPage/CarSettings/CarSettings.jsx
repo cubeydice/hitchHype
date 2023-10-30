@@ -35,10 +35,12 @@ const CarSettings = ({fromOriginalPage}) => {
 
   useEffect(()=>{
     if (makeOptions !== '') setModelOptions(makeOptions[make]);
+     // eslint-disable-next-line
   }, [make, modelOptions])
 
   useEffect(()=>{
     if (modelOptions !== '') setYearOptions(modelOptions[model]);
+     // eslint-disable-next-line
   }, [model, yearOptions])
 
   const getMakeOptions = async () => {
