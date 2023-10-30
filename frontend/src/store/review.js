@@ -95,7 +95,7 @@ export const updateReview = (review) => async dispatch => {
 
 export const deleteReview = (reviewId) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/reviews/${review._id}`, {
+        const res = await jwtFetch(`/api/reviews/${reviewId}`, {
             method: 'DELETE'
         });
         dispatch(removeReview(review));
@@ -104,6 +104,21 @@ export const deleteReview = (reviewId) => async dispatch => {
         if (resBody.statusCode === 400) {
             dispatch(receiveErrors(resBody.errors));
         }
+    }
+}
+
+export const reviewReducer = (state = {}, action) => {
+    const nextState = { ...state };
+    switch (action.type) {
+        case RECEIVE_REVIEWS:
+            return {...action.reviews};
+        case RECEIVE_REVIEW:
+            return {...state, ...action.review};
+        case REMOVE_REVIEW:
+            delete nextState[action.reviewId];
+            return nextState;
+        default:
+            break;
     }
 }
 
