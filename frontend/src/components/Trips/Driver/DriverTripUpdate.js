@@ -22,7 +22,7 @@ export function DriverUpdateForm () {
 
     const handleClick = field => (e) => {
         e.preventDefault();
-        console.log(e.target.value)
+        // console.log(e.target.value)
         switch (field) {
             case "deletePassenger":
                 passengersArr = trip.passengers.filter((payload) => (payload._id !== e.target.value))
@@ -31,7 +31,7 @@ export function DriverUpdateForm () {
                 break;
             case "deleteTrip":
                 dispatch(deleteTrip(tripId)).then( res =>{
-                    console.log(res);
+                    // console.log(res);
                      history.push('/trips')
                     })
                 break;

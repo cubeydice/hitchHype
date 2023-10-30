@@ -37,7 +37,7 @@ export function RiderTripShow ({ trip }) {
 
     const handleClick = () => {
         if(rider){
-            console.log(riderId)
+            // console.log(riderId)
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
             dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`) )
         }else{
