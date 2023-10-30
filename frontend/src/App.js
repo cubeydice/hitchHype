@@ -20,6 +20,8 @@ import { UserTrips } from './components/UserTrips/UserTrips';
 import { UserRides } from './components/UserRides/UserRides';
 import Profile from './components/Profile/Profile';
 import CarUpdatePage from './components/CarPage/CarUpdatePage';
+import InflationArticle from './components/MainPage/Articles/Inflation';
+import EnvironmentArticle from './components/MainPage/Articles/Environment';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -36,6 +38,8 @@ function App() {
         <div className='main-body'>
           <Switch>
             <Route exact path="/"component={MainPage} />
+            <Route exact path="/save-money"component={InflationArticle} />
+            <Route exact path="/environment"component={EnvironmentArticle} />
             <ProtectedRoute exact path="/account" component={AccountPage} />
             <ProtectedRoute exact path="/car" component={CarPage} />
             <ProtectedRoute exact path="/car/update" component={CarUpdatePage} />

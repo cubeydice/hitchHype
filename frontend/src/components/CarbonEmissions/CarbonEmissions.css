@@ -43,6 +43,6 @@
   margin-right: 15px;
 }
 
-svg path {
+.ce-container svg path {
   fill: var(--brand)
 }

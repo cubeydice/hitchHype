@@ -6,6 +6,7 @@ import gasImg from '../../assets/images/vendo-2589131_640.jpg'
 import carSharing from '../../assets/icons/car-sharing.png'
 import piggyBank from '../../assets/icons/piggy-bank.png'
 import planetEarth from '../../assets/icons/planet-earth.png'
+import { Link } from 'react-router-dom/cjs/react-router-dom';
 
 function MainPage() {
     return (
@@ -54,21 +55,15 @@ function MainPage() {
             </div>
             <div className='positive-source-container'>
                 <div className='positive-source'>
-                    <a className='source-redirect'
-                            href="https://www.google.com/"
-                            target="_blank"
-                            rel="noreferrer">
-                    <img className='source-image' src={gasImg} alt='gas-prices'/>
-                    </a>
+                    <Link to={`/save-money`}>
+                        <img className='source-image' src={gasImg} alt='gas-prices'/>
+                    </Link>
                     <span className='source-text'>Rising gas prices & inflation</span>
                 </div>
                 <div className='positive-source'>
-                    <a className='source-redirect'
-                        href="https://www.google.com/"
-                        target="_blank"
-                        rel="noreferrer">
-                    <img className='source-image' src={ecoImg} alt='environment'/>
-                    </a>
+                    <Link to={`/environment`}>
+                        <img className='source-image' src={ecoImg} alt='environment'/>
+                    </Link>
                     <span className='source-text'>Sustainable travel, economic benefits.</span>
                 </div>
             </div>
