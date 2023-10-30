@@ -56,11 +56,7 @@ export function RiderRequestForm(){
                 const distanceInMiles = (totalDistance / 1000 * 0.621371).toFixed(2);
                 const hours = Math.floor(totalDuration / 3600);
                 const minutes = Math.floor((totalDuration % 3600) / 60);
-
-    const handleClick = () => {
-        
-        dispatch(closeModal());
-               setDistance(`${distanceInMiles} miles`);
+                setDistance(`${distanceInMiles} miles`);
                 setDuration(`${hours}h ${minutes}m`);
             }
         } catch (error) {
