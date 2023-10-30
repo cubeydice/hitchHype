@@ -150,8 +150,8 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
     const { user, body } = req;
 
         // Check if the user is the driver or passenger of the trip
-        if (trip.driver._id.toString() !== user._id.toString() ||
-        trip.passengers.some(passenger => passenger.passenger._id.toString() === req.user._id.toString())) {
+        if (trip.driver._id.toString() !== user._id.toString() &&
+        trip.passengers.every(passenger => passenger.passenger._id.toString() !== user._id.toString())) {
             const error = new Error("Unauthorized: You are not the driver nor passenger of the trip");
             error.status = 403;
             error.errors = { message: "You are not the driver nor passenger of the trip" }
