@@ -16,13 +16,12 @@ export function DriverUpdateForm () {
     let seats;
 
     useEffect( () => {
-        dispatch(fetchTrip(tripId)).then( trip => setAvailableSeats(trip.availableSeats - trip.passengers.length));   //.then( trip => console.log(trip))
+        dispatch(fetchTrip(tripId)).then( trip => setAvailableSeats(trip.availableSeats - trip.passengers.length)); 
         dispatch(clearTripErrors());
     }, [dispatch, tripId])
 
     const handleClick = field => (e) => {
         e.preventDefault();
-        console.log(e.target.value)
         switch (field) {
             case "deletePassenger":
                 passengersArr = trip.passengers.filter((payload) => (payload._id !== e.target.value))
@@ -31,7 +30,6 @@ export function DriverUpdateForm () {
                 break;
             case "deleteTrip":
                 dispatch(deleteTrip(tripId)).then( res =>{
-                    console.log(res);
                      history.push('/trips')
                     })
                 break;

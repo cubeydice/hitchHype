@@ -29,19 +29,11 @@ export const clearTripErrors = errors => ({
     errors
 });
 
-// export const getTripts = state => {
-//     // console.log(state)
-//     // return state?.trips ? Object.values(state.events) : [];
-//     return state?.trips ?  state.trips : [];
-// }
-
 export const getTrip = tripId => state => {
-    // console.log('state: ',state.events[eventId])
     return state?.trips.all ? state.trips.all[tripId] : null;
 }
-// debugger
+
 export const fetchTrip = (tripId) => async dispatch => {
-    // debugger
     try {
         const res = await jwtFetch(`/api/trips/${tripId}`);
         const trip = await res.json();

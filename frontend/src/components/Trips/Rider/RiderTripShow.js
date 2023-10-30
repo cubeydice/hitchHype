@@ -40,7 +40,6 @@ export function RiderTripShow ({ trip }) {
 
     const handleClick = () => {
         if(rider){
-            console.log(riderId)
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
             dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`) )
         }else{
@@ -94,7 +93,6 @@ export function RiderTripShow ({ trip }) {
 
     const fetchPhotoRef = async () => {
         try{
-        console.log(destinationCity)
         const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destinationCity}/&key=${apiKey}`
         const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl))
         const data = await response.json();
@@ -104,7 +102,7 @@ export function RiderTripShow ({ trip }) {
                 return data.results[0].photos[0].photo_reference}}
         else return false
       } catch (error) {
-        console.log(error)
+        return false
       }
     }
 
@@ -116,6 +114,7 @@ export function RiderTripShow ({ trip }) {
 
     useEffect(()=>{
         fetchPhotoRef().then(res => {if (res) fetchPhoto(res)})
+        // eslint-disable-next-line
     }, [destinationCity])
 
 

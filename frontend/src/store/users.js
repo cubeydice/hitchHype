@@ -48,7 +48,6 @@ export const updateUser = (user) => async (dispatch) => {
             body: JSON.stringify(user)
         });
         user = await res.json();
-        console.log(user)
         dispatch(receiveUser(user));
     } catch(err) {
         const res = await err.json();

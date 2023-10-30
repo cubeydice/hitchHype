@@ -21,23 +21,19 @@ export function TripsItem ({ trip }) {
         city = addressStr.city;
     })
 
-    console.log(city)
-
-
     // GET PLACE IMAGE
-    const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}/&key=${apiKey}`
     const fetchPhotoRef = async () => {
         try{
+        const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}/&key=${apiKey}`
         const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl))
         const data = await response.json();
 
         if (data.results !== undefined) {
             if (data.results[0].photos !== undefined) {
-                console.log(data)
                 return data.results[0].photos[0].photo_reference}}
         else return false
       } catch (error) {
-        console.log(error)
+        return false
       }
     }
 
@@ -49,6 +45,7 @@ export function TripsItem ({ trip }) {
 
     useEffect(()=>{
         fetchPhotoRef().then(res => {if (res) fetchPhoto(res)})
+    // eslint-disable-next-line
     }, [])
 
     return (
