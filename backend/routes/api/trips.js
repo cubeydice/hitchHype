@@ -76,7 +76,7 @@ router.get("/user/:userId", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
-                                .populate("driver", "_id firstName lastName")
+                                .populate("driver", "_id firstName lastName biography")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName");
         
