@@ -39,9 +39,9 @@ router.get("/user/:userId/rides", async (req, res, next) => {
     try {
         const rides = await Trip.find({ "passengers.passenger": user._id })
                                 .sort({ createdAt: -1 })
-                                .populate("driver", "_id firstName lastName")
+                                .populate("driver", "_id firstName lastName profilePicture")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
-                                .populate("passengers.passenger", "_id firstName lastName");
+                                .populate("passengers.passenger", "_id firstName lastName profilePicture");
         return res.json(rides);
     } catch(err) {
         return res.json([]);
@@ -62,9 +62,9 @@ router.get("/user/:userId", async (req, res, next) => {
     try {
         const trips = await Trip.find({ driver: user._id })
                                 .sort({ createdAt: -1 })
-                                .populate("driver", "_id firstName lastName")
+                                .populate("driver", "_id firstName lastName profilePicture")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
-                                .populate("passengers.passenger", "_id firstName lastName");
+                                .populate("passengers.passenger", "_id firstName lastName profilePicture");
         return res.json(trips);
     }
     catch(err) {
@@ -76,9 +76,9 @@ router.get("/user/:userId", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
-                                .populate("driver", "_id firstName lastName biography")
+                                .populate("driver", "_id firstName lastName biography profilePicture")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
-                                .populate("passengers.passenger", "_id firstName lastName");
+                                .populate("passengers.passenger", "_id firstName lastName profilePicture");
         
         const reviewee = await Review.find({reviewee: trip.driver._id})
         let ratingTotal = 0;
@@ -103,23 +103,12 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Create a trip
-// Validation middleware should accept vehicle passenger limit as max
+// API did not have vehicle max passenger, therefore limitation validation is removed
 router.post("/", requireUser, validateTripInput, async (req, res, next) => {
     try {
-
-
         // Extract the required data from the request
         const { user, body } = req;
         const { car, departureDate, origin, destination, availableSeats } = body;
-
-        const fetchCar = await Car.findById(car)
-
-        if (availableSeats > fetchCar.maxPassengers) {
-            const error = new Error("Available seats cannot be more than vehicle's max passenger");
-            error.status = 404;
-            error.errors = { message: "Available seats cannot be more than vehicle's max passenger" };
-            return next(error);
-        }
 
         const newTrip = new Trip({
             driver: user._id,
@@ -133,7 +122,7 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
     
         const trip = await newTrip.save();
         const populatedTrip = await Trip.populate(trip, [
-            { path: "driver", select: "_id firstName lastName" },
+            { path: "driver", select: "_id firstName lastName profilePicture" },
             { path: "car", select: "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" },
         ]);
         return res.json(populatedTrip);
@@ -144,6 +133,7 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
 });
 
 // Update a trip
+// API did not have vehicle max passenger, therefore limitation validation is removed
 router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
     // Check if the trip exists
     try {
@@ -159,25 +149,26 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         
     const { user, body } = req;
 
-        // Check if the user is the driver of the trip
-        if (trip.driver._id.toString() !== user._id.toString()) {
-            const error = new Error("Unauthorized: You are not the driver of the trip");
+        // Check if the user is the driver or passenger of the trip
+        if (trip.driver._id.toString() !== user._id.toString() ||
+        trip.passengers.some(passenger => passenger.passenger._id.toString() === req.user._id.toString())) {
+            const error = new Error("Unauthorized: You are not the driver nor passenger of the trip");
             error.status = 403;
-            error.errors = { message: "You are not the driver of the trip" }
+            error.errors = { message: "You are not the driver nor passenger of the trip" }
             return next(error);
         }
         
         // Extract the required data from the request
         const { car, passengers, departureDate, origin, destination, availableSeats } = body;
 
-        const fetchCar = await Car.findById(car)
-
-        if (availableSeats > fetchCar.maxPassengers) {
-            const error = new Error("Available seats cannot be more than vehicle's max passenger");
-            error.status = 422;
-            error.errors = { message: "Available seats cannot be more than vehicle's max passenger" };
+        // Check if passenger exceeds available seats
+        if (passengers.length > availableSeats) {
+            const error = new Error("Passengers cannot exceed available seats");
+            error.status = 400;
+            error.errors = { message: "Passengers cannot exceed available seats" }
             return next(error);
         }
+
         // Update the trip with the new data
         trip.passengers = passengers;
         trip.car = car;
@@ -189,9 +180,9 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         // Save the updated trip
         const updatedTrip = await trip.save();
         const populatedTrip = await Trip.populate(updatedTrip, [
-            { path: "driver", select: "_id firstName lastName" },
+            { path: "driver", select: "_id firstName lastName profilePicture" },
             { path: "car", select: "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" },
-            { path: "passengers.passenger", select: "_id firstName lastName" },
+            { path: "passengers.passenger", select: "_id firstName lastName profilePicture" },
         ]);
         res.json(populatedTrip);
     }
