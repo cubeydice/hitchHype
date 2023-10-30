@@ -3,10 +3,10 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { openModal } from "../../../store/modal"
 import RouteShow from "../../RouteShow/RouteShow"
 import sfPic from "../../../assets/icons/sf-img.jpg"
-import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import defaultProfilePic from '../../../assets/icons/user.png'
 import explodeAddress from "../AddressParser"
 import "./RiderTripShow.css"
+import CarbonEmissions from "../../CarbonEmissions";
 
 export function RiderTripShow ({ trip }) {
     const dispatch = useDispatch();
@@ -123,7 +123,7 @@ export function RiderTripShow ({ trip }) {
                             </div>
                         </div>
                         <div className="rider-show-linear-map">
-                            <img src={linearMap} alt="show-img" id='show-linear-map-img'/>
+                            <CarbonEmissions trip={trip}/>
                         </div>
                     </div>
                         <div className="rider-show-maps-api">

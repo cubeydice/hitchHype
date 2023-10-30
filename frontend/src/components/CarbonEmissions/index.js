@@ -3,37 +3,107 @@ import { ReactComponent as Home } from '../../assets/icons/CarbonEmissions/home.
 import { ReactComponent as Phone } from '../../assets/icons/CarbonEmissions/mobile-phone.svg'
 import { ReactComponent as Recycling } from '../../assets/icons/CarbonEmissions/recycling.svg'
 import { ReactComponent as Sapling } from '../../assets/icons/CarbonEmissions/sapling.svg'
-import { miles } from '../RouteShow/RouteShow'
+import { useEffect, useState } from 'react';
+import './CarbonEmissions.css'
+import {useJsApiLoader} from '@react-google-maps/api'
 
-const CarbonEmissions = () => {
+/* global google */
+
+const CarbonEmissions = ({trip}) => {
+  /*Calculate distance*/
+  const [ googleMapsLibraries ] = useState(['places'])
+  const origin = trip.origin
+  const destination = trip.destination
+  const [distance, setDistance] = useState('')
+  // eslint-disable-next-line
+  const [duration, setDuration] = useState('')
+  // eslint-disable-next-line
+  const [directionsResponse, setDirectionsResponse] = useState(null)
+  const {isLoaded} = useJsApiLoader({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries: googleMapsLibraries
+  })
+
+  async function calculateRoute() {
+      try {
+          if (origin === '' || destination === '') {
+              return
+          }
+          const direcitonsService = new google.maps.DirectionsService()
+          const results = await direcitonsService.route({
+              origin: origin,
+              destination: destination,
+              travelMode: google.maps.TravelMode.DRIVING
+          })
+          if (results) {
+              setDirectionsResponse(results)
+              setDistance(Number(results.routes[0].legs[0].distance.text.replace(/[^\d]/g, '')))
+              setDuration(results.routes[0].legs[0].duration.text)
+          }
+      } catch (error) {
+          console.error(error)
+          console.log('invalid origin and destinaiton. Please ensure your route can be driven from start to finish')
+      }
+  }
+
+  useEffect(() => {
+    calculateRoute();
+    // eslint-disable-next-line
+  }, [isLoaded])
+
   //fuel economy per the 2022 EPA Automotive Trends Report
   //https://www.epa.gov/system/files/documents/2022-12/420s22001.pdf
   const avgMpg = 25.4
-  const gallons = miles * (1/avgMpg);
-  const metricTonsCO2 = gasolineEmissions(gallons);
+  const gallons = distance * (1/avgMpg);
+  const metricTonsCO2 = gasolineEmissions(gallons).toFixed(3);
 
-  const equivalencies = (metricTonsCO2) => ({
-    poundsCoal: coalBurned(metricTonsCO2),
-    homesPowered: homesEnergyUse(metricTonsCO2),
-    phonesCharged: smartPhonesCharged(metricTonsCO2),
-    trashBags: trashBagsRecycled(metricTonsCO2),
-    treesSaved: treeSeedlingsSaved(metricTonsCO2)
+  const equivalenciesFn = (metricTonsCO2) => ({
+    poundsCoal: coalBurned(metricTonsCO2).toFixed(3),
+    homesPowered: homesEnergyUse(metricTonsCO2).toFixed(3),
+    phonesCharged: smartPhonesCharged(metricTonsCO2).toFixed(3),
+    trashBags: trashBagsRecycled(metricTonsCO2).toFixed(3),
+    treesSaved: treeSeedlingsSaved(metricTonsCO2).toFixed(3)
   })
 
+  const equivalencies = equivalenciesFn(metricTonsCO2)
+
+console.log(equivalencies)
   return (
-    <>
-      By hitching a ride on this trip, you will save an estimated {metricTonsCO2}
-      metric tons of CO<sub>2</sub> emissions.
+    <div className='ce-container'>
+      <h2>your impact 🌱</h2>
+      <p>
+      By hitching a ride on this trip, you can save an estimated total of <span>{metricTonsCO2} metric tons</span> of CO<sub id="co2-sub">2</sub> emissions.
+      </p>
 
+      <div>
       This is the equivalent of
-      <Coal/>{equivalencies.poundsCoal} coals burned
-      <Home/>{equivalencies.homesPowered} homes powered
-      <Phone/>{equivalencies.phonesCharged} phones charged
+        <ul>
+          <li>
+            <Coal className='medium-icon'/> {equivalencies.poundsCoal} coals burned
+          </li>
+          <li>
+            <Home className='medium-icon'/> {equivalencies.homesPowered} homes powered
+          </li>
+          <li>
+            <Phone className='medium-icon'/> {equivalencies.phonesCharged} phones charged
+          </li>
+        </ul>
+      </div>
 
-      You'll be saving the equivalent of
-      <Recycling/>{equivalencies.trashBags} trash bags recycled instead of landfilled
-      <Sapling/>{equivalencies.treesSaved} tree saplings grown over 10 years
-    </>
+      <div>
+        You'll be saving the equivalent of
+        <ul>
+          <li>
+            <Recycling className='medium-icon'/> {equivalencies.trashBags} trash bags recycled
+          </li>
+          <li>
+            <Sapling className='medium-icon'/> {equivalencies.treesSaved} tree saplings grown
+          </li>
+        </ul>
+      </div>
+      <p>Thank you for making a change!</p>
+      <div id='ce-credit'><sub>Calcultions are per the United States Environmental Protection Agency, 2023</sub></div>
+    </div>
   )
 }
 
