@@ -14,8 +14,8 @@ export function RiderTripShow ({ trip }) {
     const sessionUser = useSelector(state => state.session.user);
     const date = new Date(trip.departureDate);
     const todaysDate =  new Date();
-    // let rider = false;
-    const [rider, setRider] = useState(false)
+    let rider = false;
+    // const [rider, setRider] = useState(false)
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     let destinationCity;
     let originCity;
@@ -52,9 +52,9 @@ export function RiderTripShow ({ trip }) {
         const passengerArr = [];
         for(let payload of trip.passengers)
         {
-            if(sessionUser && sessionUser._id === payload.passenger._is){
-                // rider = true;
-                setRider(true)
+            if(sessionUser && sessionUser._id === payload.passenger._id){
+                rider = true;
+                // setRider(true)
             }
 
             passengerArr.push(
@@ -65,6 +65,22 @@ export function RiderTripShow ({ trip }) {
         }
         return passengerArr;
     }
+
+    const checkUserPassenger = () => {
+
+        if(trip){
+            for(let payload of trip.passengers)
+            {
+                if(sessionUser && sessionUser._id === payload.passenger._id){
+                    rider = true;
+                    // setRider(true)
+                }
+            }
+        }
+        return rider
+    }
+
+    // checkUserPassenger();
 
 
     return (
@@ -106,7 +122,7 @@ export function RiderTripShow ({ trip }) {
                                     ) : (
                                         <>
                                             { sessionUser  ? (
-                                                <> { rider ? (
+                                                <> { checkUserPassenger() ? (
                                                     <button id="request-rides-btn" onClick={ handleClick }>Leave Trip</button>
                                                 ) : (
                                                     <> { trip.availableSeats - trip.passengers.length > 0 ? (

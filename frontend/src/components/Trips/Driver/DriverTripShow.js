@@ -11,7 +11,8 @@ export function DriverTripShow({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     const date = new Date(trip.departureDate);
     const todaysDate =  new Date();
-    const [tripOver, setTripOver] = useState(false);
+    const [tripOver, setTripOver] = useState(date < todaysDate);
+    // console.log(date > todaysDate)
     let destination = {
         city: "",
         state: "",
@@ -27,15 +28,15 @@ export function DriverTripShow({ trip }) {
         streetAddress: ""
     };
 
-    if(date.getFullYear() < todaysDate.toDateString()){
-        setTripOver(true);
-    }else if(date.getFullYear() === todaysDate.toDateString()){
-        if(todaysDate.getMonth() > date.getMonth()){
-            setTripOver(true);
-        }else if(todaysDate.getDate() > date.getDate()){
-            setTripOver(true);
-        }
-    }
+    // if(date.getFullYear() < todaysDate.toDateString()){
+    //     setTripOver(true);
+    // }else if(date.getFullYear() === todaysDate.toDateString()){
+    //     if(todaysDate.getMonth() > date.getMonth()){
+    //         setTripOver(true);
+    //     }else if(todaysDate.getDate() > date.getDate()){
+    //         setTripOver(true);
+    //     }
+    // }
 
     explodeAddress(trip.destination, function(err,addressStr)
     {
