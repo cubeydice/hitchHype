@@ -6,6 +6,7 @@ export function RiderRequestForm(){
     const dispatch = useDispatch();
 
     const handleClick = () => {
+        
         dispatch(closeModal());
     }
 

@@ -63,8 +63,8 @@ const UserSettings = ({sessionUser}) => {
             className="input-bio"
             max-length='500'
             wrap='soft'
-            rows={10}
-            cols={80}/><br/>
+            rows={8}
+            cols={70}/><br/>
             <sub>{`${bioCount}/500`}</sub>
           </label><br/>
           <input

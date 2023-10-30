@@ -2,6 +2,9 @@
   max-width: 800px;
   padding-right: 200px;
 }
+.settings-container sub {
+  color: white;
+}
 
 .account-form-container {
   background-color: var(--brand-mustard);
@@ -14,7 +17,7 @@ textarea {
   font-family: 'Roboto', sans-serif;
   border-radius: 8px;
   padding: 12px;
-  line-height: 20px;
+  font-size: 16px;
 }
 
 .account-form {

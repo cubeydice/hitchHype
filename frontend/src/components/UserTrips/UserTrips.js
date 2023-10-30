@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { fetchUserTrips } from "../../store/trips";
-// import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { TripsItem } from "../Trips/TripsIndex/TripsItem";
 import "./UserTrips.css"
 import UserNavBar from "../AccountNavBar/UserNavBar";
@@ -13,7 +12,7 @@ export function UserTrips () {
 
     useEffect(() => {
         dispatch(fetchUserTrips(user._id)).then(res => console.log(res));
-    }, [dispatch,user._id])
+    }, [dispatch, user._id])
 
     return (
     <div className="user-trips-layout">
@@ -27,9 +26,18 @@ export function UserTrips () {
                     <h3 className="user-trips-header-h3">Your Trips 🗺️</h3>
                 </div>
                 <div className="user-trips-index-container">
-                    { trips.map(trip => (
-                        (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
-                    ))}
+                    { trips && !trips.empty ? (
+                        trips.map(trip => (
+                            // (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
+                            <TripsItem key={trip._id} trip={trip} />    
+                       ))
+                    ) : (
+                        <></>
+                    )}
+                    {/* { trips.map(trip => (
+                        // (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
+                        <TripsItem key={trip._id} trip={trip} />
+                    ))} */}
                 </div>
             </div>
         </div>

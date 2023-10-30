@@ -1,0 +1,28 @@
+.article header {
+  color: var(--off-white);
+  text-align: center;
+}
+
+.article article {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 40px;
+}
+
+.article h1 {
+  font-weight: 800;
+  font-size: 28px;
+}
+.article p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+.article h3 {
+  font-weight: 300;
+  font-size: 24px;
+  color: var(--brand)
+}

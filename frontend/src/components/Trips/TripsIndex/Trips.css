@@ -13,9 +13,15 @@
 .trip-page-header{
     display: flex;
     justify-content: center;
+    padding: 15px;
 }
 .trip-items-container{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    /* align-items: center; */
+    justify-content: center;
+}
+#trip-index-search{
+    position:inherit;
 }

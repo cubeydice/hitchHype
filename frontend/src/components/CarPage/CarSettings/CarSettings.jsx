@@ -5,9 +5,8 @@ import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.sv
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
 import './CarSettings.css'
 import { fetchCar } from "../../../store/cars";
-import UserNavBar from "../../AccountNavBar/UserNavBar";
 
-const CarSettings = ({fromOriginalPage}) => {
+const CarSettings = () => {
   const user = useSelector(state => state.session.user)
   const dispatch = useDispatch();
   let carId;
@@ -35,14 +34,16 @@ const CarSettings = ({fromOriginalPage}) => {
         }
       }
     })
-  }, [])
+  }, [dispatch, carId])
 
   useEffect(()=>{
     if (makeOptions !== '') setModelOptions(makeOptions[make]);
+     // eslint-disable-next-line
   }, [make, modelOptions])
 
   useEffect(()=>{
     if (modelOptions !== '') setYearOptions(modelOptions[model]);
+     // eslint-disable-next-line
   }, [model, yearOptions])
 
   const getMakeOptions = async () => {

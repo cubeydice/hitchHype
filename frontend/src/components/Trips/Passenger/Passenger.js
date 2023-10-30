@@ -22,14 +22,19 @@ export function Passenger({ passenger: { dropoffPoint, passenger }}){
 
     return (
         <div className="passenger-container">
-            <Link to={`/profile/${passenger._id}`}>
-                <div className="passenger-profile-pic">
-                    <img src={passenger.profilePicture ? passenger.profilePicture : defaultProfilePic } alt="show-img" className='large-icon'/>
-                </div>
-                <div className="passenger-name">
-                    <h3>{passenger.firstName} {passenger.lastName}</h3>
-                </div>
-            </Link>
+            <div className="passenger-link">
+                <Link to={`/profile/${passenger._id}`}>
+                    <div className="profile-link">
+                        <div className="passenger-profile-pic">
+                            <img src={passenger.profilePicture ? passenger.profilePicture : defaultProfilePic } alt="show-img" className='large-icon'/>
+                        </div>
+                        <div className="passenger-name">
+                            <h3 id="firstName-passenger">{passenger.firstName}</h3>
+                            <h3>{passenger.lastName}</h3>
+                        </div>
+                    </div>
+                </Link>
+            </div>
             <div className="passenger-dropoff">
                 <h3>{dropOff["streetAddress"]}</h3>
                 <h3>{dropOff["city"]}, {dropOff["state"]} {dropOff["postalCode"]}</h3>
