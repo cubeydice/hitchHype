@@ -17,16 +17,22 @@ export function Trips () {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log(startPoint)
-        console.log(endPoint)
-        console.log(new Date(tripDate).toDateString())
+        // console.log(startPoint)
+        // console.log(endPoint)
+        // console.log(new Date(tripDate).toDateString())
         let filtered = trips.filter( trip => trip.origin.toLowerCase().includes(startPoint.toLowerCase())); // && trip.date === tripDate);
         if(endPoint){
             filtered = trips.filter( trip => trip.destination.toLowerCase().includes(endPoint.toLowerCase()));
         }
         if(tripDate){
-            console.log(new Date(tripDate))
-            trips.filter( trip => console.log(new Date(trip.departureDate)));
+            // console.log(new Date(tripDate))
+            // trips.filter( trip => console.log(new Date(trip.departureDate)));
+            // filtered.filter( trip => {
+                // console.log(new Date(trip.departureDate))
+                // console.log(new Date(tripDate))
+                // console.log( new Date(trip.departureDate) - new Date(tripDate))
+            // });
+
             // filtered = trips.filter( trip => new Date(trip.departureDate) == new Date(tripDate));
         }
         setFilteredTrips(filtered)
