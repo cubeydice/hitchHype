@@ -35,7 +35,7 @@ export function Trips () {
                 <div className="trip-page">
                 <div className="page-layout">
                     <div className="search-bar">
-                        <form className="search-form" onSubmit={ handleSearch }>
+                        <form className="search-form" id="trip-index-search" onSubmit={ handleSearch }>
                             <input
                                 type="text"
                                 placeholder="Search start locations"
@@ -58,7 +58,7 @@ export function Trips () {
                         </form>
                     </div>
                     <div className="trip-page-header">
-                        <h4>Trips leaving from start location</h4>
+                        <h3>Trips leaving from start location</h3>
                     </div>
                     <div className="trip-items-container">
                     { filteredTrips ? 

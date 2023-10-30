@@ -12,7 +12,6 @@ export function UserRides () {
         dispatch(fetchUserRides(user._id)).then(res => console.log(res));
     }, [dispatch])
 
-
     return(
         <div className="user-rider-layout">
 
@@ -25,9 +24,14 @@ export function UserRides () {
                     <h3 className="user-trips-header-h3">Your Rides 🚌</h3>
                 </div>
                 <div className="user-trips-index-container">
-                    { trips.map(trip => (
-                        (trip.driver._id !== user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
-                    ))}
+                    { trips ? (
+                        trips.map(trip => (
+                           (trip.driver._id !== user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
+                       ))
+
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         </div>
