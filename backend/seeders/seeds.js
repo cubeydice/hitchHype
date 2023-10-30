@@ -120,7 +120,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
             departureDate: faker.date.future(),
             origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
             destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
-            availableSeats: Math.floor(Math.random() * 6) + 1
+            availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
         })
     )
 }
@@ -169,7 +169,7 @@ for (let i = 0; i < 3; i++) {
         departureDate: faker.date.future(),
         origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
         destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
-        availableSeats: Math.floor(Math.random() * 6) + 1
+        availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
     })
     demoDriver.trips.push(trip)
     trips.push(trip)
@@ -194,7 +194,7 @@ trips.push(
         departureDate: faker.date.future(),
         origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
         destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
-        availableSeats: Math.floor(Math.random() * 6) + 1
+        availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
     })
 )
 
