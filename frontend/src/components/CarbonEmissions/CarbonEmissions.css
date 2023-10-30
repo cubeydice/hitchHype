@@ -1,0 +1,48 @@
+.ce-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  height: 460px;
+  padding: 12px;
+  gap: 10px;
+  border: 2px solid var(--brand);
+  border-radius: var(--rounded-border);
+  font-weight: 300;
+}
+
+.ce-container h2 {
+  align-self: center;
+  font-weight: 300;
+}
+
+.ce-container p span {
+  font-weight: 600;
+}
+
+#co2-sub {
+  color: var(--brand-black);
+}
+
+#ce-credit {
+  text-align: center;
+}
+
+.ce-container ul {
+  margin-left: 10px;
+}
+
+.ce-container li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px 0px;
+}
+
+.ce-container li svg {
+  margin-right: 15px;
+}
+
+svg path {
+  fill: var(--brand)
+}

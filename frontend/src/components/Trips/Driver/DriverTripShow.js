@@ -4,8 +4,8 @@ import { Passenger } from '../Passenger/Passenger';
 import explodeAddress from "../AddressParser"
 import RouteShow from "../../RouteShow/RouteShow";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import CarbonEmissions from "../../CarbonEmissions";
 import { useState } from "react";
-
 
 export function DriverTripShow({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
@@ -125,7 +125,8 @@ export function DriverTripShow({ trip }) {
                             </div>
                         </div>
                         <div className='trip-show-linear-map'>
-                            <img src={linearMap} alt="show-img" id='show-linear-map-img'/>
+                            {/* <img src={linearMap} alt="show-img" id='show-linear-map-img'/>1 */}
+                            <CarbonEmissions trip={trip} driver={true}/>
                         </div>
                     </div>
                 </>
