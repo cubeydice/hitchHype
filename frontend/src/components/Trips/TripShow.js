@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { clearTripErrors, fetchTrip } from '../../store/trips';
 import { DriverTripShow } from './Driver/DriverTripShow';
 import { RiderTripShow } from './Rider/RiderTripShow';
-import RouteShow from '../RouteShow/RouteShow';
 import './TripShow.css'
 
 export function TripShow () {

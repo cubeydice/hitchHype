@@ -1,4 +1,3 @@
-
 import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import "./DriverTripShow.css"
 import { Passenger } from '../Passenger/Passenger';

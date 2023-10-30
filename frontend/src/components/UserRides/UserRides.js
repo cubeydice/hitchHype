@@ -11,8 +11,13 @@ export function UserRides () {
     // const trips = Object.values(useSelector(state => state.trips))
     const user = useSelector(state => state.session.user)
     useEffect(() => {
-        dispatch(fetchUserRides(user._id)).then(res => setTrips(res));
-    }, [dispatch])
+// <<<<<<< TripPagesStyling
+//         dispatch(fetchUserRides(user._id)).then(res => setTrips(res));
+//     }, [dispatch])
+=======
+        dispatch(fetchUserRides(user._id)).then(res => console.log(res));
+    }, [dispatch, user._id])
+// >>>>>>> main
 
     return(
         <div className="user-rider-layout">
