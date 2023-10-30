@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import './Article.css'
 
 
 function EnvironmentArticle() {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <div className="article">
       <header>
