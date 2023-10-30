@@ -14,7 +14,7 @@ export function UserRides () {
 // <<<<<<< TripPagesStyling
 //         dispatch(fetchUserRides(user._id)).then(res => setTrips(res));
 //     }, [dispatch])
-=======
+// =======
         dispatch(fetchUserRides(user._id)).then(res => console.log(res));
     }, [dispatch, user._id])
 // >>>>>>> main
