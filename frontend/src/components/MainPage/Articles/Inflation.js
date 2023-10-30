@@ -9,7 +9,7 @@ function InflationArticle() {
       </header>
 
       <article>
-        <p>The cost of living seems to be constantly on the rise, and one of the most pressing concerns for many individuals is the ever-increasing price of gasoline. As gas prices continue to climb, it's important to find innovative and cost-effective solutions to ease the burden on our wallets. One such solution is carpooling, and the use of carpooling apps, like hitchHype, can play a significant role in mitigating the financial impact of rising gas prices and inflation. In this article, we'll explore how hitchHype can help individuals and communities save money, reduce their environmental footprint, and build stronger connections.</p>
+        <p>The cost of living seems to be constantly on the rise, and one of the most pressing concerns for many individuals is the ever-increasing price of gasoline. As gas prices continue to climb, it's important to find innovative and cost-effective solutions to ease the burden on our wallets. hitchHype can help individuals and communities save money, reduce their environmental footprint, and build stronger connections.</p>
 
         <h3>1. Sharing the Ride, Sharing the Cost</h3>
         <p>hitchHype is a carpooling app that connects drivers with passengers traveling in the same direction. By doing so, it helps split the cost of gasoline among multiple riders, making it more affordable for everyone involved. This shared expense is a practical and immediate solution to mitigate the impact of rising gas prices.</p>
@@ -20,10 +20,10 @@ function InflationArticle() {
         <p>Carpooling has the added advantage of reducing overall fuel consumption. When more people share a single vehicle, the total amount of fuel used for a given trip decreases, contributing to a reduction in greenhouse gas emissions and a smaller carbon footprint. By using hitchHype, individuals can directly contribute to environmental conservation and fight climate change while saving money.</p>
 
         <h3>3. Building Stronger Communities</h3>
-        <p>hitchHype not only helps individuals save on gas costs but also fosters a sense of community. It connects people who may not have met otherwise, creating opportunities for meaningful connections and friendships. Carpooling is more than just a way to split gas bills; it's a chance to interact with others, share experiences, and make the most out of a daily commute or a long journey.</p>
+        <p>hitchHype not only helps individuals save on gas costs but also fosters a sense of community. It connects people who may not have met otherwise, creating opportunities for meaningful connections and friendships. Carpooling is more than just a way to split gas bills; it's a chance to interact with others, share experiences, and make the most out of a long journey.</p>
 
         <h3>4. Convenience and Flexibility</h3>
-        <p>hitchHype offers a convenient and flexible solution to the problem of rising gas prices. Users can plan their rides in advance or find last-minute options. With the app's user-friendly interface, you can easily specify your preferences regarding the type of ride you're looking for, such as carpooling with others from your workplace, your neighborhood, or your social network.</p>
+        <p>hitchHype offers a convenient and flexible solution to the problem of rising gas prices. Users can plan their rides in advance or find last-minute options. </p>
 
         <p>In a world where rising gas prices and inflation are causing financial stress for many individuals and families, carpooling apps like hitchHype offer a practical, eco-friendly, and community-building solution. By sharing rides and splitting the cost of gas, users can directly address the challenge of rising gas prices. Additionally, carpooling reduces fuel consumption, lowers carbon emissions, and fosters a sense of community, all of which can positively impact people's lives.</p>
 
