@@ -15,7 +15,7 @@
 }
 
 .rider-show-maps-api {
-    width: 60%;
+    width: 40%;
     height: 500px;
 }
 #rider-show-img{
@@ -45,8 +45,9 @@
 .rider-show-driver-details{
     display: flex;
     flex-direction: column;
-    width: 50%;
-    padding-left: 10%;
+    /* justify-content: space-between; */
+    width: 35%;
+    /* padding-left: 10%; */
 }
 .rider-show-driver-passenger-container{
     padding-top: 10px;
