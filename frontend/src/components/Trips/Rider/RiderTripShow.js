@@ -127,7 +127,7 @@ export function RiderTripShow ({ trip }) {
                         </div>
                     </div>
                         <div className="rider-show-maps-api">
-                            <RouteShow trip={trip} />
+                            <RouteShow trip={trip} driver={false} />
                         </div>
                 </>
             ) : (

@@ -9,7 +9,7 @@ import {useJsApiLoader} from '@react-google-maps/api'
 
 /* global google */
 
-const CarbonEmissions = ({trip}) => {
+const CarbonEmissions = ({trip, driver}) => {
   /*Calculate distance*/
   const [ googleMapsLibraries ] = useState(['places'])
   const origin = trip.origin
@@ -67,12 +67,27 @@ const CarbonEmissions = ({trip}) => {
 
   const equivalencies = equivalenciesFn(metricTonsCO2)
 
-console.log(equivalencies)
+  const ceInfo = () => {
+    if (!driver) {
+      return (
+        <>
+          By hitching a ride on this trip, you can save an estimated total of <span>{metricTonsCO2} metric tons</span> of CO<sub id="co2-sub">2</sub> emissions.
+        </>
+      )
+    } else {
+      return (
+      <>
+        By hosting this trip, you can save up to estimated total of <span>{(metricTonsCO2 * trip.passengers.length).toFixed(3)} metric tons</span> of CO<sub id="co2-sub">2</sub> emissions.
+      </>
+      )
+    }
+  }
+
   return (
     <div className='ce-container'>
       <h2>your impact 🌱</h2>
       <p>
-      By hitching a ride on this trip, you can save an estimated total of <span>{metricTonsCO2} metric tons</span> of CO<sub id="co2-sub">2</sub> emissions.
+        {ceInfo()}
       </p>
 
       <div>
