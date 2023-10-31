@@ -4,6 +4,7 @@ import { closeModal } from "../../../store/modal"
 import { useState, useRef } from "react";
 import './RiderRequestForm.css'
 import { updateTrip } from '../../../store/trips';
+import { useHistory } from 'react-router-dom';
 
 const center = {lat: 37.7749, lng: -122.4194}
 /* global google */
@@ -15,6 +16,7 @@ export function RiderRequestForm(){
         libraries: googleMapsLibraries
     })
     const trip = useSelector(state => state.trips)
+    const passengers = trip.passengers
     const sessionUser = useSelector(state => state.session.user)
     const origin = trip.origin
     const destination = trip.destination
@@ -22,16 +24,22 @@ export function RiderRequestForm(){
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
-    const [map, setMap] = useState( /** @type google.maps.Map */ (null))
     const waypointRef = useRef(null)
     const dispatch = useDispatch();
-    console.log(trip)
+    const history = useHistory()
 
+    
     if(!isLoaded) {
         return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
     }
+    
 
     async function calculateRoute() {
+        const newWaypoints = passengers.map(passenger => ({ location: passenger.dropoffPoint }));
+        console.log(newWaypoints)
+        setWaypoints(initialWaypoints => [...initialWaypoints, ...newWaypoints]);
+        console.log(waypoints)
+
         try {
             if (origin === '' || destination === '') {
                 return
@@ -73,25 +81,18 @@ export function RiderRequestForm(){
     }
 
     const handleSubmit = () => {
-        closeModal()
-        // const driver = trip.driver._id
-        // const car = trip.car._id
-        // const departureDate = trip.departureDate
-        // const availableSeats = trip.availableSeats
-        // const tripId = trip._id
         const passengerId = sessionUser._id
         const previousPassengers = trip.passengers
         const passengers = [...previousPassengers, {passenger: passengerId, dropoffPoint: waypoints[0].location }]
         const newTrip = {...trip, passengers}
-            dispatch(updateTrip(newTrip))
-            .then((res) => {
-                if(res && res.errors) {
-                    console.error(res.errors)
-                }
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+        dispatch(updateTrip(newTrip))
+        .then((res) => {
+            closeModal()
+            history.go()
+        })
+        .catch((error) => {
+            console.error(error)
+        })
     }
     
     const handleShowNewRoute = () => {

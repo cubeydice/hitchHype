@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {composeTrip, clearTripErrors} from '../../store/trips'
 import { useHistory } from 'react-router-dom'
 import { openModal } from '../../store/modal'
-
+import { mapStyle } from '../../App'
 
 const center = {lat: 37.7749, lng: -122.4194}    // where the map initially loads (San Francisco)
 /* global google */
@@ -73,6 +73,7 @@ const CreateTrip = () => {
                 origin: origin,
                 destination: destination,
                 travelMode: google.maps.TravelMode.DRIVING
+                
             })
             if (results) {
                        setDirectionsResponse(results)
@@ -205,12 +206,22 @@ const CreateTrip = () => {
                     zoom={13} 
                     mapContainerClassName='map'
                     options={{
-                        streetViewControl: false
+                        streetViewControl: false,
+                        styles: mapStyle
                     }}
                     onLoad={map => setMap(map)}
                 >
                     {directionsResponse && (
-                        <DirectionsRenderer directions={directionsResponse}/>
+                        <DirectionsRenderer 
+                        directions={directionsResponse}   
+                        options={{
+                            polylineOptions: {
+                                strokeOpacity: .8,
+                                strokeColor: '#60992D',
+                                strokeWeight: 6
+                            },
+                        }}
+                        />
                     )}
                 </GoogleMap>
             </div>

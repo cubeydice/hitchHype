@@ -14,29 +14,37 @@ const RouteShow = ({trip}) => {
     const origin = trip.origin
     const destination = trip.destination
      // eslint-disable-next-line
-    const waypoints = trip.waypoints
+    const passengers = trip.passengers
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
     const [directionsResponse, setDirectionsResponse] = useState(null)
      // eslint-disable-next-line
     const [map, setMap] = useState( /** @type google.maps.Map */ (null))
 
+    
 
     if(!isLoaded) {
         return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
     }
 
     async function calculateRoute() {
+        let waypoints = []
+        passengers.forEach((passenger) => {
+            waypoints.push({location: passenger.dropoffPoint})
+        })
+
+
         try {
             if (origin === '' || destination === '') {
                 return
             }
-            const direcitonsService = new google.maps.DirectionsService()
-            const results = await direcitonsService.route({
+            const directionsService = new google.maps.DirectionsService()
+            const results = await directionsService.route({
                 origin: origin,
                 destination: destination,
-                travelMode: google.maps.TravelMode.DRIVING
-                //add waypoints
+                travelMode: google.maps.TravelMode.DRIVING,
+                waypoints: waypoints,
+                optimizeWaypoints: true
             })
             if (results) {
                        setDirectionsResponse(results)
