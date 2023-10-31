@@ -10,6 +10,7 @@ import { mapStyle } from '../../../App';
 
 
 const center = {lat: 37.7749, lng: -122.4194}
+const kmToMiles = (1000 * 0.621371)
 /* global google */
 
 export function RiderRequestForm(){
@@ -76,7 +77,7 @@ export function RiderRequestForm(){
                     totalDistance += leg.distance.value; 
                     totalDuration += leg.duration.value; 
                 });
-                const distanceInMiles = Math.floor(totalDistance / 1000 * 0.621371);
+                const distanceInMiles = Math.floor(totalDistance / kmToMiles);
                 const hours = Math.floor(totalDuration / 3600);
                 const minutes = Math.floor((totalDuration % 3600) / 60);
                 setDistance(distanceInMiles);
