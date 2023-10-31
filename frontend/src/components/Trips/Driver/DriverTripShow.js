@@ -63,13 +63,13 @@ export function DriverTripShow({ trip }) {
                             </div>
                             <div>
                                 <div className='trip-show-passangers-ammount'>
-                                    <h3 id="trip-seats-time-details">Current amount of passengers: {trip.passengers.length}</h3>
+                                    <h3 id="trip-seats-time-details"># of passengers: {trip.passengers.length}</h3>
                                 </div>
                                 <div className='trip-show-spots'>
-                                    <h3 id="trip-seats-time-details">The amount of seats left: {availableSeats}</h3>
+                                    <h3 id="trip-seats-time-details">Seats left: {availableSeats}</h3>
                                 </div>
                                 <div className='trip-show-departure-time'>
-                                    <h3 id="trip-seats-time-details">Trip will take place on {date.toDateString()}.</h3>
+                                    <h3 id="trip-seats-time-details">Date of trip: {date.toDateString()}.</h3>
                                 </div>
                             </div>
                             <div className='trip-show-edit-btn-container'>

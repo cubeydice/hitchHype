@@ -138,17 +138,17 @@ export function RiderTripShow ({ trip }) {
                                 </div>
                             </div>
                             <div>
+                                <div className='trip-show-departure-time'>
+                                    <h3 id="trip-passenger-show-details">Date of trip: {date.toDateString()}.</h3>
+                                </div>
                                 <div className='trip-show-passangers-ammount'>
-                                    <h3 id="trip-passenger-show-details">Current amount of passengers: {trip.passengers.length}</h3>
+                                    <h3 id="trip-passenger-show-details"># of passengers: {trip.passengers.length}</h3>
                                 </div>
                                 <div className='trip-show-spots'>
-                                    <h3 id="trip-passenger-show-details">The amount of seats left: {availableSeats}</h3>
-                                </div>
-                                <div className='trip-show-departure-time'>
-                                    <h3 id="trip-passenger-show-details">The trip will take place on {date.toDateString()}.</h3>
+                                    <h3 id="trip-passenger-show-details">Seats left: {availableSeats}</h3>
                                 </div>
                                 <div className="trip-show-min-price">
-                                    <h3 id="trip-passenger-show-details">Max. price for additional rider: $45</h3>
+                                    <h3 id="trip-passenger-show-details">Est. hitch price: $45</h3>
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (
