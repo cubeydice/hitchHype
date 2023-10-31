@@ -18,7 +18,6 @@ const CreateTrip = () => {
     })
     const sessionUser = useSelector(state => state.session.user)
     const errors = useSelector(state => state.errors.trips)
-    const maxPassengers = useSelector(state => state.session.user.maxPassengers)
     const [availableSeats, setAvailableSeats] = useState('')
     const [departureDate, setDepartureDate] = useState('')
     const [directionsResponse, setDirectionsResponse] = useState(null)
@@ -151,7 +150,7 @@ const CreateTrip = () => {
                             value={availableSeats}
                             onChange={(e) => setAvailableSeats(e.target.value)}
                             min={1}
-                            max={maxPassengers ? maxPassengers : 1}
+                            max={7}
                             palceholder='Number of available seats'
                         />
                         <h3 className='headers' >Origin</h3>

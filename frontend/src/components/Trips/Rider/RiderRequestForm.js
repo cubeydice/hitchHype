@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import './RiderRequestForm.css'
 import { updateTrip } from '../../../store/trips';
 import { useHistory } from 'react-router-dom';
+import { mapStyle } from '../../../App';
 
 const center = {lat: 37.7749, lng: -122.4194}
 /* global google */
@@ -33,12 +34,11 @@ export function RiderRequestForm(){
         return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
     }
     
-
+    
     async function calculateRoute() {
-        const newWaypoints = passengers.map(passenger => ({ location: passenger.dropoffPoint }));
-        console.log(newWaypoints)
-        setWaypoints(initialWaypoints => [...initialWaypoints, ...newWaypoints]);
-        console.log(waypoints)
+        const currentWaypoints = passengers.map((passenger) => (setWaypoints( {location: passenger.dropoffPoint} ) ));
+        console.log(currentWaypoints)
+
 
         try {
             if (origin === '' || destination === '') {
@@ -54,7 +54,6 @@ export function RiderRequestForm(){
             })
             if (results) {
                 setDirectionsResponse(results)
-                
                 let totalDistance = 0
                 let totalDuration = 0
                 results.routes[0].legs.forEach(leg => {
@@ -64,8 +63,8 @@ export function RiderRequestForm(){
                 const distanceInMiles = (totalDistance / 1000 * 0.621371).toFixed(2);
                 const hours = Math.floor(totalDuration / 3600);
                 const minutes = Math.floor((totalDuration % 3600) / 60);
-                setDistance(`${distanceInMiles} miles`);
-                setDuration(`${hours}h ${minutes}m`);
+                setDistance(`${distanceInMiles} mi`);
+                setDuration(`${hours} hours ${minutes} min`);
             }
         } catch (error) {
             console.error(error)
@@ -145,14 +144,24 @@ export function RiderRequestForm(){
                         streetViewControl: false,
                         mapTypeControl: false,
                         fullscreenControl: false,
-                        zoomControl: false
+                        zoomControl: false,
+                        styles: mapStyle
                     }}
                     onLoad={() => {
                         calculateRoute()
                     }}
                 >
                     {directionsResponse && (
-                        <DirectionsRenderer directions={directionsResponse}/>
+                        <DirectionsRenderer 
+                        directions={directionsResponse}
+                        options={{
+                            polylineOptions: {
+                                strokeOpacity: .8,
+                                strokeColor: '#60992D',
+                                strokeWeight: 6
+                            },
+                        }}
+                        />
                     )}
                 </GoogleMap>
             </div>
