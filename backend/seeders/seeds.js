@@ -56,12 +56,12 @@ const users = [];
 const demoRider = new User ({
     email: 'demo-user@appacademy.io',
     hashedPassword: bcrypt.hashSync('starwars', 10),
-    firstName: 'demo',
-    lastName: 'rider',
+    firstName: 'Itsuki ',
+    lastName: 'Takeuchi',
     phoneNumber: '1234567890',
     biography: faker.lorem.sentences(5),
     address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
-    profilePicture: 'https://i.imgur.com/3EES7Zo.jpg'
+    profilePicture: 'https://i.imgur.com/TNLIG9U.png'
 })
 
 users.push(demoRider)
@@ -155,14 +155,14 @@ const driverCar = cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id
 const demoDriver = new User ({
         email: 'demo-user2@appacademy.io',
         hashedPassword: bcrypt.hashSync('starwars', 10),
-        firstName: 'demo',
-        lastName: 'driver',
+        firstName: 'Speed',
+        lastName: 'Racer',
         phoneNumber: '2345678901',
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
         car: driverCar,
         address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
-        profilePicture: 'https://i.imgur.com/XQYR7uu.jpg'
+        profilePicture: 'https://i.imgur.com/wNLNSwk.jpg'
 });
 
 
