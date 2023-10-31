@@ -56,7 +56,7 @@ const SignupForm = () => {
         firstName,
         lastName,
         email,
-        phone,
+        phoneNumber: phone,
         password
         };
 

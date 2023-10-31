@@ -40,7 +40,7 @@ const UserSettings = ({sessionUser}) => {
     user = {
       ...user,
       biography: bio,
-      phone: phone
+      phoneNumber: phone
     }
 
     dispatch(updateUser(user))
