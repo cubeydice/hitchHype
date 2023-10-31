@@ -1,6 +1,12 @@
 const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
 
+// Custom validation function to check phone number format
+const isPhoneNumberValid = (value) => {
+    const phoneNumberRegex = /^(?:\+\d{1,2}\s?)?(?:(?:\(\d{3}\))|(?:\d{3}))[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    return phoneNumberRegex.test(value);
+};
+
 // validateLoginInput is a combination Express middleware that uses the `check`
 // middleware to validate the keys in the body of a request to login a user
 const validateLoginInput = [
@@ -22,7 +28,7 @@ const validateLoginInput = [
         .exists({ checkFalsy: true })
         .withMessage('Phone number is required')
         .custom((value) => {
-            if (!value.match(/^\d{10}$/)) {
+            if (!isPhoneNumberRegex(value)) {
                 throw new Error('Invalid phone number format');
             }
             return true;
