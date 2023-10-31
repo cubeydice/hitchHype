@@ -104,7 +104,6 @@ for (let i = 0; i < NUM_SEED_CARS; i++) {
             make: faker.vehicle.manufacturer(),
             model: faker.vehicle.model(),
             year: faker.datatype.number({ min: 2000, max: 2022 }),
-            maxPassengers: faker.datatype.number({ min: 2, max: 5 }),
             licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
             insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
             mpg: faker.datatype.number({ min: 10, max: 50 }),
