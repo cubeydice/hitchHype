@@ -22,7 +22,27 @@ Drivers can then decide whether to keep the hitchHyper, and contact them through
 
 ## Key Features
 ### Driver Trips
-###
+
+### Carbon Emissions
+Potential reduction in carbon emissions are featured on the trip pages, showing the impact a driver or rider would have in reducing carbon emissions by taking that trip with fellow hitchHypers.
+
+hitchHype calculates carbon emissions and their equivalencies based on the following
+* an average 25.4 mpg fuel economy<sup>1</sup>
+* total distance of the trip
+* greenhouse equivalencies calculations<sup>2</sup>
+
+<sub>1 [The 2022 EPA Automotive Trends Report](https://www.epa.gov/automotive-trends)</sub>
+
+<sub>2 [U.S. Environmental Protection Agency Greenhouse Gases Equivalencies](https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references)</sub>
+
+
+```
+//metric tons CO2 per gallon of gasoline consumed
+const gasolineEmissions = (gallons) => {
+    const metricTonsCO2 = gallons * (8.887 * Math.pow(10, -3));
+    return metricTonsCO2;
+}
+```
 
 ## Team
 * Queen Belle Dela Cruz, project lead, fullstack
