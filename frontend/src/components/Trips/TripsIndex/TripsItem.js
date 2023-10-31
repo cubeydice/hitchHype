@@ -30,7 +30,8 @@ export function TripsItem ({ trip }) {
 
         if (data.results !== undefined) {
             if (data.results[0].photos !== undefined) {
-                return data.results[0].photos[0].photo_reference}}
+                return data.results[0].photos[0].photo_reference} 
+            else { return false }}
         else return false
       } catch (error) {
         return false
