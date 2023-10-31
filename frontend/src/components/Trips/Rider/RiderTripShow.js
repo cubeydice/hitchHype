@@ -42,7 +42,7 @@ export function RiderTripShow ({ trip }) {
         if(rider){
 
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
-            dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`) )
+            dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`)).then(history.go())
         }else{
             dispatch(openModal('request-ride-form'))
         }
@@ -152,7 +152,7 @@ export function RiderTripShow ({ trip }) {
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (
-                                        <button id="request-rides-btn">Trip Over</button>
+                                        <button id="request-rides-btn" disabled>Trip Over</button>
                                     ) : (
                                         <>
                                             { sessionUser  ? (
