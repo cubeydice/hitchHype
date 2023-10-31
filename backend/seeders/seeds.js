@@ -27,6 +27,29 @@ const images = [
     "https://i.imgur.com/zrAWDKG.jpg"
 ]
 
+const californiaAddresses = [
+    "1 Main St, Los Angeles, CA 90001",
+    "368 Elm St, San Francisco, CA 94102",
+    "7251 Big Oak St, San Diego, CA 92114",
+    "1609 16th St, Sacramento, CA 95814",
+    "595 Cedro St, San Jose, CA 95111",
+    "3275 Maple Ave, Oakland, CA 94602",
+    "5752 Redwood St, San Diego, CA 92105",
+    "555 W Cypress St, Anaheim, CA 92805",
+    "5447 N Sequoia Ave, Fresno, CA 93711",
+    "5943 Birch St, Riverside, CA 92506",
+    "888 S Spruce St, Santa Ana, CA 92704",
+    "999 Willow Dr, Bakersfield, CA 93308",
+    "3 W Essex St, Stockton, CA 95204",
+    "3822 Magnolia St, Irvine, CA 92606",
+    "333 S Juniper St, Escondido, CA 92025",
+    "444 W Milford St, Glendale, CA 91203",
+    "16352 Redlands Ln, Huntington Beach, CA 92647",
+    "5324 Ontario St, Oceanside, CA 92056",
+    "777 Piezzi Rd, Santa Rosa, CA 95401",
+    "24425 Eucalyptus Ave, Moreno Valley, CA 92553"
+];
+
 // Create users
 const users = [];
 
@@ -37,7 +60,7 @@ const demoRider = new User ({
     lastName: 'rider',
     phoneNumber: '1234567890',
     biography: faker.lorem.sentences(5),
-    address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+    address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
     profilePicture: 'https://i.imgur.com/3EES7Zo.jpg'
 })
 
@@ -45,7 +68,7 @@ users.push(demoRider)
 // Used to add demo rider to trips
 const demoInfo = {
     passenger: demoRider._id,
-    dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+    dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
 }
 
 for (let i = 1; i < NUM_SEED_USERS; i++) {
@@ -59,7 +82,7 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
-            address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+            address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
             profilePicture: randomImage
         })
     )
@@ -105,7 +128,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
         
         const passengerInfo = {
             passenger: randomPassenger,
-            dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+            dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
         };
         
         randomPassengers.push(passengerInfo);
@@ -118,8 +141,8 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
             car: randomCarId,
             passengers: randomPassengers,
             departureDate: faker.date.future(),
-            origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
-            destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+            origin: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
+            destination: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
             availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
         })
     )
@@ -139,7 +162,7 @@ const demoDriver = new User ({
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
         car: driverCar,
-        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
         profilePicture: 'https://i.imgur.com/XQYR7uu.jpg'
 });
 
@@ -154,7 +177,7 @@ for (let i = 0; i < 3; i++) {
         
         const passengerInfo = {
             passenger: randomPassenger,
-            dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`
+            dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
         };
         
         randomPassengers.push(passengerInfo);
@@ -167,8 +190,8 @@ for (let i = 0; i < 3; i++) {
         car: driverCar,
         passengers: randomPassengers,
         departureDate: faker.date.future(),
-        origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
-        destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        origin: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
+        destination: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
         availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
     })
     demoDriver.trips.push(trip)
@@ -184,16 +207,16 @@ trips.push(
         passengers: [
             {
                 passenger: demoDriver._id,
-                dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}`
+                dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
             },
             {
                 passenger: users[Math.floor(Math.random() * users.length)]._id,
-                dropoffPoint: `${faker.address.streetAddress()}, ${faker.address.city()}`
+                dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
             }
         ],
         departureDate: faker.date.future(),
-        origin: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
-        destination: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        origin: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
+        destination: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
         availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
     })
 )
