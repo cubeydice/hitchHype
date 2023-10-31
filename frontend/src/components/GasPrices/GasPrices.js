@@ -15,8 +15,8 @@ const GasPrices = (longitude, latitude) => {
 
   let url = `${apiUrl}lng=${longitude}&lat=${latitude}`
 
-  const fetchGasPrice = async (url = "") => {
-    const res = await fetch(url, options)
+  const fetchGasPrice = async (url) => {
+    const res = await fetch(url)
     return res.json();
   }
 

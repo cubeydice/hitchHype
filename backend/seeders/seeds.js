@@ -125,16 +125,16 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-        
+
         const passengerInfo = {
             passenger: randomPassenger,
             dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
         };
-        
+
         randomPassengers.push(passengerInfo);
     }
     if (randomBoolean) randomPassengers.push(demoInfo);
-    
+
     trips.push(
         new Trip ({
             driver: randomDriver,
@@ -170,21 +170,21 @@ const demoDriver = new User ({
 // Create demo drivers trips
 for (let i = 0; i < 3; i++) {
     const randomPassengers = []
-    
+
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-        
+
         const passengerInfo = {
             passenger: randomPassenger,
             dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
         };
-        
+
         randomPassengers.push(passengerInfo);
     }
     // Add demo rider to passengers
     randomPassengers.push(demoInfo);
-    
+
     const trip = new Trip ({
         driver: demoDriver._id,
         car: driverCar,
@@ -285,7 +285,7 @@ for (const trip of trips) {
     // Get the driver and passengers for the current trip
     const driverId = trip.driver;
     const passengers = trip.passengers;
-    
+
     // Create a review where the driver reviews a passenger
     reviews.push(
         new Review({
@@ -294,8 +294,8 @@ for (const trip of trips) {
             trip: trip._id, // Use the trip's _id
             isDriver: true, // Since the driver is the reviewer
             rating: Math.floor(Math.random() * 5) + 1, // Random rating between 1 and 5
-            title: driverReviewTitles[Math.floor(Math.random() * driverReviewTitles.length)], 
-            body: driverReviewBodies[Math.floor(Math.random() * driverReviewBodies.length)], 
+            title: driverReviewTitles[Math.floor(Math.random() * driverReviewTitles.length)],
+            body: driverReviewBodies[Math.floor(Math.random() * driverReviewBodies.length)],
         })
     );
     // Create a review where a passenger reviews the driver
@@ -306,8 +306,8 @@ for (const trip of trips) {
             trip: trip._id, // Use the trip's _id
             isDriver: false, // Since the passenger is the reviewer
             rating: Math.floor(Math.random() * 5) + 1, // Random rating between 1 and 5
-            title: passengerReviewTitles[Math.floor(Math.random() * passengerReviewTitles.length)], 
-            body: passengerReviewBodies[Math.floor(Math.random() * passengerReviewBodies.length)], 
+            title: passengerReviewTitles[Math.floor(Math.random() * passengerReviewTitles.length)],
+            body: passengerReviewBodies[Math.floor(Math.random() * passengerReviewBodies.length)],
         })
     );
 }
@@ -316,7 +316,6 @@ for (const trip of trips) {
 mongoose
     .connect(db, { useNewUrlParser: true })
     .then(() => {
-        // console.log('Connected to MongoDB successfully');
         insertSeeds();
     })
     .catch(err => {
@@ -335,7 +334,6 @@ const insertSeeds = () => {
                     .then(() => Review.insertMany(reviews))
                     .then(() => Car.insertMany(cars))
                     .then(() => {
-                        // console.log("Done!");
                         mongoose.disconnect();
                     })
                     .catch(err => {
