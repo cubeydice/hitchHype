@@ -19,10 +19,6 @@ const carSchema = new Schema({
         type: Number,
         required: true,
     },
-    maxPassengers: {
-        type: Number,
-        required: true,
-    },
     licensePlateNumber: {
         type: String,
         required: true,

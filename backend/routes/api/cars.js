@@ -53,14 +53,13 @@ router.post('/', requireUser, validateCarInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { make, model, year, maxPassengers, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
+        const { make, model, year, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
 
         const newCar = new Car({
             owner: user._id,
             make,
             model,
             year,
-            maxPassengers,
             licensePlateNumber,
             insurance,
             mpg,
