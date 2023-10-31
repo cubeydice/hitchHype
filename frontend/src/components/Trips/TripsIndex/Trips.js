@@ -13,13 +13,28 @@ export function Trips () {
     const [endPoint, setEndPoint] = useState();
     const [tripDate, setTripDate] = useState();
     // const [fetchedTrips, setFetchedTrips] = useState(false);
+    
 
     const handleSearch = (e) => {
         e.preventDefault();
-        let filtered = trips.filter( trip => trip.startPoint.toLowerCase().includes(startPoint) && trip.date === tripDate);
-        // if(endPoint){
+        // console.log(startPoint)
+        // console.log(endPoint)
+        // console.log(new Date(tripDate).toDateString())
+        let filtered = trips.filter( trip => trip.origin.toLowerCase().includes(startPoint.toLowerCase())); // && trip.date === tripDate);
+        if(endPoint){
+            filtered = trips.filter( trip => trip.destination.toLowerCase().includes(endPoint.toLowerCase()));
+        }
+        if(tripDate){
+            // console.log(new Date(tripDate))
+            // trips.filter( trip => console.log(new Date(trip.departureDate)));
+            // filtered.filter( trip => {
+                // console.log(new Date(trip.departureDate))
+                // console.log(new Date(tripDate))
+                // console.log( new Date(trip.departureDate) - new Date(tripDate))
+            // });
 
-        // }
+            // filtered = trips.filter( trip => new Date(trip.departureDate) == new Date(tripDate));
+        }
         setFilteredTrips(filtered)
     }
 
@@ -48,11 +63,10 @@ export function Trips () {
                                 value={ endPoint }
                                 onChange={ e => setEndPoint(e.target.value)}
                             />
-                            <input
-                                type="text"
-                                placeholder="Add trip date"
-                                value={ tripDate }
-                                onChange={ e => setTripDate(e.target.value)}
+                            <input 
+                                type="date" 
+                                value={tripDate}
+                                onChange={(e) => setTripDate(e.target.value)}
                             />
                             <button type="submit"> Search </button>
                         </form>

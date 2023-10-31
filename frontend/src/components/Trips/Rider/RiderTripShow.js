@@ -37,7 +37,7 @@ export function RiderTripShow ({ trip }) {
 
     const handleClick = () => {
         if(rider){
-            console.log(riderId)
+            // console.log(riderId)
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
             dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`) )
         }else{
@@ -181,11 +181,11 @@ export function RiderTripShow ({ trip }) {
                         <div className="rider-show-linear-map">
                             <CarbonEmissions trip={trip}/>
                         </div>
-                    </div>
                         <div className="rider-show-maps-api">
                             <RouteShow trip={trip} driver={false} />
                         </div>
                     </div>
+                </div>
             ) : (
                 <></>
             )}
