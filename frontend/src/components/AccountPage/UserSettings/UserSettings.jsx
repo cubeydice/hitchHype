@@ -13,9 +13,10 @@ const UserSettings = ({sessionUser}) => {
   const [phone, setPhone] = useState('');
 
   useEffect(()=>{
-    fetchUser(sessionUser._id)
-    if (user.biography) setBio(user.biography);
-  }, [dispatch])
+    dispatch(fetchUser(sessionUser._id))
+    .then(user.biography ? setBio(user.biography) : "")
+    .then(user.phone ? setPhone(user.phone) : "")
+  }, [dispatch, sessionUser._id, user.biography, user.phone])
 
   const handleChange = (field) => (e) => {
     e.preventDefault();
