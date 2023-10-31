@@ -7,8 +7,9 @@ import defaultProfilePic from '../../../assets/icons/user.png'
 import explodeAddress from "../AddressParser"
 import "./RiderTripShow.css"
 import CarbonEmissions from "../../CarbonEmissions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updateTrip } from "../../../store/trips";
+const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 export function RiderTripShow ({ trip }) {
     const dispatch = useDispatch();
@@ -24,6 +25,8 @@ export function RiderTripShow ({ trip }) {
     let originCity;
     let passengersArr;
     const [tripOver, setTripOver] = useState(false)
+    const proxyUrl = "https://corsproxy.io/?";
+    const [image, setImage] = useState(sfPic);
 
     if(date.getFullYear() < todaysDate.toDateString()){
         setTripOver(true);
@@ -37,7 +40,7 @@ export function RiderTripShow ({ trip }) {
 
     const handleClick = () => {
         if(rider){
-            // console.log(riderId)
+
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
             dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`)).then(history.go())
         }else{
@@ -87,6 +90,34 @@ export function RiderTripShow ({ trip }) {
         return rider
     }
 
+    // GET PLACE IMAGE
+
+    const fetchPhotoRef = async () => {
+        try{
+        const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destinationCity}/&key=${apiKey}`
+        const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl))
+        const data = await response.json();
+
+        if (data.results !== undefined) {
+            if (data.results[0].photos !== undefined) {
+                return data.results[0].photos[0].photo_reference}}
+        else return false
+      } catch (error) {
+        return false
+      }
+    }
+
+    const fetchPhoto = async (photoRef) => {
+        const photoRequestUrl = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=${apiKey}&maxwidth=700&maxheight=700`
+        const response = await fetch(proxyUrl + encodeURIComponent(photoRequestUrl))
+        return setImage(response.url)
+    }
+
+    useEffect(()=>{
+        fetchPhotoRef().then(res => {if (res) fetchPhoto(res)})
+        // eslint-disable-next-line
+    }, [destinationCity])
+
 
     return (
         <>
@@ -94,7 +125,7 @@ export function RiderTripShow ({ trip }) {
                 <div className="rider-show-layout">
                     <div className="rider-show-destination-details-container">
                         <div className="Rider-show-destination-pic">
-                            <img src={sfPic} alt="rider-show-img" id='rider-show-img'/>
+                            <img src={image} alt="rider-show-img" id='rider-show-img'/>
                         </div>
                         <div className="rider-show-destintion-info">
                             <div className='trip-show-points-container'>
@@ -168,7 +199,7 @@ export function RiderTripShow ({ trip }) {
                                             </>
                                         ) : (<></>)
                                     }
-                                    
+
                                 </div>
                                 <div className="rider-show-passenger-info">
                                     <h2>PASSENGERS</h2>

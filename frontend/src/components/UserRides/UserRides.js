@@ -3,21 +3,14 @@ import UserNavBar from "../AccountNavBar/UserNavBar";
 import { TripsItem } from "../Trips/TripsIndex/TripsItem";
 import { fetchUserRides } from "../../store/trips";
 import { useEffect } from "react";
-import { useState } from "react";
 
 export function UserRides () {
     const dispatch = useDispatch();
-    // const [trips, setTrips] = useState();
     const trips = Object.values(useSelector(state => state.trips))
     const user = useSelector(state => state.session.user)
     useEffect(() => {
-// <<<<<<< TripPagesStyling
-//         dispatch(fetchUserRides(user._id)).then(res => setTrips(res));
-//     }, [dispatch])
-// =======
-        dispatch(fetchUserRides(user._id)).then(res => console.log(res));
+        dispatch(fetchUserRides(user._id));
     }, [dispatch, user._id])
-// >>>>>>> main
 
     return(
         <div className="user-trips-layout">
