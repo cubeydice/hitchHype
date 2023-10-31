@@ -27,10 +27,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    // phoneNumber: {
-    //     type: String,
-    //     required: true,
-    // },
+    phoneNumber: {
+        type: String,
+        required: true,
+    },
     biography: {
         type: String,
         // require: true,
@@ -50,10 +50,10 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'Trip', 
     }],
-    rides: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'Ride', 
-    }],
+    // rides: [{ 
+    //     type: Schema.Types.ObjectId, 
+    //     ref: 'Ride', 
+    // }],
     car: { 
         type: Schema.Types.ObjectId, 
         ref: 'Car' 

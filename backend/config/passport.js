@@ -32,6 +32,7 @@ exports.loginUser = async function(user) {
             username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
             email: user.email,
             biography: user.biography,
             address: user.address,
