@@ -30,17 +30,16 @@ router.get('/current', restoreUser, async (req, res) => {
       res.cookie("CSRF-TOKEN", csrfToken);
     }
     if (!req.user) return res.json(null);
-    const userCar = await Car.findById(req.user.car)
     res.json({
       _id: req.user._id,
       username: req.user.username,
       firstName: req.user.firstName,
       lastName: req.user.lastName,
+      phoneNumber: req.user.phoneNumber,
       email: req.user.email,
       biography: req.user.biography,
       address: req.user.address,
-      car: req.user.car ? req.user.car : null,
-      maxPassengers: userCar ? userCar.maxPassengers : null
+      car: req.user.car ? req.user.car : null
     });
   } catch(error) {
     console.error('Error fetching user car:', error);
@@ -64,12 +63,12 @@ router.get('/:id', async (req, res, next) => {
       const driverTrips = await Trip.find({driver: user._id})
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
-                              .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                              .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                               .populate("passengers.passenger", "_id firstName lastName");
       const riderTrips = await Trip.find({"passengers.passenger": user._id})
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
-                              .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                              .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                               .populate("passengers.passenger", "_id firstName lastName");
       const reviewer = await Review.find({reviewer: user._id})
                               .sort({ createdAt: -1 })
@@ -103,25 +102,25 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/register', validateRegisterInput, async (req, res, next) => {
   // Check to make sure no one has already registered with the proposed email or
-  // username.
+  // phoneNumber.
   const user = await User.findOne({
     $or: [
-      { email: req.body.email }
-      // { phoneNumber: req.body.phoneNumber }
+      { email: req.body.email },
+      { phoneNumber: req.body.phoneNumber }
     ]
   });
 
   if (user) {
-    // Throw a 400 error if the email address, username, or phone number already exists
+    // Throw a 400 error if the email address or phone number already exists
     const err = new Error("Validation Error");
     err.statusCode = 400;
     const errors = {};
     if (user.email === req.body.email) {
       errors.email = "A user has already registered with this email";
     }
-    // if (user.phoneNumber === req.body.phoneNumber) {
-    //   errors.phoneNumber = "A user has already registered with this phone number";
-    // }
+    if (user.phoneNumber === req.body.phoneNumber) {
+      errors.phoneNumber = "A user has already registered with this phone number";
+    }
     err.errors = errors;
     return next(err);
   }
@@ -130,7 +129,7 @@ router.post('/register', validateRegisterInput, async (req, res, next) => {
     const newUser = new User({
       username: req.body.username,
       email: req.body.email,
-      // phoneNumber: req.body.phoneNumber,
+      phoneNumber: req.body.phoneNumber,
       firstName: req.body.firstName,
       lastName: req.body.lastName
     });
@@ -165,26 +164,6 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
   })(req, res, next);
 });
 
-// router.get('/current', restoreUser, (req, res) => {
-//   if (!isProduction) {
-//     // In development, allow React server to gain access to the CSRF token
-//     // whenever the current user information is first loaded into the
-//     // React application
-//     const csrfToken = req.csrfToken();
-//     res.cookie("CSRF-TOKEN", csrfToken);
-//   }
-//   if (!req.user) return res.json(null);
-//   res.json({
-//     _id: req.user._id,
-//     username: req.user.username,
-//     email: req.user.email,
-//     firstName: req.user.firstName,
-//     lastName: req.user.lastName,
-//     biography: req.user.biography,
-//     address: req.user.address
-//   });
-// });
-
 router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
   try {
     const userExist = await User.findById(req.params.id)
@@ -205,11 +184,20 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
     }
 
 
-    const { biography, profilePicture, trips, rides, car, driverLicense, address } = body;
+    const { 
+      phoneNumber,
+      biography, 
+      profilePicture, 
+      trips, 
+      rides, 
+      car, 
+      driverLicense, 
+      address 
+    } = body;
     
 
     // Update user properties
-    // user.phoneNumber = phoneNumber;
+    user.phoneNumber = phoneNumber;
     user.biography = biography;
     user.profilePicture = profilePicture;
     user.trips = trips;

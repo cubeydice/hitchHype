@@ -26,17 +26,16 @@ passport.use(new LocalStrategy({
 
 exports.loginUser = async function(user) {
     try {
-        const userCar = await Car.findById(user.car)
         const userInfo = {
             _id: user._id,
             username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
             email: user.email,
             biography: user.biography,
             address: user.address,
-            car: user.car ? user.car : null,
-            maxPassengers: userCar ? userCar.maxPassengers : null
+            car: user.car ? user.car : null
         };
     
         const token = await jwt.sign(
