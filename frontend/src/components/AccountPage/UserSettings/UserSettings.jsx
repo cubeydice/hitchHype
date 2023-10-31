@@ -10,6 +10,7 @@ const UserSettings = ({sessionUser}) => {
   const errors = useSelector(state => state.errors.users);
   const [bio, setBio] = useState('');
   const [bioCount, setBioCount] = useState(0);
+  const [phone, setPhone] = useState('');
 
   useEffect(()=>{
     fetchUser(sessionUser._id)
@@ -24,6 +25,9 @@ const UserSettings = ({sessionUser}) => {
         setBio(e.currentTarget.value)
         setBioCount(e.currentTarget.value.length)
         break;
+      case 'phone':
+        setPhone(e.currentTarget.value)
+        break;
       default:
         break;
     }
@@ -35,6 +39,7 @@ const UserSettings = ({sessionUser}) => {
     user = {
       ...user,
       biography: bio,
+      phone: phone
     }
 
     dispatch(updateUser(user))
@@ -54,6 +59,16 @@ const UserSettings = ({sessionUser}) => {
         <form className="account-form" onSubmit={handleSubmit}>
           {user.profilePicture}
           <h2>hello {user.firstName} {user.lastName}!</h2><br/>
+
+          <label><h3>Phone Number</h3> <span className="errors">{errors?.phone}</span><br/>
+            <p className="errors">{errors?.phone}</p>
+                <input type="tel"
+                value={phone}
+                onChange={handleChange('phone')}
+                placeholder="XXX-XXX-XXXX"
+                />
+          </label>
+
           <label><h3>About Me</h3> <span className="errors">{errors?.biography}</span><br/>
             <textarea
             name='bio'

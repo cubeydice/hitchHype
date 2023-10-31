@@ -12,13 +12,13 @@
   background-color: var(--off-white);
   display: flex;
   position: absolute;
-  width: 400px;
-  height: 540px;
+  width: 450px;
+  height: 600px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 40px;
-  padding: 10px 20px 50px 20px;
+  padding: 10px 20px 60px 20px;
   margin: 0 auto;
   text-align: center;
   align-items: center;

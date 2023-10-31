@@ -192,7 +192,7 @@ input[type=submit]:hover:not([disabled]) {
 
 /* FORMS */
 input[type=text],
-input[type=password] {
+input[type=password], input[type=tel] {
   border: none;
   padding: 8px;
   margin: 4px;
