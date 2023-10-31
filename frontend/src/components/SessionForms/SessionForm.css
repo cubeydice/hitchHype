@@ -8,7 +8,9 @@
   height: 40px;
 }
 
-.session-form input[type=text], .session-form input[type=password] {
+.session-form input[type=text],
+.session-form input[type=password],
+.session-form input[type=tel] {
   width: 250px;
   margin-bottom: 10px;
 }

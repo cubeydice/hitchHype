@@ -27,8 +27,12 @@ const CarSettings = () => {
 
   useEffect(() => {
     dispatch(fetchCar(carId)).then(car => {
-      if (car) setInsurance(car[0].insurance);
-      if (car) setLicensePlateNumber(car[0].licensePlateNumber);
+      if (user.car) {
+        if (car){
+          setInsurance(car[0].insurance);
+          setLicensePlateNumber(car[0].licensePlateNumber);
+        }
+      }
     })
   }, [dispatch, carId])
 
