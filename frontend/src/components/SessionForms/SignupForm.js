@@ -110,7 +110,7 @@ const SignupForm = () => {
 
             <label>
                 <h3>Phone Number</h3>
-                <p className="errors">{errors?.phone}</p>
+                <p className="errors">{errors?.phoneNumber}</p>
                 <input type="tel"
                 value={phone}
                 onChange={update('phone')}

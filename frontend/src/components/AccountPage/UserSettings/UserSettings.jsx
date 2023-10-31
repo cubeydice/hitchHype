@@ -15,8 +15,8 @@ const UserSettings = ({sessionUser}) => {
   useEffect(()=>{
     dispatch(fetchUser(sessionUser._id))
     .then(user.biography ? setBio(user.biography) : "")
-    .then(user.phone ? setPhone(user.phone) : "")
-  }, [dispatch, sessionUser._id, user.biography, user.phone])
+    .then(user.phoneNumber ? setPhone(user.phoneNumber) : "")
+  }, [dispatch, sessionUser._id, user.biography, user.phoneNumber])
 
   const handleChange = (field) => (e) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ const UserSettings = ({sessionUser}) => {
           <h2>hello {user.firstName} {user.lastName}!</h2><br/>
 
           <label><h3>Phone Number</h3> <span className="errors">{errors?.phone}</span><br/>
-            <p className="errors">{errors?.phone}</p>
+            <p className="errors">{errors?.phoneNumber}</p>
                 <input type="tel"
                 value={phone}
                 onChange={handleChange('phone')}
