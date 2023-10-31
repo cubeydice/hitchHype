@@ -16,9 +16,6 @@ const validateCarInput = [
         .withMessage('Year is required')
         .isLength({ min: 4, max: 4 }) 
         .withMessage('Year must be a 4-digit number'),
-    check('maxPassengers')
-        .isInt()
-        .withMessage('maxPassengers must be a integer'),
     check('licensePlateNumber')
         .exists({ checkFalsy: true })
         .withMessage('License plate number is required'),
