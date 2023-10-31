@@ -39,9 +39,9 @@ router.get("/user/:userId/rides", async (req, res, next) => {
     try {
         const rides = await Trip.find({ "passengers.passenger": user._id })
                                 .sort({ createdAt: -1 })
-                                .populate("driver", "_id firstName lastName profilePicture")
+                                .populate("driver", "_id firstName lastName profilePicture phoneNumber")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
-                                .populate("passengers.passenger", "_id firstName lastName profilePicture");
+                                .populate("passengers.passenger", "_id firstName lastName profilePicture phoneNumber");
         return res.json(rides);
     } catch(err) {
         return res.json([]);
@@ -62,9 +62,9 @@ router.get("/user/:userId", async (req, res, next) => {
     try {
         const trips = await Trip.find({ driver: user._id })
                                 .sort({ createdAt: -1 })
-                                .populate("driver", "_id firstName lastName profilePicture")
+                                .populate("driver", "_id firstName lastName profilePicture phoneNumber")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
-                                .populate("passengers.passenger", "_id firstName lastName profilePicture");
+                                .populate("passengers.passenger", "_id firstName lastName profilePicture phoneNumber");
         return res.json(trips);
     }
     catch(err) {
@@ -76,9 +76,9 @@ router.get("/user/:userId", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
-                                .populate("driver", "_id firstName lastName biography profilePicture")
+                                .populate("driver", "_id firstName lastName biography profilePicture phoneNumber")
                                 .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
-                                .populate("passengers.passenger", "_id firstName lastName profilePicture");
+                                .populate("passengers.passenger", "_id firstName lastName profilePicture phoneNumber");
         
         const reviewee = await Review.find({reviewee: trip.driver._id})
         let ratingTotal = 0;
@@ -108,7 +108,7 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { car, departureDate, origin, destination, availableSeats } = body;
+        const { car, departureDate, origin, destination, availableSeats, distance } = body;
 
         const newTrip = new Trip({
             driver: user._id,
@@ -117,12 +117,13 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
             departureDate,
             origin,
             destination,
-            availableSeats
+            availableSeats,
+            distance
         });
     
         const trip = await newTrip.save();
         const populatedTrip = await Trip.populate(trip, [
-            { path: "driver", select: "_id firstName lastName profilePicture" },
+            { path: "driver", select: "_id firstName lastName profilePicture phoneNumber" },
             { path: "car", select: "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" },
         ]);
         return res.json(populatedTrip);
@@ -159,7 +160,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         }
         
         // Extract the required data from the request
-        const { car, passengers, departureDate, origin, destination, availableSeats } = body;
+        const { car, passengers, departureDate, origin, destination, availableSeats, distance } = body;
 
         // Check if passenger exceeds available seats
         if (passengers.length > availableSeats) {
@@ -176,13 +177,14 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         trip.origin = origin;
         trip.destination = destination;
         trip.availableSeats = availableSeats;
+        trip.distance = distance
 
         // Save the updated trip
         const updatedTrip = await trip.save();
         const populatedTrip = await Trip.populate(updatedTrip, [
-            { path: "driver", select: "_id firstName lastName profilePicture" },
+            { path: "driver", select: "_id firstName lastName profilePicture phoneNumber" },
             { path: "car", select: "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" },
-            { path: "passengers.passenger", select: "_id firstName lastName profilePicture" },
+            { path: "passengers.passenger", select: "_id firstName lastName profilePicture phoneNumber" },
         ]);
         res.json(populatedTrip);
     }
