@@ -12,6 +12,7 @@ export function Trips () {
     const [startPoint, setStartPoint] = useState();
     const [endPoint, setEndPoint] = useState();
     const [tripDate, setTripDate] = useState();
+    const [filteredStart, setFilteredStart] = useState('All Trips');
     // const [fetchedTrips, setFetchedTrips] = useState(false);
     
 
@@ -25,16 +26,24 @@ export function Trips () {
             filtered = trips.filter( trip => trip.destination.toLowerCase().includes(endPoint.toLowerCase()));
         }
         if(tripDate){
-            // console.log(new Date(tripDate))
-            // trips.filter( trip => console.log(new Date(trip.departureDate)));
+            // let inputDate = tripDate.toLocaleString("en-US", {
+            //     timeZone: "America/Los_Angeles"
+            //   })
+            // // let checkDate = date.toLocaleString("en-US", {
+            // //     timeZone: "America/Los_Angeles"
+            // //   })
+            // // console.log(new Date(tripDate))
+            // // trips.filter( trip => console.log(new Date(trip.departureDate)));
             // filtered.filter( trip => {
-                // console.log(new Date(trip.departureDate))
-                // console.log(new Date(tripDate))
-                // console.log( new Date(trip.departureDate) - new Date(tripDate))
+            //     let checkDate = trip.date.toLocaleString("en-US", {
+            //         timeZone: "America/Los_Angeles"
+            //       })
             // });
 
             // filtered = trips.filter( trip => new Date(trip.departureDate) == new Date(tripDate));
         }
+        startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${startPoint}`)); 
+        // setFilteredStart(`Trips leaving from ${startPoint}.`)
         setFilteredTrips(filtered)
     }
 
@@ -72,7 +81,10 @@ export function Trips () {
                         </form>
                     </div>
                     <div className="trip-page-header">
-                        <h3>Trips leaving from start location</h3>
+                        {/* <h3>Trips leaving from start location</h3> */}
+                        <h3>
+                            {filteredStart}
+                        </h3>
                     </div>
                     <div className="trip-items-container">
                     { filteredTrips ? 

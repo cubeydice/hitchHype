@@ -32,8 +32,11 @@ const validateTripInput = [
         .exists({ checkFalsy: true })
         .withMessage('Destination is required'),
     check('availableSeats')
-        .isInt({ min: 0 }) // max limit dependent on driver's vehicle
+        .isInt({ min: 0 }) 
         .withMessage('Available seats must be a positive integer'),
+    check('distance')
+        .isInt({ min: 0 }) 
+        .withMessage('Distance must be a positive integer'),
     handleValidationErrors
 ];
 
