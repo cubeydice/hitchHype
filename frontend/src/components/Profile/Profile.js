@@ -6,11 +6,11 @@ import { fetchUser } from '../../store/users';
 import defaultProfilePic from '../../assets/icons/user.png'
 import './Profile.css'
 import { fetchUserTrips } from '../../store/trips';
-
+import { ReactComponent as Loading } from '../../assets/icons/loading-icon.svg'
 function Profile () {
     const dispatch = useDispatch();
     const { userId } = useParams();
-    const user = useSelector(state => state.users)
+    const user = useSelector(state => state.users.user)
     const sessionUserId = useSelector(state => state.session.user._id)
     const trips = Object.values(useSelector(state => state.trips))
 
@@ -19,10 +19,11 @@ function Profile () {
         dispatch(fetchUserTrips(userId));
     }, [dispatch, userId])
 
+        if (!user) return <div className='loading-page-container'><Loading/></div>
         return (
         <div className='profile-container'>
         <div className='profile-sidebar-container'>
-            <img src={user.profilePicture ? user.profilePicture : defaultProfilePic}
+            <img src={user ? user.profilePicture : defaultProfilePic}
             alt='profile-pic'
             className='large-icon'/>
 

@@ -22,6 +22,11 @@ import Profile from './components/Profile/Profile';
 import CarUpdatePage from './components/CarPage/CarUpdatePage';
 import InflationArticle from './components/MainPage/Articles/Inflation';
 import EnvironmentArticle from './components/MainPage/Articles/Environment';
+import DefaultProfilePic  from './assets/icons/user.png'
+
+export const handleImgError = (e) => {
+  e.currentTarget.src={DefaultProfilePic}
+}
 
 function App() {
   const [loaded, setLoaded] = useState(false);

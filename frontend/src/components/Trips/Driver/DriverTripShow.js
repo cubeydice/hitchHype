@@ -1,4 +1,3 @@
-import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import "./DriverTripShow.css"
 import { Passenger } from '../Passenger/Passenger';
 import explodeAddress from "../AddressParser"
@@ -26,16 +25,6 @@ export function DriverTripShow({ trip }) {
         postalCode: "",
         streetAddress: ""
     };
-
-    // if(date.getFullYear() < todaysDate.toDateString()){
-    //     setTripOver(true);
-    // }else if(date.getFullYear() === todaysDate.toDateString()){
-    //     if(todaysDate.getMonth() > date.getMonth()){
-    //         setTripOver(true);
-    //     }else if(todaysDate.getDate() > date.getDate()){
-    //         setTripOver(true);
-    //     }
-    // }
 
     explodeAddress(trip.destination, function(err,addressStr)
     {
@@ -125,7 +114,6 @@ export function DriverTripShow({ trip }) {
                             </div>
                         </div>
                         <div className='trip-show-linear-map'>
-                            {/* <img src={linearMap} alt="show-img" id='show-linear-map-img'/>1 */}
                             <CarbonEmissions trip={trip} driver={true}/>
                         </div>
                     </div>
