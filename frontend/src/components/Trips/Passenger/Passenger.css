@@ -1,19 +1,15 @@
 .passenger-container{
     display: flex;
-    padding-top: 15px;
-    width: 60vw;
-    /* justify-content: space-between; */
+    padding: 15px 15px;
+    margin: 15px 15px;
+    min-width: 600px;
+    justify-content: space-between;
 }
 .profile-link{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     text-decoration: none;
-    /* margin-right: 30px; */
-    /* width: 50%; */
-}
-.passenger-link{
-    width: 60%;
 }
 
 .passenger-name{
@@ -32,5 +28,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* padding-left: 5%; */
+    flex-wrap: wrap;
+}
+
+.passenger-phone{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

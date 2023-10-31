@@ -83,7 +83,6 @@ export function RiderTripShow ({ trip }) {
                 if(sessionUser && sessionUser._id === payload.passenger._id){
                     rider = true;
                     riderId = payload._id;
-                    // setRider(true)
                 }
             }
         }
@@ -91,7 +90,6 @@ export function RiderTripShow ({ trip }) {
     }
 
     // GET PLACE IMAGE
-
     const fetchPhotoRef = async () => {
         try{
         const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destinationCity}/&key=${apiKey}`

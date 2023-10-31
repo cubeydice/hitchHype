@@ -4,19 +4,29 @@ import { clearUserErrors, fetchUser, updateUser } from "../../../store/users";
 import AccountImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg' // eslint-disable-next-line
 import './UserSettings.css'
 import { getCurrentUser } from "../../../store/session";
-const UserSettings = ({sessionUser}) => {
+import { handleImgError } from "../../../App";
+import { ReactComponent as Loading } from '../../../assets/icons/loading-icon.svg'
+
+const UserSettings = () => {
   const dispatch = useDispatch();
-  let user = sessionUser;
+  const currentUser = useSelector(state => state.session.user)
+  const user = useSelector(state => state.users.user)
   const errors = useSelector(state => state.errors.users);
-  const [bio, setBio] = useState('');
+  const [bio, setBio] = useState(user ? user.biography : '');
   const [bioCount, setBioCount] = useState(0);
   const [phone, setPhone] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
 
   useEffect(()=>{
-    dispatch(fetchUser(sessionUser._id))
-    .then(user.biography ? setBio(user.biography) : "")
-    .then(user.phone ? setPhone(user.phone) : "")
-  }, [dispatch, sessionUser._id, user.biography, user.phone])
+    if (!user) {dispatch(fetchUser(currentUser._id))
+    .then(res => {
+      setBio(res.user.biography)
+      setPhone(res.user.phoneNumber)
+      setProfilePicture(res.user.profilePicture)
+    })
+    }
+    // eslint-disable-next-line
+  }, [dispatch])
 
   const handleChange = (field) => (e) => {
     e.preventDefault();
@@ -37,13 +47,14 @@ const UserSettings = ({sessionUser}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    user = {
+    const updatedUser = {
       ...user,
       biography: bio,
-      phone: phone
+      phoneNumber: phone,
+      profilePicture
     }
 
-    dispatch(updateUser(user))
+    dispatch(updateUser(updatedUser))
     .then((res)=> {
       if (res && !res.errors) {
         dispatch(getCurrentUser())
@@ -52,17 +63,23 @@ const UserSettings = ({sessionUser}) => {
   });
   }
 
+  if (!currentUser || !user) return <div><Loading/></div>
   return (
     <div className="settings-container">
       <h1 className="settings-form-title">Tell us about yourself!</h1>
       <div className="account-form-container">
         <img src={AccountImage} alt='account'/>
         <form className="account-form" onSubmit={handleSubmit}>
-          {user.profilePicture}
-          <h2>hello {user.firstName} {user.lastName}!</h2><br/>
+          <h2>
+            <img src={profilePicture}
+            alt='profile-pic'
+            className="large-icon"
+            id="profile-icon"
+            onError={handleImgError}/>
+            hello {currentUser.firstName} {currentUser.lastName}!
+            </h2><br/>
 
-          <label><h3>Phone Number</h3> <span className="errors">{errors?.phone}</span><br/>
-            <p className="errors">{errors?.phone}</p>
+          <label id='account-form-phone-number'><h3>Phone Number</h3> <span className="errors">{errors?.phone}</span><br/>
                 <input type="tel"
                 value={phone}
                 onChange={handleChange('phone')}

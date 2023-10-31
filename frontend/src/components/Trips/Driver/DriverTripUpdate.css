@@ -69,3 +69,8 @@
 button{
     cursor: pointer;
 }
+
+.trip-show-linear-map {
+    padding: 0px 10px;
+    margin: 0px 10px;
+}
