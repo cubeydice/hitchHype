@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
     try {
         const trips = await Trip.find()
                                 .populate("driver", "_id firstName lastName")
-                                .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                                .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName")
                                 .sort({ createdAt: -1 });
         return res.json(trips);
@@ -40,7 +40,7 @@ router.get("/user/:userId/rides", async (req, res, next) => {
         const rides = await Trip.find({ "passengers.passenger": user._id })
                                 .sort({ createdAt: -1 })
                                 .populate("driver", "_id firstName lastName profilePicture phoneNumber")
-                                .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                                .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName profilePicture phoneNumber");
         return res.json(rides);
     } catch(err) {
@@ -63,7 +63,7 @@ router.get("/user/:userId", async (req, res, next) => {
         const trips = await Trip.find({ driver: user._id })
                                 .sort({ createdAt: -1 })
                                 .populate("driver", "_id firstName lastName profilePicture phoneNumber")
-                                .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                                .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName profilePicture phoneNumber");
         return res.json(trips);
     }
@@ -77,7 +77,7 @@ router.get("/:id", async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id)
                                 .populate("driver", "_id firstName lastName biography profilePicture phoneNumber")
-                                .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                                .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName profilePicture phoneNumber");
         
         const reviewee = await Review.find({reviewee: trip.driver._id})
@@ -124,7 +124,7 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
         const trip = await newTrip.save();
         const populatedTrip = await Trip.populate(trip, [
             { path: "driver", select: "_id firstName lastName profilePicture phoneNumber" },
-            { path: "car", select: "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" },
+            { path: "car", select: "make model year licensePlateNumber insurance mpg fueleconomyId" },
         ]);
         return res.json(populatedTrip);
     }
@@ -183,7 +183,7 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
         const updatedTrip = await trip.save();
         const populatedTrip = await Trip.populate(updatedTrip, [
             { path: "driver", select: "_id firstName lastName profilePicture phoneNumber" },
-            { path: "car", select: "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" },
+            { path: "car", select: "make model year licensePlateNumber insurance mpg fueleconomyId" },
             { path: "passengers.passenger", select: "_id firstName lastName profilePicture phoneNumber" },
         ]);
         res.json(populatedTrip);
