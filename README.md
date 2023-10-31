@@ -28,4 +28,4 @@ Drivers can then decide whether to keep the hitchHyper, and contact them through
 * Queen Belle Dela Cruz, project lead, fullstack
 * Raymond Tan, backend lead
 * Brittiny Filbert, frontend-focused
-* Krikor Andonian, frontend-focused, Google Map API
+* Krikor Andonian, frontend-focused, Google Maps API
