@@ -44,6 +44,18 @@ const gasolineEmissions = (gallons) => {
 }
 ```
 
+## Future Updates
+### Ride Request and Chat
+* Drivers will have the ability to approve or deny a ride request before adding a passenger to the trip
+* Potential passengers will have to send a message to request ride
+
+### Real-Time Chat
+* Real-time messaging between the driver and passengers to coordinate rides over the app for a secure conversation without revealing personal phone numbers
+
+### Profile Pictures
+* Implement CRUD feature for user profile images
+* Implement AWS S3 cloud storage to store profile pictures
+
 ## Team
 * Queen Belle Dela Cruz, project lead, fullstack
 * Raymond Tan, backend lead
