@@ -82,6 +82,7 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
+            biography: faker.lorem.sentences(5),
             address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
             profilePicture: randomImage
         })
