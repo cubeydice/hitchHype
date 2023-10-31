@@ -1,11 +1,13 @@
 import {useJsApiLoader, GoogleMap, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
+import { ReactComponent as Loading } from '../../../assets/icons/loading-icon.svg'
 import { useDispatch, useSelector } from "react-redux"
 import { closeModal } from "../../../store/modal"
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import './RiderRequestForm.css'
 import { updateTrip } from '../../../store/trips';
 import { useHistory } from 'react-router-dom';
 import { mapStyle } from '../../../App';
+
 
 const center = {lat: 37.7749, lng: -122.4194}
 /* global google */
@@ -22,6 +24,8 @@ export function RiderRequestForm(){
     const origin = trip.origin
     const destination = trip.destination
     const [waypoints, setWaypoints] = useState([])
+    const [newWaypoint, setNewWaypoint] = useState(null);
+    const [lastCalculatedWaypoint, setLastCalculatedWaypoint] = useState(null);
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
@@ -29,16 +33,28 @@ export function RiderRequestForm(){
     const dispatch = useDispatch();
     const history = useHistory()
 
+    useEffect(() => {
+        const preExistingWaypoints = passengers.map(passenger => ({ location: passenger.dropoffPoint }));
+        setWaypoints(preExistingWaypoints);
+    }, [passengers]);
     
     if(!isLoaded) {
-        return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
+        return <div className='loading-page-container'><Loading/></div>   
     }
-    
-    
-    async function calculateRoute() {
-        const currentWaypoints = passengers.map((passenger) => (setWaypoints( {location: passenger.dropoffPoint} ) ));
-        console.log(currentWaypoints)
 
+    async function calculateRoute() {
+        let allWaypoints = [...waypoints];
+
+        // Remove the previously calculated waypoint if it exists
+        if (lastCalculatedWaypoint) {
+            allWaypoints = allWaypoints.filter(wp => wp.location !== lastCalculatedWaypoint.location);
+        }
+
+        // Store the new waypoint as the last calculated one
+        if (newWaypoint) {
+            allWaypoints.push(newWaypoint);
+            setLastCalculatedWaypoint(newWaypoint);  
+        }
 
         try {
             if (origin === '' || destination === '') {
@@ -49,7 +65,7 @@ export function RiderRequestForm(){
                 origin: origin,
                 destination: destination,
                 travelMode: google.maps.TravelMode.DRIVING,
-                waypoints: waypoints,
+                waypoints: allWaypoints,
                 optimizeWaypoints: true
             })
             if (results) {
@@ -60,10 +76,10 @@ export function RiderRequestForm(){
                     totalDistance += leg.distance.value; 
                     totalDuration += leg.duration.value; 
                 });
-                const distanceInMiles = (totalDistance / 1000 * 0.621371).toFixed(2);
+                const distanceInMiles = Math.floor(totalDistance / 1000 * 0.621371);
                 const hours = Math.floor(totalDuration / 3600);
                 const minutes = Math.floor((totalDuration % 3600) / 60);
-                setDistance(`${distanceInMiles} mi`);
+                setDistance(distanceInMiles);
                 setDuration(`${hours} hours ${minutes} min`);
             }
         } catch (error) {
@@ -73,17 +89,17 @@ export function RiderRequestForm(){
     }
 
     const handlePlaceChanged = () => {
-        const place = waypoints.current.getPlace();
+        const place = waypointRef.current.getPlace();
         if (place && place.formatted_address) {
-            setWaypoints(initialWaypoints => [...initialWaypoints, {location: place.formatted_address}])
+            setNewWaypoint({ location: place.formatted_address });
         }
     }
 
     const handleSubmit = () => {
         const passengerId = sessionUser._id
         const previousPassengers = trip.passengers
-        const passengers = [...previousPassengers, {passenger: passengerId, dropoffPoint: waypoints[0].location }]
-        const newTrip = {...trip, passengers}
+        const passengers = [...previousPassengers, {passenger: passengerId, dropoffPoint: newWaypoint.location }]
+        const newTrip = {...trip, passengers, distance}
         dispatch(updateTrip(newTrip))
         .then((res) => {
             closeModal()
@@ -95,13 +111,7 @@ export function RiderRequestForm(){
     }
     
     const handleShowNewRoute = () => {
-        console.log(waypoints)
         calculateRoute()
-    }
-
-    const handleWaypoint = (e) => {
-        e.preventDefault()
-        setWaypoints(initialWaypoints => [...initialWaypoints, {location: e.target.value}])
     }
 
     return(
@@ -115,12 +125,11 @@ export function RiderRequestForm(){
                     <Autocomplete
                         className='waypoint-autocomplete'
                         onLoad={(autocomplete) => (waypointRef.current = autocomplete)}
-                        onPlaceChanged={() => handlePlaceChanged}
+                        onPlaceChanged={handlePlaceChanged}
                     >
                         <input 
                             id="waypoint" 
                             placeholder="Drop off address"
-                            onBlur={handleWaypoint}
                             type="text"
                         />
                     </Autocomplete>
@@ -129,7 +138,7 @@ export function RiderRequestForm(){
             <div className="google-map">
                 <div className='distance-container'>
                     <p id='distance-text'>Distance:</p>
-                    <p id='distance-result'>{distance}</p>
+                    <p id='distance-result'>{distance} mi</p>
                 </div>
                 <div className='duration-container'>
                     <p id='duration-text'>Duration:</p>

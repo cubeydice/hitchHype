@@ -1,4 +1,5 @@
 import {useJsApiLoader, GoogleMap, DirectionsRenderer } from '@react-google-maps/api'
+import { ReactComponent as Loading } from '../../assets/icons/loading-icon.svg'
 import { useState } from 'react'
 import { mapStyle } from '../../App'
 import './RouteShow.css'
@@ -20,12 +21,9 @@ const RouteShow = ({trip}) => {
     const [duration, setDuration] = useState('')
     const [directionsResponse, setDirectionsResponse] = useState(null)
      // eslint-disable-next-line
-    const [map, setMap] = useState( /** @type google.maps.Map */ (null))
-
-    
 
     if(!isLoaded) {
-        return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
+        return <div className='loading-page-container'><Loading/></div>   
     }
 
     async function calculateRoute() {
@@ -33,7 +31,6 @@ const RouteShow = ({trip}) => {
         passengers.forEach((passenger) => {
             waypoints.push({location: passenger.dropoffPoint})
         })
-
 
         try {
             if (origin === '' || destination === '') {

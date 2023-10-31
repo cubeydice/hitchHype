@@ -1,4 +1,5 @@
 import {useJsApiLoader, GoogleMap, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
+import { ReactComponent as Loading } from '../../assets/icons/loading-icon.svg'
 import { useState, useRef } from 'react'
 import './CreateTrip.css'
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,7 +33,7 @@ const CreateTrip = () => {
     const history = useHistory()
 
     if(!isLoaded) {
-        return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
+        return <div className='loading-page-container'><Loading/></div>  
     }
 
     //handles creating a trip when the form is submitted
@@ -41,7 +42,8 @@ const CreateTrip = () => {
         const driver = sessionUser._id 
         const car = sessionUser.car
         const passengers = []
-            dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats}))
+        const newDistance = parseInt(distance.slice(0, -3))
+            dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats, distance: newDistance}))
             .then((res) => {
                 if (res && !res.errors) {
                     dispatch(clearTripErrors())   
@@ -75,7 +77,7 @@ const CreateTrip = () => {
                 
             })
             if (results) {
-                       setDirectionsResponse(results)
+                setDirectionsResponse(results)
                 setDistance(results.routes[0].legs[0].distance.text)
                 setDuration(results.routes[0].legs[0].duration.text)
             }
