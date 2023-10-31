@@ -30,7 +30,6 @@ router.get('/current', restoreUser, async (req, res) => {
       res.cookie("CSRF-TOKEN", csrfToken);
     }
     if (!req.user) return res.json(null);
-    // const userCar = await Car.findById(req.user.car)
     res.json({
       _id: req.user._id,
       username: req.user.username,
@@ -41,7 +40,6 @@ router.get('/current', restoreUser, async (req, res) => {
       biography: req.user.biography,
       address: req.user.address,
       car: req.user.car ? req.user.car : null
-      // maxPassengers: userCar ? userCar.maxPassengers : null
     });
   } catch(error) {
     console.error('Error fetching user car:', error);
@@ -65,12 +63,12 @@ router.get('/:id', async (req, res, next) => {
       const driverTrips = await Trip.find({driver: user._id})
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
-                              .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                              .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                               .populate("passengers.passenger", "_id firstName lastName");
       const riderTrips = await Trip.find({"passengers.passenger": user._id})
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
-                              .populate("car", "make model year maxPassengers licensePlateNumber insurance mpg fueleconomyId" )
+                              .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                               .populate("passengers.passenger", "_id firstName lastName");
       const reviewer = await Review.find({reviewer: user._id})
                               .sort({ createdAt: -1 })
