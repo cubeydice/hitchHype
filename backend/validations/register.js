@@ -28,7 +28,7 @@ const validateLoginInput = [
         .exists({ checkFalsy: true })
         .withMessage('Phone number is required')
         .custom((value) => {
-            if (!isPhoneNumberRegex(value)) {
+            if (!isPhoneNumberValid(value)) {
                 throw new Error('Invalid phone number format');
             }
             return true;
