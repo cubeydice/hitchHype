@@ -1,5 +1,7 @@
-# hithcHype
+# hitchHype
 hitchHype is a platform connecting drivers and riders for long-distance carpooling with an emphasis on saving on gas money and reducing carbon emissions.
+
+![hitchHype](readme-images/hitchHype10.PNG)
 
 ## Background and Overview
 With rising gas prices and the ever-increasing concern of climate change, going on road trips can be a financially and ethically-motivated decision. hitchHype allows users to alleviate their worries by pairing potential drivers and passengers to create a more fun and eco-friendly alternative to driving alone, while keeping more money in their pockets.
@@ -21,10 +23,26 @@ Drivers can then decide whether to keep the hitchHyper, and contact them through
 * Google Map and Places API - generates map, routes, and destination pictures
 
 ## Key Features
-### Driver Trips
+
+### User Log in and Sign up
+Users can Sign up to create a new account or log in to a pre-existing account with our popup modal and password encryption
+
+![Sign Up](readme-images/hitchHype1.PNG)![Login](readme-images/hitchHype2.PNG)
+
+### Create a trip
+Users who are logged in and have a car saved in their profile can naviate over to the 'Create a Trip' page to create a trip using our interactive google maps
+
+![Create A Trip](readme-images/hitchHype5.PNG)
+
+### Join a trip
+Users can join a trip by navigating to the trips show page and clicking 'request ride'. A popup modal will then propt the user to input their dropoff location and update the new route to display start, end and new dropoff locations
+
+![Request a Ride](readme-images/hitchHype9.PNG)
 
 ### Carbon Emissions
 Potential reduction in carbon emissions are featured on the trip pages, showing the impact a driver or rider would have in reducing carbon emissions by taking that trip with fellow hitchHypers.
+
+![Carbon Emissions](readme-images/carbon-emissions-impact.png)
 
 hitchHype calculates carbon emissions and their equivalencies based on the following
 * an average 25.4 mpg fuel economy<sup>1</sup>
