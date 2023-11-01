@@ -28,14 +28,14 @@ const validateLoginInput = [
         .exists({ checkFalsy: true })
         .withMessage('Phone number is required')
         .custom((value) => {
-            if (!isPhoneNumberRegex(value)) {
+            if (!isPhoneNumberValid(value)) {
                 throw new Error('Invalid phone number format');
             }
             return true;
         })
         .withMessage('Invalid phone number format')
-        .isLength({ min: 10, max: 10 })
-        .withMessage('Phone number must be 10 digits'),
+        .isLength({ min: 10, max: 20 })
+        .withMessage('Phone number must be between 10 and 20 digits'),
     handleValidationErrors
 ];
 
