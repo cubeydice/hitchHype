@@ -23,7 +23,10 @@ const UserSettings = () => {
       setBio(res.user.biography)
       setPhone(res.user.phoneNumber)
       setProfilePicture(res.user.profilePicture)
-    })
+    })} else{
+      setBio(user.biography)
+      setPhone(user.phoneNumber)
+      setProfilePicture(user.profilePicture)
     }
     // eslint-disable-next-line
   }, [dispatch])
