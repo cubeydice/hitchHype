@@ -1,8 +1,11 @@
 import {useJsApiLoader, GoogleMap, DirectionsRenderer } from '@react-google-maps/api'
+import { ReactComponent as Loading } from '../../assets/icons/loading-icon.svg'
 import { useState } from 'react'
+import { mapStyle } from '../../App'
 import './RouteShow.css'
 
 const center = {lat: 37.7749, lng: -122.4194}
+const kmToMiles = (1000 * 0.621371)
 /* global google */
 
 const RouteShow = ({trip}) => {
@@ -14,34 +17,47 @@ const RouteShow = ({trip}) => {
     const origin = trip.origin
     const destination = trip.destination
      // eslint-disable-next-line
-    const waypoints = trip.waypoints
+    const passengers = trip.passengers
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
     const [directionsResponse, setDirectionsResponse] = useState(null)
      // eslint-disable-next-line
-    const [map, setMap] = useState( /** @type google.maps.Map */ (null))
-
 
     if(!isLoaded) {
-        return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
+        return <div className='loading-page-container'><Loading/></div>   
     }
 
     async function calculateRoute() {
+        let waypoints = []
+        passengers.forEach((passenger) => {
+            waypoints.push({location: passenger.dropoffPoint})
+        })
+
         try {
             if (origin === '' || destination === '') {
                 return
             }
-            const direcitonsService = new google.maps.DirectionsService()
-            const results = await direcitonsService.route({
+            const directionsService = new google.maps.DirectionsService()
+            const results = await directionsService.route({
                 origin: origin,
                 destination: destination,
-                travelMode: google.maps.TravelMode.DRIVING
-                //add waypoints
+                travelMode: google.maps.TravelMode.DRIVING,
+                waypoints: waypoints,
+                optimizeWaypoints: true
             })
             if (results) {
-                       setDirectionsResponse(results)
-                setDistance(results.routes[0].legs[0].distance.text)
-                setDuration(results.routes[0].legs[0].duration.text)
+                setDirectionsResponse(results)
+                let totalDistance = 0
+                let totalDuration = 0
+                results.routes[0].legs.forEach(leg => {
+                    totalDistance += leg.distance.value; 
+                    totalDuration += leg.duration.value; 
+                });
+                const distanceInMiles = (totalDistance / kmToMiles).toFixed(2);
+                const hours = Math.floor(totalDuration / 3600);
+                const minutes = Math.floor((totalDuration % 3600) / 60);
+                setDistance(`${distanceInMiles} mi`);
+                setDuration(`${hours} hours ${minutes} min `);
             }
         } catch (error) {
             console.error(error)
@@ -65,14 +81,24 @@ const RouteShow = ({trip}) => {
                 mapContainerClassName='map'
                 id='map'
                 options={{
-                    streetViewControl: false
+                    streetViewControl: false,
+                    styles: mapStyle
                 }}
                 onLoad={() => {
                     calculateRoute()
                 }}
             >
                 {directionsResponse && (
-                    <DirectionsRenderer directions={directionsResponse}/>
+                    <DirectionsRenderer 
+                    directions={directionsResponse}
+                    options={{
+                        polylineOptions: {
+                            strokeOpacity: .8,
+                            strokeColor: '#60992D',
+                            strokeWeight: 6
+                        },
+                    }}
+                    />
                 )}
             </GoogleMap>
         </div>

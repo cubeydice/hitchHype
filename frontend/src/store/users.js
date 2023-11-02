@@ -4,6 +4,7 @@ import jwtFetch from './jwt';
 const RECEIVE_USER = "users/RECEIVE_USER";
 const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const CLEAR_USER_ERRORS = "users/CLEAR_USER_ERRORS";
+const CLEAR_USERS = "users/CLEAR_USERS"
 
 //POJO ACTIONS
 const receiveUser = user => ({
@@ -20,6 +21,10 @@ export const clearUserErrors = errors => ({
     type: CLEAR_USER_ERRORS,
     errors
 });
+
+export const clearUsers = () => ({
+    type: CLEAR_USERS
+  })
 
 //THUNK ACTIONS
 export const getUser = userId => state => {
@@ -75,6 +80,8 @@ const usersReducer = (state = {}, action) => {
     switch(action.type) {
         case RECEIVE_USER:
             return { ...state, ...action.user};
+        case CLEAR_USERS:
+            return {}
         default:
             return state;
     }

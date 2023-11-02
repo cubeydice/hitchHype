@@ -75,6 +75,10 @@ table {
   display: block;
 }
 
+.loading-page-container {
+  height: 741px;
+}
+
 #footer, .main-content:after {
   content: "";
   display: block;
@@ -107,7 +111,7 @@ h1 {
 
 h2 {
   letter-spacing: 1px;
-  color: var(--brand-dark-teal);
+  color: var(--brand-black);
   font-size: 30px;
   font-weight: 500;
 }
@@ -116,7 +120,7 @@ h3 {
   letter-spacing: 0.75px;
   font-size: 16px;
   font-weight: 500;
-  color: var(--brand-dark-teal);
+  color: var(--brand-black);
 }
 
 sub {

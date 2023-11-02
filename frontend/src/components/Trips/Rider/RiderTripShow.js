@@ -42,7 +42,7 @@ export function RiderTripShow ({ trip }) {
         if(rider){
 
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
-            dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`) )
+            dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`)).then(history.go())
         }else{
             dispatch(openModal('request-ride-form'))
         }
@@ -83,7 +83,6 @@ export function RiderTripShow ({ trip }) {
                 if(sessionUser && sessionUser._id === payload.passenger._id){
                     rider = true;
                     riderId = payload._id;
-                    // setRider(true)
                 }
             }
         }
@@ -91,7 +90,6 @@ export function RiderTripShow ({ trip }) {
     }
 
     // GET PLACE IMAGE
-
     const fetchPhotoRef = async () => {
         try{
         const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destinationCity}/&key=${apiKey}`
@@ -140,21 +138,21 @@ export function RiderTripShow ({ trip }) {
                                 </div>
                             </div>
                             <div>
+                                <div className='trip-show-departure-time'>
+                                    <h3 id="trip-passenger-show-details">Date of trip: {date.toDateString()}.</h3>
+                                </div>
                                 <div className='trip-show-passangers-ammount'>
-                                    <h3 id="trip-passenger-show-details">Current amount of passengers: {trip.passengers.length}</h3>
+                                    <h3 id="trip-passenger-show-details"># of passengers: {trip.passengers.length}</h3>
                                 </div>
                                 <div className='trip-show-spots'>
-                                    <h3 id="trip-passenger-show-details">The amount of seats left: {availableSeats}</h3>
-                                </div>
-                                <div className='trip-show-departure-time'>
-                                    <h3 id="trip-passenger-show-details">The trip will take place on {date.toDateString()}.</h3>
+                                    <h3 id="trip-passenger-show-details">Seats left: {availableSeats}</h3>
                                 </div>
                                 <div className="trip-show-min-price">
-                                    <h3 id="trip-passenger-show-details">Max. price for additional rider: $45</h3>
+                                    <h3 id="trip-passenger-show-details">Est. hitch price: $45</h3>
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (
-                                        <button id="request-rides-btn">Trip Over</button>
+                                        <button id="request-rides-btn" disabled>Trip Over</button>
                                     ) : (
                                         <>
                                             { sessionUser  ? (
