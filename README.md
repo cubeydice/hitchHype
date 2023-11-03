@@ -62,6 +62,16 @@ const gasolineEmissions = (gallons) => {
 }
 ```
 
+### Trips Index & Search Bar 
+Users can view and search through all trips regardless of being logged in. On the index page all trips will appear. Once a user has entered inputs to the search bar trips will be filtered based on the input fields.
+
+![Alt text](readme-images/TripIndex-SearchBar.PNG)
+
+### Trip Show Page(Ride Viewpoint)
+All users can view trip show pages by clicking on a trip from the Trips index page. Trip information, such as: origin, destination, passenger seats available, likely price to join trip as passenger, is available to all users despite not being logged in. Once a user is logged in a request ride button will appear prompting our request a ride modal. If a user is a passenger a button to leave trip will appear.
+
+![Alt text](readme-images/RiderViewTripShow.PNG)
+
 ## Future Updates
 ### Ride Request and Chat
 * Drivers will have the ability to approve or deny a ride request before adding a passenger to the trip

@@ -26,6 +26,8 @@ export function Trips () {
             filtered = trips.filter( trip => trip.destination.toLowerCase().includes(endPoint.toLowerCase()));
         }
         if(tripDate){
+            // console.log(tripDate.toLocaleString())
+            console.log(tripDate)
             // let inputDate = tripDate.toLocaleString("en-US", {
             //     timeZone: "America/Los_Angeles"
             //   })
@@ -40,7 +42,7 @@ export function Trips () {
             //       })
             // });
 
-            // filtered = trips.filter( trip => new Date(trip.departureDate) == new Date(tripDate));
+            filtered = trips.filter( trip =>  console.log(trip.departureDate.slice(12)));//new Date(trip.departureDate) == new Date(tripDate));
         }
         startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${startPoint}`)); 
         // setFilteredStart(`Trips leaving from ${startPoint}.`)
