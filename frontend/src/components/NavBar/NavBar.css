@@ -1,0 +1,40 @@
+.navbar {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+}
+
+.nav-items > * {
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  gap: 20px;
+}
+
+.nav-items > h1, .nav-links > * {
+  line-height: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.nav-items > button {
+  width: 80px;
+}
+
+.nav-logos {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+
+.brand-logo {
+  font-weight: 800;
+  letter-spacing: 1.75px;
+}

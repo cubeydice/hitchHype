@@ -1,0 +1,231 @@
+/*CSS RESET*/
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* --------------------------------------------- */
+
+:root {
+  --brand: #60992D;
+  --brand-pink: #f87666;
+  --brand-mustard: #e8ae42;
+  --brand-dark-teal: #074f57;
+  --brand-black: #2c2f33;
+  --sub-gray: #a2a3a7;
+  --off-white: #f6f6f6;
+  --rounded-border: 10px;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.main-container {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.main-content:after {
+  content: "";
+  display: block;
+}
+
+.loading-page-container {
+  height: 741px;
+}
+
+#footer, .main-content:after {
+  content: "";
+  display: block;
+  height: 50px;
+}
+
+.main-body:before {
+  content: "";
+  display: block;
+  height: 50px;
+}
+
+.main-content {
+  padding: 15px;
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--off-white);
+  color: var(--brand-black);
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  letter-spacing: 0.5px;
+  color: var(--brand);
+  font-size: 36px;
+  font-weight: 700;
+}
+
+h2 {
+  letter-spacing: 1px;
+  color: var(--brand-black);
+  font-size: 30px;
+  font-weight: 500;
+}
+
+h3 {
+  letter-spacing: 0.75px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--brand-black);
+}
+
+sub {
+  font-size: 12px;
+  color: var(--sub-gray)
+}
+
+.errors {
+  color: red;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+/* LINKS */
+a, .link {
+  color: var(--brand-pink);
+  text-decoration: none;
+}
+
+a:hover:not([disabled]),
+.link:hover:not([disabled]) {
+  transition: 0.2s;
+  filter: brightness(80%);
+  cursor: pointer;
+}
+
+.warning {
+  background-color: red;
+  font-size: 12px;
+  width: 100px;
+}
+
+/* BUTTONS */
+button,
+input[type=button],
+input[type=submit] {
+  background-color: var(--brand);
+  border-radius: var(--rounded-border);
+  border: none;
+  padding: 8px;
+  margin: 4px;
+  color: var(--off-white);
+  display: inline-block;
+}
+
+button:disabled,
+input[type=button]:disabled,
+input[type=submit]:disabled {
+  background-color: gray;
+  filter: brightness(80%);
+}
+
+button:hover:not([disabled]),
+input[type=button]:hover:not([disabled]),
+input[type=submit]:hover:not([disabled]) {
+  filter: brightness(110%);
+  box-shadow: 0 2px 6px 0 gray;
+}
+
+.bgless-button {
+  background: none;
+  color: var(--brand-black)
+}
+
+.bgless-button:hover {
+  background: none;
+  box-shadow: none;
+  border-bottom: 2px solid #2c2f33;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+
+/* FORMS */
+input[type=text],
+input[type=password], input[type=tel] {
+  border: none;
+  padding: 8px;
+  margin: 4px;
+  height: 20px;
+  border-radius: var(--rounded-border);
+}
+
+/* ICONS */
+.tiny-icon {
+  height: 16px;
+  width: 16px;
+}
+.medium-icon {
+  height: 32px;
+  width: 32px;
+}
+
+.large-icon {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.large-icon-unrounded {
+  height: 100px;
+  width: 100px;
+}
+
+/* IMAGES */
+img {
+  border-radius: var(--rounded-border);
+}
