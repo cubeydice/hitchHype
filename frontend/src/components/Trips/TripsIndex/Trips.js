@@ -9,9 +9,8 @@ import { useHistory, useLocation } from "react-router-dom/cjs/react-router-dom.m
 export function Trips () {
 
     const dispatch = useDispatch();
-    const history = useHistory();
     const location = useLocation();
-    const searchRes = {}
+    const [searchRes, setSearchRes] = useState({"startPoint": "", "endPoint":"", "tripDate":""})
     const trips = Object.values( useSelector(state => state.trips));
     const [searching, setSearching] = useState(false);
     const [filteredTrips, setFilteredTrips] = useState();
@@ -24,18 +23,35 @@ export function Trips () {
     }
 
     useEffect(() => {
-        searching ? (
-            // history.SearchBar
-            // console.log("searching")
-            console.log(searchRes)
-            // handleSearch(searchRes)
-            
-            
-        ) : (
-            dispatch(fetchTrips())
-        );
+        dispatch(fetchTrips())
         dispatch(clearTripErrors());
-    }, [dispatch, searching])
+    }, [dispatch])
+
+    useEffect(() => {
+        console.log("searching")
+        console.log(searchRes)
+        let filtered;
+            if(searchRes.startPoint){
+                filtered = trips.filter( trip => trip.origin.toLowerCase().includes(searchRes.startPoint.toLowerCase())); // && trip.date === tripDate);
+    
+            }
+            if(searchRes.endPoint){
+                filtered = filtered.filter( trip => trip.destination.toLowerCase().includes(searchRes.endPoint.toLowerCase()));
+    
+            }
+            if(searchRes.tripDate){
+                filtered.filter( trip => trip.departureDate === searchRes.tripDate);
+                // let checkDate = trip.date.toLocaleString("en-US", {
+                //     timeZone: "America/Los_Angeles"
+                //   })
+    
+            }
+            
+            searchRes.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${searchRes.startPoint}`)); 
+            setFilteredTrips(filtered)
+
+        setSearching(false)
+    }, [searching])
 
     useEffect(() => {
         let filtered;
@@ -49,25 +65,7 @@ export function Trips () {
     
             }
             if(location.state.search.tripDate){
-                console.log(location.state.search.tripDate)
-    
-                // console.log(tripDate.toLocaleString())
-                // console.log(searchRes["tripDate"])
-                // let inputDate = tripDate.toLocaleString("en-US", {
-                //     timeZone: "America/Los_Angeles"
-                //   })
-                // // let checkDate = date.toLocaleString("en-US", {
-                // //     timeZone: "America/Los_Angeles"
-                // //   })
-                // // console.log(new Date(tripDate))
-                // // trips.filter( trip => console.log(new Date(trip.departureDate)));
-                // filtered.filter( trip => {
-                //     let checkDate = trip.date.toLocaleString("en-US", {
-                //         timeZone: "America/Los_Angeles"
-                //       })
-                // });
-    
-                // filtered = trips.filter( trip =>  console.log(trip.departureDate.slice(12)));//new Date(trip.departureDate) == new Date(tripDate));
+                filtered.filter( trip => trip.departureDate === location.state.search.tripDate);
             }
             
             location.state.search.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${location.state.search.startPoint}`)); 
@@ -82,7 +80,7 @@ export function Trips () {
                 <div className="trip-page">
                 <div className="page-layout">
                     <div className="search-bar">
-                        <SearchBar searchRes={searchRes} fromIndex={true} setSearching={setSearching} />
+                        <SearchBar searchRes={searchRes} setSearchRes={setSearchRes} fromIndex={true} setSearching={setSearching} />
                     </div>
                     <div className="trip-page-header">
                         <h3>
