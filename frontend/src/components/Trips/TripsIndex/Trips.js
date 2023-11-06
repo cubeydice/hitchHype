@@ -19,7 +19,12 @@ export function Trips ({ searchRes = {} }) {
 
     if(location.search){
 
-        let filtered;
+        
+        
+    }
+    const handleSearch = () => {
+        // e.preventDefault();
+        // let filtered;
         // if(searchRes["startPoint"]){
         //     filtered = trips.filter( trip => trip.origin.toLowerCase().includes(searchRes["startPoint"].toLowerCase())); // && trip.date === tripDate);
         // }
@@ -48,11 +53,6 @@ export function Trips ({ searchRes = {} }) {
         // searchRes["startPoint"] === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${searchRes["startPoint"]}`)); 
         // // setFilteredStart(`Trips leaving from ${startPoint}.`)
         // setFilteredTrips(filtered)
-        
-    }
-    const handleSearch = () => {
-        // e.preventDefault();
-        //\
     }
 
     useEffect(() => {
