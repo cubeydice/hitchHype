@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { fetchTripsPlaces } from "../../store/trips";
+import explodeAddress from "../Trips/AddressParser";
 
 
 export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, setSearching}) {
-    const history = useHistory()
-    const [start, setStart] = useState( searchRes.startPoint ? (searchRes.startPoint) : ("") ) 
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const [places, setPlaces] = useState();
+    const [origins, setOrigins] = useState();
+    const [destinations, setDestinations] = useState();
+    const [start, setStart] = useState( searchRes.startPoint ? (searchRes.startPoint) : ("") ); 
     const [end, setEnd] = useState("");
     const [date, setDate] = useState("");
     
@@ -21,6 +28,28 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
             setSearchRes(searchRes)
         }
     }
+
+
+
+    useEffect(() => {
+        dispatch(fetchTripsPlaces()).then( res => {
+            let destinationCity;
+            let originCity;
+            let placesMap = res.map( trip => {
+                explodeAddress(trip[1], function(err,addressStr)
+                {
+                    destinationCity = addressStr.city;
+                })
+                explodeAddress(trip[0], function(err,addressStr)
+                {
+                    originCity = addressStr.city;
+                })
+                return [originCity, destinationCity]
+            })
+            setPlaces(placesMap);
+        });
+
+    }, [dispatch])
 
     return (
         <>

@@ -25,6 +25,19 @@ router.get("/", async (req, res) => {
     } 
 });
 
+
+// Retrieve all trips orgins and destinations
+router.get("/places", async (req, res) => {
+    try {
+        const trips = await Trip.find()
+        const tripsPlaces = trips.map( trip => [trip.origin, trip.destination])
+        return res.json(tripsPlaces);
+    }
+    catch(err) {
+        return res.json([]);
+    } 
+});
+
 // Retrieve passenger's rides
 router.get("/user/:userId/rides", async (req, res, next) => {
     let user;
