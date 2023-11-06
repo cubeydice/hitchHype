@@ -2,15 +2,13 @@
     width: 100vw;
     height: fit-content;
 }
-#searchBar{
+/* #searchBar{
     width: 90vw;
-}
+} */
 .show-all-trips-btn{
     display:flex;
     justify-content: center;
 }
-
-
 .trip-page-header{
     display: flex;
     justify-content: center;

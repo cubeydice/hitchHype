@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { fetchTripsPlaces } from "../../store/trips";
 import explodeAddress from "../Trips/AddressParser";
-
+import "./SearchBar.css"
 
 export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, setSearching}) {
     const dispatch = useDispatch();
@@ -38,15 +38,19 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
             res.map( trip => {
                 explodeAddress(trip[1], function(err,addressStr)
                 {
-                    destinationCities.push(addressStr.city);
+                    if(!destinationCities.includes(addressStr.city)){
+                        destinationCities.push(addressStr.city);
+                    }
                 })
                 explodeAddress(trip[0], function(err,addressStr)
                 {
-                    originCities.push(addressStr.city);
+                    if(!originCities.includes(addressStr.city)){
+                        originCities.push(addressStr.city);
+                    }
                 })
             })
-            console.log(originCities)
-            console.log(destinationCities)
+            // console.log(originCities)
+            // console.log(destinationCities)
             setOrigins(originCities.sort())
             setDestinations(destinationCities.sort());
             // console.log(origins)
@@ -68,7 +72,7 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
                             value={ start }
                             onChange={ e => setStart(e.target.value)}
                         />
-                        <datalist id="startOptions">
+                        <datalist id="startOptions" className="options-dropdown">
                             {origins.map(origin => <option value={origin}>{origin}</option>)}
                             {/* <option value="New York"/>
                             <option value="San Diego"/>
@@ -81,7 +85,7 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
                             value={ end }
                             onChange={ e => setEnd(e.target.value) }
                         />
-                        <datalist id="endOptions">
+                        <datalist id="endOptions" className="options-dropdown">
                             {destinations.map(destination => <option value={destination}>{destination}</option>)}
                             {/* <option value="New York"/>
                             <option value="San Diego"/>
