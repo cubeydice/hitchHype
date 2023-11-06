@@ -33,57 +33,70 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
 
     useEffect(() => {
         dispatch(fetchTripsPlaces()).then( res => {
-            let destinationCity;
-            let originCity;
-            let placesMap = res.map( trip => {
+            let destinationCities = [];
+            let originCities = [];
+            res.map( trip => {
                 explodeAddress(trip[1], function(err,addressStr)
                 {
-                    destinationCity = addressStr.city;
+                    destinationCities.push(addressStr.city);
                 })
                 explodeAddress(trip[0], function(err,addressStr)
                 {
-                    originCity = addressStr.city;
+                    originCities.push(addressStr.city);
                 })
-                return [originCity, destinationCity]
             })
-            setPlaces(placesMap);
+            console.log(originCities)
+            console.log(destinationCities)
+            setOrigins(originCities.sort())
+            setDestinations(destinationCities.sort());
+            // console.log(origins)
+            // console.log(destinations)
+            // setPlaces(placesMap);
         });
 
     }, [dispatch])
 
     return (
         <>
-            <form onSubmit={ handleSearch }>
-                <input
-                    type='text'
-                    placeholder='Search start locations'
-                    list="startOptions"
-                    value={ start }
-                    onChange={ e => setStart(e.target.value)}
-                />
-                <datalist id="startOptions">
-                    <option value="New York"/>
-                    <option value="San Diego"/>
-                    <option value="San Francisco"/>
-                </datalist>
-                <input
-                    type='text'
-                    placeholder='Destination (optional)'
-                    list="endOptions"
-                    value={ end }
-                    onChange={ e => setEnd(e.target.value) }
-                />
-                <datalist id="endOptions">
-                    <option value="New York"/>
-                    <option value="San Diego"/>
-                    <option value="San Francisco"/>
-                </datalist>
-                <input type='date' 
-                    value={ date }
-                    onChange={ (e) => setDate(e.target.value) }
-                />
-                <input type='submit' value='Search'/>
-            </form>
+            {origins ? (
+                <>
+                    <form onSubmit={ handleSearch }>
+                        <input
+                            type='text'
+                            placeholder='Search start locations'
+                            list="startOptions"
+                            value={ start }
+                            onChange={ e => setStart(e.target.value)}
+                        />
+                        <datalist id="startOptions">
+                            {origins.map(origin => <option value={origin}>{origin}</option>)}
+                            {/* <option value="New York"/>
+                            <option value="San Diego"/>
+                            <option value="San Francisco"/> */}
+                        </datalist>
+                        <input
+                            type='text'
+                            placeholder='Destination (optional)'
+                            list="endOptions"
+                            value={ end }
+                            onChange={ e => setEnd(e.target.value) }
+                        />
+                        <datalist id="endOptions">
+                            {destinations.map(destination => <option value={destination}>{destination}</option>)}
+                            {/* <option value="New York"/>
+                            <option value="San Diego"/>
+                            <option value="San Francisco"/> */}
+                        </datalist>
+                        <input type='date' 
+                            value={ date }
+                            onChange={ (e) => setDate(e.target.value) }
+                        />
+                        <input type='submit' value='Search'/>
+                    </form>
+                </>
+            ) : (
+                <></>
+            )}
         </>
     )
 }
