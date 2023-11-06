@@ -62,7 +62,7 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
 
     return (
         <>
-            {origins ? (
+            {origins && destinations? (
                 <>
                     <form onSubmit={ handleSearch }>
                         <input

@@ -28,8 +28,8 @@ export function Trips () {
     }, [dispatch])
 
     useEffect(() => {
-        console.log("searching")
-        console.log(searchRes)
+        // console.log("searching")
+        // console.log(searchRes)
         let filtered;
             if(searchRes.startPoint){
                 filtered = trips.filter( trip => trip.origin.toLowerCase().includes(searchRes.startPoint.toLowerCase())); // && trip.date === tripDate);
