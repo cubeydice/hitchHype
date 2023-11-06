@@ -10,8 +10,8 @@ export function Trips () {
 
     const dispatch = useDispatch();
     const location = useLocation();
-    const [searchRes, setSearchRes] = useState({"startPoint": "", "endPoint":"", "tripDate":""})
     const trips = Object.values( useSelector(state => state.trips));
+    const [searchRes, setSearchRes] = useState({"startPoint": "", "endPoint":"", "tripDate":""})
     const [searching, setSearching] = useState(false);
     const [filteredTrips, setFilteredTrips] = useState();
     const [filteredStart, setFilteredStart] = useState('All Trips');
@@ -80,7 +80,7 @@ export function Trips () {
                 <div className="trip-page">
                 <div className="page-layout">
                     <div className="search-bar">
-                        <SearchBar searchRes={searchRes} setSearchRes={setSearchRes} fromIndex={true} setSearching={setSearching} />
+                        <SearchBar searchRes={searchRes} setSearchRes={setSearchRes} fromIndex={true} setSearching={setSearching} id="searchBar"/>
                     </div>
                     <div className="trip-page-header">
                         <h3>
