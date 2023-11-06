@@ -4,7 +4,7 @@ import { clearTripErrors, fetchTrips } from "../../../store/trips";
 import { TripsItem } from "./TripsItem";
 import "./Trips.css"
 import { SearchBar } from "../../SearchBar/SearchBar";
-import { useHistory, useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
 export function Trips () {
 

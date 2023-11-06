@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, setSearching}) {
     const history = useHistory()
-    const [start, setStart] = useState("");
+    const [start, setStart] = useState( searchRes.startPoint ? (searchRes.startPoint) : ("") ) 
     const [end, setEnd] = useState("");
     const [date, setDate] = useState("");
     
@@ -28,15 +28,27 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
                 <input
                     type='text'
                     placeholder='Search start locations'
+                    list="startOptions"
                     value={ start }
                     onChange={ e => setStart(e.target.value)}
                 />
+                <datalist id="startOptions">
+                    <option value="New York"/>
+                    <option value="San Diego"/>
+                    <option value="San Francisco"/>
+                </datalist>
                 <input
                     type='text'
                     placeholder='Destination (optional)'
+                    list="endOptions"
                     value={ end }
                     onChange={ e => setEnd(e.target.value) }
                 />
+                <datalist id="endOptions">
+                    <option value="New York"/>
+                    <option value="San Diego"/>
+                    <option value="San Francisco"/>
+                </datalist>
                 <input type='date' 
                     value={ date }
                     onChange={ (e) => setDate(e.target.value) }
