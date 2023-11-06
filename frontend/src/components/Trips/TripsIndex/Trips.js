@@ -3,57 +3,69 @@ import { useEffect, useState } from "react";
 import { clearTripErrors, fetchTrips } from "../../../store/trips";
 import { TripsItem } from "./TripsItem";
 import "./Trips.css"
+import { SearchBar } from "../../SearchBar/SearchBar";
+import { useHistory, useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
-export function Trips () {
+export function Trips ({ searchRes = {} }) {
 
     const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
     const trips = Object.values( useSelector(state => state.trips));
+    const [searching, setSearching] = useState(false);
     const [filteredTrips, setFilteredTrips] = useState();
-    const [startPoint, setStartPoint] = useState();
-    const [endPoint, setEndPoint] = useState();
-    const [tripDate, setTripDate] = useState();
     const [filteredStart, setFilteredStart] = useState('All Trips');
-    // const [fetchedTrips, setFetchedTrips] = useState(false);
     
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        // console.log(startPoint)
-        // console.log(endPoint)
-        // console.log(new Date(tripDate).toDateString())
-        let filtered = trips.filter( trip => trip.origin.toLowerCase().includes(startPoint.toLowerCase())); // && trip.date === tripDate);
-        if(endPoint){
-            filtered = trips.filter( trip => trip.destination.toLowerCase().includes(endPoint.toLowerCase()));
-        }
-        if(tripDate){
-            // console.log(tripDate.toLocaleString())
-            console.log(tripDate)
-            // let inputDate = tripDate.toLocaleString("en-US", {
-            //     timeZone: "America/Los_Angeles"
-            //   })
-            // // let checkDate = date.toLocaleString("en-US", {
-            // //     timeZone: "America/Los_Angeles"
-            // //   })
-            // // console.log(new Date(tripDate))
-            // // trips.filter( trip => console.log(new Date(trip.departureDate)));
-            // filtered.filter( trip => {
-            //     let checkDate = trip.date.toLocaleString("en-US", {
-            //         timeZone: "America/Los_Angeles"
-            //       })
-            // });
+    if(location.search){
 
-            filtered = trips.filter( trip =>  console.log(trip.departureDate.slice(12)));//new Date(trip.departureDate) == new Date(tripDate));
-        }
-        startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${startPoint}`)); 
-        // setFilteredStart(`Trips leaving from ${startPoint}.`)
-        setFilteredTrips(filtered)
+        let filtered;
+        // if(searchRes["startPoint"]){
+        //     filtered = trips.filter( trip => trip.origin.toLowerCase().includes(searchRes["startPoint"].toLowerCase())); // && trip.date === tripDate);
+        // }
+        // if(searchRes["endPoint"]){
+        //     filtered = trips.filter( trip => trip.destination.toLowerCase().includes(searchRes["endPoint"].toLowerCase()));
+        // }
+        // if(searchRes["tripDate"]){
+        //     // console.log(tripDate.toLocaleString())
+        //     console.log(searchRes["tripDate"])
+        //     // let inputDate = tripDate.toLocaleString("en-US", {
+        //     //     timeZone: "America/Los_Angeles"
+        //     //   })
+        //     // // let checkDate = date.toLocaleString("en-US", {
+        //     // //     timeZone: "America/Los_Angeles"
+        //     // //   })
+        //     // // console.log(new Date(tripDate))
+        //     // // trips.filter( trip => console.log(new Date(trip.departureDate)));
+        //     // filtered.filter( trip => {
+        //     //     let checkDate = trip.date.toLocaleString("en-US", {
+        //     //         timeZone: "America/Los_Angeles"
+        //     //       })
+        //     // });
+
+        //     filtered = trips.filter( trip =>  console.log(trip.departureDate.slice(12)));//new Date(trip.departureDate) == new Date(tripDate));
+        // }
+        // searchRes["startPoint"] === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${searchRes["startPoint"]}`)); 
+        // // setFilteredStart(`Trips leaving from ${startPoint}.`)
+        // setFilteredTrips(filtered)
+        
+    }
+    const handleSearch = () => {
+        // e.preventDefault();
+        //\
     }
 
     useEffect(() => {
-        dispatch(fetchTrips());
-        // setFetchedTrips(true);
+        searching ? (
+            // history.SearchBar
+            console.log("searching")
+            
+        ) : (
+            dispatch(fetchTrips())
+            // .then( () => handleSearch())
+        );
         dispatch(clearTripErrors());
-    }, [dispatch])
+    }, [dispatch, searching])
 
    return (
         <>
@@ -61,7 +73,9 @@ export function Trips () {
                 <div className="trip-page">
                 <div className="page-layout">
                     <div className="search-bar">
-                        <form className="search-form" id="trip-index-search" onSubmit={ handleSearch }>
+                        <SearchBar searchRes={searchRes} fromIndex={true} setSearching={setSearching}/>
+
+                        {/* <form className="search-form" id="trip-index-search" onSubmit={ handleSearch }>
                             <input
                                 type="text"
                                 placeholder="Search start locations"
@@ -80,7 +94,8 @@ export function Trips () {
                                 onChange={(e) => setTripDate(e.target.value)}
                             />
                             <button type="submit"> Search </button>
-                        </form>
+                        </form> */}
+
                     </div>
                     <div className="trip-page-header">
                         {/* <h3>Trips leaving from start location</h3> */}
