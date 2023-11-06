@@ -15,7 +15,7 @@
     padding: 15px;
 }
 .trip-items-container{
-    width: 100%;
+    max-width: 1400px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
