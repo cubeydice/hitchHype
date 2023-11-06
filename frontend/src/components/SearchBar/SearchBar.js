@@ -8,7 +8,6 @@ import "./SearchBar.css"
 export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, setSearching}) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const [places, setPlaces] = useState();
     const [origins, setOrigins] = useState();
     const [destinations, setDestinations] = useState();
     const [start, setStart] = useState( searchRes.startPoint ? (searchRes.startPoint) : ("") ); 
@@ -29,8 +28,6 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
         }
     }
 
-
-
     useEffect(() => {
         dispatch(fetchTripsPlaces()).then( res => {
             let destinationCities = [];
@@ -49,13 +46,8 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
                     }
                 })
             })
-            // console.log(originCities)
-            // console.log(destinationCities)
             setOrigins(originCities.sort())
             setDestinations(destinationCities.sort());
-            // console.log(origins)
-            // console.log(destinations)
-            // setPlaces(placesMap);
         });
 
     }, [dispatch])
@@ -73,10 +65,7 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
                             onChange={ e => setStart(e.target.value)}
                         />
                         <datalist id="startOptions" className="options-dropdown">
-                            {origins.map(origin => <option value={origin}>{origin}</option>)}
-                            {/* <option value="New York"/>
-                            <option value="San Diego"/>
-                            <option value="San Francisco"/> */}
+                            {origins.map(origin => <option value={origin} key={origin}>{origin}</option>)}
                         </datalist>
                         <input
                             type='text'
@@ -86,10 +75,7 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
                             onChange={ e => setEnd(e.target.value) }
                         />
                         <datalist id="endOptions" className="options-dropdown">
-                            {destinations.map(destination => <option value={destination}>{destination}</option>)}
-                            {/* <option value="New York"/>
-                            <option value="San Diego"/>
-                            <option value="San Francisco"/> */}
+                            {destinations.map(destination => <option value={destination} key={destination}>{destination}</option>)}
                         </datalist>
                         <input type='date' 
                             value={ date }
