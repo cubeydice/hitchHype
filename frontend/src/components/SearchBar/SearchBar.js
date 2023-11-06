@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 export function SearchBar ({ searchRes = {}, fromIndex = false, setSearching}) {
     const history = useHistory()
-    const [start, setStart] = useState();
-    const [end, setEnd] = useState();
-    const [date, setDate] = useState();
+    const [start, setStart] = useState("");
+    const [end, setEnd] = useState("");
+    const [date, setDate] = useState("");
 
     const handleSearch = (e) => {
         e.preventDefault()
@@ -15,8 +15,6 @@ export function SearchBar ({ searchRes = {}, fromIndex = false, setSearching}) {
         searchRes["tripDate"] = date;
 
         if(!fromIndex){
-            // console.log(fromIndex)
-            // console.log(searchRes)
             history.push("/trips", { search: searchRes})
         }else{
             setSearching(true)

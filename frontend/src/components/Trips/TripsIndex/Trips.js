@@ -17,54 +17,10 @@ export function Trips () {
     const [filteredTrips, setFilteredTrips] = useState();
     const [filteredStart, setFilteredStart] = useState('All Trips');
     
-
-    if(location.state){
-
-        console.log(location.state.search)
-        // let filtered;
-        // if(location.state.search.startPoint){
-        //     console.log(location.state.search.startPoint)
-        // }
-        // if(location.state.search.endPoint){
-        //     console.log(location.state.search.endPoint)
-        // }
-        // if(location.state.search.tripDate){
-        //     console.log(location.state.search.tripDate)
-        // }
-        
-    }
-    const handleSearch = ({filter}) => {
-        // e.preventDefault();
-        console.log(filter)
-        let filtered;
-        if(searchRes["startPoint"]){
-            filtered = trips.filter( trip => trip.origin.toLowerCase().includes(searchRes["startPoint"].toLowerCase())); // && trip.date === tripDate);
-        }
-        if(searchRes["endPoint"]){
-            filtered = trips.filter( trip => trip.destination.toLowerCase().includes(searchRes["endPoint"].toLowerCase()));
-        }
-        if(searchRes["tripDate"]){
-            // console.log(tripDate.toLocaleString())
-            console.log(searchRes["tripDate"])
-            // let inputDate = tripDate.toLocaleString("en-US", {
-            //     timeZone: "America/Los_Angeles"
-            //   })
-            // // let checkDate = date.toLocaleString("en-US", {
-            // //     timeZone: "America/Los_Angeles"
-            // //   })
-            // // console.log(new Date(tripDate))
-            // // trips.filter( trip => console.log(new Date(trip.departureDate)));
-            // filtered.filter( trip => {
-            //     let checkDate = trip.date.toLocaleString("en-US", {
-            //         timeZone: "America/Los_Angeles"
-            //       })
-            // });
-
-            filtered = trips.filter( trip =>  console.log(trip.departureDate.slice(12)));//new Date(trip.departureDate) == new Date(tripDate));
-        }
-        searchRes["startPoint"] === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${searchRes["startPoint"]}`)); 
-        // setFilteredStart(`Trips leaving from ${startPoint}.`)
-        setFilteredTrips(filtered)
+    const handleClick = (e) => {
+        e.preventDefault();
+        setFilteredTrips();
+        setFilteredStart("All Trips");
     }
 
     useEffect(() => {
@@ -77,10 +33,48 @@ export function Trips () {
             
         ) : (
             dispatch(fetchTrips())
-            // .then( () => handleSearch())
         );
         dispatch(clearTripErrors());
     }, [dispatch, searching])
+
+    useEffect(() => {
+        let filtered;
+        if(location.state){
+            if(location.state.search.startPoint){
+                filtered = trips.filter( trip => trip.origin.toLowerCase().includes(location.state.search.startPoint.toLowerCase())); // && trip.date === tripDate);
+    
+            }
+            if(location.state.search.endPoint){
+                filtered = filtered.filter( trip => trip.destination.toLowerCase().includes(location.state.search.endPoint.toLowerCase()));
+    
+            }
+            if(location.state.search.tripDate){
+                console.log(location.state.search.tripDate)
+    
+                // console.log(tripDate.toLocaleString())
+                // console.log(searchRes["tripDate"])
+                // let inputDate = tripDate.toLocaleString("en-US", {
+                //     timeZone: "America/Los_Angeles"
+                //   })
+                // // let checkDate = date.toLocaleString("en-US", {
+                // //     timeZone: "America/Los_Angeles"
+                // //   })
+                // // console.log(new Date(tripDate))
+                // // trips.filter( trip => console.log(new Date(trip.departureDate)));
+                // filtered.filter( trip => {
+                //     let checkDate = trip.date.toLocaleString("en-US", {
+                //         timeZone: "America/Los_Angeles"
+                //       })
+                // });
+    
+                // filtered = trips.filter( trip =>  console.log(trip.departureDate.slice(12)));//new Date(trip.departureDate) == new Date(tripDate));
+            }
+            
+            location.state.search.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${location.state.search.startPoint}`)); 
+            setFilteredTrips(filtered)
+        }
+
+    }, [location.state])
 
    return (
         <>
@@ -88,29 +82,7 @@ export function Trips () {
                 <div className="trip-page">
                 <div className="page-layout">
                     <div className="search-bar">
-                        <SearchBar searchRes={searchRes} fromIndex={true} setSearching={setSearching}/>
-
-                        {/* <form className="search-form" id="trip-index-search" onSubmit={ handleSearch }>
-                            <input
-                                type="text"
-                                placeholder="Search start locations"
-                                value={ startPoint }
-                                onChange={ e => setStartPoint(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Destination (optional)"
-                                value={ endPoint }
-                                onChange={ e => setEndPoint(e.target.value)}
-                            />
-                            <input 
-                                type="date" 
-                                value={tripDate}
-                                onChange={(e) => setTripDate(e.target.value)}
-                            />
-                            <button type="submit"> Search </button>
-                        </form> */}
-
+                        <SearchBar searchRes={searchRes} fromIndex={true} setSearching={setSearching} />
                     </div>
                     <div className="trip-page-header">
                         <h3>
@@ -129,6 +101,11 @@ export function Trips () {
                             <TripsItem key={trip._id} trip={trip} />
                         ))
                      )}
+                    </div>
+                    <div className="show-all-trips-btn">
+                        { filteredTrips ? (
+                            <button onClick={handleClick}>All Trips</button>
+                        ) : (<></>) }
                     </div>
                 </div>
             </div>
