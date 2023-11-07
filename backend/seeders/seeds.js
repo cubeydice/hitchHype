@@ -106,7 +106,7 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
         mpg: faker.datatype.number({ min: 10, max: 50 }),
         fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
     })
-
+    cars.push(car)
     user.car = car._id
     users.push(user)
 }
