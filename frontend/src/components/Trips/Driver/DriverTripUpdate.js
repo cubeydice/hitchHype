@@ -36,7 +36,7 @@ export function DriverUpdateForm () {
                     })
                 break;
             case "addSeat":
-                seats = availableSeats + 1 > 5 ? availableSeats + 1 : availableSeats
+                seats = availableSeats + 1 < 5 ? availableSeats + 1 : availableSeats
                 setAvailableSeats(seats)
                 break;
             case "subtractSeat":

@@ -1,25 +1,23 @@
 .page-layout{
-    width: 100vw;
+    width: 1400px;
     height: fit-content;
 }
-/* .search-bar{
-    width: 100%; */
-    /* height: 20%; */
-/* }
-.search-form{
-    width: 100%;
+/* #searchBar{
+    width: 90vw;
 } */
-
+.show-all-trips-btn{
+    display:flex;
+    justify-content: center;
+}
 .trip-page-header{
     display: flex;
     justify-content: center;
     padding: 15px;
 }
 .trip-items-container{
-    width: 100%;
+    max-width: 1400px;
     display: flex;
     flex-wrap: wrap;
-    /* align-items: center; */
     justify-content: center;
 }
 #trip-index-search{
