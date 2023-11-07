@@ -239,11 +239,19 @@ router.delete('/:id', async (req, res, next) => { //requireUser,
     //     return next(error);
     // }
 
-    // Move user trips, reviews, car
+    // Move user trips, reviews, car to deleted user
+    // Error handling if deleted user does not exist for some reason
     let deletedUser = await User.findOne({email: "deleteduser@example.com"})
     if (!deletedUser) {
       deletedUser = new User({
-        firstName: "[deleted] "
+        email: 'deleteduser@example.com',
+        hashedPassword: 'deleted',
+        firstName: '[deleted] ',
+        lastName: 'user',
+        phoneNumber: '9999999999',
+        trips: [],
+        reviews: [],
+        car: null
       })
     }
 
