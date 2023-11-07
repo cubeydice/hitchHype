@@ -7,30 +7,11 @@ const { requireUser } = require('../../config/passport');
 const validateCarInput = require('../../validations/car');
 const getVehicles = require('../../vehiclesParser');
 
-// path = /cars
+// path = /api/cars
 // Retrieve user's cars
 router.get('/user/:carId', async (req, res, next) => {
     try {
-        // const user = await User.findById(req.params.userId);
-
-        // if (!user) {
-        //     const error = new Error('User not found');
-        //     error.statusCode = 404;
-        //     error.errors = { message: "No user found with that id" };
-        //     return next(error);
-        // }
-
-        // // Check if the user is the user of cars
-        // if (req.user._id.toString() !== req.params.userId) {
-        //     const error = new Error('Unauthorized: You can only access your own cars.');
-        //     error.status = 403;
-        //     error.errors = { message: 'You can only access your own cars.' }
-        //     return next(error);
-        // }
-
         const cars = await Car.find({ _id: req.params.carId })
-                                // .sort({ createdAt: -1 })
-                                // .populate("make");
         return res.json(cars);
     }
     catch(err) {
