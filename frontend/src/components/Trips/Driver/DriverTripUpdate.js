@@ -46,7 +46,7 @@ export function DriverUpdateForm () {
                     })
                 break;
             case "addSeat":
-                seats = availableSeats + 1 < 5 ? availableSeats + 1 : availableSeats
+                seats = availableSeats + 1 < 5 - trip.passengers.length? availableSeats + 1 : availableSeats
                 setAvailableSeats(seats)
                 break;
             case "subtractSeat":
@@ -87,17 +87,17 @@ export function DriverUpdateForm () {
                                         <h3 className="driver-update-header-h3">No Passengers</h3>
                                     )}
                                 </div>
-                                <div className="driver-update-passengers-items">
+                                <>
                                     {trip.passengers.map( passenger => (
-                                        <>
+                                        <div className="passenger-item-container">
                                             <Passenger key={passenger.passenger._id} passenger={passenger} className="Driver-update-passenger-item"/>
 
                                             <div className="driver-update-rmv-passenger-container">
                                                 <button id="driver-update-rmv-passenger" value={passenger._id} onClick={handleClick("deletePassenger")}>Remove passenger</button>
                                             </div>
-                                        </>
+                                        </div>
                                     ))}
-                                </div>
+                                </>
                             </div>
                         </div>
                         <div className="driver-update-edit-btns">
