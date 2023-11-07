@@ -60,9 +60,6 @@ table {
   --rounded-border: 10px;
 }
 
-.italic {
-  font-style: italic;
-}
 
 .main-container {
   position: relative;
@@ -102,6 +99,10 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.italic {
+  font-style: italic;
+}
+
 h1 {
   letter-spacing: 0.5px;
   color: var(--brand);
@@ -128,6 +129,7 @@ sub {
   color: var(--sub-gray)
 }
 
+/* ERROR HANDLING*/
 .errors {
   color: red;
   font-size: 12px;

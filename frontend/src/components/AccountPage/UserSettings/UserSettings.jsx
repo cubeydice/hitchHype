@@ -13,7 +13,7 @@ const UserSettings = () => {
   const user = useSelector(state => state.users.user)
   const errors = useSelector(state => state.errors.users);
   const [bio, setBio] = useState(user ? user.biography : '');
-  const [bioCount, setBioCount] = useState(0);
+  const [bioCount, setBioCount] = useState(user ? user.biography.length : 0);
   const [phone, setPhone] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
 
@@ -21,10 +21,12 @@ const UserSettings = () => {
     if (!user) {dispatch(fetchUser(currentUser._id))
     .then(res => {
       setBio(res.user.biography)
+      setBioCount(res.user.biography.length)
       setPhone(res.user.phoneNumber)
       setProfilePicture(res.user.profilePicture)
     })} else{
       setBio(user.biography)
+      setBioCount(user.biography.length)
       setPhone(user.phoneNumber)
       setProfilePicture(user.profilePicture)
     }
@@ -66,7 +68,7 @@ const UserSettings = () => {
   });
   }
 
-  if (!currentUser || !user) return <div><Loading/></div>
+  if (!currentUser || !user) return <div className="settings-container"><Loading className='loading'/></div>
   return (
     <div className="settings-container">
       <h1 className="settings-form-title">Tell us about yourself!</h1>
@@ -82,12 +84,14 @@ const UserSettings = () => {
             hello {currentUser.firstName} {currentUser.lastName}!
             </h2><br/>
 
-          <label id='account-form-phone-number'><h3>Phone Number</h3> <span className="errors">{errors?.phone}</span><br/>
-                <input type="tel"
-                value={phone}
-                onChange={handleChange('phone')}
-                placeholder="XXX-XXX-XXXX"
-                />
+          <label id='account-form-phone-number'>
+            <h3>Phone Number</h3>
+            <span className="errors">{errors?.phoneNumber}</span>
+            <input type="tel"
+            value={phone}
+            onChange={handleChange('phone')}
+            placeholder="XXX-XXX-XXXX"
+            />
           </label>
 
           <label><h3>About Me</h3> <span className="errors">{errors?.biography}</span><br/>

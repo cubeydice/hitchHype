@@ -13,7 +13,7 @@ const validateUserInput = [
     check('phoneNumber')
         .exists({ checkFalsy: true })
         .isLength({ min: 10, max: 20 })
-        .withMessage('Phone number must be between 10 and 20 digits'),
+        .withMessage('Phone number must be a valid number'),
     check('biography')
         .exists({ checkFalsy: true })
         .isLength({ max: 500 })
