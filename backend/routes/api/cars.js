@@ -122,7 +122,7 @@ router.patch('/:id', requireUser, validateCarInput, async (req, res, next) => {
 });
 
 // Remove car
-router.delete('/:id', requireUser, validateCarInput, async (req, res, next) => {
+router.delete('/:id', requireUser, async (req, res, next) => {
     try {
         // Find the car by its ID
         const car = await Car.findById(req.params.id);
@@ -143,7 +143,7 @@ router.delete('/:id', requireUser, validateCarInput, async (req, res, next) => {
         }
 
         // Remove the car from the database
-        await car.remove();
+        await car.deleteOne();
         res.json({ message: 'Car deleted successfully' });
     }
     catch(err) {
