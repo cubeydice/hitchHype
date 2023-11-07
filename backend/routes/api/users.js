@@ -220,7 +220,7 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
   }
 })
 
-router.delete('/:id', requireUser, async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => { //requireUser, 
   try {
     const user = await User.findById(req.params.id)
     console.log(user)
@@ -232,18 +232,18 @@ router.delete('/:id', requireUser, async (req, res, next) => {
     }
 
     // Check if the user is the user of this page
-    if (req.params.id.toString() !== req.user._id.toString()) {
-        const error = new Error("Unauthorized: You are not the user of this page");
-        error.status = 403;
-        error.errors = { message: "You are not the user of this page" }
-        return next(error);
-    }
+    // if (req.params.id.toString() !== req.user._id.toString()) {
+    //     const error = new Error("Unauthorized: You are not the user of this page");
+    //     error.status = 403;
+    //     error.errors = { message: "You are not the user of this page" }
+    //     return next(error);
+    // }
 
     // Move user trips, reviews, car
-    const deletedUser = await User.findOne({firstName: "[deleted]"})
+    let deletedUser = await User.findOne({email: "deleteduser@example.com"})
     if (!deletedUser) {
       deletedUser = new User({
-        firstName: "[deleted]"
+        firstName: "[deleted] "
       })
     }
 
@@ -255,11 +255,11 @@ router.delete('/:id', requireUser, async (req, res, next) => {
     await Review.updateMany({ reviewer: user._id }, { $set: { reviewer: deletedUser._id } });
     await Review.updateMany({ reviewee: user._id }, { $set: { reviewee: deletedUser._id } });
     
-    await Car.update({ owner: user._id }, { $set: { owner: deletedUser._id } })
+    await Car.updateMany({ owner: user._id }, { $set: { owner: deletedUser._id } })
     await deletedUser.save()
 
     // Remove the user from the database
-    await user.remove();
+    await user.deleteOne();
     res.json({ message: 'User deleted successfully' });
   }
   catch(err) {
