@@ -73,7 +73,7 @@ export function DriverTripShow({ trip }) {
                                 </div>
                             </div>
                             <div className='trip-show-edit-btn-container'>
-                                {false && tripOver ? (
+                                { tripOver ? (
                                     <button className='edit-btn-container' disabled>
                                         <h3>Trip Over</h3>
                                     </button>
