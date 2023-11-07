@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, fetchUser, updateUser } from "../../../store/users";
 import AccountImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg' // eslint-disable-next-line
-import './UserSettings.css'
 import { getCurrentUser } from "../../../store/session";
 import { handleImgError } from "../../../App";
 import { ReactComponent as Loading } from '../../../assets/icons/loading-icon.svg'
+import DefaultProfilePic from '../../../assets/icons/user.png'
+import './UserSettings.css'
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -15,21 +16,20 @@ const UserSettings = () => {
   const [bio, setBio] = useState(user ? user.biography : '');
   const [bioCount, setBioCount] = useState(user ? user.biography.length : 0);
   const [phone, setPhone] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [profilePicture, setProfilePicture] = useState(DefaultProfilePic);
 
   useEffect(()=>{
     if (!user) {dispatch(fetchUser(currentUser._id))
     .then(res => {
-  debugger
       setBio(res.user.biography)
       setBioCount(res.user.biography.length)
       setPhone(res.user.phoneNumber)
-      setProfilePicture(res.user.profilePicture)
+      if (res.user.profilePicture) setProfilePicture(res.user.profilePicture)
     })} else{
       setBio(user.biography)
       setBioCount(user.biography.length)
       setPhone(user.phoneNumber)
-      setProfilePicture(user.profilePicture)
+      if (user.profilePicture) setProfilePicture(user.profilePicture)
     }
     // eslint-disable-next-line
   }, [dispatch])
@@ -80,9 +80,11 @@ const UserSettings = () => {
             alt='profile-pic'
             className="large-icon"
             id="profile-icon"
-            onError={handleImgError}/>
+            onError={handleImgError}
+            />
+
             hello {currentUser.firstName} {currentUser.lastName}!
-            </h2><br/>
+          </h2><br/>
 
           <label id='account-form-phone-number'>
             <h3>Phone Number</h3>
