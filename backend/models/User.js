@@ -50,10 +50,10 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'Trip', 
     }],
-    // rides: [{ 
-    //     type: Schema.Types.ObjectId, 
-    //     ref: 'Ride', 
-    // }],
+    reviews: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Review', 
+    }],
     car: { 
         type: Schema.Types.ObjectId, 
         ref: 'Car' 

@@ -64,20 +64,24 @@ router.get('/:id', async (req, res, next) => {
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
                               .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
-                              .populate("passengers.passenger", "_id firstName lastName");
+                              .populate("passengers.passenger", "_id firstName lastName")
+                              .lean();
       const riderTrips = await Trip.find({"passengers.passenger": user._id})
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
                               .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
-                              .populate("passengers.passenger", "_id firstName lastName");
+                              .populate("passengers.passenger", "_id firstName lastName")
+                              .lean();
       const reviewer = await Review.find({reviewer: user._id})
                               .sort({ createdAt: -1 })
                               .populate("reviewee", "_id firstName lastName")
                               .populate("trip", "origin destination")
+                              .lean();
       const reviewee = await Review.find({reviewee: user._id})
                               .sort({ createdAt: -1 })
                               .populate("reviewer", "_id firstName lastName")
                               .populate("trip", "origin destination")
+                              .lean()
       let ratingTotal = 0;
       let avgRating = 0;
       if (reviewee.length > 0) {
@@ -89,11 +93,11 @@ router.get('/:id', async (req, res, next) => {
 
       return res.json({
         user, 
-        ["driverTrips"]: driverTrips || [],
-        ["riderTrips"]: riderTrips || [],
-        ["reviewer"]: reviewer || [],
-        ["reviewee"]: reviewee || [],
-        ["avgRating"]: avgRating
+        driverTrips: driverTrips || [],
+        riderTrips: riderTrips || [],
+        reviewer: reviewer || [],
+        reviewee: reviewee || [],
+        avgRating,
       })
   } catch(err) {
     return res.json({});
@@ -210,6 +214,44 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
     const updatedUser = await user.save();
 
     res.json(updatedUser);
+  }
+  catch(err) {
+    next(err);
+  }
+})
+
+router.delete('/:id', requireUser, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    console.log(user)
+    if (!user) {
+      const error = new Error("User not found");
+      error.status = 404;
+      error.errors = { message: "No user found with that id" };
+      return next(error);
+    }
+
+    // Check if the user is the user of this page
+    if (req.params.id.toString() !== req.user._id.toString()) {
+        const error = new Error("Unauthorized: You are not the user of this page");
+        error.status = 403;
+        error.errors = { message: "You are not the user of this page" }
+        return next(error);
+    }
+
+    // Move user trips, reviews, car
+    // const deletedUser = await User.find({firstName: "[deleted]"})
+    // for (const trip of user.trips) {
+    //   trip.driver = deletedUser._id;
+    //   await trip.save();
+    // }
+    // for (const trip of user.review) {
+    //   trip.driver = deletedUser._id;
+    //   awai
+
+    // Remove the user from the database
+    await user.remove();
+    res.json({ message: 'User deleted successfully' });
   }
   catch(err) {
     next(err);
