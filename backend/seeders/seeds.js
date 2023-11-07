@@ -221,6 +221,18 @@ trips.push(
     })
 )
 
+users.push(
+    new User({
+        email: 'deleteduser@example.com',
+        hashedPassword: bcrypt.hashSync('deleted', 10),
+        firstName: '[deleted] ',
+        lastName: 'user',
+        phoneNumber: '9999999999',
+        trips: [],
+        reviews: [],
+        car: null
+    })
+)
 
 // Create reviews
 // Generate mock review titles and bodies for the driver
