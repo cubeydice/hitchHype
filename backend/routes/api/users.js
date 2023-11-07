@@ -64,20 +64,24 @@ router.get('/:id', async (req, res, next) => {
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
                               .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
-                              .populate("passengers.passenger", "_id firstName lastName");
+                              .populate("passengers.passenger", "_id firstName lastName")
+                              .lean();
       const riderTrips = await Trip.find({"passengers.passenger": user._id})
                               .sort({ createdAt: -1 })
                               .populate("driver", "_id firstName lastName")
                               .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
-                              .populate("passengers.passenger", "_id firstName lastName");
+                              .populate("passengers.passenger", "_id firstName lastName")
+                              .lean();
       const reviewer = await Review.find({reviewer: user._id})
                               .sort({ createdAt: -1 })
                               .populate("reviewee", "_id firstName lastName")
                               .populate("trip", "origin destination")
+                              .lean();
       const reviewee = await Review.find({reviewee: user._id})
                               .sort({ createdAt: -1 })
                               .populate("reviewer", "_id firstName lastName")
                               .populate("trip", "origin destination")
+                              .lean()
       let ratingTotal = 0;
       let avgRating = 0;
       if (reviewee.length > 0) {
@@ -89,11 +93,11 @@ router.get('/:id', async (req, res, next) => {
 
       return res.json({
         user, 
-        ["driverTrips"]: driverTrips || [],
-        ["riderTrips"]: riderTrips || [],
-        ["reviewer"]: reviewer || [],
-        ["reviewee"]: reviewee || [],
-        ["avgRating"]: avgRating
+        driverTrips: driverTrips || [],
+        riderTrips: riderTrips || [],
+        reviewer: reviewer || [],
+        reviewee: reviewee || [],
+        avgRating,
       })
   } catch(err) {
     return res.json({});
@@ -210,6 +214,61 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
     const updatedUser = await user.save();
 
     res.json(updatedUser);
+  }
+  catch(err) {
+    next(err);
+  }
+})
+
+router.delete('/:id', async (req, res, next) => { //requireUser, 
+  try {
+    const user = await User.findById(req.params.id)
+    console.log(user)
+    if (!user) {
+      const error = new Error("User not found");
+      error.status = 404;
+      error.errors = { message: "No user found with that id" };
+      return next(error);
+    }
+
+    // Check if the user is the user of this page
+    // if (req.params.id.toString() !== req.user._id.toString()) {
+    //     const error = new Error("Unauthorized: You are not the user of this page");
+    //     error.status = 403;
+    //     error.errors = { message: "You are not the user of this page" }
+    //     return next(error);
+    // }
+
+    // Move user trips, reviews, car to deleted user
+    // Error handling if deleted user does not exist for some reason
+    let deletedUser = await User.findOne({email: "deleteduser@example.com"})
+    if (!deletedUser) {
+      deletedUser = new User({
+        email: 'deleteduser@example.com',
+        hashedPassword: 'deleted',
+        firstName: '[deleted] ',
+        lastName: 'user',
+        phoneNumber: '9999999999',
+        trips: [],
+        reviews: [],
+        car: null
+      })
+    }
+
+    // Replace driver and passenger in trips
+    await Trip.updateMany({ driver: user._id }, { $set: { driver: deletedUser._id } });
+    await Trip.updateMany({ "passengers.passenger": user._id }, { $set: { "passengers.$.passenger": deletedUser._id } });
+
+    // Replace reviewers and reviewees with deleted user
+    await Review.updateMany({ reviewer: user._id }, { $set: { reviewer: deletedUser._id } });
+    await Review.updateMany({ reviewee: user._id }, { $set: { reviewee: deletedUser._id } });
+    
+    await Car.updateMany({ owner: user._id }, { $set: { owner: deletedUser._id } })
+    await deletedUser.save()
+
+    // Remove the user from the database
+    await user.deleteOne();
+    res.json({ message: 'User deleted successfully' });
   }
   catch(err) {
     next(err);
