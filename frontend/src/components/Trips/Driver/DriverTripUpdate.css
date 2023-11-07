@@ -56,15 +56,23 @@
     align-items: center;
 }
 .driver-update-btn{
-    width: 125px;
+    width: max-content;
     padding: 15px;
+    display: flex;
+    justify-content: center;
 }
-.Driver-update-available-seats{
+.driver-update-available-seats{
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     margin-top: 10px;
     margin-bottom: 20px;
+}
+.driver-update-available-seats-btn{
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
 }
 button{
     cursor: pointer;
@@ -73,4 +81,12 @@ button{
 .trip-show-linear-map {
     padding: 0px 10px;
     margin: 0px 10px;
+}
+#trip-places{
+    font-weight: 900;
+}
+.passengers-edit-container{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
 }
