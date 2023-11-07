@@ -240,14 +240,23 @@ router.delete('/:id', requireUser, async (req, res, next) => {
     }
 
     // Move user trips, reviews, car
-    // const deletedUser = await User.find({firstName: "[deleted]"})
-    // for (const trip of user.trips) {
-    //   trip.driver = deletedUser._id;
-    //   await trip.save();
-    // }
-    // for (const trip of user.review) {
-    //   trip.driver = deletedUser._id;
-    //   awai
+    const deletedUser = await User.findOne({firstName: "[deleted]"})
+    if (!deletedUser) {
+      deletedUser = new User({
+        firstName: "[deleted]"
+      })
+    }
+
+    // Replace driver and passenger in trips
+    await Trip.updateMany({ driver: user._id }, { $set: { driver: deletedUser._id } });
+    await Trip.updateMany({ "passengers.passenger": user._id }, { $set: { "passengers.$.passenger": deletedUser._id } });
+
+    // Replace reviewers and reviewees with deleted user
+    await Review.updateMany({ reviewer: user._id }, { $set: { reviewer: deletedUser._id } });
+    await Review.updateMany({ reviewee: user._id }, { $set: { reviewee: deletedUser._id } });
+    
+    await Car.update({ owner: user._id }, { $set: { owner: deletedUser._id } })
+    await deletedUser.save()
 
     // Remove the user from the database
     await user.remove();
