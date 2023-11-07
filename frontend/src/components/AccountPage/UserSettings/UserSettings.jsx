@@ -20,6 +20,7 @@ const UserSettings = () => {
   useEffect(()=>{
     if (!user) {dispatch(fetchUser(currentUser._id))
     .then(res => {
+  debugger
       setBio(res.user.biography)
       setBioCount(res.user.biography.length)
       setPhone(res.user.phoneNumber)
@@ -55,8 +56,7 @@ const UserSettings = () => {
     const updatedUser = {
       ...user,
       biography: bio,
-      phoneNumber: phone,
-      profilePicture
+      phoneNumber: phone
     }
 
     dispatch(updateUser(updatedUser))
