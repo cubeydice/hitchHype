@@ -71,24 +71,6 @@ const demoInfo = {
     dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
 }
 
-for (let i = 1; i < NUM_SEED_USERS; i++) {
-    const randomImage = images[Math.floor(Math.random() * images.length)]
-    const firstName = faker.name.firstName()
-    const lastName = faker.name.lastName()
-    users.push(
-        new User ({
-            email: faker.internet.email(firstName, lastName),
-            hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
-            firstName: firstName,
-            lastName: lastName,
-            phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
-            biography: faker.lorem.sentences(5),
-            address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
-            profilePicture: randomImage
-        })
-    )
-}
-
 // Create cars
 const cars = [];
 const sampleInsuranceCompanies = [
@@ -97,29 +79,63 @@ const sampleInsuranceCompanies = [
     "Company C",
     // Add more company names here
 ];
-for (let i = 0; i < NUM_SEED_CARS; i++) {
-    const randomOwner = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
-    cars.push(
-        new Car ({
-            owner: randomOwner,
-            make: faker.vehicle.manufacturer(),
-            model: faker.vehicle.model(),
-            year: faker.datatype.number({ min: 2000, max: 2022 }),
-            licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
-            insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
-            mpg: faker.datatype.number({ min: 10, max: 50 }),
-            fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
-        })
-    )
+
+for (let i = 1; i < NUM_SEED_USERS; i++) {
+    const randomImage = images[Math.floor(Math.random() * images.length)]
+    const firstName = faker.name.firstName()
+    const lastName = faker.name.lastName()
+
+    const user = new User ({
+        email: faker.internet.email(firstName, lastName),
+        hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: Math.floor(1000000000 + Math.random() * 9000000000),
+        biography: faker.lorem.sentences(5),
+        address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
+        profilePicture: randomImage
+    })
+
+    const car = new Car ({
+        owner: user._id,
+        make: faker.vehicle.manufacturer(),
+        model: faker.vehicle.model(),
+        year: faker.datatype.number({ min: 2000, max: 2022 }),
+        licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
+        insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
+        mpg: faker.datatype.number({ min: 10, max: 50 }),
+        fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
+    })
+
+    user.car = car._id
+    users.push(user)
 }
+
+
+// for (let i = 0; i < NUM_SEED_CARS; i++) {
+//     const randomOwner = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id;
+//     cars.push(
+//         new Car ({
+//             owner: randomOwner,
+//             make: faker.vehicle.manufacturer(),
+//             model: faker.vehicle.model(),
+//             year: faker.datatype.number({ min: 2000, max: 2022 }),
+//             licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
+//             insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
+//             mpg: faker.datatype.number({ min: 10, max: 50 }),
+//             fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
+//         })
+//     )
+// }
 
 // Create trips
 const trips = [];
 
 for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     const usersDup = users.slice(1, users.length);
-    const randomDriver = usersDup[Math.floor(Math.random() * usersDup.length)]._id;
-    const randomCarId = cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id
+    const randomUser = usersDup[Math.floor(Math.random() * usersDup.length)]
+    const randomDriver = randomUser._id;
+    const randomCarId = randomUser.car
     const randomPassengers = []
     const randomBoolean = Math.random() < 0.3;
     // Choose two random passengers and generate two dropoff points from the users array
@@ -151,7 +167,6 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
 
 // Create demo driver, needs trips and cars to be initialized beforehand
 let driverTrips = []
-const driverCar = cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id
 
 const demoDriver = new User ({
         email: 'demo-user2@appacademy.io',
@@ -161,10 +176,24 @@ const demoDriver = new User ({
         phoneNumber: '2345678901',
         biography: faker.lorem.sentences(5),
         trips: driverTrips,
-        car: driverCar,
+        car: null,
         address: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
         profilePicture: 'https://i.imgur.com/wNLNSwk.jpg'
 });
+
+const driverCar = new Car ({
+    owner: demoDriver._id,
+    make: faker.vehicle.manufacturer(),
+    model: faker.vehicle.model(),
+    year: faker.datatype.number({ min: 2000, max: 2022 }),
+    licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
+    insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
+    mpg: faker.datatype.number({ min: 10, max: 50 }),
+    fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
+})
+
+demoDriver.car = driverCar._id
+cars.push(driverCar)
 
 
 // Create demo drivers trips
@@ -187,7 +216,7 @@ for (let i = 0; i < 3; i++) {
 
     const trip = new Trip ({
         driver: demoDriver._id,
-        car: driverCar,
+        car: demoDriver.car,
         passengers: randomPassengers,
         departureDate: faker.date.future(),
         origin: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
@@ -200,10 +229,11 @@ for (let i = 0; i < 3; i++) {
 users.push(demoDriver);
 
 // Create trip where demo driver is a passenger
+const randomUser = users[Math.floor(Math.random() * users.length)]
 trips.push(
     new Trip ({
-        driver: users[Math.floor(Math.random() * users.length)]._id,
-        car: cars[Math.floor(Math.random() * NUM_SEED_CARS)]._id,
+        driver: randomUser._id,
+        car: randomUser.car,
         passengers: [
             {
                 passenger: demoDriver._id,
@@ -230,7 +260,7 @@ users.push(
         phoneNumber: '9999999999',
         trips: [],
         reviews: [],
-        car: null
+        car: null // cannot be an array as it will conflict with schema car type
     })
 )
 
