@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserErrors, updateUser } from "../../../store/users";
-import { clearCarErrors, createCar, fetchCar } from "../../../store/cars";
+import { clearCarErrors, createCar, fetchCar, updateCar } from "../../../store/cars";
 import { openModal } from '../../../store/modal'
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
@@ -23,8 +22,7 @@ const CarSettings = () => {
   const [year, setYear] = useState('');
   const [insurance, setInsurance] = useState('');
   const [licensePlateNumber, setLicensePlateNumber] = useState('');
-  const userErrors = useSelector(state => state.errors.users);
-  const carErrors = useSelector(state => state.errors.cars);
+  const errors = useSelector(state => state.errors.cars);
 
   //Use States for Fetching Car information
   const [makeOptions, setMakeOptions] = useState('');
@@ -33,6 +31,7 @@ const CarSettings = () => {
   const [makeOptionsReady, setMakeOptionsReady] = useState(true)
   const [mpgList, setMpgList] = useState('')
   const [fuelEconomyId, setFuelEconomyId] = useState(0)
+  const [mpg, setMpg] = useState(0)
 
   //Display Insurance and License Plate if information exists
   useEffect(() => {
@@ -45,6 +44,7 @@ const CarSettings = () => {
           setModel(car[0].model);
           setYear(car[0].year);
           setFuelEconomyId(car[0].fueleconomyId)
+          setMpg(car[0].mpg)
         }
       }
     })
@@ -61,6 +61,14 @@ const CarSettings = () => {
     if (modelOptions !== '') setYearOptions(modelOptions[model]);
      // eslint-disable-next-line
   }, [model, yearOptions])
+
+  useEffect(()=>{
+    if (year !== '') {
+      setFuelEconomyId(yearOptions[year]);
+      setMpg(mpgList[yearOptions[year]]);
+    }
+     // eslint-disable-next-line
+  }, [year])
 
   const getMakeOptions = async () => {
     const res = await fetch(`/api/cars/list`);
@@ -90,7 +98,6 @@ const CarSettings = () => {
         break;
       case 'year':
         setYear(e.currentTarget.value);
-        setFuelEconomyId(yearOptions[e.currentTarget.value])
         break;
       case 'insurance':
         setInsurance(e.currentTarget.value);
@@ -108,28 +115,33 @@ const CarSettings = () => {
 
     car = {
         ...car,
+        owner: user._id,
         make,
         model,
         year,
-        insurance,
         licensePlateNumber,
+        insurance,
+        mpg,
         fueleconomyId: fuelEconomyId
     }
 
-    dispatch(updateUser(user))
-    .then((res)=> {
-      if (res && !res.errors) {
-          dispatch(clearUserErrors());
-      };
-    });
-
-    dispatch(createCar(car))
-    .then((res)=> {
-      if (res && !res.errors) {
-          dispatch(clearCarErrors());
-      };
-    })
-    .then(dispatch(openModal('successful-update')))
+    if (user.car) {
+      dispatch(updateCar(car))
+      .then((res)=> {
+        if (res && !res.errors) {
+            dispatch(clearCarErrors());
+        };
+      })
+      .then(dispatch(openModal('successful-update')))
+    } else {
+      dispatch(createCar(car))
+      .then((res)=> {
+        if (res && !res.errors) {
+            dispatch(clearCarErrors());
+        };
+      })
+      .then(dispatch(openModal('successful-update')))
+    }
   }
 
   return (
@@ -144,7 +156,7 @@ const CarSettings = () => {
         <h3>You need a car to create a trip!</h3>
         <label>
           <h3>Insurance</h3>
-          <span className="errors">{userErrors?.insurance}</span>
+          <span className="errors">{errors?.insurance}</span>
           <input type="text"
           name="insurance"
           value={insurance}
@@ -162,7 +174,7 @@ const CarSettings = () => {
           <div className="car-form-dropdown">
             <label>
               <h3>Make</h3>
-              <span className="errors">{carErrors?.make}</span>
+              <span className="errors">{errors?.make}</span>
               <select onChange={handleChange('make')} autoFocus disabled={makeOptionsReady} required>
                 <option value={make}></option>
                 {Object.keys(makeOptions).sort().map(make => <option value={make}>{make}</option>)}
@@ -171,7 +183,7 @@ const CarSettings = () => {
 
             <label>
               <h3>Model</h3>
-              <span className="errors">{carErrors?.model}</span>
+              <span className="errors">{errors?.model}</span>
               <select onChange={handleChange('model')} disabled={makeOptionsReady}>
                 <option value={model}></option>
                 {modelOptions ?
@@ -182,7 +194,7 @@ const CarSettings = () => {
 
             <label>
               <h3>Year</h3>
-              <span className="errors">{carErrors?.year}</span>
+              <span className="errors">{errors?.year}</span>
               <select onChange={handleChange('year')} disabled={makeOptionsReady}>
                 <option value={year}></option>
                   {yearOptions ?
@@ -190,7 +202,7 @@ const CarSettings = () => {
               </select>
             </label>
             <label> <h3>Average MPG</h3>
-              {year ? mpgList[yearOptions[year]] :""}
+              {mpg}
             </label>
           </div>
           : <div><h3>Loading vehicle options...</h3><Loading/><br/></div>}

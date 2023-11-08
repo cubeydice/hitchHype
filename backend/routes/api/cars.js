@@ -9,25 +9,6 @@ const getVehicles = require('../../vehiclesParser');
 
 // path = /api/cars
 // Retrieve user's cars
-router.get('/user/:carId', async (req, res, next) => {
-    try {
-        const cars = await Car.find({ _id: req.params.carId })
-        return res.json(cars);
-    }
-    catch(err) {
-        return res.json([]);
-    }
-});
-
-//Fetch list of vehicles
-router.get('/list', async (req, res) => {
-    try {
-        const vehiclesObj = await getVehicles();
-        return res.json(vehiclesObj);
-    } catch(err) {
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
 
 // Create a car
 router.post('/', requireUser, validateCarInput, async (req, res, next) => {
@@ -53,6 +34,26 @@ router.post('/', requireUser, validateCarInput, async (req, res, next) => {
     }
     catch(err) {
         next(err);
+    }
+});
+
+router.get('/user/:carId', async (req, res, next) => {
+    try {
+        const cars = await Car.find({ _id: req.params.carId })
+        return res.json(cars);
+    }
+    catch(err) {
+        return res.json([]);
+    }
+});
+
+//Fetch list of vehicles
+router.get('/list', async (req, res) => {
+    try {
+        const vehiclesObj = await getVehicles();
+        return res.json(vehiclesObj);
+    } catch(err) {
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

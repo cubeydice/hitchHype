@@ -6,10 +6,11 @@ const SuccessfulUpdate = () => {
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        const timer = setTimeout(() => {
+        setTimeout(() => {
             dispatch(closeModal());
         }, 1000)
-    }, [])
+    }, [dispatch])
+
     return (
         <div className="popup-message">
             Sucessfully updated!
