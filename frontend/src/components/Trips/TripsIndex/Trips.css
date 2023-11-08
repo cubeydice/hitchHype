@@ -67,11 +67,11 @@
     background-color: #f9f9f9;
     font-size: 16px;
 }
-form{
+/* form{
     display: flex;
     width: 100%;
     justify-content: space-around;
-}
+} */
 .search-form-trip-index input[type="submit"] {
     color: #fff;
     border: none;
