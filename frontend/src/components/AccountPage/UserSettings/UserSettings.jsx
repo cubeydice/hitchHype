@@ -15,7 +15,7 @@ const UserSettings = () => {
   const user = useSelector(state => state.users.user)
   const errors = useSelector(state => state.errors.users);
   const [bio, setBio] = useState(user ? user.biography : '');
-  const [bioCount, setBioCount] = useState(user ? user.biography.length : 0);
+  const [bioCount, setBioCount] = useState(0);
   const [phone, setPhone] = useState('');
   const [profilePicture, setProfilePicture] = useState(DefaultProfilePic);
 
@@ -23,12 +23,12 @@ const UserSettings = () => {
     if (!user) {dispatch(fetchUser(currentUser._id))
     .then(res => {
       setBio(res.user.biography)
-      setBioCount(res.user.biography.length)
+      if (res.user.biography) setBioCount(res.user.biography.length);
       setPhone(res.user.phoneNumber)
       if (res.user.profilePicture) setProfilePicture(res.user.profilePicture)
     })} else{
       setBio(user.biography)
-      setBioCount(user.biography.length)
+      if (user.biography) setBioCount(user.biography.length);
       setPhone(user.phoneNumber)
       if (user.profilePicture) setProfilePicture(user.profilePicture)
     }

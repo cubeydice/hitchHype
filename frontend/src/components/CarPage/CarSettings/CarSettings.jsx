@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCarErrors, createCar, fetchCar, updateCar } from "../../../store/cars";
+import { clearCarErrors, createCar, fetchCar, updateCar, deleteCar } from "../../../store/cars";
 import { openModal } from '../../../store/modal'
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
 import './CarSettings.css'
-import { fetchUserTrips } from "../../../store/trips";
-import { updateUser } from "../../../store/users";
+import { fetchUser, updateUser } from "../../../store/users";
 import { getCurrentUser } from "../../../store/session";
+import { useHistory } from "react-router-dom";
 
 const CarSettings = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   //Selecting Car
   const user = useSelector(state => state.session.user)
@@ -26,8 +27,8 @@ const CarSettings = () => {
   const [insurance, setInsurance] = useState('');
   const [licensePlateNumber, setLicensePlateNumber] = useState('');
   const errors = useSelector(state => state.errors.cars);
-  const userTrips = useSelector(state => state.trips)
-  const [deleteCar, canDeleteCar] = useState('');
+  const userTrips = useSelector(state => state.users.driverTrips)
+  const [canDeleteCar, setCanDeleteCar] = useState(userTrips ? false : true);
 
   //Use States for Fetching Car information
   const [makeOptions, setMakeOptions] = useState('');
@@ -40,6 +41,15 @@ const CarSettings = () => {
 
   //Display Insurance and License Plate and Trips if information exists
   useEffect(() => {
+    dispatch(fetchUser(user._id)).then(res => {
+      const today = Date.now()
+      for (let trip of res.driverTrips) {
+        console.log(today, trip)
+        if (trip.departureDate <= today) {
+          setCanDeleteCar(false)
+        }
+      }
+    })
     dispatch(fetchCar(carId)).then(car => {
       if (user.car) {
         if (car){
@@ -51,13 +61,12 @@ const CarSettings = () => {
           setFuelEconomyId(car[0].fueleconomyId)
           setMpg(car[0].mpg)
         }
+      } else {
+        setCanDeleteCar(true)
       }
     })
-    dispatch(fetchUserTrips(user._id)).then(res => {
-      console.log(res)
-    })
     // eslint-disable-next-line
-  }, [dispatch, carId])
+  }, [dispatch])
 
   //Update form for car options
   useEffect(()=>{
@@ -132,30 +141,37 @@ const CarSettings = () => {
         mpg,
         fueleconomyId: fuelEconomyId
     }
-    console.log(car._id)
 
     if (user.car) {
       dispatch(updateCar(car))
       .then((res)=> {
         if (res && !res.errors) {
-            dispatch(clearCarErrors());
+            dispatch(clearCarErrors())
+            dispatch(getCurrentUser())
         };
       })
       .then(dispatch(openModal('successful-update')))
+      .then(history.go('/car'))
     } else {
       dispatch(createCar(car))
       .then((res)=> {
         if (res && !res.errors) {
-            dispatch(clearCarErrors());
-            const newUser = {
-              ...user,
-              car: res._id
-            }
-            dispatch(updateUser(newUser)).then(dispatch(getCurrentUser()))
+            dispatch(clearCarErrors())
+            dispatch(getCurrentUser())
         };
       })
       .then(dispatch(openModal('successful-update')))
+      .then(history.go('/car'))
     }
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    dispatch(deleteCar(carId))
+    .then(dispatch(fetchUser(user._id)))
+    .then(dispatch(openModal('successful-update')))
+    .then(history.go('/car'))
   }
 
   return (
@@ -167,7 +183,6 @@ const CarSettings = () => {
           <img src={CarImage} alt='car'/>
         </div>
         <form className="car-form" onSubmit={handleSubmit}>
-        <h3>You need a car to create a trip!</h3>
         <label>
           <h3>Insurance</h3>
           <span className="errors">{errors?.insurance}</span>
@@ -219,13 +234,16 @@ const CarSettings = () => {
               {mpg}
             </label>
           </div>
-          : <div><h3>Loading vehicle options...</h3><Loading/><br/></div>}
+          : <div><sub>Loading vehicle options...</sub><Loading/></div>}
 
           <input
           type="submit"
           value="Save"
           disabled={!make || !model || !year ||!insurance || !licensePlateNumber }
           />
+          {(!canDeleteCar && user.car) ? <p className="errors">*Your car cannot be deleted if you have outstanding trips</p> : ""}
+          {user.car ? <button onClick={handleClick} disabled={!canDeleteCar} className="warning">Delete Car</button> : ""}
+
         </form>
       </div>
     </div>

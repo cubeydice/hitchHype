@@ -30,6 +30,10 @@ router.post('/', requireUser, validateCarInput, async (req, res, next) => {
 
         let car = await newCar.save();
         car = await car.populate('owner', '_id firstName lastName');
+
+        user.car = newCar._id;
+        user.save();
+
         return res.json(car);
     }
     catch(err) {
@@ -123,6 +127,10 @@ router.delete('/:id', requireUser, async (req, res, next) => {
             error.errors = { message: 'You are not the owner of the car' }
             return next(error);
         }
+
+        //Remove car from user
+        req.user.car = null;
+        req.user.save();
 
         // Remove the car from the database
         await car.deleteOne();

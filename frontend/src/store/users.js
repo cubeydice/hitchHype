@@ -26,11 +26,11 @@ export const clearUsers = () => ({
     type: CLEAR_USERS
   })
 
-//THUNK ACTIONS
+//SELECTOR
 export const getUser = userId => state => {
     return state?.users.all ? state.users.all[userId] : null;
 }
-
+//THUNK ACTIONS
 export const fetchUser = (userId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}`);

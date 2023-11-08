@@ -81,7 +81,7 @@ export const createCar = data => async dispatch => {
 
  export const deleteCar = carId => async dispatch => {
   try {
-    const res = await jwtFetch(`api/cars/${carId}`, {
+    const res = await jwtFetch(`/api/cars/${carId}`, {
       method: `DELETE`
     })
     dispatch(removeCar(carId));
