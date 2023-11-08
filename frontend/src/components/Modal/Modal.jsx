@@ -46,6 +46,7 @@ const Modal = () => {
     const setClassName = () => {
       if (modal === 'error') return 'modal-child-error'
       else if (modal === 'successful-update') return 'modal-child-update'
+      else if (modal === 'request-ride-form') return 'modal-child-request-ride-form'
       else return 'modal-child';
     }
 
