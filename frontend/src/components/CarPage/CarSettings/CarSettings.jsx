@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserErrors, updateUser, fetchUser } from "../../../store/users";
-import { fetchCar } from "../../../store/cars";
+import { fetchUser } from "../../../store/users";
 import { clearCarErrors, createCar, fetchCar, updateCar, deleteCar } from "../../../store/cars";
 import { openModal } from '../../../store/modal'
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
