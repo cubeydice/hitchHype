@@ -1,14 +1,17 @@
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom";
+import { updateTrip } from "../../../store/trips";
 import { openModal } from "../../../store/modal"
 import RouteShow from "../../RouteShow/RouteShow"
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import defaultProfilePic from '../../../assets/icons/user.png'
 import explodeAddress from "../AddressParser"
-import "./RiderTripShow.css"
 import CarbonEmissions from "../../CarbonEmissions";
-import { useEffect, useState } from "react";
-import { updateTrip } from "../../../store/trips";
+import { ReactComponent as PassengerIcon } from "../../../assets/icons/Trips/person.svg"
+import { ReactComponent as SeatIcon } from "../../../assets/icons/Trips/seat.svg"
+import "./RiderTripShow.css"
+
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 export function RiderTripShow ({ trip }) {
@@ -128,27 +131,29 @@ export function RiderTripShow ({ trip }) {
                         <div className="rider-show-destintion-info">
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-startPoint'>
-                                    <h3 id='trip-show-points'>{originCity}</h3>
+                                    <h1 id='trip-show-points'>{originCity}</h1>
                                 </div>
                                 <div>
                                     <h3 id='trip-show-points'>→</h3>
                                 </div>
                                 <div className='trip-show-endPoint'>
-                                    <h3 id='trip-show-points'>{destinationCity}</h3>
+                                    <h1 id='trip-show-points'>{destinationCity}</h1>
                                 </div>
                             </div>
-                            <div>
-                                <div className='trip-show-departure-time'>
-                                    <h3 id="trip-passenger-show-details">Date of trip: {date.toDateString()}.</h3>
+                            <div className="ride-show-details-container">
+                                <div className="ride-show-details">
+                                    <h3>Date of trip: <span className="light">{date.toDateString()}</span></h3>
                                 </div>
-                                <div className='trip-show-passangers-ammount'>
-                                    <h3 id="trip-passenger-show-details"># of passengers: {trip.passengers.length}</h3>
+                                <div className="ride-show-details">
+                                    <h3># of passengers:</h3>
+                                    <div>{Array(trip.passengers.length).fill(true).map((_, i) => <PassengerIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
-                                <div className='trip-show-spots'>
-                                    <h3 id="trip-passenger-show-details">Seats left: {availableSeats}</h3>
+                                <div className="ride-show-details">
+                                    <h3>Seats left:</h3>
+                                    <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
-                                <div className="trip-show-min-price">
-                                    <h3 id="trip-passenger-show-details">Est. hitch price: $45</h3>
+                                <div className="ride-show-details">
+                                    <h3 id="trip-passenger-show-details">Est. hitch price: <span className="light">$45</span></h3>
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (
@@ -183,7 +188,7 @@ export function RiderTripShow ({ trip }) {
                             </div>
                             <div className="rider-show-driver-passenger-container">
                                 <div className="rider-show-driver-info">
-                                    <h2 id="trip-passenger-show-details">Driver: {trip.driver.firstName}</h2>
+                                    <h2 id="trip-passenger-show-details">🚙 Driver: {trip.driver.firstName}</h2>
                                     <div className="rider-show-driver-ratings">
                                         {trip.driver.avgRating ? (
                                             <h3 id="trip-passenger-show-details">Avg Rating: {Math.round(trip.driver.avgRating * 10) / 10}</h3>
@@ -192,7 +197,6 @@ export function RiderTripShow ({ trip }) {
                                     {
                                         trip.driver.biography ? (
                                             <>
-                                                <h3 id="trip-passenger-show-details">Driver Bio</h3>
                                                 <p>{trip.driver.biography}</p>
                                             </>
                                         ) : (<></>)
@@ -200,14 +204,14 @@ export function RiderTripShow ({ trip }) {
 
                                 </div>
                                 <div className="rider-show-passenger-info">
-                                    <h2>PASSENGERS</h2>
+                                    <h2>Passengers</h2>
                                     <div className="rider-show-passengers-list">
                                         {passengerFn()}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="rider-show-linear-map">
+                        <div className="rider-show-ce">
                             <CarbonEmissions trip={trip}/>
                         </div>
                         <div className="rider-show-maps-api">

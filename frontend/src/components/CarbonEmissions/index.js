@@ -29,8 +29,8 @@ const CarbonEmissions = ({trip, driver}) => {
           if (origin === '' || destination === '') {
               return
           }
-          const direcitonsService = new google.maps.DirectionsService()
-          const results = await direcitonsService.route({
+          const directionsService = new google.maps.DirectionsService()
+          const results = await directionsService.route({
               origin: origin,
               destination: destination,
               travelMode: google.maps.TravelMode.DRIVING
