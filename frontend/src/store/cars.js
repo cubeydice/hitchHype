@@ -46,7 +46,7 @@ export const fetchCar = (userId) => async dispatch => {
 
 export const createCar = data => async dispatch => {
   try {
-    const res = await jwtFetch(`api/cars`, {
+    const res = await jwtFetch(`/api/cars`, {
       method: `POST`,
       body: JSON.stringify(data)
     })
@@ -63,7 +63,7 @@ export const createCar = data => async dispatch => {
 
  export const updateCar = data => async dispatch => {
   try {
-    const res = await jwtFetch(`api/cars/${data.id}`, {
+    const res = await jwtFetch(`/api/cars/${data._id}`, {
       method: `PATCH`,
       body: JSON.stringify(data)
     })

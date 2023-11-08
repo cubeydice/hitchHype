@@ -5,6 +5,9 @@ import { openModal } from '../../../store/modal'
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
 import './CarSettings.css'
+import { fetchUserTrips } from "../../../store/trips";
+import { updateUser } from "../../../store/users";
+import { getCurrentUser } from "../../../store/session";
 
 const CarSettings = () => {
   const dispatch = useDispatch();
@@ -16,13 +19,15 @@ const CarSettings = () => {
   let car = useSelector(state => state.cars)[0];
 
 
-  //User States for Car information
+  //Use States for Car information
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
   const [year, setYear] = useState('');
   const [insurance, setInsurance] = useState('');
   const [licensePlateNumber, setLicensePlateNumber] = useState('');
   const errors = useSelector(state => state.errors.cars);
+  const userTrips = useSelector(state => state.trips)
+  const [deleteCar, canDeleteCar] = useState('');
 
   //Use States for Fetching Car information
   const [makeOptions, setMakeOptions] = useState('');
@@ -33,7 +38,7 @@ const CarSettings = () => {
   const [fuelEconomyId, setFuelEconomyId] = useState(0)
   const [mpg, setMpg] = useState(0)
 
-  //Display Insurance and License Plate if information exists
+  //Display Insurance and License Plate and Trips if information exists
   useEffect(() => {
     dispatch(fetchCar(carId)).then(car => {
       if (user.car) {
@@ -47,6 +52,9 @@ const CarSettings = () => {
           setMpg(car[0].mpg)
         }
       }
+    })
+    dispatch(fetchUserTrips(user._id)).then(res => {
+      console.log(res)
     })
     // eslint-disable-next-line
   }, [dispatch, carId])
@@ -124,6 +132,7 @@ const CarSettings = () => {
         mpg,
         fueleconomyId: fuelEconomyId
     }
+    console.log(car._id)
 
     if (user.car) {
       dispatch(updateCar(car))
@@ -138,6 +147,11 @@ const CarSettings = () => {
       .then((res)=> {
         if (res && !res.errors) {
             dispatch(clearCarErrors());
+            const newUser = {
+              ...user,
+              car: res._id
+            }
+            dispatch(updateUser(newUser)).then(dispatch(getCurrentUser()))
         };
       })
       .then(dispatch(openModal('successful-update')))
