@@ -206,7 +206,7 @@ export function RiderTripShow ({ trip }) {
                                 </div>
                             </div>
                         </div>
-                        <div className="rider-show-linear-map">
+                        <div className="rider-show-ce">
                             <CarbonEmissions trip={trip}/>
                         </div>
                         <div className="rider-show-maps-api">
