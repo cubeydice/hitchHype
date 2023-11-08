@@ -1,14 +1,21 @@
 .rider-show-layout{
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 60px;
+    padding-right: 60px;
+    margin: 0 14px 0 14px;
 }
 .rider-show-destination-details-container{
     display: flex;
+    justify-content: space-between;
 }
 .rider-show-driver-maps-container{
     display: flex;
     flex-direction: column;
 }
+
+.rider-show-driver-maps-container p {
+    font-weight: 300;
+}
+
 #driver-img{
     height: 180px;
     width: 180px;
@@ -19,19 +26,20 @@
     height: 500px;
 }
 #rider-show-img{
-    height: 90%;
-    width: 95%;
+    height: 400px;
+    width: 600px;
+    border-radius: 2px;
 }
-.Rider-show-destination-pic{
-    width: 50%;
-}
+
 .rider-show-destintion-info{
-    /* padding: 10px; */
-    padding-left: 30px;
+    width: 580px;
+    padding: 60px 0 0 60px;
+    border-start-end-radius: 40px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255);
 }
-#trip-passenger-show-details{
-    padding-bottom: 10px;
-}
+
+
 .rider-show-btn{
     padding: 20px;
     display: flex;
@@ -41,13 +49,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-top: 20px;
+    padding: 50px;
+    border-end-start-radius: var(--rounded-border);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255);
 }
 .rider-show-driver-details{
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
     width: 35%;
-    /* padding-left: 10%; */
+
 }
 .rider-show-driver-passenger-container{
     padding-top: 10px;
@@ -61,3 +73,28 @@
 #request-rides-btn{
     padding: 15px;
 }
+
+.rider-show-ce {
+    margin-right: 16px;
+}
+
+
+.ride-show-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    margin-left: 30px;
+}
+
+.ride-show-details-container h3 {
+    font-weight: 500;
+}
+
+.ride-show-details {
+    display: flex;
+    justify-content: space-between;
+    max-width: 460px;
+    align-items: center;
+}
+

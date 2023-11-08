@@ -255,7 +255,7 @@ users.push(
     new User({
         email: 'deleteduser@example.com',
         hashedPassword: bcrypt.hashSync('deleted', 10),
-        firstName: '[deleted] ',
+        firstName: '[deleted]',
         lastName: 'user',
         phoneNumber: '9999999999',
         trips: [],

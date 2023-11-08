@@ -5,6 +5,7 @@ import { TripsItem } from "./TripsItem";
 import "./Trips.css"
 import { SearchBar } from "../../SearchBar/SearchBar";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 
 export function Trips () {
 
@@ -15,7 +16,8 @@ export function Trips () {
     const [searching, setSearching] = useState(false);
     const [filteredTrips, setFilteredTrips] = useState();
     const [filteredStart, setFilteredStart] = useState('All Trips');
-    
+    const [loaded, isLoaded] = useState(false)
+
     const handleClick = (e) => {
         e.preventDefault();
         setFilteredTrips();
@@ -23,31 +25,25 @@ export function Trips () {
     }
 
     useEffect(() => {
-        dispatch(fetchTrips())
+        dispatch(fetchTrips()).then(isLoaded(true))
         dispatch(clearTripErrors());
     }, [dispatch])
 
     useEffect(() => {
-        // console.log("searching")
-        // console.log(searchRes)
         let filtered;
             if(searchRes.startPoint){
                 filtered = trips.filter( trip => trip.origin.toLowerCase().includes(searchRes.startPoint.toLowerCase())); // && trip.date === tripDate);
-    
+
             }
             if(searchRes.endPoint){
                 filtered = filtered.filter( trip => trip.destination.toLowerCase().includes(searchRes.endPoint.toLowerCase()));
-    
+
             }
             if(searchRes.tripDate){
                 filtered.filter( trip => trip.departureDate === searchRes.tripDate);
-                // let checkDate = trip.date.toLocaleString("en-US", {
-                //     timeZone: "America/Los_Angeles"
-                //   })
-    
             }
-            
-            searchRes.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${searchRes.startPoint}`)); 
+
+            searchRes.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${searchRes.startPoint}`));
             setFilteredTrips(filtered)
 
         setSearching(false)
@@ -58,22 +54,23 @@ export function Trips () {
         if(location.state){
             if(location.state.search.startPoint){
                 filtered = trips.filter( trip => trip.origin.toLowerCase().includes(location.state.search.startPoint.toLowerCase())); // && trip.date === tripDate);
-    
+
             }
             if(location.state.search.endPoint){
                 filtered = filtered.filter( trip => trip.destination.toLowerCase().includes(location.state.search.endPoint.toLowerCase()));
-    
+
             }
             if(location.state.search.tripDate){
                 filtered.filter( trip => trip.departureDate === location.state.search.tripDate);
             }
-            
-            location.state.search.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${location.state.search.startPoint}`)); 
+
+            location.state.search.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${location.state.search.startPoint}`));
             setFilteredTrips(filtered)
         }
 
     }, [location.state])
 
+    if (!loaded) return <Loading/>
    return (
         <>
             { trips ? (
@@ -88,12 +85,12 @@ export function Trips () {
                         </h3>
                     </div>
                     <div className="trip-items-container">
-                    { filteredTrips ? 
+                    { filteredTrips ?
                     (
                         filteredTrips.map(trip => (
                             <TripsItem key={trip._id} trip={trip} />
                         ))
-                    ) : 
+                    ) :
                     (
                         trips.map(trip => (
                             <TripsItem key={trip._id} trip={trip} />
@@ -111,6 +108,6 @@ export function Trips () {
                 <></>
             )}
         </>
-       
+
     )
 }
