@@ -1,43 +1,92 @@
-#show-linear-map-img{
-    height: 550px;
-    width: 250px;
-    padding-right: 95px;
+/* TOP PORTION - TRIP SUMMARY AND MAP */
+.trip-show-details {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 25px 0;
 }
-.trip-show-address-details-and-linear-map{
+
+.trip-show-info {
+    padding: 80px 50px 0px;
+    border-start-end-radius: 40px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255);
+}
+
+#trip-show-points{
+    font-size: xx-large;
+}
+
+.trip-show-passangers-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.trip-show-seats-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.trip-show-departure-time {
+    padding: 10px;
+}
+
+.trip-show-points-container{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.trip-show-map {
+    width: 50%;
+}
+
+#trip-seats-time-details{
+    padding-bottom: 20px;
+}
+
+.trip-show-address-details-and-ce{
     display: flex;
     height: fit-content;
-    width: 100%;
-    padding-top: 45px;
+    min-width: 600px;
+    padding: 45px 40px 0;
+    margin: 20px 75px 0px;
     justify-content: space-between;
+    background-color: rgba(255, 255, 255);
+    border-start-end-radius: 10px;
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
+    flex-wrap: wrap;
 }
+
 .trip-show-address-details-container{
-    width: 60vw;
+    max-width: 1000px;
     padding-left: 25px;
 }
-.trip-show-linear-map{
-    width: 40vw;
-}
+
 .trip-show-address{
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
 }
-.trips-show-address-display{
-    padding-right: 55px;
-    width: 75%;
-}
+
+
 #header{
     font-size: x-large;
     padding-bottom: 10px;
 }
 #non-header{
     padding-left: 10px;
+    line-height: 25px;
 }
 .trip-show-passengers{
     padding-top: 25px;
+    flex-wrap: wrap;
 }
-.trips-show-address-display{
 
-}
 .trip-show-edit-btn-container{
     display:flex;
     justify-content: center;
@@ -45,7 +94,6 @@
 }
 .edit-btn-container{
     background-color: var(--brand-pink);
-    /* background-color: var(--brand-mustard); */
     padding-top: 18px;
     padding-bottom: 18px;
     padding-left: 15px;
@@ -63,23 +111,7 @@
 .trip-show-driver-name{
     display: flex;
 }
-.trip-show-points-container{
-    display: flex;
-    flex-direction: row;
-    padding-bottom: 20px;
-    padding-top: 40px;
-    padding-left: 10px;
-}
-#trip-show-points{
-    font-size: xx-large;
-}
 
-.trip-show-map {
-    width: 45%;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-#trip-seats-time-details{
-    padding-bottom: 8px;
-    padding-left: 10px;
+.trip-show-ce {
+    margin-left: 2%;
 }

@@ -128,20 +128,20 @@ export function RiderTripShow ({ trip }) {
                         <div className="rider-show-destintion-info">
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-startPoint'>
-                                    <h3 id='trip-show-points'>{originCity}</h3>
+                                    <h1 id='trip-show-points'>{originCity}</h1>
                                 </div>
                                 <div>
                                     <h3 id='trip-show-points'>→</h3>
                                 </div>
                                 <div className='trip-show-endPoint'>
-                                    <h3 id='trip-show-points'>{destinationCity}</h3>
+                                    <h1 id='trip-show-points'>{destinationCity}</h1>
                                 </div>
                             </div>
                             <div>
                                 <div className='trip-show-departure-time'>
                                     <h3 id="trip-passenger-show-details">Date of trip: {date.toDateString()}.</h3>
                                 </div>
-                                <div className='trip-show-passangers-ammount'>
+                                <div>
                                     <h3 id="trip-passenger-show-details"># of passengers: {trip.passengers.length}</h3>
                                 </div>
                                 <div className='trip-show-spots'>
@@ -183,7 +183,7 @@ export function RiderTripShow ({ trip }) {
                             </div>
                             <div className="rider-show-driver-passenger-container">
                                 <div className="rider-show-driver-info">
-                                    <h2 id="trip-passenger-show-details">Driver: {trip.driver.firstName}</h2>
+                                    <h2 id="trip-passenger-show-details">🚙 Driver: {trip.driver.firstName}</h2>
                                     <div className="rider-show-driver-ratings">
                                         {trip.driver.avgRating ? (
                                             <h3 id="trip-passenger-show-details">Avg Rating: {Math.round(trip.driver.avgRating * 10) / 10}</h3>
@@ -192,7 +192,6 @@ export function RiderTripShow ({ trip }) {
                                     {
                                         trip.driver.biography ? (
                                             <>
-                                                <h3 id="trip-passenger-show-details">Driver Bio</h3>
                                                 <p>{trip.driver.biography}</p>
                                             </>
                                         ) : (<></>)
@@ -200,7 +199,7 @@ export function RiderTripShow ({ trip }) {
 
                                 </div>
                                 <div className="rider-show-passenger-info">
-                                    <h2>PASSENGERS</h2>
+                                    <h2>Passengers</h2>
                                     <div className="rider-show-passengers-list">
                                         {passengerFn()}
                                     </div>

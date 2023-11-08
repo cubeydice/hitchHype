@@ -1,10 +1,12 @@
-import "./DriverTripShow.css"
+import { useState } from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { Passenger } from '../Passenger/Passenger';
+import { ReactComponent as PassengerIcon } from '../../../assets/icons/Trips/person.svg'
+import { ReactComponent as SeatIcon } from '../../../assets/icons/Trips/seat.svg'
 import explodeAddress from "../AddressParser"
 import RouteShow from "../../RouteShow/RouteShow";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import CarbonEmissions from "../../CarbonEmissions";
-import { useState } from "react";
+import "./DriverTripShow.css"
 
 export function DriverTripShow({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
@@ -49,29 +51,32 @@ export function DriverTripShow({ trip }) {
                 <>
                     <div className='trip-show-details'>
                         <div className='trip-show-info'>
-
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-startPoint'>
-                                    <h3 id='trip-show-points'>{origin.city}</h3>
+                                    <h1 id='trip-show-points'>{origin.city}</h1>
                                 </div>
                                 <div>
                                     <h3 id='trip-show-points'>→</h3>
                                 </div>
                                 <div className='trip-show-endPoint'>
-                                    <h3 id='trip-show-points'>{destination.city}</h3>
+                                    <h1 id='trip-show-points'>{destination.city}</h1>
                                 </div>
                             </div>
+
                             <div>
-                                <div className='trip-show-passangers-ammount'>
-                                    <h3 id="trip-seats-time-details"># of passengers: {trip.passengers.length}</h3>
+                                <div className='trip-show-passangers-amount'>
+                                    <h3 id="trip-seats-time-details"># of passengers:</h3>
+                                    <div>{Array(trip.passengers.length).fill(true).map((_, i) => <PassengerIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
-                                <div className='trip-show-spots'>
-                                    <h3 id="trip-seats-time-details">Seats left: {availableSeats}</h3>
+                                <div className='trip-show-seats-amount'>
+                                    <h3 id="trip-seats-time-details">Seats left:</h3>
+                                    <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
                                 <div className='trip-show-departure-time'>
-                                    <h3 id="trip-seats-time-details">Date of trip: {date.toDateString()}.</h3>
+                                    <h3 id="trip-seats-time-details">Date of trip: {date.toDateString()}</h3>
                                 </div>
                             </div>
+
                             <div className='trip-show-edit-btn-container'>
                                 { tripOver ? (
                                     <button className='edit-btn-container' disabled>
@@ -86,13 +91,14 @@ export function DriverTripShow({ trip }) {
                                     </Link>
                                 )}
                             </div>
-
                         </div>
+
                         <div className='trip-show-map'>
                             <RouteShow trip={trip}/>
                         </div>
                     </div>
-                    <div className='trip-show-address-details-and-linear-map'>
+
+                    <div className='trip-show-address-details-and-ce'>
                         <div className='trip-show-address-details-container'>
                             <div className='trip-show-address'>
                                 <div className='trips-show-address-display'>
@@ -107,13 +113,13 @@ export function DriverTripShow({ trip }) {
                                 </div>
                             </div>
                             <div className='trip-show-passengers'>
-                                <h3 id='header'>Passengers</h3>
+                                <h2 id='header'>Passengers</h2>
                                 {trip.passengers.map( passenger => (
                                     <Passenger key={passenger.passenger._id} passenger={passenger}/>
                                 ))}
                             </div>
                         </div>
-                        <div className='trip-show-linear-map'>
+                        <div className='trip-show-ce'>
                             <CarbonEmissions trip={trip} driver={true}/>
                         </div>
                     </div>
