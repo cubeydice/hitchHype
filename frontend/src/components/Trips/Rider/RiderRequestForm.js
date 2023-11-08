@@ -24,6 +24,7 @@ export function RiderRequestForm(){
     const sessionUser = useSelector(state => state.session.user)
     const origin = trip.origin
     const destination = trip.destination
+    const [errors, setErrors] = useState('')
     const [waypoints, setWaypoints] = useState([])
     const [newWaypoint, setNewWaypoint] = useState(null);
     const [lastCalculatedWaypoint, setLastCalculatedWaypoint] = useState(null);
@@ -85,7 +86,7 @@ export function RiderRequestForm(){
             }
         } catch (error) {
             console.error(error)
-            console.log('invalid origin and destinaiton. Please ensure your route can be driven from start to finish')
+            setErrors('Invalid drop off point. Please ensure your route can be driven from start to finish')
         }
     }
 
@@ -176,10 +177,9 @@ export function RiderRequestForm(){
                 </GoogleMap>
             </div>
             <div className="rider-request-form-btn-container">
-                <button onClick={() => handleShowNewRoute()}>Show New Route</button>
-            </div>
-            <div className="rider-request-form-btn-container">
-                <button onClick={handleSubmit}>Request Ride</button>
+                <button className='rider-request-buttons' onClick={() => handleShowNewRoute()}>Show New Route</button>
+                <button className='rider-request-buttons' onClick={handleSubmit}>Request Ride</button>
+                <span className='errors' >{errors}</span>
             </div>
         </div>
     )
