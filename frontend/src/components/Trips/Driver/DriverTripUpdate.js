@@ -5,6 +5,7 @@ import { clearTripErrors, deleteTrip, fetchTrip, updateTrip } from "../../../sto
 import { useEffect, useState } from "react";
 import "./DriverTripUpdate.css"
 import explodeAddress from "../AddressParser";
+import RouteShow from "../../RouteShow/RouteShow";
 
 
 export function DriverUpdateForm () {
@@ -12,6 +13,7 @@ export function DriverUpdateForm () {
     const dispatch = useDispatch();
     const history = useHistory();
     const trip = useSelector(state => state.trips);
+    const date = new Date(trip.departureDate);
     const [availableSeats, setAvailableSeats] = useState()
     let tripOrigin;
     let tripDestination;
@@ -68,9 +70,12 @@ export function DriverUpdateForm () {
                 <div className="driver-update-page-layout">
                     <div className="driver-update-header">
                         <h3 className="driver-update-header-h3">Update your trip from <span id="trip-places">{tripOrigin}</span> to <span id="trip-places">{tripDestination}</span>!</h3>
+                        <h3>Date of trip: {date.toDateString()}</h3>
                     </div>
                     <div className="driver-update-map-container">
-                        <div className="map-api">Map Api</div>
+                        <div className="map-api">
+                            <RouteShow trip={trip}/>
+                        </div>
                     </div>
                     <div className="edit-container">
                         <div className="driver-update-passengers-container">
