@@ -15,11 +15,17 @@
     padding: 15px;
 }
 .trip-items-container{
-    max-width: 1400px;
+    width: 100vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
+@media screen and (min-width: 1400px) {
+    .trip-items-container{
+        max-width: 1400px;
+    }
+}
+
 #trip-index-search{
     position:inherit;
 }
