@@ -7,6 +7,7 @@ import { handleImgError } from "../../../App";
 import { ReactComponent as Loading } from '../../../assets/icons/loading-icon.svg'
 import DefaultProfilePic from '../../../assets/icons/user.png'
 import './UserSettings.css'
+import { openModal } from "../../../store/modal";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -56,16 +57,19 @@ const UserSettings = () => {
     const updatedUser = {
       ...user,
       biography: bio,
-      phoneNumber: phone
+      phoneNumber: phone,
+      profilePicture
     }
 
     dispatch(updateUser(updatedUser))
     .then((res)=> {
+      console.log(res)
       if (res && !res.errors) {
-        dispatch(getCurrentUser())
+        dispatch(getCurrentUser());
         dispatch(clearUserErrors());
       };
-  });
+    })
+    .then(dispatch(openModal('successful-update')))
   }
 
   if (!currentUser || !user) return <div className="settings-container"><Loading className='loading'/></div>
