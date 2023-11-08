@@ -24,6 +24,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 1100px;
+    width: 70vw;
+}
+@media screen and (min-width: 1100px) {
+    .user-trips-index-container{
+        max-width: 1100px;
+    }
 }
 
