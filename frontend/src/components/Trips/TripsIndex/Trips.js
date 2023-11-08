@@ -80,7 +80,7 @@ export function Trips () {
                 <div className="trip-page">
                 <div className="page-layout">
                     <div className="search-form-trip-index">
-                        <SearchBar searchRes={searchRes} setSearchRes={setSearchRes} fromIndex={true} setSearching={setSearching} />
+                        <SearchBar searchRes={searchRes} setSearchRes={setSearchRes} fromIndex={true} setSearching={setSearching}/>
                     </div>
                     <div className="trip-page-header">
                         <h3 className="trip-page-h3-header">

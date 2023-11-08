@@ -56,7 +56,7 @@ export function SearchBar ({ searchRes = {}, setSearchRes, fromIndex = false, se
         <>
             {origins && destinations? (
                 <>
-                    <form onSubmit={ handleSearch }>
+                    <form onSubmit={ handleSearch } id="search-form">
                         <input
                             type='text'
                             placeholder='Search start locations'
