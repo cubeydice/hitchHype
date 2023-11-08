@@ -12,11 +12,10 @@
 .trip-page-header{
     display: flex;
     justify-content: center;
-    max-width: 1150px;
     padding: 15px;
 }
 .trip-items-container{
-    max-width: 1200px;
+    max-width: 1400px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
