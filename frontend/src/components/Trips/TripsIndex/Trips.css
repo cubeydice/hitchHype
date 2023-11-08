@@ -13,7 +13,11 @@
     display: flex;
     justify-content: center;
     padding: 15px;
-    width: 100vw;
+}
+.trip-page-h3-header{
+    padding: 5px;
+    font-size: x-large;
+    font-weight: 700;
 }
 .trip-items-container{
     width: 99vw;

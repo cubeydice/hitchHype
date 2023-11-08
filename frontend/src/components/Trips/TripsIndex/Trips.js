@@ -83,7 +83,7 @@ export function Trips () {
                         <SearchBar searchRes={searchRes} setSearchRes={setSearchRes} fromIndex={true} setSearching={setSearching} />
                     </div>
                     <div className="trip-page-header">
-                        <h3>
+                        <h3 className="trip-page-h3-header">
                             {filteredStart}
                         </h3>
                     </div>
