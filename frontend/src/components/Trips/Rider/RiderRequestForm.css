@@ -1,21 +1,42 @@
 .rider-request {
     width: 100%;
-    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
 }
 
+.rider-request-form-header {
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.request-a-ride {
+    font-size: 35px;
+}
+
+.rider-request-form-div {
+    display: flex;
+    flex-direction: column;
+    height: 90px;
+    justify-content: space-around;
+}
+
+#waypoint {
+    display: flex;
+    width: 96%;
+    height: 40px;
+    margin: 0;
+}
 .google-map {
     width: 100%;
-    height: 300px;
+    height: 400px;
+    margin-top: 3%;
 }
 
 #map {
     width: 100%;
-    height: 250px;
+    height: 85%;
 }
 
-#waypoint {
-    width: 94%;
-}
 
 .rider-request-form-btn-container {
     display: flex;
@@ -26,4 +47,8 @@
 
 .rider-request-buttons {
     height: 50px;
+}
+
+#rider-request-error {
+    font-size: 18px;
 }

@@ -31,6 +31,8 @@ export function RiderRequestForm(){
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
+    const [isRouteValid, setIsRouteValid] = useState(false);
+    const [initialRouteCalculated, setInitialRouteCalculated] = useState(false);
     const waypointRef = useRef(null)
     const dispatch = useDispatch();
     const history = useHistory()
@@ -40,6 +42,7 @@ export function RiderRequestForm(){
         setWaypoints(preExistingWaypoints);
     }, [passengers]);
     
+
     if(!isLoaded) {
         return <div className='loading-page-container'><Loading/></div>   
     }
@@ -83,10 +86,19 @@ export function RiderRequestForm(){
                 const minutes = Math.floor((totalDuration % 3600) / 60);
                 setDistance(distanceInMiles);
                 setDuration(`${hours} hours ${minutes} min`);
+                if (!initialRouteCalculated) {
+                    setInitialRouteCalculated(true)
+                    setIsRouteValid(false)
+                    setErrors('Please calculate a new route before requesting a ride')
+                } else {
+                    setIsRouteValid(true)
+                    setErrors('')
+                }
             }
         } catch (error) {
             console.error(error)
             setErrors('Invalid drop off point. Please ensure your route can be driven from start to finish')
+            setIsRouteValid(false)
         }
     }
 
@@ -102,14 +114,18 @@ export function RiderRequestForm(){
         const previousPassengers = trip.passengers
         const passengers = [...previousPassengers, {passenger: passengerId, dropoffPoint: newWaypoint.location }]
         const newTrip = {...trip, passengers, distance}
-        dispatch(updateTrip(newTrip))
-        .then((res) => {
-            closeModal()
-            history.go()
-        })
-        .catch((error) => {
-            console.error(error)
-        })
+        if (!isRouteValid) {
+            setErrors('Please Calculate a valid route before submitting your request')
+        } else {
+            dispatch(updateTrip(newTrip))
+            .then((res) => {
+                closeModal()
+                history.go()
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+        }
     }
     
     const handleShowNewRoute = () => {
@@ -119,7 +135,7 @@ export function RiderRequestForm(){
     return(
         <div className='rider-request'>
             <div className="rider-request-form-header">
-                <h3>Request a Ride</h3>
+                <h3 className='request-a-ride'>Request a Ride</h3>
             </div>
             <div className="rider-request-form-div">
                 <h3>Drop off address</h3>
@@ -177,9 +193,9 @@ export function RiderRequestForm(){
                 </GoogleMap>
             </div>
             <div className="rider-request-form-btn-container">
-                <button className='rider-request-buttons' onClick={() => handleShowNewRoute()}>Show New Route</button>
-                <button className='rider-request-buttons' onClick={handleSubmit}>Request Ride</button>
-                <span className='errors' >{errors}</span>
+                <button className='rider-request-buttons' onClick={() => handleShowNewRoute()}>Calculate New Route</button>
+                <button className='rider-request-buttons' onClick={handleSubmit} disabled={!isRouteValid}>Request Ride</button>
+                <span className='errors' id='rider-request-error' >{errors}</span>
             </div>
         </div>
     )
