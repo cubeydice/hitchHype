@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, fetchUser, updateUser } from "../../../store/users";
 import AccountImage from '../../../assets/images/eddy-billard-Y8lhl6j_OUU-unsplash.jpg' // eslint-disable-next-line
-import './UserSettings.css'
 import { getCurrentUser } from "../../../store/session";
 import { handleImgError } from "../../../App";
 import { ReactComponent as Loading } from '../../../assets/icons/loading-icon.svg'
+import DefaultProfilePic from '../../../assets/icons/user.png'
+import './UserSettings.css'
+import { openModal } from "../../../store/modal";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -15,18 +17,20 @@ const UserSettings = () => {
   const [bio, setBio] = useState(user ? user.biography : '');
   const [bioCount, setBioCount] = useState(0);
   const [phone, setPhone] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [profilePicture, setProfilePicture] = useState(DefaultProfilePic);
 
   useEffect(()=>{
     if (!user) {dispatch(fetchUser(currentUser._id))
     .then(res => {
       setBio(res.user.biography)
+      if (res.user.biography) setBioCount(res.user.biography.length);
       setPhone(res.user.phoneNumber)
-      setProfilePicture(res.user.profilePicture)
+      if (res.user.profilePicture) setProfilePicture(res.user.profilePicture)
     })} else{
       setBio(user.biography)
+      if (user.biography) setBioCount(user.biography.length);
       setPhone(user.phoneNumber)
-      setProfilePicture(user.profilePicture)
+      if (user.profilePicture) setProfilePicture(user.profilePicture)
     }
     // eslint-disable-next-line
   }, [dispatch])
@@ -59,14 +63,16 @@ const UserSettings = () => {
 
     dispatch(updateUser(updatedUser))
     .then((res)=> {
+      console.log(res)
       if (res && !res.errors) {
-        dispatch(getCurrentUser())
+        dispatch(getCurrentUser());
         dispatch(clearUserErrors());
       };
-  });
+    })
+    .then(dispatch(openModal('successful-update')))
   }
 
-  if (!currentUser || !user) return <div><Loading/></div>
+  if (!currentUser || !user) return <div className="settings-container"><Loading className='loading'/></div>
   return (
     <div className="settings-container">
       <h1 className="settings-form-title">Tell us about yourself!</h1>
@@ -78,16 +84,20 @@ const UserSettings = () => {
             alt='profile-pic'
             className="large-icon"
             id="profile-icon"
-            onError={handleImgError}/>
-            hello {currentUser.firstName} {currentUser.lastName}!
-            </h2><br/>
+            onError={handleImgError}
+            />
 
-          <label id='account-form-phone-number'><h3>Phone Number</h3> <span className="errors">{errors?.phone}</span><br/>
-                <input type="tel"
-                value={phone}
-                onChange={handleChange('phone')}
-                placeholder="XXX-XXX-XXXX"
-                />
+            hello {currentUser.firstName} {currentUser.lastName}!
+          </h2><br/>
+
+          <label id='account-form-phone-number'>
+            <h3>Phone Number</h3>
+            <span className="errors">{errors?.phoneNumber}</span>
+            <input type="tel"
+            value={phone}
+            onChange={handleChange('phone')}
+            placeholder="XXX-XXX-XXXX"
+            />
           </label>
 
           <label><h3>About Me</h3> <span className="errors">{errors?.biography}</span><br/>

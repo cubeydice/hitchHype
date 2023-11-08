@@ -2,6 +2,11 @@
   max-width: 800px;
   padding-right: 200px;
 }
+
+.loading {
+  place-self: center;
+}
+
 .settings-container sub {
   color: white;
 }
@@ -23,6 +28,7 @@
 
 #account-form-phone-number {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

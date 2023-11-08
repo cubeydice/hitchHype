@@ -24,8 +24,9 @@ import InflationArticle from './components/MainPage/Articles/Inflation';
 import EnvironmentArticle from './components/MainPage/Articles/Environment';
 import DefaultProfilePic  from './assets/icons/user.png'
 
-export const handleImgError = (e) => {
-  e.currentTarget.src={DefaultProfilePic}
+export const handleImgError = (currentTarget) => {
+  currentTarget.onerror = null; //prevents looping
+  currentTarget.src={DefaultProfilePic}
 }
 
 function App() {
