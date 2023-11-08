@@ -29,19 +29,11 @@ export const clearTripErrors = errors => ({
     errors
 });
 
-// export const getTripts = state => {
-//     // console.log(state)
-//     // return state?.trips ? Object.values(state.events) : [];
-//     return state?.trips ?  state.trips : [];
-// }
-
 export const getTrip = tripId => state => {
-    // console.log('state: ',state.events[eventId])
     return state?.trips.all ? state.trips.all[tripId] : null;
 }
-// debugger
+
 export const fetchTrip = (tripId) => async dispatch => {
-    // debugger
     try {
         const res = await jwtFetch(`/api/trips/${tripId}`);
         const trip = await res.json();
@@ -69,6 +61,21 @@ export const fetchTrips = () => async dispatch => {
         }
     }
 };
+
+export const fetchTripsPlaces = () => async dispatch => {
+    // debugger
+    try {
+        const res = await jwtFetch('/api/trips/places');
+        const tripsPlaces = await res.json();
+        return tripsPlaces;
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveErrors(resBody.errors));
+        }
+    }
+};
+
 
 export const fetchUserTrips = userId => async dispatch => {
     try {

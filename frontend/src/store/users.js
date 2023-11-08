@@ -4,6 +4,7 @@ import jwtFetch from './jwt';
 const RECEIVE_USER = "users/RECEIVE_USER";
 const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const CLEAR_USER_ERRORS = "users/CLEAR_USER_ERRORS";
+const CLEAR_USERS = "users/CLEAR_USERS"
 
 //POJO ACTIONS
 const receiveUser = user => ({
@@ -21,11 +22,15 @@ export const clearUserErrors = errors => ({
     errors
 });
 
-//THUNK ACTIONS
+export const clearUsers = () => ({
+    type: CLEAR_USERS
+  })
+
+//SELECTOR
 export const getUser = userId => state => {
     return state?.users.all ? state.users.all[userId] : null;
 }
-
+//THUNK ACTIONS
 export const fetchUser = (userId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}`);
@@ -48,7 +53,7 @@ export const updateUser = (user) => async (dispatch) => {
             body: JSON.stringify(user)
         });
         user = await res.json();
-        // console.log(user)
+
         dispatch(receiveUser(user));
     } catch(err) {
         const res = await err.json();
@@ -75,6 +80,8 @@ const usersReducer = (state = {}, action) => {
     switch(action.type) {
         case RECEIVE_USER:
             return { ...state, ...action.user};
+        case CLEAR_USERS:
+            return {}
         default:
             return state;
     }

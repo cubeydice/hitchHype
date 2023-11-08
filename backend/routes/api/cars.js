@@ -7,30 +7,43 @@ const { requireUser } = require('../../config/passport');
 const validateCarInput = require('../../validations/car');
 const getVehicles = require('../../vehiclesParser');
 
-// path = /cars
+// path = /api/cars
 // Retrieve user's cars
+
+// Create a car
+router.post('/', requireUser, validateCarInput, async (req, res, next) => {
+    try {
+        // Extract the required data from the request
+        const { user, body } = req;
+        const { make, model, year, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
+
+        const newCar = new Car({
+            owner: user._id,
+            make,
+            model,
+            year,
+            licensePlateNumber,
+            insurance,
+            mpg,
+            fueleconomyId
+        });
+
+        let car = await newCar.save();
+        car = await car.populate('owner', '_id firstName lastName');
+
+        user.car = newCar._id;
+        user.save();
+
+        return res.json(car);
+    }
+    catch(err) {
+        next(err);
+    }
+});
+
 router.get('/user/:carId', async (req, res, next) => {
     try {
-        // const user = await User.findById(req.params.userId);
-
-        // if (!user) {
-        //     const error = new Error('User not found');
-        //     error.statusCode = 404;
-        //     error.errors = { message: "No user found with that id" };
-        //     return next(error);
-        // }
-
-        // // Check if the user is the user of cars
-        // if (req.user._id.toString() !== req.params.userId) {
-        //     const error = new Error('Unauthorized: You can only access your own cars.');
-        //     error.status = 403;
-        //     error.errors = { message: 'You can only access your own cars.' }
-        //     return next(error);
-        // }
-
         const cars = await Car.find({ _id: req.params.carId })
-                                // .sort({ createdAt: -1 })
-                                // .populate("make");
         return res.json(cars);
     }
     catch(err) {
@@ -45,34 +58,6 @@ router.get('/list', async (req, res) => {
         return res.json(vehiclesObj);
     } catch(err) {
         res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-// Create a car
-router.post('/', requireUser, validateCarInput, async (req, res, next) => {
-    try {
-        // Extract the required data from the request
-        const { user, body } = req;
-        const { make, model, year, maxPassengers, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
-
-        const newCar = new Car({
-            owner: user._id,
-            make,
-            model,
-            year,
-            maxPassengers,
-            licensePlateNumber,
-            insurance,
-            mpg,
-            fueleconomyId
-        });
-
-        let car = await newCar.save();
-        car = await car.populate('owner', '_id firstName lastName');
-        return res.json(car);
-    }
-    catch(err) {
-        next(err);
     }
 });
 
@@ -101,13 +86,12 @@ router.patch('/:id', requireUser, validateCarInput, async (req, res, next) => {
         }
 
         // Extract the required data from the request
-        const { make, model, year, maxPassengers, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
+        const { make, model, year, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
 
         // Update the car with the new data
         car.make = make;
         car.model = model;
         car.year = year;
-        car.maxPassengers = maxPassengers,
         car.licensePlateNumber = licensePlateNumber;
         car.insurance = insurance;
         car.mpg = mpg;
@@ -124,7 +108,7 @@ router.patch('/:id', requireUser, validateCarInput, async (req, res, next) => {
 });
 
 // Remove car
-router.delete('/:id', requireUser, validateCarInput, async (req, res, next) => {
+router.delete('/:id', requireUser, async (req, res, next) => {
     try {
         // Find the car by its ID
         const car = await Car.findById(req.params.id);
@@ -144,8 +128,12 @@ router.delete('/:id', requireUser, validateCarInput, async (req, res, next) => {
             return next(error);
         }
 
+        //Remove car from user
+        req.user.car = null;
+        req.user.save();
+
         // Remove the car from the database
-        await car.remove();
+        await car.deleteOne();
         res.json({ message: 'Car deleted successfully' });
     }
     catch(err) {

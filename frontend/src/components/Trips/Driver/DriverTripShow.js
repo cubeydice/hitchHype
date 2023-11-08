@@ -1,4 +1,3 @@
-import linearMap from "../../../assets/images/linear-map-dummy.jpg"
 import "./DriverTripShow.css"
 import { Passenger } from '../Passenger/Passenger';
 import explodeAddress from "../AddressParser"
@@ -26,16 +25,6 @@ export function DriverTripShow({ trip }) {
         postalCode: "",
         streetAddress: ""
     };
-
-    // if(date.getFullYear() < todaysDate.toDateString()){
-    //     setTripOver(true);
-    // }else if(date.getFullYear() === todaysDate.toDateString()){
-    //     if(todaysDate.getMonth() > date.getMonth()){
-    //         setTripOver(true);
-    //     }else if(todaysDate.getDate() > date.getDate()){
-    //         setTripOver(true);
-    //     }
-    // }
 
     explodeAddress(trip.destination, function(err,addressStr)
     {
@@ -74,18 +63,18 @@ export function DriverTripShow({ trip }) {
                             </div>
                             <div>
                                 <div className='trip-show-passangers-ammount'>
-                                    <h3 id="trip-seats-time-details">Current amount of passengers: {trip.passengers.length}</h3>
+                                    <h3 id="trip-seats-time-details"># of passengers: {trip.passengers.length}</h3>
                                 </div>
                                 <div className='trip-show-spots'>
-                                    <h3 id="trip-seats-time-details">The amount of seats left: {availableSeats}</h3>
+                                    <h3 id="trip-seats-time-details">Seats left: {availableSeats}</h3>
                                 </div>
                                 <div className='trip-show-departure-time'>
-                                    <h3 id="trip-seats-time-details">Trip will take place on {date.toDateString()}.</h3>
+                                    <h3 id="trip-seats-time-details">Date of trip: {date.toDateString()}.</h3>
                                 </div>
                             </div>
                             <div className='trip-show-edit-btn-container'>
-                                {tripOver ? (
-                                    <button className='edit-btn-container'>
+                                { tripOver ? (
+                                    <button className='edit-btn-container' disabled>
                                         <h3>Trip Over</h3>
                                     </button>
                                 ) : (
@@ -125,7 +114,6 @@ export function DriverTripShow({ trip }) {
                             </div>
                         </div>
                         <div className='trip-show-linear-map'>
-                            {/* <img src={linearMap} alt="show-img" id='show-linear-map-img'/>1 */}
                             <CarbonEmissions trip={trip} driver={true}/>
                         </div>
                     </div>

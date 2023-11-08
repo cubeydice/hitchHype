@@ -7,6 +7,7 @@ import carSharing from '../../assets/icons/car-sharing.png'
 import piggyBank from '../../assets/icons/piggy-bank.png'
 import planetEarth from '../../assets/icons/planet-earth.png'
 import { Link } from 'react-router-dom/cjs/react-router-dom';
+import { SearchBar } from '../SearchBar/SearchBar'
 
 function MainPage() {
     return (
@@ -22,18 +23,7 @@ function MainPage() {
             <div className='image-container'>
                 <img className='roadtrip-image' src={roadtrip} alt="road-trip"></img>
                 <div className='search-form'>
-                <form>
-                        <input
-                            type='text'
-                            placeholder='From'
-                        />
-                        <input
-                            type='text'
-                            placeholder='To (Optional)'
-                        />
-                        <input type='date' />
-                        <input type='submit' value='Search'/>
-                    </form>
+                    <SearchBar/>
                 </div>
             </div>
             <div className='positive-container'>

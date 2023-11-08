@@ -21,7 +21,7 @@ const authors = [
   {
     name: "Brittiny Filbert",
     gitHub: "https://github.com/FilbertBrit",
-    linkedIn: ""
+    linkedIn: "www.linkedin.com/in/brittiny-filbert-6b50b3299"
   }
 ]
 

@@ -11,7 +11,7 @@ export function UserTrips () {
     const user = useSelector(state => state.session.user)
 
     useEffect(() => {
-        dispatch(fetchUserTrips(user._id)).then(res => console.log(res));
+        dispatch(fetchUserTrips(user._id));
     }, [dispatch, user._id])
 
     return (
@@ -21,23 +21,18 @@ export function UserTrips () {
             <div className="user-trips-nav-container">
                 < UserNavBar/>
             </div>
-            <div >
+            <div className="journey-page">
                 <div className="user-trips-header-container">
                     <h3 className="user-trips-header-h3">Your Trips 🗺️</h3>
                 </div>
                 <div className="user-trips-index-container">
                     { trips && !trips.empty ? (
                         trips.map(trip => (
-                            // (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
-                            <TripsItem key={trip._id} trip={trip} />    
+                            <TripsItem key={trip._id} trip={trip} />
                        ))
                     ) : (
                         <></>
                     )}
-                    {/* { trips.map(trip => (
-                        // (trip.driver._id === user._id) ? <TripsItem key={trip._id} trip={trip} /> : ""
-                        <TripsItem key={trip._id} trip={trip} />
-                    ))} */}
                 </div>
             </div>
         </div>

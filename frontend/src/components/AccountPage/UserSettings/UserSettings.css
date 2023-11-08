@@ -2,6 +2,11 @@
   max-width: 800px;
   padding-right: 200px;
 }
+
+.loading {
+  place-self: center;
+}
+
 .settings-container sub {
   color: white;
 }
@@ -10,6 +15,22 @@
   background-color: var(--brand-mustard);
   border-radius: 30px;
   overflow: hidden;
+}
+
+.account-form > h2 {
+  display: flex;
+  align-items: center;
+}
+
+#profile-icon {
+  margin-right: 20px;
+}
+
+#account-form-phone-number {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 textarea {
@@ -22,7 +43,7 @@ textarea {
 
 .account-form {
   padding: 20px;
-  height:400px;
+  height:500px;
   margin-top: 10px;
   margin-bottom: 10px;
   display: flex;
@@ -31,11 +52,19 @@ textarea {
   align-items: center;
 }
 
+.account-form > * {
+  align-self: left;
+}
+
+#profile-icon > {
+  margin: 20px;
+}
+
 .account-form input[type=submit] {
   width: 200px;
 }
 
-.account-form-container img {
+.account-form-container > img {
   display: absolute;
   left: 50px;
   transform: translateX(-50px);

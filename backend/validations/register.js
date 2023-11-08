@@ -3,7 +3,7 @@ const handleValidationErrors = require('./handleValidationErrors');
 
 // Custom validation function to check phone number format
 const isPhoneNumberValid = (value) => {
-    const phoneNumberRegex = /^\d{10}$/; // Assuming a 10-digit phone number
+    const phoneNumberRegex = /^(?:\+\d{1,2}\s?)?(?:(?:\(\d{3}\))|(?:\d{3}))[\s.-]?\d{3}[\s.-]?\d{4}$/;
     return phoneNumberRegex.test(value);
 };
 
@@ -24,18 +24,18 @@ const validateLoginInput = [
     check('lastName')
         .exists({ checkFalsy: true })
         .withMessage('Last name is required'),
-    // check('phonenumber')
-    //     .exists({ checkFalsy: true })
-    //     .withMessage('Phone number is required')
-    //     .custom((value) => {
-    //         if (!isPhoneNumberValid(value)) {
-    //             throw new Error('Invalid phone number format');
-    //         }
-    //         return true;
-    //     })
-    //     .withMessage('Invalid phone number format')
-    //     .isLength({ min: 10, max: 10 })
-    //     .withMessage('Phone number must be 10 digits'),
+    check('phoneNumber')
+        .exists({ checkFalsy: true })
+        .withMessage('Phone number is required')
+        .custom((value) => {
+            if (!isPhoneNumberValid(value)) {
+                throw new Error('Invalid phone number format');
+            }
+            return true;
+        })
+        .withMessage('Invalid phone number format')
+        .isLength({ min: 10, max: 20 })
+        .withMessage('Phone number must be between 10 and 20 digits'),
     handleValidationErrors
 ];
 

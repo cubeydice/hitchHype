@@ -1,6 +1,6 @@
 import jwtFetch from './jwt';
 import { clearTripErrors } from './trips';
-import { clearUserErrors } from './users';
+import { clearUserErrors, clearUsers } from './users';
 
 const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
 const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
@@ -53,6 +53,7 @@ export const logout = () => dispatch => {
     localStorage.removeItem('jwtToken');
     dispatch(clearTripErrors());
     dispatch(clearUserErrors());
+    dispatch(clearUsers());
     dispatch(logoutUser());
 };
 

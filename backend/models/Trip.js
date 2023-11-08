@@ -43,8 +43,11 @@ const tripSchema = new Schema({
         type: Number,
         required: true,
     },
-    destinationPicutre: {
+    destinationPicture: {
         type: String,
+    },
+    distance: {
+        type: Number,
     }
 }, {
     timestamps: true, 

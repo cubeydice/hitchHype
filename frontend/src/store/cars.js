@@ -44,11 +44,28 @@ export const fetchCar = (userId) => async dispatch => {
   }
 }
 
-export const createCar = car => async dispatch => {
+export const createCar = data => async dispatch => {
   try {
-    const res = await jwtFetch(`api/cars/`, {
+    const res = await jwtFetch(`/api/cars`, {
       method: `POST`,
-      body: JSON.stringify(car)
+      body: JSON.stringify(data)
+    })
+    const car = await res.json();
+    dispatch(receiveCar(car));
+    return car;
+  } catch(err) {
+    const res = await err.json();
+    if (res.statusCode === 400) {
+      dispatch(receiveErrors(res.errors))
+    }
+  }
+ }
+
+ export const updateCar = data => async dispatch => {
+  try {
+    const res = await jwtFetch(`/api/cars/${data._id}`, {
+      method: `PATCH`,
+      body: JSON.stringify(data)
     })
     const car = await res.json();
     dispatch(receiveCar(car));
@@ -62,27 +79,9 @@ export const createCar = car => async dispatch => {
   }
  }
 
- export const updateCar = car => async dispatch => {
-  try {
-    const res = await jwtFetch(`api/cars/${car.id}`, {
-      method: `PATCH`,
-      body: JSON.stringify(car)
-    })
-    let car = await res.json();
-    dispatch(receiveCar(car));
-    return car;
-
-  } catch(err) {
-    const res = await err.json();
-    if (res.statusCode === 400) {
-      dispatch(receiveErrors(res.errors))
-    }
-  }
- }
-
  export const deleteCar = carId => async dispatch => {
   try {
-    const res = await jwtFetch(`api/cars/${carId}`, {
+    const res = await jwtFetch(`/api/cars/${carId}`, {
       method: `DELETE`
     })
     dispatch(removeCar(carId));

@@ -6,9 +6,10 @@ import { ReactComponent as SignUpIcon} from '../../assets/icons/signup.svg'
 import './SessionForm.css';
 
 const SignupForm = () => {
-    const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const errors = useSelector(state => state.errors.session);
@@ -24,23 +25,26 @@ const SignupForm = () => {
         let setState;
 
         switch (field) {
-        case 'email':
-            setState = setEmail;
-            break;
-        case 'firstName':
-            setState = setFirstName;
-            break;
-        case 'lastName':
-            setState = setLastName;
-            break;
-        case 'password':
-            setState = setPassword;
-            break;
-        case 'password2':
-            setState = setPassword2;
-            break;
-        default:
-            throw Error('Unknown field in Signup Form');
+            case 'firstName':
+                setState = setFirstName;
+                break;
+            case 'lastName':
+                setState = setLastName;
+                break;
+            case 'email':
+                setState = setEmail;
+                break;
+            case 'phone':
+                setState = setPhone;
+                break;
+            case 'password':
+                setState = setPassword;
+                break;
+            case 'password2':
+                setState = setPassword2;
+                break;
+            default:
+                throw Error('Unknown field in Signup Form');
         }
 
         return e => setState(e.currentTarget.value);
@@ -52,6 +56,7 @@ const SignupForm = () => {
         firstName,
         lastName,
         email,
+        phoneNumber: phone,
         password
         };
 
@@ -104,6 +109,16 @@ const SignupForm = () => {
             </label>
 
             <label>
+                <h3>Phone Number</h3>
+                <p className="errors">{errors?.phoneNumber}</p>
+                <input type="tel"
+                value={phone}
+                onChange={update('phone')}
+                placeholder="XXX-XXX-XXXX"
+                />
+            </label>
+
+            <label>
                 <h3>Password</h3>
                 <p className="errors">{errors?.password}</p>
                 <input type="password"
@@ -127,7 +142,7 @@ const SignupForm = () => {
             <input
                 type="submit"
                 value="Sign Up"
-                disabled={!email || !firstName || !lastName ||!password || password !== password2}
+                disabled={!email || !firstName || !lastName || !phone ||!password || password !== password2}
             /> <br/>
             Already have an account? <span className='link' onClick={handleClick}>Sign in</span>
         </form>
