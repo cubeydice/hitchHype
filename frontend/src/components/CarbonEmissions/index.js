@@ -42,7 +42,6 @@ const CarbonEmissions = ({trip, driver}) => {
           }
       } catch (error) {
           console.error(error)
-          console.log('invalid origin and destinaiton. Please ensure your route can be driven from start to finish')
       }
   }
 

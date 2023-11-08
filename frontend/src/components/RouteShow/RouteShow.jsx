@@ -3,6 +3,9 @@ import { ReactComponent as Loading } from '../../assets/icons/loading-icon.svg'
 import { useState } from 'react'
 import { mapStyle } from '../../App'
 import './RouteShow.css'
+import { useDispatch } from 'react-redux'
+import { updateTrip } from '../../store/trips'
+import { useEffect } from 'react'
 
 const center = {lat: 37.7749, lng: -122.4194}
 const kmToMiles = (1000 * 0.621371)
@@ -21,8 +24,9 @@ const RouteShow = ({trip}) => {
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
     const [directionsResponse, setDirectionsResponse] = useState(null)
+    const dispatch = useDispatch()
      // eslint-disable-next-line
-
+    
     if(!isLoaded) {
         return <div className='loading-page-container'><Loading/></div>   
     }
@@ -58,12 +62,18 @@ const RouteShow = ({trip}) => {
                 const minutes = Math.floor((totalDuration % 3600) / 60);
                 setDistance(`${distanceInMiles} mi`);
                 setDuration(`${hours} hours ${minutes} min `);
+                if (!trip.distance) {
+                    const newDistance = parseInt(distanceInMiles.slice(0, -3))
+                    const newTrip = {...trip, distance: newDistance}
+                    dispatch(updateTrip(newTrip)).catch(error => console.error(error))
+                }
             }
         } catch (error) {
             console.error(error)
-            console.log('invalid origin and destinaiton. Please ensure your route can be driven from start to finish')
         }
+        
     }
+    
 
     return (
         <div className='route-show-container'>
