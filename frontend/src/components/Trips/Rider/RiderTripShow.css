@@ -1,6 +1,6 @@
 .rider-show-layout{
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 60px;
+    padding-right: 60px;
     margin: 0 14px 0 14px;
 }
 .rider-show-destination-details-container{
@@ -32,16 +32,13 @@
 }
 
 .rider-show-destintion-info{
-    width: 620px;
+    width: 580px;
     padding: 60px 0 0 60px;
     border-start-end-radius: 40px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
     background-color: rgba(255, 255, 255);
 }
 
-#trip-passenger-show-details{
-    padding-bottom: 10px;
-}
 
 .rider-show-btn{
     padding: 20px;
@@ -80,3 +77,24 @@
 .rider-show-ce {
     margin-right: 16px;
 }
+
+
+.ride-show-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    margin-left: 30px;
+}
+
+.ride-show-details-container h3 {
+    font-weight: 500;
+}
+
+.ride-show-details {
+    display: flex;
+    justify-content: space-between;
+    max-width: 460px;
+    align-items: center;
+}
+

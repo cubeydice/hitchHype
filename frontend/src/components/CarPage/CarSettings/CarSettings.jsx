@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserErrors, updateUser } from "../../../store/users";
+import { fetchCar } from "../../../store/cars";
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
 import './CarSettings.css'
-import { fetchCar } from "../../../store/cars";
 
 const CarSettings = () => {
   const user = useSelector(state => state.session.user)

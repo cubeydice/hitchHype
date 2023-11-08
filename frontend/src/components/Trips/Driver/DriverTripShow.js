@@ -64,6 +64,9 @@ export function DriverTripShow({ trip }) {
                             </div>
 
                             <div>
+                                <div className='trip-show-departure-time'>
+                                    <h3 id="trip-seats-time-details">Date of trip: <span className="light">{date.toDateString()}</span></h3>
+                                </div>
                                 <div className='trip-show-passangers-amount'>
                                     <h3 id="trip-seats-time-details"># of passengers:</h3>
                                     <div>{Array(trip.passengers.length).fill(true).map((_, i) => <PassengerIcon key={i} className="medium-icon"/>)}</div>
@@ -71,9 +74,6 @@ export function DriverTripShow({ trip }) {
                                 <div className='trip-show-seats-amount'>
                                     <h3 id="trip-seats-time-details">Seats left:</h3>
                                     <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
-                                </div>
-                                <div className='trip-show-departure-time'>
-                                    <h3 id="trip-seats-time-details">Date of trip: {date.toDateString()}</h3>
                                 </div>
                             </div>
 

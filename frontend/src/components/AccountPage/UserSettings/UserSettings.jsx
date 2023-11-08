@@ -21,10 +21,12 @@ const UserSettings = () => {
     if (!user) {dispatch(fetchUser(currentUser._id))
     .then(res => {
       setBio(res.user.biography)
+      if (res.user.biography) setBioCount(res.user.biography.length)
       setPhone(res.user.phoneNumber)
       setProfilePicture(res.user.profilePicture)
     })} else{
       setBio(user.biography)
+      if (user.biography) setBioCount(user.biography.length)
       setPhone(user.phoneNumber)
       setProfilePicture(user.profilePicture)
     }

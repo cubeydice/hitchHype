@@ -64,6 +64,10 @@ table {
   font-style: italic;
 }
 
+.light {
+  font-weight: 300;
+}
+
 .main-container {
   position: relative;
   max-width: 1440px;
@@ -93,7 +97,7 @@ table {
 
 .main-content {
   padding: 15px;
-  min-height: 100%;
+  min-height: 83.5vh;
 }
 
 body {
