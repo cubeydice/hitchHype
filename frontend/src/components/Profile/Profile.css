@@ -1,16 +1,48 @@
-.profile-bio-container {
-  margin: 10px 30px;
-}
-
-.profile-sidebar-container {
+.profile-container {
   display: flex;
-  flex-direction: column;
-  width: 330px;
-  gap:20px;
-  align-items: center;
-  text-align: center;
+  justify-content: space-around;
+  margin: 10px 100px;
+  max-width: 1200px;
+  max-height: 70vh;
 }
+  .profile-sidebar-container {
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+    gap:20px;
+    align-items: center;
+    text-align: center;
+  }
+    .profile-sidebar-container button {
+      margin-top: 12px;
+    }
 
-.profile-sidebar-container button {
-  margin-top: 12px;
-}
+    .profile-bio-container {
+      margin: 10px 30px;
+    }
+
+    .profile-journeys-container {
+      overflow: scroll;
+      scrollbar-width: none;
+    }
+
+    .profile-journeys-container::-webkit-scrollbar {
+      display: none;
+    }
+
+  .profile-reviews-container {
+    margin-left: 60px;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow: scroll;
+    scrollbar-width: none;
+  }
+    .profile-reviews-container h2 {
+      font-size: 24px;
+    }
+
+    .profile-reviews-container::-webkit-scrollbar {
+      display: none;
+    }
