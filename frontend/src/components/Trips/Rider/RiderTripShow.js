@@ -128,7 +128,7 @@ export function RiderTripShow ({ trip }) {
                         <div className="Rider-show-destination-pic">
                             <img src={image} alt="rider-show-img" id='rider-show-img'/>
                         </div>
-                        <div className="rider-show-destintion-info">
+                        <div className="rider-show-destination-info">
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-startPoint'>
                                     <h1 id='trip-show-points'>{originCity}</h1>
