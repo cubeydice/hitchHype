@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../../store/users";
 import { clearCarErrors, createCar, fetchCar, updateCar, deleteCar } from "../../../store/cars";
 import { openModal } from '../../../store/modal'
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
 import './CarSettings.css'
-import { fetchUser, updateUser } from "../../../store/users";
 import { getCurrentUser } from "../../../store/session";
 import { useHistory } from "react-router-dom";
 
