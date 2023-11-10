@@ -37,10 +37,10 @@ export function RiderTripShow ({ trip }) {
 
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
-    (trip.availableSeats ? (trip.passengers.length)
+    (trip.availableSeats ? (trip.passengers.length + 1)
     : 0)) : 0
     const hitchPrice = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
-    (trip.availableSeats ? (trip.passengers.length + 1)
+    (trip.availableSeats ? (trip.passengers.length + 2)
     : 0)) : 0
     let destinationCity;
     let originCity;

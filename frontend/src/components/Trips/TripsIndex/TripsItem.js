@@ -9,10 +9,11 @@ const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 export function TripsItem ({ trip }) {
     const showPage = '/trips/' + trip._id;
     const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
-                            (trip.availableSeats ? (trip.passengers.length + 1)
+                            (trip.availableSeats ? (trip.passengers.length + 2)
                             : 0)) : 0
-    const proxyUrl = "https://corsproxy.io/?";
+    const date = new Date(trip.departureDate);
     const [image, setImage] = useState(sfPic);
+    const proxyUrl = "https://corsproxy.io/?";
 
     //GET ADDRESS
     let destinationCity;
@@ -62,6 +63,7 @@ export function TripsItem ({ trip }) {
                 <img src={image} alt="show-img" id='show-img'/>
             </div>
             <div className="TripItem-details">
+                <div>{date.toLocaleDateString('en-US')}</div>
                 <div className="TripItem-destination">
                     { originCity + "→" + destinationCity }
                 </div>

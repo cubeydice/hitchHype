@@ -16,7 +16,7 @@ import { ReactComponent as SeatIcon } from '../../../assets/icons/Trips/seat.svg
 export function DriverTripShow({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
-                    (trip.availableSeats ? trip.passengers.length: 0)) : 0
+                    (trip.availableSeats ? trip.passengers.length + 1: 0)) : 0
     const totalPrice = price * trip.passengers.length;
     const date = new Date(trip.departureDate);
     const todaysDate =  new Date();
