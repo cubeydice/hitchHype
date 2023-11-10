@@ -13,13 +13,13 @@ const validateTripInput = require("../../validations/trip");
 // Retrieve all trips
 router.get("/", async (req, res) => {
     try {
-        const trips = await Trip.find({ departureDate: { $gte: new Date() } })
+        const trips = await Trip.find()
                                 .populate("driver", "_id firstName lastName")
                                 .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName")
                                 .sort({ createdAt: -1 });
-    
-        return res.json(trips);
+        const currentTrips = trips.filter(trip => new Date(trip.departureDate) >= new Date())
+        return res.json(currentTrips);
     }
     catch(err) {
         return res.json([]);
