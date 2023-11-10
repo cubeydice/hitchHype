@@ -24,7 +24,7 @@ const ReviewItem = ({review}) => {
     return (
         <div className="review-item-container">
             <div className="review-item-reviewer">
-                <Link to={`profile/${reviewer._id}`}>
+                <Link to={`/profile/${reviewer._id}`}>
                     <img src={reviewer.profilePicture} className='reviewer-pic' alt={reviewer._id}/>
                 </Link>
             </div>
