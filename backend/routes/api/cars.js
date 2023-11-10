@@ -7,6 +7,7 @@ const { requireUser } = require('../../config/passport');
 const validateCarInput = require('../../validations/car');
 const path = require('path');
 const fs = require('fs');
+// const getVehicles = require('../../vehiclesParser');
 
 // path = /api/cars
 // Retrieve user's cars
@@ -65,6 +66,15 @@ router.get('/list', async (req, res) => {
         }
     })
 });
+
+// router.get('/list', async (req, res) => {
+//     try {
+//         const vehiclesObj = await getVehicles();
+//         return res.json(vehiclesObj);
+//     } catch(err) {
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
 
 // Update a car
 router.patch('/:id', requireUser, validateCarInput, async (req, res, next) => {

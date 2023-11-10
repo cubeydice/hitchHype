@@ -2,6 +2,7 @@ const apiKey = process.env.REACT_APP_GAS_API_KEY;
 const apiUrl = process.env.REACT_APP_GAS_API_URL;
 
 const GasPrices = (longitude, latitude) => {
+  // eslint-disable-next-line
   var options = {
     method: "GET",
     hostname: "api.collectapi.com",

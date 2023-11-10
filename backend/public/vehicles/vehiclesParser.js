@@ -11,13 +11,11 @@ const vehiclesParser = (file) => {
     .on('data', (data) => {
       if (vehicles[data.make] === undefined) {
         vehicles[data.make] = {};
-        vehicles[data.make][data.model] =
-        {...vehicles[data.make][data.model], [data.year]: 0}
       }
-      vehicles[data.make] = {...vehicles[data.make], [data.model]: {}}
+      vehicles[data.make][data.model] =
+      {...vehicles[data.make][data.model], [data.year]: data.id}
 
       if (vehicles[data.make][data.model] !== undefined) {
-        vehicles[data.make][data.model][data.year] = data.id;
         mpg[data.id] = data.comb08
       }
     })
