@@ -29,7 +29,7 @@ export function RiderTripShow ({ trip }) {
     const todaysDate =  new Date();
     let rider = false;
     let riderId;
-    // const [rider, setRider] = useState(false)
+
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     let destinationCity;
     let originCity;
