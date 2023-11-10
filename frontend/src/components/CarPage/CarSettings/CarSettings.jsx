@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom/";
+import './CarSettings.css'
+
+//STORE
 import { fetchUser } from "../../../store/users";
 import { clearCarErrors, createCar, fetchCar, updateCar, deleteCar } from "../../../store/cars";
+import { getCurrentUser } from "../../../store/session";
 import { openModal } from '../../../store/modal'
+
+//ASSETS
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
-import './CarSettings.css'
-import { getCurrentUser } from "../../../store/session";
-import { useHistory } from "react-router-dom";
-import { Redirect } from "react-router-dom/cjs/react-router-dom";
 
 const CarSettings = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   //Selecting Car
   const user = useSelector(state => state.session.user)
