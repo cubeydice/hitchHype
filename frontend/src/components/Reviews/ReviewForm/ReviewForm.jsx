@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import StarRatings from 'react-star-ratings';
 import explodeAddress from '../../Trips/AddressParser';
+import { composeReview } from '../../../store/review';
 
 const ReviewForm = ({trip, reviewee}) => {
+    const dispatch = useDispatch();
     const date = new Date(trip.departureDate);
-    const errors = useSelector(state => state.reviews.session);
+    const errors = useSelector(state => state.errors.reviews);
     const reviewer = useSelector(state => state.session.user);
     const isDriver = (reviewee._id === trip.driver._id);
     const [rating, setRating] = useState(0);
@@ -48,6 +50,8 @@ const ReviewForm = ({trip, reviewee}) => {
             title,
             body
         }
+
+        dispatch(composeReview(review))
     }
 
     return (
@@ -59,14 +63,17 @@ const ReviewForm = ({trip, reviewee}) => {
             <form onSubmit={handleSubmit}>
                 <label>
                     <h3>Rating</h3>
+                    <p className="errors">{errors?.rating}</p>
                     <input type="text"></input>
                 </label>
                 <label>
                     <h3>Title</h3>
+                    <p className="errors">{errors?.title}</p>
                     <input type="text"></input>
                 </label>
                 <label>
                     <h3>Body</h3>
+                    <p className="errors">{errors?.body}</p>
                     <input type="text"></input>
                 </label>
             </form>
