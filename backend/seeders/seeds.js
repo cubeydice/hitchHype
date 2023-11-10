@@ -138,9 +138,11 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     const randomCarId = randomUser.car
     const randomPassengers = []
     const randomBoolean = Math.random() < 0.3;
+    const randomBoolean2 = Math.random() < 0.3;
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+
 
         const passengerInfo = {
             passenger: randomPassenger,
@@ -150,13 +152,14 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
         randomPassengers.push(passengerInfo);
     }
     if (randomBoolean) randomPassengers.push(demoInfo);
+    const date = randomBoolean ? randomBoolean2 ? faker.date.future() : faker.date.past() : faker.date.future()
 
     trips.push(
         new Trip ({
             driver: randomDriver,
             car: randomCarId,
             passengers: randomPassengers,
-            departureDate: faker.date.future(),
+            departureDate: date,
             origin: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
             destination: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
             availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
@@ -214,11 +217,14 @@ for (let i = 0; i < 3; i++) {
     // Add demo rider to passengers
     randomPassengers.push(demoInfo);
 
+    const randomBoolean = Math.random() < 0.5;
+    const date = randomBoolean ? faker.date.future() : faker.date.past()
+
     const trip = new Trip ({
         driver: demoDriver._id,
         car: demoDriver.car,
         passengers: randomPassengers,
-        departureDate: faker.date.future(),
+        departureDate: date,
         origin: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
         destination: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
         availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
@@ -244,7 +250,7 @@ trips.push(
                 dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
             }
         ],
-        departureDate: faker.date.future(),
+        departureDate: faker.date.past(),
         origin: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
         destination: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)],
         availableSeats: Math.min(Math.max(Math.floor(Math.random() * 6) + 1, 3), 5)
@@ -255,7 +261,7 @@ users.push(
     new User({
         email: 'deleteduser@example.com',
         hashedPassword: bcrypt.hashSync('deleted', 10),
-        firstName: '[deleted] ',
+        firstName: '[deleted]',
         lastName: 'user',
         phoneNumber: '9999999999',
         trips: [],
