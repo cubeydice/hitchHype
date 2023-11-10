@@ -1,6 +1,7 @@
 import StarRatings from 'react-star-ratings';
 import explodeAddress from '../../Trips/AddressParser';
 import './ReviewItem.css'
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const ReviewItem = ({review}) => {
     const trip = review.trip
@@ -25,10 +26,10 @@ const ReviewItem = ({review}) => {
                     starDimension="20px"
                     starSpacing="1px"
                     className='rating'
-                />
+                />&emsp;
+        <Link to={`/trips/${trip._id}`} className="italic">{destinationCity + " → " + originCity}</Link>
         </div>
         <h3>{review.title}</h3>
-        <p className='italic'>{destinationCity + " → " + originCity}</p>
         <p className='light'>{review.body}</p>
         </div>
     )
