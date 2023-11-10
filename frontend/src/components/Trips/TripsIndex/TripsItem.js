@@ -52,9 +52,7 @@ export function TripsItem ({ trip }) {
     return (
         <a href={ showPage } className="TripItem-container">
             <div className="TripItem-photo">
-                {/* {trip.photo} */}
                 <img src={image} alt="show-img" id='show-img'/>
-                {/* photo */}
             </div>
             <div className="TripItem-details">
                 <div className="TripItem-destination">

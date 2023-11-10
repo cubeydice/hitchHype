@@ -79,7 +79,7 @@ router.get('/:id', async (req, res, next) => {
                               .lean();
       const reviewee = await Review.find({reviewee: user._id})
                               .sort({ createdAt: -1 })
-                              .populate("reviewer", "_id firstName lastName")
+                              .populate("reviewer", "_id firstName lastName profilePicture")
                               .populate("trip", "origin destination")
                               .lean()
       let ratingTotal = 0;
@@ -92,7 +92,7 @@ router.get('/:id', async (req, res, next) => {
       }
 
       return res.json({
-        user, 
+        user,
         driverTrips: driverTrips || [],
         riderTrips: riderTrips || [],
         reviewer: reviewer || [],
@@ -188,17 +188,17 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
     }
 
 
-    const { 
+    const {
       phoneNumber,
-      biography, 
-      profilePicture, 
-      trips, 
-      rides, 
-      car, 
-      driverLicense, 
-      address 
+      biography,
+      profilePicture,
+      trips,
+      rides,
+      car,
+      driverLicense,
+      address
     } = body;
-    
+
 
     // Update user properties
     user.phoneNumber = phoneNumber;
@@ -220,7 +220,7 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => { //requireUser, 
+router.delete('/:id', async (req, res, next) => { //requireUser,
   try {
     const user = await User.findById(req.params.id)
     console.log(user)
@@ -262,7 +262,7 @@ router.delete('/:id', async (req, res, next) => { //requireUser,
     // Replace reviewers and reviewees with deleted user
     await Review.updateMany({ reviewer: user._id }, { $set: { reviewer: deletedUser._id } });
     await Review.updateMany({ reviewee: user._id }, { $set: { reviewee: deletedUser._id } });
-    
+
     await Car.updateMany({ owner: user._id }, { $set: { owner: deletedUser._id } })
     await deletedUser.save()
 

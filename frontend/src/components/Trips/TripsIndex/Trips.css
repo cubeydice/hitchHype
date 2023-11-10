@@ -8,11 +8,14 @@
 .show-all-trips-btn{
     display:flex;
     justify-content: center;
+    max-width: 1400px;
+    margin-top: 40px;
 }
 .trip-page-header{
     display: flex;
     justify-content: center;
     padding: 15px;
+    max-width: 1400px;
 }
 .trip-page-h3-header{
     padding: 5px;
@@ -30,7 +33,7 @@
         max-width: 1400px;
     }
     .search-form-trip-index{
-        max-width: 1400px;
+        max-width: 1350px;
     }
 }
 
@@ -72,6 +75,11 @@
     width: 100%;
     justify-content: space-around;
 } */
+.form-search{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
 .search-form-trip-index input[type="submit"] {
     color: #fff;
     border: none;
