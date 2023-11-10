@@ -1,6 +1,11 @@
 .review-item {
-  margin: 10px 0;
+  margin: 20px 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+}
+
+.review-trip {
+  font-weight: 300;
+  font-size: 14px;
 }

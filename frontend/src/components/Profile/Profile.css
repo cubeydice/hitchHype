@@ -35,9 +35,10 @@
     max-width: 900px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
     overflow: scroll;
     scrollbar-width: none;
+    max-height: 70vh;
   }
     .profile-reviews-container h2 {
       font-size: 24px;

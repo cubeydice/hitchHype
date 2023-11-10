@@ -26,10 +26,10 @@ const ReviewItem = ({review}) => {
                     starDimension="20px"
                     starSpacing="1px"
                     className='rating'
-                />&emsp;
-        <Link to={`/trips/${trip._id}`} className="italic">{destinationCity + " → " + originCity}</Link>
+                />
         </div>
         <h3>{review.title}</h3>
+        <Link to={`/trips/${trip._id}`} className="review-trip">{destinationCity + " → " + originCity}</Link>
         <p className='light'>{review.body}</p>
         </div>
     )
