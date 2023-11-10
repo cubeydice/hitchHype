@@ -10,8 +10,8 @@ const authors = [
   },
   {
     name: "Raymond Tan",
-    gitHub: "https://github.com/ratan-ml",
-    linkedIn: "http://linkedin.com/in/raymondtan-py"
+    gitHub: "https://github.com/raymondtan676",
+    linkedIn: "http://linkedin.com/in/raymondtan676"
   },
   {
     name: "Krikor Andonian",
@@ -21,7 +21,7 @@ const authors = [
   {
     name: "Brittiny Filbert",
     gitHub: "https://github.com/FilbertBrit",
-    linkedIn: "http://inkedin.com/in/brittiny-filbert-6b50b3299"
+    linkedIn: "http://linkedin.com/in/brittiny-filbert-6b50b3299"
   }
 ]
 
