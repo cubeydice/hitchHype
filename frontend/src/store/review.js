@@ -95,6 +95,7 @@ export const updateReview = (data) => async dispatch => {
 
 export const deleteReview = (reviewId) => async dispatch => {
     try {
+        // eslint-disable-next-line
         const res = await jwtFetch(`/api/reviews/${reviewId}`, {
             method: 'DELETE'
         });

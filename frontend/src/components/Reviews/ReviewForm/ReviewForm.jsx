@@ -1,21 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import explodeAddress from '../../Trips/AddressParser';
 import { composeReview } from '../../../store/review';
+import { fetchUser } from '../../../store/users';
 
-const ReviewForm = ({reviewee}) => {
+const ReviewForm = () => {
     const dispatch = useDispatch();
     const errors = useSelector(state => state.errors.reviews);
+    const { revieweeId } = useParams();
+    const reviewee = useSelector(state => state.users.user)
     const reviewer = useSelector(state => state.session.user);
     const trip = useSelector(state => state.trips);
-    const isDriver = (reviewee._id === trip.driver._id);
+    const isDriver = (revieweeId === trip.driver._id);
     const date = new Date(trip.departureDate);
     const [rating, setRating] = useState(0);
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     let destinationCity;
     let originCity;
+
+    useEffect(() => {
+        dispatch(fetchUser(revieweeId))
+    }, [dispatch, revieweeId])
 
     explodeAddress(trip.destination, function(err,addressStr)
     {
@@ -34,7 +42,7 @@ const ReviewForm = ({reviewee}) => {
                 setTitle(e.currentTarget.value)
                 break;
             case 'body':
-                setTitle(e.currentTarget.value)
+                setBody(e.currentTarget.value)
                 break;
             default:
                 break;
@@ -46,7 +54,7 @@ const ReviewForm = ({reviewee}) => {
 
         const review = {
             reviewer: reviewer._id,
-            reviewee: reviewee._id,
+            reviewee: revieweeId,
             trip: trip._id,
             isDriver,
             rating,
@@ -60,16 +68,20 @@ const ReviewForm = ({reviewee}) => {
     return (
         <div className='review-form'>
             <h2>How was the journey? 🧘</h2>
-            <p>Rate your {isDriver ? "passenger" : "driver"} for your {isDriver ? "trip" : "ride"} from
+            <p>Rate {reviewee.name} for your {isDriver ? "trip" : "ride"} from
             {originCity + " → " + destinationCity} on {date}</p>
 
             <form onSubmit={handleSubmit}>
                 <label>
                     <h3>Rating</h3>
                     <p className="errors">{errors?.rating}</p>
-                    <input type="text">
-
-                    </input>
+                    <StarRatings
+                    rating={rating}
+                    starRatedColor="#e8ae42"
+                    changeRating={setRating}
+                    numberOfStars={5}
+                    className='rating'
+                    />
                 </label>
 
                 <label>
