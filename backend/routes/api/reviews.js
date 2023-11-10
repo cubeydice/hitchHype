@@ -65,18 +65,18 @@ router.post('/:tripId', requireUser, validateReviewInput, async (req, res, next)
         const trip = await Trip.findById(req.params.tripId);
 
         if (!trip) {
-            const error = new Error('1Trip not found');
+            const error = new Error('Trip not found');
             error.status = 404;
-            error.errors = { message: '2Trip not found' };
+            error.errors = { message: 'Trip not found' };
             return next(error);
         }
         // Check if user is part of trip (either driver or passenger)
         const isDriver = trip.driver._id.toString() === req.user._id.toString()
         const isPassenger = trip.passengers.some(passenger => passenger.passenger._id.toString() === req.user._id.toString());
-        
+
         if (!isDriver && !isPassenger) {
             const error = new Error('Unauthorized: User is not part of this trip');
-            error.status = 403; 
+            error.status = 403;
             error.errors = { message: 'You cannot review this trip because you are not part of it' };
             return next(error);
         }
@@ -153,14 +153,14 @@ router.patch('/:id', requireUser, validateReviewInput, async (req, res, next) =>
 router.delete('/:id', requireUser, async (req, res, next) => {
     try{
         const review = await Review.findById(req.params.id);
-        
+
         if (!review) {
             const error = new Error('Review not found');
             error.status = 404;
             error.errors = { message: "No review found with that id" };
             return next(error);
         }
-    
+
         // Check if user is the reviewer
         if (review.reviewer._id.toString() !== req.user._id.toString()) {
             const error = new Error('Unauthorized: User is not the reviewer');

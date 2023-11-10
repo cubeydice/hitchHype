@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useHistory } from "react-router-dom";
+import StarRatings from 'react-star-ratings';
+
+//STORE
 import { updateTrip } from "../../../store/trips";
 import { openModal } from "../../../store/modal"
+
+//COMPONENTS
 import RouteShow from "../../RouteShow/RouteShow"
-import sfPic from "../../../assets/icons/sf-img.jpg"
-import defaultProfilePic from '../../../assets/icons/user.png'
 import explodeAddress from "../AddressParser"
 import CarbonEmissions from "../../CarbonEmissions";
+
+//ASSETS
 import { ReactComponent as PassengerIcon } from "../../../assets/icons/Trips/person.svg"
 import { ReactComponent as SeatIcon } from "../../../assets/icons/Trips/seat.svg"
+import sfPic from "../../../assets/icons/sf-img.jpg"
+import defaultProfilePic from '../../../assets/icons/user.png'
 import "./RiderTripShow.css"
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
@@ -22,7 +29,7 @@ export function RiderTripShow ({ trip }) {
     const todaysDate =  new Date();
     let rider = false;
     let riderId;
-    // const [rider, setRider] = useState(false)
+
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     let destinationCity;
     let originCity;
@@ -79,7 +86,6 @@ export function RiderTripShow ({ trip }) {
     }
 
     const checkUserPassenger = () => {
-
         if(trip){
             for(let payload of trip.passengers)
             {
@@ -128,7 +134,7 @@ export function RiderTripShow ({ trip }) {
                         <div className="Rider-show-destination-pic">
                             <img src={image} alt="rider-show-img" id='rider-show-img'/>
                         </div>
-                        <div className="rider-show-destintion-info">
+                        <div className="rider-show-destination-info">
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-startPoint'>
                                     <h1 id='trip-show-points'>{originCity}</h1>
@@ -184,16 +190,26 @@ export function RiderTripShow ({ trip }) {
                     <div className="rider-show-driver-maps-container">
                         <div className="rider-show-driver-details">
                             <div className="rider-show-driver-pic">
-                                <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" className="large-icon" id='driver-img'/>
+                                <Link to={`/profile/${trip.driver._id}`}>
+                                    <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" className="large-icon" id='driver-img'/>
+                                </Link>
                             </div>
+
                             <div className="rider-show-driver-passenger-container">
                                 <div className="rider-show-driver-info">
-                                    <h2 id="trip-passenger-show-details">🚙 Driver: {trip.driver.firstName}</h2>
-                                    <div className="rider-show-driver-ratings">
-                                        {trip.driver.avgRating ? (
-                                            <h3 id="trip-passenger-show-details">Avg Rating: {Math.round(trip.driver.avgRating * 10) / 10}</h3>
-                                        ) : (<></>) }
-                                    </div>
+
+                                        <Link to={`/profile/${trip.driver._id}`}>
+                                            <h2>🚙 {trip.driver.firstName}</h2>
+                                        </Link>
+                                        <div className="rider-show-driver-ratings">
+                                            <StarRatings
+                                                rating={trip.driver.avgRating}
+                                                starRatedColor="#e8ae42"
+                                                starDimension="20px"
+                                                starSpacing="1px"
+                                                className='rating'
+                                            />
+                                        </div>
                                     {
                                         trip.driver.biography ? (
                                             <>
@@ -201,8 +217,8 @@ export function RiderTripShow ({ trip }) {
                                             </>
                                         ) : (<></>)
                                     }
-
                                 </div>
+
                                 <div className="rider-show-passenger-info">
                                     <h2>Passengers</h2>
                                     <div className="rider-show-passengers-list">
@@ -218,6 +234,8 @@ export function RiderTripShow ({ trip }) {
                             <RouteShow trip={trip} driver={false} />
                         </div>
                     </div>
+
+                    <div className="rider-show-reviews-container"></div>
                 </div>
             ) : (
                 <></>
