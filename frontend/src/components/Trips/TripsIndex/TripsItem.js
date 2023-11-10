@@ -33,7 +33,8 @@ export function TripsItem ({ trip }) {
     const fetchPhotoRef = async () => {
         try{
         const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destinationCity}/&key=${apiKey}`
-        const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl))
+        // const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl)) //with proxy for dev
+        const response = await fetch(placesRequestUrl)
         const data = await response.json();
 
         if (data.results !== undefined) {
@@ -48,7 +49,8 @@ export function TripsItem ({ trip }) {
 
     const fetchPhoto = async (photoRef) => {
         const photoRequestUrl = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=${apiKey}&maxwidth=700&maxheight=700`
-        const response = await fetch(proxyUrl + encodeURIComponent(photoRequestUrl))
+        // const response = await fetch(proxyUrl + encodeURIComponent(photoRequestUrl))
+        const response = await fetch(photoRequestUrl)
         return setImage(response.url)
     }
 
