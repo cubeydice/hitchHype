@@ -9,7 +9,7 @@
     justify-content: space-between;
 }
     .rider-show-destination-info{
-        width: 580px;
+        width: 560px;
         padding: 60px 0 0 60px;
         border-start-end-radius: 40px;
         box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
@@ -21,6 +21,7 @@
             justify-content: space-between;
             gap: 10px;
             margin-left: 30px;
+            margin-right: 30px;
         }
             .ride-show-details-container h3 {
                 font-weight: 500;
@@ -74,6 +75,7 @@
         .rider-show-driver-passenger-container{
             padding-top: 10px;
         }
+
             .rider-show-passenger-info{
                 padding-top: 20px;
             }
