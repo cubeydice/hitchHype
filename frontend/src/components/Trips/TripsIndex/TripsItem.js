@@ -63,10 +63,10 @@ export function TripsItem ({ trip }) {
                 <img src={image} alt="show-img" id='show-img'/>
             </div>
             <div className="TripItem-details">
-                <div>{date.toLocaleDateString('en-US')}</div>
                 <div className="TripItem-destination">
                     { originCity + "→" + destinationCity }
                 </div>
+                <div>{date.toLocaleDateString('en-US')}</div>
                 {
                     <div className="TripItem-price">
                     {price ? `$${price}` : "No seats left"}
