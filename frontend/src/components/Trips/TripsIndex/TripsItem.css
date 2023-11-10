@@ -1,13 +1,18 @@
-#show-img{
+#show-img {
     width: 250px;
     height: 150px;
 }
-.TripItem-container{
+.TripItem-container {
     text-decoration: none;
     padding: 10px;
 }
-.TripItem-details{
+
+.TripItem-details {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.TripItem-destination {
+    font-weight: 600;
 }

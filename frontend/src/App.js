@@ -18,6 +18,7 @@ import { TripShow } from './components/Trips/TripShow';
 import { DriverUpdateForm } from './components/Trips/Driver/DriverTripUpdate';
 import { UserTrips } from './components/AccountPage/UserTrips/UserTrips';
 import { UserRides } from './components/AccountPage/UserRides/UserRides';
+import ReviewForm from './components/Reviews/ReviewForm/ReviewForm';
 import Profile from './components/Profile/Profile';
 import CarUpdatePage from './components/CarPage/CarUpdatePage';
 import InflationArticle from './components/MainPage/Articles/Inflation';
@@ -56,6 +57,7 @@ function App() {
             <ProtectedRoute exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
             <ProtectedRoute exact path="/users/:userId/trips" component={ UserTrips }/>
             <ProtectedRoute exact path="/users/:userId/rides" component={ UserRides }/>
+            <ProtectedRoute exact path="/review/:revieweeId/" component={ ReviewForm }/>
           </Switch>
         </div>
       </div>

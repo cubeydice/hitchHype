@@ -1,24 +1,32 @@
+import { useEffect, useState } from "react";
+import explodeAddress from "../AddressParser"
+import { placeholderGasPrice } from "../../GasPrices/GasPrices";
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import "./TripsItem.css"
-import explodeAddress from "../AddressParser"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { useEffect, useState } from "react";
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 export function TripsItem ({ trip }) {
-    const id = useParams();
     const showPage = '/trips/' + trip._id;
-    const price = '$0'
-    const proxyUrl = "https://corsproxy.io/?";
+    const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
+                            (trip.availableSeats ? (trip.passengers.length + 2)
+                            : 0)) : 0
+    const date = new Date(trip.departureDate);
     const [image, setImage] = useState(sfPic);
+    const proxyUrl = "https://corsproxy.io/?";
 
     //GET ADDRESS
-    let city;
+    let destinationCity;
+    let originCity;
 
     explodeAddress(trip.destination, function(err,addressStr)
     {
-        city = addressStr.city;
+        destinationCity = addressStr.city;
+    })
+
+    explodeAddress(trip.origin, function(err,addressStr)
+    {
+        originCity = addressStr.city;
     })
 
     // GET PLACE IMAGE
@@ -56,15 +64,14 @@ export function TripsItem ({ trip }) {
             </div>
             <div className="TripItem-details">
                 <div className="TripItem-destination">
-                    { city }
+                    { originCity + "→" + destinationCity }
                 </div>
-                { id ? (
-                    <></>
-                ) : (
+                <div>{date.toLocaleDateString('en-US')}</div>
+                {
                     <div className="TripItem-price">
-                    { price }
+                    {price ? `$${price}` : "No seats left"}
                     </div>
-                ) }
+                }
             </div>
         </a>
     )

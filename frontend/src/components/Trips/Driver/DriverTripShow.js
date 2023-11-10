@@ -1,15 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { Passenger } from '../Passenger/Passenger';
-import { ReactComponent as PassengerIcon } from '../../../assets/icons/Trips/person.svg'
-import { ReactComponent as SeatIcon } from '../../../assets/icons/Trips/seat.svg'
+import "./DriverTripShow.css"
+
+//COMPONENTS
 import explodeAddress from "../AddressParser"
 import RouteShow from "../../RouteShow/RouteShow";
 import CarbonEmissions from "../../CarbonEmissions";
-import "./DriverTripShow.css"
+import { Passenger } from '../Passenger/Passenger';
+import { placeholderGasPrice } from "../../GasPrices/GasPrices";
+
+//ASSETS
+import { ReactComponent as PassengerIcon } from '../../../assets/icons/Trips/person.svg'
+import { ReactComponent as SeatIcon } from '../../../assets/icons/Trips/seat.svg'
 
 export function DriverTripShow({ trip }) {
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
+    const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
+                    (trip.availableSeats ? trip.passengers.length + 1: 0)) : 0
+    const totalPrice = price * trip.passengers.length;
     const date = new Date(trip.departureDate);
     const todaysDate =  new Date();
     const [tripOver, setTripOver] = useState(todaysDate > date);
@@ -53,27 +61,33 @@ export function DriverTripShow({ trip }) {
                         <div className='trip-show-info'>
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-startPoint'>
-                                    <h1 id='trip-show-points'>{origin.city}</h1>
+                                    <h1 className='trip-show-points'>{origin.city}</h1>
                                 </div>
                                 <div>
-                                    <h3 id='trip-show-points'>→</h3>
+                                    <h3 className='trip-show-points'> → </h3>
                                 </div>
                                 <div className='trip-show-endPoint'>
-                                    <h1 id='trip-show-points'>{destination.city}</h1>
+                                    <h1 className='trip-show-points'>{destination.city}</h1>
                                 </div>
                             </div>
 
-                            <div>
-                                <div className='trip-show-departure-time'>
-                                    <h3 id="trip-seats-time-details">Date of trip: <span className="light">{date.toDateString()}</span></h3>
+                            <div className="trip-show-info-details">
+                                <div>
+                                    <h3>Date of trip: <span className="light">{date.toDateString()}</span></h3>
                                 </div>
-                                <div className='trip-show-passangers-amount'>
-                                    <h3 id="trip-seats-time-details"># of passengers:</h3>
+                                <div className='trip-show-passengers-amount'>
+                                    <h3># of passengers:</h3>
                                     <div>{Array(trip.passengers.length).fill(true).map((_, i) => <PassengerIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
                                 <div className='trip-show-seats-amount'>
-                                    <h3 id="trip-seats-time-details">Seats left:</h3>
+                                    <h3>Seats left:</h3>
                                     <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
+                                </div>
+                                <div>
+                                    <h3>Price per current passengers: <span className="light">${price}</span></h3>
+                                </div>
+                                <div>
+                                    <h3>Total trip earnings: <span className="light">${totalPrice}</span></h3>
                                 </div>
                             </div>
 

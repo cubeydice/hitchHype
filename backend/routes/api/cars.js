@@ -5,7 +5,8 @@ const User = mongoose.model('User');
 const Car = mongoose.model('Car');
 const { requireUser } = require('../../config/passport');
 const validateCarInput = require('../../validations/car');
-const getVehicles = require('../../vehiclesParser');
+const path = require('path');
+const fs = require('fs');
 
 // path = /api/cars
 // Retrieve user's cars
@@ -53,12 +54,16 @@ router.get('/user/:carId', async (req, res, next) => {
 
 //Fetch list of vehicles
 router.get('/list', async (req, res) => {
-    try {
-        const vehiclesObj = await getVehicles();
-        return res.json(vehiclesObj);
-    } catch(err) {
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+    const vehiclePath = path.join(__dirname, '../../public/vehicles/vehicle-list.json')
+
+    fs.readFile(vehiclePath, 'utf8', (err, data) => {
+        try {
+            const vehicleData = JSON.parse(data)
+            res.json(vehicleData)
+        } catch (err) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    })
 });
 
 // Update a car
