@@ -70,7 +70,7 @@ export function RiderTripShow ({ trip }) {
     const handleUpdateDropoffClick = () => {
         dispatch(openModal('request-ride-form'))
     }
-    
+
     //ADDRESS
     explodeAddress(trip.destination, function(err,addressStr)
     {
@@ -186,7 +186,7 @@ export function RiderTripShow ({ trip }) {
                                             <Link to={`/review/${trip._id}/${trip.driver._id}`}>
                                                 <button className="rides-btn">Leave a Review</button>
                                             </Link>
-                                            <button id="request-rides-btn" disabled>Trip Over</button>
+                                            <button id="rides-btn" disabled>Trip Over</button>
                                         </div>
                                     ) : (
                                         <>
