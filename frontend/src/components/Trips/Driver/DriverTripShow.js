@@ -19,6 +19,8 @@ export function DriverTripShow({ trip }) {
                     (trip.availableSeats ? trip.passengers.length + 1: 0)) : 0
     const totalPrice = price * trip.passengers.length;
     const date = new Date(trip.departureDate);
+    var pstDate = date.toUTCString().split(" ");
+    pstDate = pstDate.slice(0,4).join(" ");
     const todaysDate =  new Date();
     const [tripOver, setTripOver] = useState(todaysDate > date);
     let destination = {
@@ -73,7 +75,7 @@ export function DriverTripShow({ trip }) {
 
                             <div className="trip-show-info-details">
                                 <div>
-                                    <h3>Date of trip: <span className="light">{date.toDateString()}</span></h3>
+                                    <h3>Date of trip: <span className="light">{pstDate}</span></h3>
                                 </div>
                                 <div className='trip-show-passengers-amount'>
                                     <h3># of passengers:</h3>
@@ -81,7 +83,11 @@ export function DriverTripShow({ trip }) {
                                 </div>
                                 <div className='trip-show-seats-amount'>
                                     <h3>Seats left:</h3>
-                                    <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
+                                    {availableSeats > 0 ? (
+                                        <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
+                                    ) : (
+                                        <div>Trip Full</div>
+                                    )}
                                 </div>
                                 <div>
                                     <h3>Price per current passengers: <span className="light">${price}</span></h3>
@@ -108,7 +114,7 @@ export function DriverTripShow({ trip }) {
                         </div>
 
                         <div className='trip-show-map'>
-                            <RouteShow trip={trip}/>
+                            <RouteShow trip={trip} />
                         </div>
                     </div>
 

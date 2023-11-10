@@ -32,10 +32,7 @@ export function RiderTripShow ({ trip }) {
     const date = new Date(trip.departureDate);
     var pstDate = date.toUTCString().split(" ")
     pstDate = pstDate.slice(0,4).join(" ")
-    // var pstDate = trip.departureDate.toLocaleString("en-US", {
-    //     timeZone: "America/Los_Angeles"
-    //   })
-    //   console.log(date.toUTCString())
+    
     const todaysDate =  new Date();
 
     let rider = false;
