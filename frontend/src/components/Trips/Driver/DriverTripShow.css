@@ -6,6 +6,7 @@
     height: 30%;
     height: min-content;
     min-width: 675px;
+    flex-wrap: wrap;
 }
     .trip-show-info {
         padding: 80px 50px 0px;
@@ -13,8 +14,7 @@
         box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
         background-color: rgba(255, 255, 255);
         width: 450px;
-        height: 55vh;
-        /* height: max-content; */
+        max-height: 390px;
     }
         .trip-show-points-container{
             display: flex;
@@ -63,9 +63,8 @@
             }
 
     .trip-show-map {
-        width: 900px;
-        padding-top: 20px;
-        /* height: 75vh; */
+        width: 50%;
+        padding-top: 10px;
     }
 
 .trip-show-address-details-and-ce{
@@ -76,7 +75,7 @@
     margin: 20px 75px 0px;
     justify-content: space-between;
     background-color: rgba(255, 255, 255);
-    border-start-end-radius: 10px;
+    border-end-start-radius: 10px;
     box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
     flex-wrap: wrap;
 }
@@ -106,6 +105,7 @@
     .trip-show-passengers-detail {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
     }
 
 .trip-show-driver-name{
