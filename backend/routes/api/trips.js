@@ -117,7 +117,7 @@ router.get("/:id", async (req, res, next) => {
 
 // Create a trip
 // API did not have vehicle max passenger, therefore limitation validation is removed
-router.post("/", validateTripInput, async (req, res, next) => {
+router.post("/", requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
