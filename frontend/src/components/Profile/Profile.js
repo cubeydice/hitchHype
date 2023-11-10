@@ -48,9 +48,15 @@ function Profile () {
                     starDimension="24px"
                     className='rating'
                 />
-                <h3>Driver Rating: <span className='light'>{avgReview(false)}</span></h3>
+                {avgReview(false) ?
+                    <h3>Driver Rating: <span className='light'>
+                        {Math.round(avgReview(false) * 100)/100}</span></h3>
+                : ""}
 
-                <h3>Passenger Rating: <span className='light'>{avgReview(true)}</span></h3>
+                {avgReview(true) ?
+                    <h3>Passenger Rating: <span className='light'>
+                        {Math.round(avgReview(true)*100)/100}</span></h3>
+                : ""}
             </div>
 
             <div className='profile-bio-container'>
