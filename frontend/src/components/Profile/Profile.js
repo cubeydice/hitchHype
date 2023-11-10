@@ -20,6 +20,7 @@ function Profile () {
     const rating = useSelector(state => state.users.avgRating)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(fetchUser(userId))
         dispatch(fetchUserTrips(userId));
     }, [dispatch, userId])
