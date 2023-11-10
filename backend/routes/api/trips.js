@@ -123,6 +123,14 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
         const { user, body } = req;
         const { car, departureDate, origin, destination, availableSeats, distance } = body;
 
+        // Check if date is in the past
+        if (new Date(departureDate) < new Date()) {
+            const error = new Error("Cannot enter past date");
+            error.statusCode = 400;
+            error.errors = { message: "You are not a time traveler" };
+            return next(error);
+        }
+
         const newTrip = new Trip({
             driver: user._id,
             car,
@@ -180,6 +188,14 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
             const error = new Error("Passengers cannot exceed available seats");
             error.status = 400;
             error.errors = { message: "Passengers cannot exceed available seats" }
+            return next(error);
+        }
+
+        // Check if date is in the past
+        if (new Date(departureDate) < new Date()) {
+            const error = new Error("Cannot enter past date");
+            error.statusCode = 400;
+            error.errors = { message: "You are not a time traveler" };
             return next(error);
         }
 
