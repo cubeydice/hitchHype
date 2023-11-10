@@ -132,9 +132,10 @@ export function DriverTripShow({ trip }) {
                                         return(
                                         <div className="trip-show-passengers-detail">
                                             <Passenger key={passenger.passenger._id} passenger={passenger}/>
-                                            <Link to={`/review/${trip._id}/${passenger.passenger._id}`}>
+                                            {tripOver ? <Link to={`/review/${trip._id}/${passenger.passenger._id}`}>
                                                     <button className="rides-btn">Leave a Review</button>
                                             </Link>
+                                            : ""}
                                         </div>
                                         )
                                     })}
