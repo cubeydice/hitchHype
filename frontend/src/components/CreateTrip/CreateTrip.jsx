@@ -136,7 +136,7 @@ const CreateTrip = () => {
                     <form className='routes-form' onSubmit={handleCreateTripSubmit} >
                         <h2 id='routes-form-title'>Let's Create a Trip!</h2>
                         <h3 className='headers'>Departure Date</h3>
-                        <span className='errors' >{errors?.departureDate}</span>
+                        <span className='errors' >{errors?.departureDate || errors?.message}</span>
                         <input 
                             type="date" 
                             id='departure-date' 
