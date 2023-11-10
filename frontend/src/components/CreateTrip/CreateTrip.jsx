@@ -1,10 +1,12 @@
 import {useJsApiLoader, GoogleMap, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
+import { ReactComponent as Loading } from '../../assets/icons/loading-icon.svg'
 import { useState, useRef } from 'react'
 import './CreateTrip.css'
 import { useDispatch, useSelector } from 'react-redux'
 import {composeTrip, clearTripErrors} from '../../store/trips'
 import { useHistory } from 'react-router-dom'
-
+import { openModal } from '../../store/modal'
+import { mapStyle } from '../../App'
 
 const center = {lat: 37.7749, lng: -122.4194}    // where the map initially loads (San Francisco)
 /* global google */
@@ -17,9 +19,8 @@ const CreateTrip = () => {
     })
     const sessionUser = useSelector(state => state.session.user)
     const errors = useSelector(state => state.errors.trips)
-    const maxPassengers = useSelector(state => state.session.user.maxPassengers)
-    const [availableSeats, setAvailableSeats] = useState()
-    const [departureDate, setDepartureDate] = useState()
+    const [availableSeats, setAvailableSeats] = useState('')
+    const [departureDate, setDepartureDate] = useState('')
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
@@ -32,44 +33,58 @@ const CreateTrip = () => {
     const history = useHistory()
 
     if(!isLoaded) {
-        return <h1> Map is not loaded </h1>   // display an error message if the map is not loaded
+        return <div className='loading-page-container'><Loading/></div>  
     }
 
     //handles creating a trip when the form is submitted
     const handleCreateTripSubmit = (e) => {
         e.preventDefault()
         const driver = sessionUser._id 
-        const car = sessionUser.car[0]
+        const car = sessionUser.car
         const passengers = []
-        dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats}))
-        .then((res) => {
-            if (res && !res.errors) {
+        const newDistance = parseInt(distance.slice(0, -3))
+            dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats, distance: newDistance}))
+            .then((res) => {
+                if (res && !res.errors) {
                     dispatch(clearTripErrors())   
                     history.push(`/trips/${res._id}`)
+                    history.go()
                 } else if (res && res.errors) {
                     console.error(res.errors)
+                    if(res.errors.car && !res.errors.origin && !res.errors.destination && !res.errors.availableSeats && !res.errors.departureDate) {
+                        dispatch(openModal('error'))
+                    }
                 }
             })
             .catch((error) => {
-                console.log(error)
+                console.error(error)
             })
+
     }
 
     //handles the route calculation
     async function calculateRoute(e) {
         e.preventDefault()
-        if (origin === '' || destination === '') {
-            return
+        try {
+            if (origin === '' || destination === '') {
+                return
+            }
+            const direcitonsService = new google.maps.DirectionsService()
+            const results = await direcitonsService.route({
+                origin: origin,
+                destination: destination,
+                travelMode: google.maps.TravelMode.DRIVING
+                
+            })
+            if (results) {
+                setDirectionsResponse(results)
+                setDistance(results.routes[0].legs[0].distance.text)
+                setDuration(results.routes[0].legs[0].duration.text)
+            }
+        } catch (error) {
+            console.error(error)
+            console.log('invalid origin and destinaiton. Please ensure your route can be driven from start to finish')
         }
-        const direcitonsService = new google.maps.DirectionsService()
-        const results = await direcitonsService.route({
-            origin: origin,
-            destination: destination,
-            travelMode: google.maps.TravelMode.DRIVING
-        })
-        setDirectionsResponse(results)
-        setDistance(results.routes[0].legs[0].distance.text)
-        setDuration(results.routes[0].legs[0].duration.text)
     }
 
     //clears the useState variables and input fields
@@ -80,6 +95,8 @@ const CreateTrip = () => {
         setDuration('')
         setOrigin('')
         setDestination('')
+        setAvailableSeats('')
+        setDepartureDate('')
     }
     
     //called specifically for the autofill functionality
@@ -135,7 +152,7 @@ const CreateTrip = () => {
                             value={availableSeats}
                             onChange={(e) => setAvailableSeats(e.target.value)}
                             min={1}
-                            max={maxPassengers}
+                            max={7}
                             palceholder='Number of available seats'
                         />
                         <h3 className='headers' >Origin</h3>
@@ -147,6 +164,8 @@ const CreateTrip = () => {
                         >
                             <input 
                                 id='origin'
+                                value={origin}
+                                onChange={(e) => setOrigin(e.target.value)}
                                 placeholder='Origin' 
                                 onBlur={handleOrigin}
                                 type="text" 
@@ -161,13 +180,15 @@ const CreateTrip = () => {
                         >
                             <input 
                                 id='destination'
+                                value={destination}
+                                onChange={(e) => setDestination(e.target.value)}
                                 placeholder='Destination'
                                 onBlur={handleDestination} 
                                 type="text" 
                             />
                         </Autocomplete>
                         <button id='calculate' onClick={calculateRoute}>Calculate Route</button>
-                        <button id='clear' onClick={clearRoute}>Clear Route</button>
+                        <button id='clear' onClick={clearRoute}>Clear Trip</button>
                         <button id='submit' type='submit'>Create Your Trip</button>
                     </form>
                     <div id='results'>
@@ -186,12 +207,22 @@ const CreateTrip = () => {
                     zoom={13} 
                     mapContainerClassName='map'
                     options={{
-                        streetViewControl: false
+                        streetViewControl: false,
+                        styles: mapStyle
                     }}
                     onLoad={map => setMap(map)}
                 >
                     {directionsResponse && (
-                        <DirectionsRenderer directions={directionsResponse}/>
+                        <DirectionsRenderer 
+                        directions={directionsResponse}   
+                        options={{
+                            polylineOptions: {
+                                strokeOpacity: .8,
+                                strokeColor: '#60992D',
+                                strokeWeight: 6
+                            },
+                        }}
+                        />
                     )}
                 </GoogleMap>
             </div>

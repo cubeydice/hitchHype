@@ -1,16 +1,37 @@
 .modal-background {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   backdrop-filter: brightness(20%);
+  z-index: 80;
 }
 
 .modal-child {
+  background-color: var(--off-white);
   display: flex;
   position: absolute;
-  width: 500px;
-  height: 700px;
+  width: 450px;
+  height: 600px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 40px;
+  padding: 10px 20px 60px 20px;
+  margin: 0 auto;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;
+}
+
+.modal-child-error {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 400px;
+  height: 300px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -20,4 +41,43 @@
   text-align: center;
   margin: 0 auto;
   align-items: center;
+  justify-content: space-around;
+  z-index: 90;
+}
+
+.modal-child-update {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--off-white);
+  border-radius: 30px;
+  padding: 20px;
+  text-align: center;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 90;
+  animation: fadein 2s;
+}
+
+.modal-child-request-ride-form {
+  background-color: var(--off-white);
+  display: flex;
+  position: absolute;
+  width: 750px;
+  height: 750px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 40px;
+  padding: 20px;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
+  z-index: 90;
 }

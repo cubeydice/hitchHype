@@ -5,9 +5,10 @@ const User = mongoose.model('User');
 const Car = mongoose.model('Car');
 const { requireUser } = require('../../config/passport');
 const validateCarInput = require('../../validations/car');
-const getVehicles = require('../../vehiclesParser');
+const path = require('path');
+const fs = require('fs');
 
-// path = /cars
+// path = /api/cars
 // Retrieve user's cars
 router.get('/user/:userId', async (req, res, next) => {
     try {
@@ -38,29 +39,18 @@ router.get('/user/:userId', async (req, res, next) => {
     }
 });
 
-//Fetch list of vehicles
-router.get('/list', async (req, res) => {
-    try {
-        const vehiclesObj = await getVehicles();
-        return res.json(vehiclesObj);
-    } catch(err) {
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
 // Create a car
 router.post('/', requireUser, validateCarInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { make, model, year, maxPassengers, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
+        const { make, model, year, licensePlateNumber, insurance, mpg, fueleconomyId } = body;
 
         const newCar = new Car({
             owner: user._id,
             make,
             model,
             year,
-            maxPassengers,
             licensePlateNumber,
             insurance,
             mpg,
@@ -69,11 +59,39 @@ router.post('/', requireUser, validateCarInput, async (req, res, next) => {
 
         let car = await newCar.save();
         car = await car.populate('owner', '_id firstName lastName');
+
+        user.car = newCar._id;
+        user.save();
+
         return res.json(car);
     }
     catch(err) {
         next(err);
     }
+});
+
+router.get('/user/:carId', async (req, res, next) => {
+    try {
+        const cars = await Car.find({ _id: req.params.carId })
+        return res.json(cars);
+    }
+    catch(err) {
+        return res.json([]);
+    }
+});
+
+//Fetch list of vehicles
+router.get('/list', async (req, res) => {
+    const vehiclePath = path.join(__dirname, '../../public/vehicles/vehicle-list.json')
+
+    fs.readFile(vehiclePath, 'utf8', (err, data) => {
+        try {
+            const vehicleData = JSON.parse(data)
+            res.json(vehicleData)
+        } catch (err) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    })
 });
 
 // Update a car
@@ -107,7 +125,6 @@ router.patch('/:id', requireUser, validateCarInput, async (req, res, next) => {
         car.make = make;
         car.model = model;
         car.year = year;
-        car.maxPassengers = maxPassengers,
         car.licensePlateNumber = licensePlateNumber;
         car.insurance = insurance;
         car.mpg = mpg;
@@ -124,7 +141,7 @@ router.patch('/:id', requireUser, validateCarInput, async (req, res, next) => {
 });
 
 // Remove car
-router.delete('/:id', requireUser, validateCarInput, async (req, res, next) => {
+router.delete('/:id', requireUser, async (req, res, next) => {
     try {
         // Find the car by its ID
         const car = await Car.findById(req.params.id);
@@ -144,8 +161,12 @@ router.delete('/:id', requireUser, validateCarInput, async (req, res, next) => {
             return next(error);
         }
 
+        //Remove car from user
+        req.user.car = null;
+        req.user.save();
+
         // Remove the car from the database
-        await car.remove();
+        await car.deleteOne();
         res.json({ message: 'Car deleted successfully' });
     }
     catch(err) {

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { clearTripErrors, fetchTrip } from '../../store/trips';
 import { DriverTripShow } from './Driver/DriverTripShow';
 import { RiderTripShow } from './Rider/RiderTripShow';
+import './TripShow.css'
 
 export function TripShow () {
     const { tripId } = useParams();
@@ -12,9 +13,9 @@ export function TripShow () {
     const sesionUser = useSelector(state => state.session.user);
 
     useEffect( () => {
-        dispatch(fetchTrip(tripId))   //.then( trip => console.log(trip))
+        dispatch(fetchTrip(tripId))
         dispatch(clearTripErrors());
-    }, [dispatch])
+    }, [dispatch, tripId])
 
     return (
         <div>
@@ -23,12 +24,12 @@ export function TripShow () {
                     { sesionUser._id === trip.driver._id ? (
                         <DriverTripShow trip={trip}/>
                     ) : (
-                        // <DriverTripShow trip={trip}/>
-                        <RiderTripShow trip={trip}/>
+                        <div className='rider-show'>
+                            <RiderTripShow trip={trip}/>
+                        </div>
                     )}
                 </>
             ) : (
-                // <></>
                 <RiderTripShow trip={trip}/>
             )}
         </div>

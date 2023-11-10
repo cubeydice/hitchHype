@@ -3,76 +3,110 @@ import { useEffect, useState } from "react";
 import { clearTripErrors, fetchTrips } from "../../../store/trips";
 import { TripsItem } from "./TripsItem";
 import "./Trips.css"
+import { SearchBar } from "../../SearchBar/SearchBar";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 
 export function Trips () {
 
     const dispatch = useDispatch();
+    const location = useLocation();
     const trips = Object.values( useSelector(state => state.trips));
+    const [searchRes, setSearchRes] = useState({"startPoint": "", "endPoint":"", "tripDate":""})
+    const [searching, setSearching] = useState(false);
     const [filteredTrips, setFilteredTrips] = useState();
-    const [startPoint, setStartPoint] = useState();
-    const [endPoint, setEndPoint] = useState();
-    const [tripDate, setTripDate] = useState();
-    // const [fetchedTrips, setFetchedTrips] = useState(false);
+    const [filteredStart, setFilteredStart] = useState('All Trips');
+    const [loaded, isLoaded] = useState(false)
 
-    const handleSearch = (e) => {
+    const handleClick = (e) => {
         e.preventDefault();
-        let filtered = trips.filter( trip => trip.startPoint.toLowerCase().includes(startPoint) && trip.date === tripDate);
-        // if(endPoint){
-
-        // }
-        setFilteredTrips(filtered)
+        setFilteredTrips();
+        setFilteredStart("All Trips");
     }
 
     useEffect(() => {
-        dispatch(fetchTrips());
-        // setFetchedTrips(true);
+        setTimeout(()=> {isLoaded(true)}, 500)
+        dispatch(fetchTrips())
         dispatch(clearTripErrors());
     }, [dispatch])
+
+    useEffect(() => {
+        let filtered;
+            if(searchRes.startPoint){
+                filtered = trips.filter( trip => trip.origin.toLowerCase().includes(searchRes.startPoint.toLowerCase())); // && trip.date === tripDate);
+
+            }
+            if(searchRes.endPoint){
+                filtered = filtered.filter( trip => trip.destination.toLowerCase().includes(searchRes.endPoint.toLowerCase()));
+
+            }
+            if(searchRes.tripDate){
+                filtered.filter( trip => trip.departureDate === searchRes.tripDate);
+            }
+
+            searchRes.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${searchRes.startPoint}`));
+            setFilteredTrips(filtered)
+
+        setSearching(false)
+        // eslint-disable-next-line
+    }, [searching])
+
+    useEffect(() => {
+        let filtered;
+        if(location.state){
+            if(location.state.search.startPoint){
+                filtered = trips.filter( trip => trip.origin.toLowerCase().includes(location.state.search.startPoint.toLowerCase())); // && trip.date === tripDate);
+
+            }
+            if(location.state.search.endPoint){
+                filtered = filtered.filter( trip => trip.destination.toLowerCase().includes(location.state.search.endPoint.toLowerCase()));
+
+            }
+            if(location.state.search.tripDate){
+                filtered.filter( trip => trip.departureDate === location.state.search.tripDate);
+            }
+
+            location.state.search.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${location.state.search.startPoint}`));
+            setFilteredTrips(filtered)
+        }
+        // eslint-disable-next-line
+    }, [location.state])
 
    return (
         <>
             { trips ? (
                 <div className="trip-page">
                 <div className="page-layout">
-                    <div className="search-bar">
-                        <form className="search-form" onSubmit={ handleSearch }>
-                            <input
-                                type="text"
-                                placeholder="Search start locations"
-                                value={ startPoint }
-                                onChange={ e => setStartPoint(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Destination (optional)"
-                                value={ endPoint }
-                                onChange={ e => setEndPoint(e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Add trip date"
-                                value={ tripDate }
-                                onChange={ e => setTripDate(e.target.value)}
-                            />
-                            <button type="submit"> Search </button>
-                        </form>
+                    <div className="search-form-trip-index">
+                        <SearchBar searchRes={searchRes} setSearchRes={setSearchRes} fromIndex={true} setSearching={setSearching}/>
                     </div>
+
                     <div className="trip-page-header">
-                        <h4>Trips leaving from start location</h4>
+                        <h3 className="trip-page-h3-header">
+                            {filteredStart}
+                        </h3>
                     </div>
+
                     <div className="trip-items-container">
-                    { filteredTrips ? 
-                    (
-                        filteredTrips.map(trip => (
-                            <TripsItem key={trip._id} trip={trip} />
-                        ))
-                    ) : 
-                    (
-                        trips.map(trip => (
-                            <TripsItem key={trip._id} trip={trip} />
-                        ))
-                        // <></>
-                     )}
+                        {!loaded ? <div className="trip-page"><Loading/></div> :
+                            filteredTrips ?
+                            (
+                                filteredTrips.map(trip => (
+                                    <TripsItem key={trip._id} trip={trip} />
+                                ))
+                            ) :
+                            (
+                                trips.map(trip => (
+                                    <TripsItem key={trip._id} trip={trip} />
+                                ))
+                            )
+                        }
+                    </div>
+
+                    <div className="show-all-trips-btn">
+                        { filteredTrips ? (
+                            <button onClick={handleClick}>All Trips</button>
+                        ) : (<></>) }
                     </div>
                 </div>
             </div>
@@ -80,6 +114,6 @@ export function Trips () {
                 <></>
             )}
         </>
-       
+
     )
 }

@@ -1,29 +1,38 @@
 .passenger-container{
     display: flex;
-    padding-top: 15px;
-    width: 60vw;
-    /* justify-content: space-between; */
+    padding: 15px 15px;
+    margin: 15px 15px;
+    min-width: 600px;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 .profile-link{
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     text-decoration: none;
-    /* margin-right: 30px; */
-    width: 50%;
 }
-#profile-img{
-    height: 100px;
-    width: 100px;
-    border-radius: 90px;
-}
+
 .passenger-name{
     padding-left: 20px;
     padding-right: 20px;
+    display: flex;
+}
+#firstName-passenger{
+    padding-right: 5px;
 }
 .passenger-profile-pic{
     margin-right: 30px;
 }
 .passenger-dropoff{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.passenger-phone{
     display: flex;
     flex-direction: column;
     align-items: center;

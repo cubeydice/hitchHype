@@ -10,18 +10,18 @@ const authors = [
   },
   {
     name: "Raymond Tan",
-    gitHub: "https://github.com/ratan-ml",
-    linkedIn: "http://linkedin.com/in/raymondtan-py"
+    gitHub: "https://github.com/raymondtan676",
+    linkedIn: "http://linkedin.com/in/raymondtan676"
   },
   {
     name: "Krikor Andonian",
     gitHub: "https://github.com/Andoniank",
-    linkedIn: "www.linkedin.com/in/krikor-andonian-6bb906b0"
+    linkedIn: "http://linkedin.com/in/krikor-andonian-6bb906b0"
   },
   {
     name: "Brittiny Filbert",
     gitHub: "https://github.com/FilbertBrit",
-    linkedIn: ""
+    linkedIn: "http://linkedin.com/in/brittiny-filbert-6b50b3299"
   }
 ]
 
@@ -36,13 +36,13 @@ const Footer = () => {
     <div className='footer-authors'>
       {authors.map((author)=>{
         return (
-        <div className='footer-author'>
+        <div className='footer-author' key={author.name}>
         {author.name}
         <div className='footer-author-icons'>
-          <a href={author.linkedIn} alt='linkedin'>
+          <a href={author.linkedIn} alt='linkedin' target="_blank" rel="noreferrer">
             <img src={LinkedInLogo} alt='linkedin' className='medium-icon'/>
           </a>
-          <a href={author.gitHub} alt='linkedin'>
+          <a href={author.gitHub} alt='github' target="_blank" rel="noreferrer">
             <img src={GitHubLogo} alt='github' className='medium-icon'/>
           </a>
         </div>

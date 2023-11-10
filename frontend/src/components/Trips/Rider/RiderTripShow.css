@@ -1,10 +1,124 @@
-.Rider-show-destination-details-container{
+.rider-show-layout{
+    padding-left: 60px;
+    padding-right: 60px;
+    margin: 0 14px 0 14px;
+}
+
+.rider-show-destination-details-container{
     display: flex;
+    justify-content: space-between;
+    height: 400px;
 }
-.Rider-show-driver-maps-container{
+    .rider-show-destination-info{
+        width: 560px;
+        padding: 40px;
+        border-start-end-radius: 40px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255);
+    }
+        .ride-show-details-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+            .ride-show-details-container h3 {
+                font-weight: 500;
+            }
+
+            .ride-show-details {
+                display: flex;
+                justify-content: space-between;
+                max-width: 460px;
+                height: 35px;
+                align-items: center;
+            }
+
+            .rider-show-btn{
+                /* padding: 20px; */
+                display: flex;
+                justify-content: center;
+            }
+                .rides-btn{
+                    padding: 15px;
+                }
+
+
+    .rider-show-driver-maps-container{
+        display: flex;
+        flex-direction: column;
+    }
+        .rider-show-driver-maps-container p {
+            font-weight: 300;
+        }
+
+.rider-show-driver-maps-container{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 50px;
+    border-end-start-radius: 40px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255);
+    min-width: 715px;
 }
-#driver-img{
-    height: 180px;
-    width: 180px;
-}
+
+    .rider-show-driver-details{
+        display: flex;
+        flex-direction: column;
+        width: 35%;
+    }
+    .rider-show-driver{
+        display: flex;
+
+    }
+        .rider-show-driver-ratings{
+            margin: 10px 0;
+        }
+        #driver-img{
+            height: 180px;
+            width: 180px;
+        }
+
+        .rider-show-driver-passenger-container{
+            padding-top: 10px;
+        }
+            .rider-show-passenger-info{
+                padding-top: 20px;
+            }
+            .rider-show-passenger-info h2 {
+                font-size: 24px;
+            }
+                .rider-show-passengers-list{
+                    padding: 5px;
+                }
+                #rider-show-img{
+                    height: 400px;
+                    width: 600px;
+                    border-radius: 2px;
+                }
+
+        .rider-show-ce {
+            margin-right: 16px;
+        }
+
+        .rider-show-maps-api {
+            width: 40%;
+            height: 500px;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+

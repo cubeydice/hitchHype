@@ -1,11 +1,8 @@
 import jwtFetch from './jwt';
-import { RECEIVE_USER_LOGOUT } from './session';
 
 const RECEIVE_TRIPS = "trips/RECEIVE_TRIPS";
 const RECEIVE_TRIP = "trips/RECEIVE_TRIP";
 const REMOVE_TRIP = "trips/REMOVE_TRIP";
-const RECEIVE_USER_TRIPS = "trips/RECEIVE_USER_TRIPS";
-const RECEIVE_NEW_TRIP = "trips/RECEIVE_NEW_TRIP";
 const RECEIVE_TRIP_ERRORS = "trips/RECEIVE_TRIP_ERRORS";
 const CLEAR_TRIP_ERRORS = "trips/CLEAR_TRIP_ERRORS";
 
@@ -17,19 +14,9 @@ const receiveTrip = trip => ({
     type: RECEIVE_TRIP,
     trip
 });
-const removeTrip = trip => ({
+const removeTrip = tripId => ({
     type: REMOVE_TRIP,
-    trip
-});
-
-const receiveUserTrips = trips => ({
-    type: RECEIVE_USER_TRIPS,
-    trips
-});
-
-const receiveNewTrip = trip => ({
-    type: RECEIVE_NEW_TRIP,
-    trip
+    tripId
 });
 
 const receiveErrors = errors => ({
@@ -42,19 +29,11 @@ export const clearTripErrors = errors => ({
     errors
 });
 
-// export const getTripts = state => {
-//     // console.log(state)
-//     // return state?.trips ? Object.values(state.events) : [];
-//     return state?.trips ?  state.trips : [];
-// }
-
 export const getTrip = tripId => state => {
-    // console.log('state: ',state.events[eventId])
     return state?.trips.all ? state.trips.all[tripId] : null;
 }
-// debugger
+
 export const fetchTrip = (tripId) => async dispatch => {
-    // debugger
     try {
         const res = await jwtFetch(`/api/trips/${tripId}`);
         const trip = await res.json();
@@ -83,11 +62,40 @@ export const fetchTrips = () => async dispatch => {
     }
 };
 
-export const fetchUserTrips = id => async dispatch => {
+export const fetchTripsPlaces = () => async dispatch => {
+    // debugger
     try {
-        const res = await jwtFetch(`/api/trips/user/${id}`);
+        const res = await jwtFetch('/api/trips/places');
+        const tripsPlaces = await res.json();
+        return tripsPlaces;
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveErrors(resBody.errors));
+        }
+    }
+};
+
+
+export const fetchUserTrips = userId => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/trips/user/${userId}`);
         const trips = await res.json();
-        dispatch(receiveUserTrips(trips));
+        dispatch(receiveTrips(trips));
+        return trips;
+    } catch(err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors));
+        }
+    }
+};
+export const fetchUserRides = userId => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/trips/user/${userId}/rides`);
+        const trips = await res.json();
+        dispatch(receiveTrips(trips));
+        return trips;
     } catch(err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -103,7 +111,7 @@ export const composeTrip = data => async dispatch => {
             body: JSON.stringify(data)
     });
         const trip = await res.json();
-        dispatch(receiveNewTrip(trip));
+        dispatch(receiveTrip(trip));
         return trip
     } catch(err) {
         const resBody = await err.json();
@@ -117,7 +125,7 @@ export const updateTrip = data => async (dispatch) => {
     try {
         const res = await jwtFetch(`/api/trips/${data._id}`, {
             method: 'PATCH',
-            body: JSON.stringify(trip)
+            body: JSON.stringify(data)
     });
         const trip = await res.json();
         dispatch(receiveTrip(trip));
@@ -128,13 +136,16 @@ export const updateTrip = data => async (dispatch) => {
         }
     }
 };
+
 export const deleteTrip = tripId => async (dispatch) => {
+    // debugger
     try {
+         // eslint-disable-next-line
         const res = await jwtFetch(`/api/trips/${tripId}`, {
             method: 'DELETE'
     });
-        const trip = await res.json();
-        dispatch(removeTrip(trip));
+        // const trip = await res.json();
+        dispatch(removeTrip(tripId));
     } catch(err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -150,7 +161,6 @@ export const tripErrorsReducer = (state = nullErrors, action) => {
     switch(action.type) {
         case RECEIVE_TRIP_ERRORS:
             return action.errors;
-        case RECEIVE_NEW_TRIP:
         case CLEAR_TRIP_ERRORS:
             return nullErrors;
         default:
@@ -164,17 +174,10 @@ const tripsReducer = (state = {}, action) => {
         case RECEIVE_TRIP:
             return { ...state, ...action.trip};
         case REMOVE_TRIP:
-            const newState = { ...state };
-            delete newState[action.eventId];
-            return newState;
+            delete nextState[action.tripId];
+            return nextState;
         case RECEIVE_TRIPS:
-            return { ...state, ...action.trips};
-        // case RECEIVE_USER_TRIPS:
-        //     return { ...state, user: action.trips, new: undefined};
-        case RECEIVE_NEW_TRIP:
-            return { ...state, new: action.trip};
-        // case RECEIVE_USER_LOGOUT:
-        //     return { ...state, user: {}, new: undefined }
+            return { ...action.trips};
         default:
             return state;
     }

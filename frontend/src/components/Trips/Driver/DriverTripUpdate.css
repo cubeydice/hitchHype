@@ -1,61 +1,108 @@
-.Driver-update-page-layout{
+.driver-update-page-layout{
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
 }
-.Driver-update-header{
+.driver-update-header{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 20px;
+    height: 50px;
 }
-.Driver-update-header-h3{
+.driver-update-header-h3{
     font-size: x-large;
 }
-.Driver-update-map-container{
+.driver-update-map-container{
     height: 30%;
     width: 80%;
-    background-color: rgb(42, 65, 133);
     margin-left: 10%;
 }
 .map-api{
-    height: 350px;
-    width: 400px;
+    height: 100%;
+    width: 100%;
 }
-.Driver-update-passengers-container{
+.driver-update-passengers-container{
     display: flex;
     justify-content: center;
     flex-direction: column;
     padding: 20px;
     margin-left: 10%;
+    margin-right: 10%;
 }
-.Driver-update-passengers-items{
+.driver-update-passengers-items{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 80vw;
+    max-width: 50%;
+    /* width: 80vw; */
 }
-.Driver-update-passenger-item{
+.driver-update-passenger-item{
     width: 60vw;
     display: flex;
     justify-content: space-evenly;
 }
-#Driver-update-rmv-passenger{
+
+#driver-update-rmv-passenger{
     height: 40px;
 }
-.Driver-update-rmv-passenger-container{
+.driver-update-rmv-passenger-container{
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.Driver-update-edit-btns{
+.driver-update-edit-btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.driver-update-btn{
+    width: max-content;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+}
+.driver-update-available-seats{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.driver-update-available-seats-btn{
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+}
+button{
+    cursor: pointer;
+}
+
+.trip-show-linear-map {
+    padding: 0px 10px;
+    margin: 0px 10px;
+}
+
+#trip-places{
+    font-weight: 900;
+}
+.passengers-edit-container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-color: rgba(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 2%;
+    /* max-width: fit-content; */
+    /* justify-content: center; */
 }
-.Driver-update-btn{
-    width: 125px;
-    padding: 15px;
+.passenger-item-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }

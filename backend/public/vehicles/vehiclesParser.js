@@ -7,22 +7,22 @@ const vehiclesParser = (file) => {
   let vehicles = {};
   return new Promise((resolve, reject) => {
   fs.createReadStream(file)
-  .pipe(csv())
-  .on('data', (data) => {
-    if (vehicles[data.make] === undefined) {
-      vehicles[data.make] = {};
-      vehicles[data.make] = {...vehicles[data.make], [data.model]: {}}
-      vehicles[data.make][data.model] =
+    .pipe(csv())
+    .on('data', (data) => {
+      if (vehicles[data.make] === undefined) {
+        vehicles[data.make] = {};
+        vehicles[data.make][data.model] =
         {...vehicles[data.make][data.model], [data.year]: 0}
-    }
+      }
+      vehicles[data.make] = {...vehicles[data.make], [data.model]: {}}
 
-    if (vehicles[data.make][data.model] !== undefined) {
-      vehicles[data.make][data.model][data.year] = data.id;
-      mpg[data.id] = data.comb08
-    }
-  })
-  .on('end', () => {
-    resolve([vehicles,mpg]);
+      if (vehicles[data.make][data.model] !== undefined) {
+        vehicles[data.make][data.model][data.year] = data.id;
+        mpg[data.id] = data.comb08
+      }
+    })
+    .on('end', () => {
+      resolve([vehicles, mpg]);
   });
 })
 }

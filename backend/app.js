@@ -7,16 +7,18 @@ const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 
 require('./models/User');
-require('./models/Tweet');
 require('./models/Trip');
 require('./models/Car');
 require('./config/passport');
 const passport = require('passport');
+require('./models/Review');
+require('./config/passport');
+const passport = require('passport');
 
 const usersRouter = require('./routes/api/users'); // update the import file path
-const tweetsRouter = require('./routes/api/tweets');
 const tripsRouter = require('./routes/api/trips');
 const carsRouter = require('./routes/api/cars');
+const reviewsRouter = require('./routes/api/reviews');
 const csrfRouter = require('./routes/api/csrf');
 const debug = require('debug');
 
@@ -50,9 +52,9 @@ app.use(
 
 // Attach Express routers
 app.use('/api/users', usersRouter); // update the path
-app.use('/api/tweets', tweetsRouter);
 app.use('/api/trips', tripsRouter);
 app.use('/api/cars', carsRouter);
+app.use('/api/reviews', reviewsRouter);
 app.use('/api/csrf', csrfRouter);
 
 // Serve static React build files statically in production

@@ -2,7 +2,10 @@ import { closeModal } from '../../store/modal'
 import { useSelector, useDispatch} from 'react-redux';
 import LoginForm from '../SessionForms/LoginForm'
 import SignupForm from '../SessionForms/SignupForm'
+import SuccessfulUpdate from '../PopUpMessages/SuccessfulUpdate/SuccessfulUpdate';
+import { RiderRequestForm } from '../Trips/Rider/RiderRequestForm';
 import './Modal.css'
+import Error from '../PopUpMessages/NeedCarForTripError/Error';
 
 const Modal = () => {
     const modal = useSelector(state => state.modal)
@@ -21,6 +24,15 @@ const Modal = () => {
       case 'signup-form':
         component = <SignupForm />;
         break;
+      case 'error':
+        component = <Error />;
+        break;
+      case 'request-ride-form':
+        component = <RiderRequestForm/>
+        break;
+        case 'successful-update':
+          component = <SuccessfulUpdate/>
+          break;
       case 'other':
         break;
       default:
@@ -31,11 +43,20 @@ const Modal = () => {
       dispatch(closeModal());
     }
 
+    const setClassName = () => {
+      if (modal === 'error') return 'modal-child-error'
+      else if (modal === 'successful-update') return 'modal-child-update'
+      else if (modal === 'request-ride-form') return 'modal-child-request-ride-form'
+      else return 'modal-child';
+    }
+
     return (
       <div
       className="modal-background"
       onClick={handleClick}>
-        <div className="modal-child" onClick={e => e.stopPropagation()}>
+        <div
+        className={setClassName()}
+        onClick={e => e.stopPropagation()}>
           { component }
         </div>
       </div>

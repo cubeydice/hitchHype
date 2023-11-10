@@ -1,0 +1,46 @@
+.review-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px 25%;
+}
+
+.review-form-reviewee {
+  display: flex;
+  margin: 20px 0 20px;
+}
+  #review-profile-pic {
+    display: flex;
+    justify-self: center;
+    margin-right: 30px;
+  }
+
+  #reviewee-name {
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .reviewee-trip-details {
+    display: flex;
+    flex-direction: column;
+  }
+  .reviewee-trip-details > * {
+    font-size: 20px;
+  }
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+  .review-form h3 {
+    font-size: 20px
+  }
+  #review-title-input[type=text] {
+    width: 500px;
+    border: 1px solid var(--brand-black);
+    font-size: 16px;
+  }
+  #review-title-input[type=submit] {
+    width: 200px;
+  }

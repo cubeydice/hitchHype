@@ -2,18 +2,13 @@ import jwtFetch from './jwt';
 
 //ACTION CONSTANTS
 const RECEIVE_USER = "users/RECEIVE_USER";
-const REMOVE_USER = "users/REMOVE_USER";
 const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const CLEAR_USER_ERRORS = "users/CLEAR_USER_ERRORS";
+const CLEAR_USERS = "users/CLEAR_USERS"
 
 //POJO ACTIONS
 const receiveUser = user => ({
     type: RECEIVE_USER,
-    user
-});
-
-const removeUser = user => ({
-    type: REMOVE_USER,
     user
 });
 
@@ -27,11 +22,15 @@ export const clearUserErrors = errors => ({
     errors
 });
 
-//THUNK ACTIONS
+export const clearUsers = () => ({
+    type: CLEAR_USERS
+  })
+
+//SELECTOR
 export const getUser = userId => state => {
     return state?.users.all ? state.users.all[userId] : null;
 }
-
+//THUNK ACTIONS
 export const fetchUser = (userId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}`);
@@ -53,6 +52,7 @@ export const updateUser = (user) => async (dispatch) => {
             body: JSON.stringify(user)
         });
         user = await res.json();
+
         dispatch(receiveUser(user));
         return user;
     } catch(err) {
@@ -61,18 +61,6 @@ export const updateUser = (user) => async (dispatch) => {
             return dispatch(receiveErrors(res.errors));
         }
     }
-};
-
-export const deleteUser = userId => async (dispatch) => {
-    const response = await jwtFetch (`/api/users/${userId}`, {
-        method: 'DELETE'
-    });
-
-    if (response.ok) {
-        dispatch(removeUser(userId));
-    }
-
-    return response;
 };
 
 const nullErrors = null;
@@ -89,13 +77,11 @@ export const usersErrorsReducer = (state = nullErrors, action) => {
 };
 
 const usersReducer = (state = {}, action) => {
-    const nextState = { ...state };
     switch(action.type) {
         case RECEIVE_USER:
             return { ...state, ...action.user};
-        case REMOVE_USER:
-            delete nextState[action.user]
-            return nextState;
+        case CLEAR_USERS:
+            return {}
         default:
             return state;
     }

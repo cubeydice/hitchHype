@@ -50,14 +50,19 @@ table {
 /* --------------------------------------------- */
 
 :root {
-  --brand: #077187;
+  --brand: #60992D;
   --brand-pink: #f87666;
-  --brand-mustard: #f6ae2d;
+  --brand-mustard: #e8ae42;
   --brand-dark-teal: #074f57;
   --brand-black: #2c2f33;
   --sub-gray: #a2a3a7;
   --off-white: #f6f6f6;
-  --rounded-border: 6px;
+  --rounded-border: 10px;
+}
+
+
+.light {
+  font-weight: 300;
 }
 
 .main-container {
@@ -71,15 +76,25 @@ table {
   display: block;
 }
 
+.loading-page-container {
+  height: 741px;
+}
+
 #footer, .main-content:after {
   content: "";
   display: block;
-  height: 142px;
+  height: 50px;
+}
+
+.main-body:before {
+  content: "";
+  display: block;
+  height: 50px;
 }
 
 .main-content {
   padding: 15px;
-  min-height: 100%;
+  min-height: 83.5vh;
 }
 
 body {
@@ -88,22 +103,29 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.italic {
+  font-style: italic;
+}
+
 h1 {
+  letter-spacing: 0.5px;
   color: var(--brand);
   font-size: 36px;
   font-weight: 700;
 }
 
 h2 {
-  color: var(--brand-dark-teal);
+  letter-spacing: 1px;
+  color: var(--brand-black);
   font-size: 30px;
   font-weight: 500;
 }
 
 h3 {
+  letter-spacing: 0.75px;
   font-size: 16px;
-  font-weight: 700;
-  color: var(--brand-dark-teal);
+  font-weight: 500;
+  color: var(--brand-black);
 }
 
 sub {
@@ -111,6 +133,7 @@ sub {
   color: var(--sub-gray)
 }
 
+/* ERROR HANDLING*/
 .errors {
   color: red;
   font-size: 12px;
@@ -127,6 +150,13 @@ a:hover:not([disabled]),
 .link:hover:not([disabled]) {
   transition: 0.2s;
   filter: brightness(80%);
+  cursor: pointer;
+}
+
+.warning {
+  background-color: red;
+  font-size: 12px;
+  width: 100px;
 }
 
 /* BUTTONS */
@@ -140,6 +170,7 @@ input[type=submit] {
   margin: 4px;
   color: var(--off-white);
   display: inline-block;
+  cursor: pointer;
 }
 
 button:disabled,
@@ -166,6 +197,7 @@ input[type=submit]:hover:not([disabled]) {
   box-shadow: none;
   border-bottom: 2px solid #2c2f33;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .delete-button {
@@ -174,7 +206,7 @@ input[type=submit]:hover:not([disabled]) {
 
 /* FORMS */
 input[type=text],
-input[type=password] {
+input[type=password], input[type=tel] {
   border: none;
   padding: 8px;
   margin: 4px;
@@ -182,11 +214,28 @@ input[type=password] {
   border-radius: var(--rounded-border);
 }
 
+/* IMAGES */
+img {
+  border-radius: var(--rounded-border);
+}
+
 /* ICONS */
+.tiny-icon {
+  height: 16px;
+  width: 16px;
+}
 .medium-icon {
   height: 32px;
+  width: 32px;
 }
 
 .large-icon {
   height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.large-icon-unrounded {
+  height: 100px;
+  width: 100px;
 }
