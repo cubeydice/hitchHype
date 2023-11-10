@@ -178,12 +178,19 @@ export function RiderTripShow ({ trip }) {
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (
-                                        <button id="request-rides-btn" disabled>Trip Over</button>
+                                        <div>
+                                            <Link to={`/review/${trip._id}/${trip.driver._id}`}>
+                                                <button className="rides-btn">Leave a Review</button>
+                                            </Link>
+                                            <button id="request-rides-btn" disabled>Trip Over</button>
+                                        </div>
                                     ) : (
                                         <>
                                             { sessionUser  ? (
                                                 <> { checkUserPassenger() ? (
-                                                    <button id="request-rides-btn" onClick={ handleClick }>Leave Trip</button>
+                                                    <div>
+                                                        <button className="rides-btn" onClick={ handleClick }>Leave Trip</button>
+                                                    </div>
                                                 ) : (
                                                     <> { trip.availableSeats - trip.passengers.length > 0 ? (
                                                         <button id="request-rides-btn" onClick={ handleClick }>Request Ride</button>

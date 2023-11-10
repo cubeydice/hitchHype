@@ -97,6 +97,10 @@
     padding-top: 25px;
     flex-wrap: wrap;
 }
+    .trip-show-passengers-detail {
+        display: flex;
+        align-items: center;
+    }
 
 .trip-show-driver-name{
     display: flex;

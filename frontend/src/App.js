@@ -57,7 +57,7 @@ function App() {
             <ProtectedRoute exact path="/trips/:tripId/update" component={ DriverUpdateForm}/>
             <ProtectedRoute exact path="/users/:userId/trips" component={ UserTrips }/>
             <ProtectedRoute exact path="/users/:userId/rides" component={ UserRides }/>
-            <ProtectedRoute exact path="/review/:revieweeId/" component={ ReviewForm }/>
+            <ProtectedRoute exact path="/review/:tripId/:revieweeId/" component={ ReviewForm }/>
           </Switch>
         </div>
       </div>
