@@ -19,13 +19,13 @@ const ReviewForm = () => {
     const errors = useSelector(state => state.errors.reviews);
     const reviewee = useSelector(state => state.users.user)
     const reviewer = useSelector(state => state.session.user);
-    const trip = useSelector(getTrip(tripId));
     const [isDriver, setIsDriver] = useState(false)
     const [date, setDate]  = useState(new Date());
 
     const [rating, setRating] = useState(0);
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
+    const [bodyCount, setBodyCount]= useState(0);
 
     const [destinationCity, setDestinationCity] = useState("");
     const [originCity, setOriginCity] = useState("");
@@ -66,6 +66,7 @@ const ReviewForm = () => {
                 break;
             case 'body':
                 setBody(e.currentTarget.value)
+                setBodyCount(e.currentTarget.value.length)
                 break;
             default:
                 break;
@@ -144,9 +145,10 @@ const ReviewForm = () => {
                     value={body}
                     placeholder={`How was your trip with ${reviewee.firstName}?`}
                     rows={8}
-                    cols={70}
+                    cols={83}
                     onChange={handleChange('body')}
                     />
+                    <sub>{`${bodyCount}/500`}</sub>
                 </label>
                 <input
                 type="submit"
