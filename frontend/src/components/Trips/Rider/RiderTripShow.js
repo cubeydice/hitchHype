@@ -39,6 +39,9 @@ export function RiderTripShow ({ trip }) {
     const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
     (trip.availableSeats ? (trip.passengers.length + 1)
     : 0)) : 0
+    const hitchPrice = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
+    (trip.availableSeats ? (trip.passengers.length + 2)
+    : 0)) : 0
     let destinationCity;
     let originCity;
     let passengersArr;
@@ -46,7 +49,6 @@ export function RiderTripShow ({ trip }) {
 
     const handleClick = () => {
         if(rider){
-
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
             dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`)).then(history.go())
         }else{
@@ -169,7 +171,10 @@ export function RiderTripShow ({ trip }) {
                                     <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
                                 <div className="ride-show-details">
-                                    <h3 id="trip-passenger-show-details">Est. hitch price: <span className="light">{`$${price}`}</span></h3>
+                                    <h3 id="trip-passenger-show-details">Est. cost for current passengers: <span className="light">{`$${price}`}</span></h3>
+                                </div>
+                                <div className="ride-show-details">
+                                    <h3 id="trip-passenger-show-details">Est. cost if another hitchHyper joins: <span className="light">{`$${hitchPrice}`}</span></h3>
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (
