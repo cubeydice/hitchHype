@@ -7,10 +7,12 @@
 .rider-show-destination-details-container{
     display: flex;
     justify-content: space-between;
+    height: 400px;
 }
+
     .rider-show-destination-info{
         width: 560px;
-        padding: 60px 0 0 60px;
+        padding: 40px;
         border-start-end-radius: 40px;
         box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
         background-color: rgba(255, 255, 255);
@@ -31,11 +33,12 @@
                 display: flex;
                 justify-content: space-between;
                 max-width: 460px;
+                height: 35px;
                 align-items: center;
             }
 
             .rider-show-btn{
-                padding: 20px;
+                /* padding: 20px; */
                 display: flex;
                 justify-content: center;
             }
@@ -58,7 +61,7 @@
     justify-content: space-between;
     margin-top: 20px;
     padding: 50px;
-    border-end-start-radius: var(--rounded-border);
+    border-end-start-radius: 40px;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
     background-color: rgba(255, 255, 255);
 }
