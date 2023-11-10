@@ -26,14 +26,15 @@ export function RiderTripShow ({ trip }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
-    const [tripOver, setTripOver] = useState(false)
     const [image, setImage] = useState(sfPic);
-
+    
     const date = new Date(trip.departureDate);
     var pstDate = date.toUTCString().split(" ")
     pstDate = pstDate.slice(0,4).join(" ")
     
+    // con
     const todaysDate =  new Date();
+    const [tripOver, setTripOver] = useState(date < todaysDate)
 
     let rider = false;
     let riderId;
@@ -60,15 +61,17 @@ export function RiderTripShow ({ trip }) {
     }
 
     //DATE
-    if(date.getFullYear() < todaysDate.toDateString()){
-        setTripOver(true);
-    }else if(date.getFullYear() === todaysDate.toDateString()){
-        if(todaysDate.getMonth() > date.getMonth()){
-            setTripOver(true);
-        }else if(todaysDate.getDate() > date.getDate()){
-            setTripOver(true);
-        }
-    }
+    // console.log("date:", date,"today:", todaysDate)
+    // console.log(date < todaysDate)
+    // if(date.getFullYear() < todaysDate.toDateString()){
+    //     setTripOver(true);
+    // }else if(date.getFullYear() === todaysDate.toDateString()){
+    //     if(todaysDate.getMonth() > date.getMonth()){
+    //         setTripOver(true);
+    //     }else if(todaysDate.getDate() > date.getDate()){
+    //         setTripOver(true);
+    //     }
+    // }
 
     const handleUpdateDropoffClick = () => {
         dispatch(openModal('request-ride-form'))
@@ -186,10 +189,14 @@ export function RiderTripShow ({ trip }) {
                                 <div className="rider-show-btn">
                                     { tripOver ? (
                                         <div>
-                                            <Link to={`/review/${trip._id}/${trip.driver._id}`}>
-                                                <button className="rides-btn">Leave a Review</button>
-                                            </Link>
-                                            <button id="rides-btn" disabled>Trip Over</button>
+                                            {rider ? (
+                                                <Link to={`/review/${trip._id}/${trip.driver._id}`}>
+                                                    <button className="rides-btn">Leave a Review</button>
+                                                </Link>
+                                            ) : (
+                                                <></>
+                                            )}
+                                            <button className="rides-btn" disabled>Trip Over</button>
                                         </div>
                                     ) : (
                                         <>
