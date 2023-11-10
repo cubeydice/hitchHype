@@ -128,9 +128,17 @@ export function DriverTripShow({ trip }) {
                             </div>
                             <div className='trip-show-passengers'>
                                 <h2 id='header'>Passengers</h2>
-                                {trip.passengers.map( passenger => (
-                                    <Passenger key={passenger.passenger._id} passenger={passenger}/>
-                                ))}
+                                    {trip.passengers.map( passenger => {
+                                        return(
+                                        <div className="trip-show-passengers-detail">
+                                            <Passenger key={passenger.passenger._id} passenger={passenger}/>
+                                            {tripOver ? <Link to={`/review/${trip._id}/${passenger.passenger._id}`}>
+                                                    <button className="rides-btn">Leave a Review</button>
+                                            </Link>
+                                            : ""}
+                                        </div>
+                                        )
+                                    })}
                             </div>
                         </div>
                         <div className='trip-show-ce'>
