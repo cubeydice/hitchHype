@@ -1,11 +1,24 @@
+
+.review-item-container {
+  display: grid;
+  grid-template-columns: 60px auto;
+  gap: 16px;
+  margin: 22px 0;
+}
+
+.review-item-reviewer {
+  grid-column: 1;
+}
+  .reviewer-pic {
+    margin: 12px 0 0;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+  }
+
 .review-item {
-  margin: 20px 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
-}
-
-.review-trip {
-  font-weight: 300;
-  font-size: 14px;
+  grid-column: 2;
 }
