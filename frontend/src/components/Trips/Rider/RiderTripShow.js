@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useHistory } from "react-router-dom";
+import "./RiderTripShow.css"
+
+//STORE
 import { updateTrip } from "../../../store/trips";
 import { openModal } from "../../../store/modal"
 import RouteShow from "../../RouteShow/RouteShow"
-import sfPic from "../../../assets/icons/sf-img.jpg"
-import defaultProfilePic from '../../../assets/icons/user.png'
+
+//COMPONENTS
 import explodeAddress from "../AddressParser"
 import CarbonEmissions from "../../CarbonEmissions";
+import { placeholderGasPrice } from "../../GasPrices/GasPrices";
+
+//ASSETS
+import defaultProfilePic from '../../../assets/icons/user.png'
 import { ReactComponent as PassengerIcon } from "../../../assets/icons/Trips/person.svg"
 import { ReactComponent as SeatIcon } from "../../../assets/icons/Trips/seat.svg"
-import "./RiderTripShow.css"
+import sfPic from "../../../assets/icons/sf-img.jpg"
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
@@ -18,28 +25,22 @@ export function RiderTripShow ({ trip }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
+    const [tripOver, setTripOver] = useState(false)
+    const [image, setImage] = useState(sfPic);
+
     const date = new Date(trip.departureDate);
     const todaysDate =  new Date();
+
     let rider = false;
     let riderId;
-    // const [rider, setRider] = useState(false)
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
+    const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
+    (trip.availableSeats ? (trip.passengers.length + 1)
+    : 0)) : 0
     let destinationCity;
     let originCity;
     let passengersArr;
-    const [tripOver, setTripOver] = useState(false)
     const proxyUrl = "https://corsproxy.io/?";
-    const [image, setImage] = useState(sfPic);
-
-    if(date.getFullYear() < todaysDate.toDateString()){
-        setTripOver(true);
-    }else if(date.getFullYear() === todaysDate.toDateString()){
-        if(todaysDate.getMonth() > date.getMonth()){
-            setTripOver(true);
-        }else if(todaysDate.getDate() > date.getDate()){
-            setTripOver(true);
-        }
-    }
 
     const handleClick = () => {
         if(rider){
@@ -50,6 +51,19 @@ export function RiderTripShow ({ trip }) {
             dispatch(openModal('request-ride-form'))
         }
     }
+
+    //DATE
+    if(date.getFullYear() < todaysDate.toDateString()){
+        setTripOver(true);
+    }else if(date.getFullYear() === todaysDate.toDateString()){
+        if(todaysDate.getMonth() > date.getMonth()){
+            setTripOver(true);
+        }else if(todaysDate.getDate() > date.getDate()){
+            setTripOver(true);
+        }
+    }
+
+    //ADDRESS
     explodeAddress(trip.destination, function(err,addressStr)
     {
         destinationCity = addressStr.city;
@@ -59,7 +73,8 @@ export function RiderTripShow ({ trip }) {
         originCity = addressStr.city;
     })
 
-    //can only request if logged in.
+    //PASSENGERS
+    //can only see if logged in
     const passengerFn = () => {
         const passengerArr = [];
         for(let payload of trip.passengers)
@@ -153,7 +168,7 @@ export function RiderTripShow ({ trip }) {
                                     <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
                                 <div className="ride-show-details">
-                                    <h3 id="trip-passenger-show-details">Est. hitch price: <span className="light">$45</span></h3>
+                                    <h3 id="trip-passenger-show-details">Est. hitch price: <span className="light">{`$${price}`}</span></h3>
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (

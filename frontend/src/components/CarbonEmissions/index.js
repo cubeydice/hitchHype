@@ -3,53 +3,10 @@ import { ReactComponent as Home } from '../../assets/icons/CarbonEmissions/home.
 import { ReactComponent as Phone } from '../../assets/icons/CarbonEmissions/mobile-phone.svg'
 import { ReactComponent as Recycling } from '../../assets/icons/CarbonEmissions/recycling.svg'
 import { ReactComponent as Sapling } from '../../assets/icons/CarbonEmissions/sapling.svg'
-import { useEffect, useState } from 'react';
 import './CarbonEmissions.css'
-import {useJsApiLoader} from '@react-google-maps/api'
-
-/* global google */
 
 const CarbonEmissions = ({trip, driver}) => {
-  /*Calculate distance*/
-  const [ googleMapsLibraries ] = useState(['places'])
-  const origin = trip.origin
-  const destination = trip.destination
-  const [distance, setDistance] = useState('')
-  // eslint-disable-next-line
-  const [duration, setDuration] = useState('')
-  // eslint-disable-next-line
-  const [directionsResponse, setDirectionsResponse] = useState(null)
-  const {isLoaded} = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries: googleMapsLibraries
-  })
-
-  async function calculateRoute() {
-      try {
-          if (origin === '' || destination === '') {
-              return
-          }
-          const directionsService = new google.maps.DirectionsService()
-          const results = await directionsService.route({
-              origin: origin,
-              destination: destination,
-              travelMode: google.maps.TravelMode.DRIVING
-          })
-          if (results) {
-              setDirectionsResponse(results)
-              setDistance(Number(results.routes[0].legs[0].distance.text.replace(/[^\d]/g, '')))
-              setDuration(results.routes[0].legs[0].duration.text)
-          }
-      } catch (error) {
-          console.error(error)
-      }
-  }
-
-  useEffect(() => {
-    calculateRoute();
-    // eslint-disable-next-line
-  }, [isLoaded])
-
+  const distance = trip.distance
   //fuel economy per the 2022 EPA Automotive Trends Report
   //https://www.epa.gov/system/files/documents/2022-12/420s22001.pdf
   const avgMpg = 25.4
@@ -65,6 +22,7 @@ const CarbonEmissions = ({trip, driver}) => {
   })
 
   const equivalencies = equivalenciesFn(metricTonsCO2)
+  console.log(distance)
 
   const ceInfo = () => {
     if (!driver) {
