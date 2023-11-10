@@ -25,7 +25,8 @@ export function Trips () {
     }
 
     useEffect(() => {
-        dispatch(fetchTrips()).then(isLoaded(true))
+        setTimeout(()=> {isLoaded(true)}, 500)
+        dispatch(fetchTrips())
         dispatch(clearTripErrors());
     }, [dispatch])
 
@@ -47,6 +48,7 @@ export function Trips () {
             setFilteredTrips(filtered)
 
         setSearching(false)
+        // eslint-disable-next-line
     }, [searching])
 
     useEffect(() => {
@@ -67,10 +69,9 @@ export function Trips () {
             location.state.search.startPoint === "" ? (setFilteredStart("All Trips")) : (setFilteredStart(`Trips leaving from ${location.state.search.startPoint}`));
             setFilteredTrips(filtered)
         }
-
+        // eslint-disable-next-line
     }, [location.state])
 
-    if (!loaded) return <Loading/>
    return (
         <>
             { trips ? (
@@ -79,24 +80,29 @@ export function Trips () {
                     <div className="search-form-trip-index">
                         <SearchBar searchRes={searchRes} setSearchRes={setSearchRes} fromIndex={true} setSearching={setSearching}/>
                     </div>
+
                     <div className="trip-page-header">
                         <h3 className="trip-page-h3-header">
                             {filteredStart}
                         </h3>
                     </div>
+
                     <div className="trip-items-container">
-                    { filteredTrips ?
-                    (
-                        filteredTrips.map(trip => (
-                            <TripsItem key={trip._id} trip={trip} />
-                        ))
-                    ) :
-                    (
-                        trips.map(trip => (
-                            <TripsItem key={trip._id} trip={trip} />
-                        ))
-                     )}
+                        {!loaded ? <div className="trip-page"><Loading/></div> :
+                            filteredTrips ?
+                            (
+                                filteredTrips.map(trip => (
+                                    <TripsItem key={trip._id} trip={trip} />
+                                ))
+                            ) :
+                            (
+                                trips.map(trip => (
+                                    <TripsItem key={trip._id} trip={trip} />
+                                ))
+                            )
+                        }
                     </div>
+
                     <div className="show-all-trips-btn">
                         { filteredTrips ? (
                             <button onClick={handleClick}>All Trips</button>

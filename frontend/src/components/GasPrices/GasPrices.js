@@ -24,3 +24,5 @@ const GasPrices = (longitude, latitude) => {
 }
 
 export default GasPrices;
+
+export const placeholderGasPrice = 6;
