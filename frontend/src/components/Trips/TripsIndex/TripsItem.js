@@ -30,32 +30,32 @@ export function TripsItem ({ trip }) {
     })
 
     // GET PLACE IMAGE
-    // const fetchPhotoRef = async () => {
-    //     try{
-    //     const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}/&key=${apiKey}`
-    //     const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl))
-    //     const data = await response.json();
+    const fetchPhotoRef = async () => {
+        try{
+        const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destinationCity}/&key=${apiKey}`
+        const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl))
+        const data = await response.json();
 
-    //     if (data.results !== undefined) {
-    //         if (data.results[0].photos !== undefined) {
-    //             return data.results[0].photos[0].photo_reference}
-    //         else { return false }}
-    //     else return false
-    //   } catch (error) {
-    //     return false
-    //   }
-    // }
+        if (data.results !== undefined) {
+            if (data.results[0].photos !== undefined) {
+                return data.results[0].photos[0].photo_reference}
+            else { return false }}
+        else return false
+      } catch (error) {
+        return false
+      }
+    }
 
-    // const fetchPhoto = async (photoRef) => {
-    //     const photoRequestUrl = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=${apiKey}&maxwidth=700&maxheight=700`
-    //     const response = await fetch(proxyUrl + encodeURIComponent(photoRequestUrl))
-    //     return setImage(response.url)
-    // }
+    const fetchPhoto = async (photoRef) => {
+        const photoRequestUrl = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=${apiKey}&maxwidth=700&maxheight=700`
+        const response = await fetch(proxyUrl + encodeURIComponent(photoRequestUrl))
+        return setImage(response.url)
+    }
 
-    // useEffect(()=>{
-    //     fetchPhotoRef().then(res => {if (res) fetchPhoto(res)})
-    // // eslint-disable-next-line
-    // }, [])
+    useEffect(()=>{
+        fetchPhotoRef().then(res => {if (res) fetchPhoto(res)})
+    // eslint-disable-next-line
+    }, [])
 
     return (
         <a href={ showPage } className="TripItem-container">
