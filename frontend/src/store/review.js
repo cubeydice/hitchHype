@@ -59,11 +59,11 @@ export const fetchReviewee = (revieweeId) => async dispatch => {
     }
 }
 
-export const composeReview = (review) => async dispatch => {
+export const composeReview = (data) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/reviews/${review.trip}`, {
+        const res = await jwtFetch(`/api/reviews/${data.trip}`, {
             method: 'POST',
-            body: JSON.stringify(review)
+            body: JSON.stringify(data)
         });
         const review = await res.json();
         dispatch(receiveReview(review));
@@ -76,11 +76,11 @@ export const composeReview = (review) => async dispatch => {
     }
 }
 
-export const updateReview = (review) => async dispatch => {
+export const updateReview = (data) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/reviews/${review._id}`, {
+        const res = await jwtFetch(`/api/reviews/${data._id}`, {
             method: 'PATCH',
-            body: JSON.stringify(review)
+            body: JSON.stringify(data)
         });
         const review = await res.json();
         dispatch(receiveReview(review));
@@ -98,7 +98,7 @@ export const deleteReview = (reviewId) => async dispatch => {
         const res = await jwtFetch(`/api/reviews/${reviewId}`, {
             method: 'DELETE'
         });
-        dispatch(removeReview(review));
+        dispatch(removeReview(reviewId));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -106,6 +106,19 @@ export const deleteReview = (reviewId) => async dispatch => {
         }
     }
 }
+
+const nullErrors = null;
+
+export const reviewErrorsReducer = (state = nullErrors, action) => {
+  switch(action.type) {
+      case RECEIVE_REVIEW_ERRORS:
+          return action.errors;
+      case CLEAR_REVIEW_ERRORS:
+          return nullErrors;
+      default:
+          return state;
+  }
+};
 
 export const reviewReducer = (state = {}, action) => {
     const nextState = { ...state };
