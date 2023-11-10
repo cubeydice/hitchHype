@@ -4,12 +4,13 @@ import StarRatings from 'react-star-ratings';
 import explodeAddress from '../../Trips/AddressParser';
 import { composeReview } from '../../../store/review';
 
-const ReviewForm = ({trip, reviewee}) => {
+const ReviewForm = ({reviewee}) => {
     const dispatch = useDispatch();
-    const date = new Date(trip.departureDate);
     const errors = useSelector(state => state.errors.reviews);
     const reviewer = useSelector(state => state.session.user);
+    const trip = useSelector(state => state.trips);
     const isDriver = (reviewee._id === trip.driver._id);
+    const date = new Date(trip.departureDate);
     const [rating, setRating] = useState(0);
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
@@ -29,10 +30,12 @@ const ReviewForm = ({trip, reviewee}) => {
         e.preventDefault();
 
         switch (field) {
-            case '':
-
+            case 'title':
+                setTitle(e.currentTarget.value)
                 break;
-
+            case 'body':
+                setTitle(e.currentTarget.value)
+                break;
             default:
                 break;
         }
@@ -64,17 +67,29 @@ const ReviewForm = ({trip, reviewee}) => {
                 <label>
                     <h3>Rating</h3>
                     <p className="errors">{errors?.rating}</p>
-                    <input type="text"></input>
+                    <input type="text">
+
+                    </input>
                 </label>
+
                 <label>
                     <h3>Title</h3>
                     <p className="errors">{errors?.title}</p>
-                    <input type="text"></input>
+                    <input type="text"
+                    value={title}
+                    placeholder='Title of your review'
+                    onChange={handleChange('title')}
+                    />
                 </label>
+
                 <label>
                     <h3>Body</h3>
                     <p className="errors">{errors?.body}</p>
-                    <input type="text"></input>
+                    <input type="text"
+                    value={body}
+                    placeholder={`How was your trip with ${reviewee.name}?`}
+                    onChange={handleChange('body')}
+                    />
                 </label>
             </form>
         </div>
