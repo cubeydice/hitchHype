@@ -16,12 +16,12 @@ const authors = [
   {
     name: "Krikor Andonian",
     gitHub: "https://github.com/Andoniank",
-    linkedIn: "www.linkedin.com/in/krikor-andonian-6bb906b0"
+    linkedIn: "http://linkedin.com/in/krikor-andonian-6bb906b0"
   },
   {
     name: "Brittiny Filbert",
     gitHub: "https://github.com/FilbertBrit",
-    linkedIn: "www.linkedin.com/in/brittiny-filbert-6b50b3299"
+    linkedIn: "http://inkedin.com/in/brittiny-filbert-6b50b3299"
   }
 ]
 
