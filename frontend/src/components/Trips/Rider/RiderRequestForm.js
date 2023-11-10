@@ -38,10 +38,28 @@ export function RiderRequestForm(){
     const history = useHistory()
 
     useEffect(() => {
-        const preExistingWaypoints = passengers.map(passenger => ({ location: passenger.dropoffPoint }));
-        setWaypoints(preExistingWaypoints);
-    }, [passengers]);
-    
+        const initialWaypoints = passengers
+            .filter(passenger => passenger.passenger._id !== sessionUser._id) 
+            .map(passenger => ({ location: passenger.dropoffPoint }));
+        setWaypoints(initialWaypoints);
+        passengers.forEach((passenger) =>{
+            if (passenger.passenger._id === sessionUser._id) {
+                setNewWaypoint({location: passenger.dropoffPoint})
+            }
+        } )
+    }, [passengers, sessionUser._id]); 
+
+
+    useEffect(() => {
+        if (newWaypoint) {
+            const updatedWaypoints = waypoints
+                .filter(wp => wp.location !== lastCalculatedWaypoint?.location) 
+                .concat(newWaypoint); 
+            setWaypoints(updatedWaypoints);
+            setLastCalculatedWaypoint(newWaypoint);
+        }
+    }, [newWaypoint]); 
+
 
     if(!isLoaded) {
         return <div className='loading-page-container'><Loading/></div>   
@@ -111,7 +129,7 @@ export function RiderRequestForm(){
 
     const handleSubmit = () => {
         const passengerId = sessionUser._id
-        const previousPassengers = trip.passengers
+        const previousPassengers = trip.passengers.filter(passenger => passenger.passenger._id !== sessionUser._id)
         const passengers = [...previousPassengers, {passenger: passengerId, dropoffPoint: newWaypoint.location }]
         const newTrip = {...trip, passengers, distance}
         if (!isRouteValid) {

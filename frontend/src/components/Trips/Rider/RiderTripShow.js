@@ -48,6 +48,11 @@ export function RiderTripShow ({ trip }) {
         }
     }
 
+
+    const handleUpdateDropoffClick = () => {
+        dispatch(openModal('request-ride-form'))
+    }
+
     const handleClick = () => {
         if(rider){
 
@@ -168,7 +173,10 @@ export function RiderTripShow ({ trip }) {
                                         <>
                                             { sessionUser  ? (
                                                 <> { checkUserPassenger() ? (
-                                                    <button id="request-rides-btn" onClick={ handleClick }>Leave Trip</button>
+                                                    <>
+                                                        <button id="request-rides-btn" onClick={ handleClick }>Leave Trip</button>
+                                                        <button id="request-rides-btn" onClick={ handleUpdateDropoffClick }>Update Dropoff Point</button>
+                                                    </>
                                                 ) : (
                                                     <> { trip.availableSeats - trip.passengers.length > 0 ? (
                                                         <button id="request-rides-btn" onClick={ handleClick }>Request Ride</button>
