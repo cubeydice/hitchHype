@@ -8,6 +8,7 @@ import CarImage from '../../../assets/images/car-3046424_1920.jpg'
 import './CarSettings.css'
 import { getCurrentUser } from "../../../store/session";
 import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom/cjs/react-router-dom";
 
 const CarSettings = () => {
   const dispatch = useDispatch();
@@ -151,7 +152,7 @@ const CarSettings = () => {
         };
       })
       .then(dispatch(openModal('successful-update')))
-      .then(history.go('/car'))
+      .then(<Redirect from="/car/update" to="/car"/>)
     } else {
       dispatch(createCar(car))
       .then((res)=> {
@@ -161,7 +162,7 @@ const CarSettings = () => {
         };
       })
       .then(dispatch(openModal('successful-update')))
-      .then(history.go('/car'))
+      .then(<Redirect from="/car/update" to="/car"/>)
     }
   }
 
@@ -171,7 +172,6 @@ const CarSettings = () => {
     dispatch(deleteCar(carId))
     .then(dispatch(fetchUser(user._id)))
     .then(dispatch(openModal('successful-update')))
-    .then(history.go('/car'))
   }
 
   return (
