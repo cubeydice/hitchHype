@@ -67,10 +67,17 @@
         flex-direction: column;
         width: 35%;
     }
-        #driver-img{
-            height: 180px;
-            width: 180px;
+    .rider-show-driver{
+        display: flex;
+        
+    }
+        .rider-show-driver-ratings{
+            margin: 10px 0;
         }
+            #driver-img{
+                height: 180px;
+                width: 180px;
+            }
 
         .rider-show-driver-passenger-container{
             padding-top: 10px;
@@ -78,6 +85,9 @@
 
             .rider-show-passenger-info{
                 padding-top: 20px;
+            }
+            .rider-show-passenger-info h2 {
+                font-size: 24px;
             }
                 .rider-show-passengers-list{
                     padding: 5px;

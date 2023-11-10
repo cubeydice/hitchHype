@@ -192,21 +192,24 @@ export function RiderTripShow ({ trip }) {
                             <div className="rider-show-driver-pic">
                                 <Link to={`/profile/${trip.driver._id}`}>
                                     <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" className="large-icon" id='driver-img'/>
-                                </Link>;
+                                </Link>
                             </div>
 
                             <div className="rider-show-driver-passenger-container">
                                 <div className="rider-show-driver-info">
-                                    <h2 id="trip-passenger-show-details">🚙 {trip.driver.firstName}</h2>
-                                    <div className="rider-show-driver-ratings">
-                                        <StarRatings
-                                            rating={trip.driver.avgRating}
-                                            starRatedColor="#e8ae42"
-                                            starDimension="20px"
-                                            starSpacing="1px"
-                                            className='rating'
-                                        />
-                                    </div>
+
+                                        <Link to={`/profile/${trip.driver._id}`}>
+                                            <h2>🚙 {trip.driver.firstName}</h2>
+                                        </Link>
+                                        <div className="rider-show-driver-ratings">
+                                            <StarRatings
+                                                rating={trip.driver.avgRating}
+                                                starRatedColor="#e8ae42"
+                                                starDimension="20px"
+                                                starSpacing="1px"
+                                                className='rating'
+                                            />
+                                        </div>
                                     {
                                         trip.driver.biography ? (
                                             <>
@@ -214,8 +217,8 @@ export function RiderTripShow ({ trip }) {
                                             </>
                                         ) : (<></>)
                                     }
-
                                 </div>
+
                                 <div className="rider-show-passenger-info">
                                     <h2>Passengers</h2>
                                     <div className="rider-show-passengers-list">
