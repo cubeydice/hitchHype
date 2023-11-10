@@ -67,19 +67,8 @@ export function RiderTripShow ({ trip }) {
         }
     }
 
-
     const handleUpdateDropoffClick = () => {
         dispatch(openModal('request-ride-form'))
-    }
-
-    const handleClick = () => {
-        if(rider){
-
-            passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
-            dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`)).then(history.go())
-        }else{
-            dispatch(openModal('request-ride-form'))
-        }
     }
     
     //ADDRESS
