@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { fetchUserTrips } from "../../store/trips";
-import { TripsItem } from "../Trips/TripsIndex/TripsItem";
+import { fetchUserTrips } from "../../../store/trips";
+import { TripsItem } from "../../Trips/TripsIndex/TripsItem";
 import "./UserTrips.css"
-import UserNavBar from "../AccountNavBar/UserNavBar";
+import UserNavBar from "../../AccountNavBar/UserNavBar";
 export function UserTrips () {
 
     const dispatch = useDispatch();

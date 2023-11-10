@@ -211,6 +211,11 @@ input[type=password], input[type=tel] {
   border-radius: var(--rounded-border);
 }
 
+/* IMAGES */
+img {
+  border-radius: var(--rounded-border);
+}
+
 /* ICONS */
 .tiny-icon {
   height: 16px;
@@ -230,9 +235,4 @@ input[type=password], input[type=tel] {
 .large-icon-unrounded {
   height: 100px;
   width: 100px;
-}
-
-/* IMAGES */
-img {
-  border-radius: var(--rounded-border);
 }
