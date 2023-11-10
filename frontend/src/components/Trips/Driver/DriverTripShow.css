@@ -4,6 +4,8 @@
     justify-content: space-around;
     margin: 0 48px 0;
     height: 30%;
+    height: min-content;
+    min-width: 675px;
 }
     .trip-show-info {
         padding: 80px 50px 0px;
@@ -11,6 +13,8 @@
         box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
         background-color: rgba(255, 255, 255);
         width: 450px;
+        height: 55vh;
+        /* height: max-content; */
     }
         .trip-show-points-container{
             display: flex;
@@ -59,13 +63,15 @@
             }
 
     .trip-show-map {
-        width: 50%;
+        width: 900px;
+        padding-top: 20px;
+        /* height: 75vh; */
     }
 
 .trip-show-address-details-and-ce{
     display: flex;
     height: fit-content;
-    min-width: 600px;
+    min-width: 675px;
     padding: 45px 40px 0;
     margin: 20px 75px 0px;
     justify-content: space-between;
