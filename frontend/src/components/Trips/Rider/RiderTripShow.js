@@ -30,6 +30,9 @@ export function RiderTripShow ({ trip }) {
     const [image, setImage] = useState(sfPic);
 
     const date = new Date(trip.departureDate);
+    var pstDate = date.toUTCString().split(" ")
+    pstDate = pstDate.slice(0,4).join(" ")
+    
     const todaysDate =  new Date();
 
     let rider = false;
@@ -70,7 +73,7 @@ export function RiderTripShow ({ trip }) {
     const handleUpdateDropoffClick = () => {
         dispatch(openModal('request-ride-form'))
     }
-    
+
     //ADDRESS
     explodeAddress(trip.destination, function(err,addressStr)
     {
@@ -164,7 +167,7 @@ export function RiderTripShow ({ trip }) {
                             </div>
                             <div className="ride-show-details-container">
                                 <div className="ride-show-details">
-                                    <h3>Date of trip: <span className="light">{date.toDateString()}</span></h3>
+                                    <h3>Date of trip: <span className="light">{pstDate}</span></h3>
                                 </div>
                                 <div className="ride-show-details">
                                     <h3># of passengers:</h3>
@@ -182,7 +185,12 @@ export function RiderTripShow ({ trip }) {
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (
-                                        <button id="request-rides-btn" disabled>Trip Over</button>
+                                        <div>
+                                            <Link to={`/review/${trip._id}/${trip.driver._id}`}>
+                                                <button className="rides-btn">Leave a Review</button>
+                                            </Link>
+                                            <button id="rides-btn" disabled>Trip Over</button>
+                                        </div>
                                     ) : (
                                         <>
                                             { sessionUser  ? (

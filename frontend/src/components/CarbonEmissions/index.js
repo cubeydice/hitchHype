@@ -23,7 +23,6 @@ const CarbonEmissions = ({trip, driver}) => {
 
   const equivalencies = equivalenciesFn(metricTonsCO2)
 
-
   const ceInfo = () => {
     if (!driver) {
       return (

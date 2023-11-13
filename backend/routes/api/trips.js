@@ -18,7 +18,8 @@ router.get("/", async (req, res) => {
                                 .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName")
                                 .sort({ createdAt: -1 });
-        return res.json(trips);
+        const currentTrips = trips.filter(trip => new Date(trip.departureDate) >= new Date())
+        return res.json(currentTrips);
     }
     catch(err) {
         return res.json([]);
@@ -26,7 +27,7 @@ router.get("/", async (req, res) => {
 });
 
 
-// Retrieve all trips orgins and destinations
+// Retrieve all trips origins and destinations
 router.get("/places", async (req, res) => {
     try {
         const trips = await Trip.find()
