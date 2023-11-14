@@ -122,7 +122,7 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { car, departureDate, origin, destination, availableSeats, distance } = body;
+        const { car, departureDate, origin, destination, availableSeats, distance, photoId } = body;
 
         // Check if date is in the past
         if (new Date(departureDate) < new Date()) {
@@ -140,7 +140,8 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
             origin,
             destination,
             availableSeats,
-            distance
+            distance,
+            photoId
         });
     
         const trip = await newTrip.save();
