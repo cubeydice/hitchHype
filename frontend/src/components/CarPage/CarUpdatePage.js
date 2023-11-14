@@ -9,7 +9,7 @@ const CarUpdatePage = () => {
   return (
     <div className="settings-page-container">
       <UserNavBar />
-      <CarSettings sessionUser={sessionUser} fromOriginalPage={true}/>
+      <CarSettings fromOriginalPage={true}/>
     </div>
   )
 }
