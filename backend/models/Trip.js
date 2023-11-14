@@ -48,6 +48,9 @@ const tripSchema = new Schema({
     },
     distance: {
         type: Number,
+    },
+    photoId: {
+        type: String,
     }
 }, {
     timestamps: true, 
