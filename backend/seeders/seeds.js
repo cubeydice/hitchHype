@@ -71,6 +71,41 @@ const demoInfo = {
     dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
 }
 
+const hondaCivic = {
+    "1984": "29",
+    "1985": "28",
+    "1986": "27",
+    "1987": "27",
+    "1988": "30",
+    "1989": "26",
+    "1990": "26",
+    "1991": "26",
+    "1992": "28",
+    "1993": "28",
+    "1994": "28",
+    "1995": "28",
+    "1996": "31",
+    "1997": "30",
+    "1998": "28",
+    "1999": "27",
+    "2000": "25",
+    "2001": "30",
+    "2002": "25",
+    "2003": "25",
+    "2004": "25",
+    "2005": "25",
+    "2006": "23",
+    "2007": "23",
+    "2008": "24",
+    "2009": "24",
+    "2010": "24",
+    "2011": "24",
+    "2012": "25",
+    "2013": "31",
+    "2014": "31",
+    "2015": "25"
+    }
+
 // Create cars
 const cars = [];
 const sampleInsuranceCompanies = [
@@ -98,12 +133,16 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
 
     const car = new Car ({
         owner: user._id,
-        make: faker.vehicle.manufacturer(),
-        model: faker.vehicle.model(),
-        year: faker.datatype.number({ min: 2000, max: 2022 }),
+        // make: faker.vehicle.manufacturer(),
+        // model: faker.vehicle.model(),
+        make: "Honda",
+        model: "Civic",
+        // year: faker.datatype.number({ min: 2000, max: 2022 }),
+        year: Object.keys(hondaCivic)[i],
         licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
         insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
-        mpg: faker.datatype.number({ min: 10, max: 50 }),
+        // mpg: faker.datatype.number({ min: 10, max: 50 }),
+        mpg: Object.values(hondaCivic)[i],
         fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
     })
     cars.push(car)
@@ -186,12 +225,16 @@ const demoDriver = new User ({
 
 const driverCar = new Car ({
     owner: demoDriver._id,
-    make: faker.vehicle.manufacturer(),
-    model: faker.vehicle.model(),
-    year: faker.datatype.number({ min: 2000, max: 2022 }),
+    // make: faker.vehicle.manufacturer(),
+    // model: faker.vehicle.model(),
+    make: "Honda",
+    model: "Civic",
+    year: "2015",
+    mpg: "25",
+    // year: faker.datatype.number({ min: 2000, max: 2022 }),
     licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
     insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
-    mpg: faker.datatype.number({ min: 10, max: 50 }),
+    // mpg: faker.datatype.number({ min: 10, max: 50 }),
     fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
 })
 
