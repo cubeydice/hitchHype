@@ -27,6 +27,8 @@ const CreateTrip = () => {
     const [origin, setOrigin] = useState('')
     const [photoUrl, setPhotoUrl] = useState('')
     const [destination, setDestination] = useState('')
+    const [disabled, isDisabled] = useState(true)
+    const [calcError, setCalcError] = useState()
     const [map, setMap] = useState( /** @type google.maps.Map */ (null))
     const originRef = useRef(null);
     const destinationRef = useRef(null);
@@ -51,7 +53,6 @@ const CreateTrip = () => {
                     history.push(`/trips/${res._id}`)
                     history.go()
                 } else if (res && res.errors) {
-                    console.error(res.errors)
                     if(res.errors.car && !res.errors.origin && !res.errors.destination && !res.errors.availableSeats && !res.errors.departureDate) {
                         dispatch(openModal('error'))
                     }
@@ -59,6 +60,7 @@ const CreateTrip = () => {
             })
             .catch((error) => {
                 console.error(error)
+                isDisabled(true)
             })
 
     }
@@ -67,9 +69,6 @@ const CreateTrip = () => {
     async function calculateRoute(e) {
         e.preventDefault()
         try {
-            if (origin === '' || destination === '') {
-                return
-            }
             const direcitonsService = new google.maps.DirectionsService()
             const results = await direcitonsService.route({
                 origin: origin,
@@ -81,10 +80,13 @@ const CreateTrip = () => {
                 setDirectionsResponse(results)
                 setDistance(results.routes[0].legs[0].distance.text)
                 setDuration(results.routes[0].legs[0].duration.text)
+                setCalcError('')
+                isDisabled(false)
             }
         } catch (error) {
             console.error(error)
-            console.log('invalid origin and destination. Please ensure your route can be driven from start to finish')
+            setCalcError('Invalid origin and destination. Please ensure your route can be driven from start to finish.')
+            isDisabled(true)
         }
     }
 
@@ -191,9 +193,10 @@ const CreateTrip = () => {
                                 type="text" 
                             />
                         </Autocomplete>
+                        <span className='errors' >{calcError}</span>
                         <button id='calculate' onClick={calculateRoute}>Calculate Route</button>
                         <button id='clear' onClick={clearRoute}>Clear Trip</button>
-                        <button id='submit' type='submit'>Create Your Trip</button>
+                        <button id='submit' type='submit' disabled={disabled}>Create Your Trip</button>
                     </form>
                     <div id='results'>
                         <div className='distance-container'>
