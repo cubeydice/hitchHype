@@ -25,6 +25,7 @@ const CreateTrip = () => {
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
     const [origin, setOrigin] = useState('')
+    const [photoUrl, setPhotoUrl] = useState('')
     const [destination, setDestination] = useState('')
     const [map, setMap] = useState( /** @type google.maps.Map */ (null))
     const originRef = useRef(null);
@@ -43,7 +44,7 @@ const CreateTrip = () => {
         const car = sessionUser.car
         const passengers = []
         const newDistance = parseInt(distance.slice(0, -3))
-            dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats, distance: newDistance}))
+            dispatch(composeTrip({driver, car, passengers, departureDate, origin, destination, availableSeats, distance: newDistance, photoUrl}))
             .then((res) => {
                 if (res && !res.errors) {
                     dispatch(clearTripErrors())   
@@ -83,7 +84,7 @@ const CreateTrip = () => {
             }
         } catch (error) {
             console.error(error)
-            console.log('invalid origin and destinaiton. Please ensure your route can be driven from start to finish')
+            console.log('invalid origin and destination. Please ensure your route can be driven from start to finish')
         }
     }
 
@@ -114,6 +115,9 @@ const CreateTrip = () => {
             const place = destinationRef.current.getPlace();
             if (place && place.name) {
                 setDestination(place.formatted_address);
+                if(place.photos) {
+                    setPhotoUrl(place.photos[0].getUrl())
+                }
             }
         }
     };
