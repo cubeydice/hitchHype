@@ -264,7 +264,7 @@ for (let i = 0; i < 3; i++) {
         function randomPassenger() {
             while (true) {
                 let passengerId = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-                if (passengerId !== randomDriver || !randomPassengers.includes(passengerId)) {
+                if (passengerId !== demoDriver._id || !randomPassengers.includes(passengerId)) {
                     return passengerId
                 }
             }
