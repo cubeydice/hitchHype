@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import StarRatings from 'react-star-ratings';
 import "./RiderTripShow.css";
 
 //STORE
-import { updateTrip } from "../../../store/trips";
+import { fetchTrip, updateTrip } from "../../../store/trips";
 import { openModal } from "../../../store/modal"
 
 //COMPONENTS
@@ -19,26 +19,27 @@ import { ReactComponent as PassengerIcon } from "../../../assets/icons/Trips/per
 import { ReactComponent as SeatIcon } from "../../../assets/icons/Trips/seat.svg"
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import defaultProfilePic from '../../../assets/icons/user.png'
+import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 
-const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-
-export function RiderTripShow ({ trip }) {
+export function RiderTripShow () {
+    const {tripId} = useParams()
+    const trip = useSelector(state => state.trips)
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
-    const [image, setImage] = useState(sfPic);
+    const [image, setImage] = useState();
     
     const date = new Date(trip.departureDate);
     var pstDate = date.toUTCString().split(" ")
     pstDate = pstDate.slice(0,4).join(" ")
     
-    // con
     const todaysDate =  new Date();
+    // eslint-disable-next-line
     const [tripOver, setTripOver] = useState(date < todaysDate)
-
+    
     let rider = false;
     let riderId;
-
+    
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
     const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
     (trip.availableSeats ? (trip.passengers.length + 1)
@@ -49,8 +50,17 @@ export function RiderTripShow ({ trip }) {
     let destinationCity;
     let originCity;
     let passengersArr;
-    const proxyUrl = "https://corsproxy.io/?";
-
+    
+    useEffect(() => {
+        dispatch(fetchTrip(tripId)).then((res) => {
+            if(res.photoUrl) {
+                setImage(res.photoUrl)
+            } else {
+                setImage(sfPic)
+            }
+        })
+    }, [tripId, dispatch])
+    
     const handleClick = () => {
         if(rider){
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
@@ -99,8 +109,8 @@ export function RiderTripShow ({ trip }) {
             }
 
             passengerArr.push(
-                <Link to={`/profile/${payload.passenger._id}`}>
-                    <button key={payload.passenger._id} id="passengers-list-btns">{payload.passenger.firstName}</button>
+                <Link to={`/profile/${payload.passenger._id}`} key={payload.passenger._id}>
+                    <button id="passengers-list-btns">{payload.passenger.firstName}</button>
                 </Link>
             )
         }
@@ -120,34 +130,11 @@ export function RiderTripShow ({ trip }) {
         return rider
     }
 
-    // GET PLACE IMAGE
-    const fetchPhotoRef = async () => {
-        try{
-        const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destinationCity}/&key=${apiKey}`
-        const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl))
-        const data = await response.json();
 
-        if (data.results !== undefined) {
-            if (data.results[0].photos !== undefined) {
-                return data.results[0].photos[0].photo_reference}}
-        else return false
-      } catch (error) {
-        return false
-      }
+
+    if (!trip) {
+        return <Loading />
     }
-
-    const fetchPhoto = async (photoRef) => {
-        const photoRequestUrl = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=${apiKey}&maxwidth=700&maxheight=700`
-        const response = await fetch(proxyUrl + encodeURIComponent(photoRequestUrl))
-        return setImage(response.url)
-    }
-
-    useEffect(()=>{
-        fetchPhotoRef().then(res => {if (res) fetchPhoto(res)})
-        // eslint-disable-next-line
-    }, [destinationCity])
-
-
     return (
         <>
             { trip.origin ? (

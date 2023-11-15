@@ -6,7 +6,7 @@ import explodeAddress from '../../Trips/AddressParser';
 
 //STORE
 import { clearReviewErrors, composeReview } from '../../../store/review';
-import { fetchTrip, getTrip } from '../../../store/trips';
+import { fetchTrip } from '../../../store/trips';
 import { fetchUser } from '../../../store/users';
 
 //ASSETS
@@ -35,9 +35,7 @@ const ReviewForm = () => {
         dispatch(fetchUser(revieweeId))
         dispatch(fetchTrip(tripId))
         .then(res => {
-            console.log(res)
             setIsDriver( reviewer._id === res.driver._id)
-            console.log(isDriver)
             setDate(new Date(res.departureDate))
             explodeAddress(res.destination, function(err,addressStr)
             {
