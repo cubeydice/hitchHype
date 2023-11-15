@@ -178,13 +178,22 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     const randomPassengers = []
     const randomBoolean = Math.random() < 0.3;
     const randomBoolean2 = Math.random() < 0.3;
+
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
-        const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-
+        // const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        // Generate unique passenger for the trip
+        function randomPassenger() {
+            while (true) {
+                let passengerId = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+                if (passengerId !== randomDriver || !randomPassengers.includes(passengerId)) {
+                    return passengerId
+                }
+            }
+        }
 
         const passengerInfo = {
-            passenger: randomPassenger,
+            passenger: randomPassenger(),
             dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
         };
 
@@ -248,10 +257,19 @@ for (let i = 0; i < 3; i++) {
 
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
-        const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        // const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        // Generate unique passenger for the trip
+        function randomPassenger() {
+            while (true) {
+                let passengerId = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+                if (passengerId !== randomDriver || !randomPassengers.includes(passengerId)) {
+                    return passengerId
+                }
+            }
+        }
 
         const passengerInfo = {
-            passenger: randomPassenger,
+            passenger: randomPassenger(),
             dropoffPoint: californiaAddresses[Math.floor(Math.random() * californiaAddresses.length)]
         };
 
