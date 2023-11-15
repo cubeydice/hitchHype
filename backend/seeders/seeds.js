@@ -71,6 +71,41 @@ const demoInfo = {
     dropoffPoint: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)]
 }
 
+const hondaCivic = {
+    "1984": "29",
+    "1985": "28",
+    "1986": "27",
+    "1987": "27",
+    "1988": "30",
+    "1989": "26",
+    "1990": "26",
+    "1991": "26",
+    "1992": "28",
+    "1993": "28",
+    "1994": "28",
+    "1995": "28",
+    "1996": "31",
+    "1997": "30",
+    "1998": "28",
+    "1999": "27",
+    "2000": "25",
+    "2001": "30",
+    "2002": "25",
+    "2003": "25",
+    "2004": "25",
+    "2005": "25",
+    "2006": "23",
+    "2007": "23",
+    "2008": "24",
+    "2009": "24",
+    "2010": "24",
+    "2011": "24",
+    "2012": "25",
+    "2013": "31",
+    "2014": "31",
+    "2015": "25"
+    }
+
 // Create cars
 const cars = [];
 const sampleInsuranceCompanies = [
@@ -98,12 +133,16 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
 
     const car = new Car ({
         owner: user._id,
-        make: faker.vehicle.manufacturer(),
-        model: faker.vehicle.model(),
-        year: faker.datatype.number({ min: 2000, max: 2022 }),
+        // make: faker.vehicle.manufacturer(),
+        // model: faker.vehicle.model(),
+        make: "Honda",
+        model: "Civic",
+        // year: faker.datatype.number({ min: 2000, max: 2022 }),
+        year: Object.keys(hondaCivic)[i],
         licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
         insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
-        mpg: faker.datatype.number({ min: 10, max: 50 }),
+        // mpg: faker.datatype.number({ min: 10, max: 50 }),
+        mpg: Object.values(hondaCivic)[i],
         fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
     })
     cars.push(car)
@@ -138,18 +177,30 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     const randomCarId = randomUser.car
     const randomPassengers = []
     const randomBoolean = Math.random() < 0.3;
+    const randomBoolean2 = Math.random() < 0.3;
+
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
-        const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        // const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        // Generate unique passenger for the trip
+        function randomPassenger() {
+            while (true) {
+                let passengerId = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+                if (passengerId !== randomDriver || !randomPassengers.includes(passengerId)) {
+                    return passengerId
+                }
+            }
+        }
 
         const passengerInfo = {
-            passenger: randomPassenger,
+            passenger: randomPassenger(),
             dropoffPoint: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)]
         };
 
         randomPassengers.push(passengerInfo);
     }
     if (randomBoolean) randomPassengers.push(demoInfo);
+    const date = randomBoolean ? randomBoolean2 ? faker.date.future() : faker.date.past() : faker.date.future()
 
     const destinationIndex = Math.floor(Math.random() *  Object.keys(californiaAddresses).length)
     trips.push(
@@ -157,7 +208,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
             driver: randomDriver,
             car: randomCarId,
             passengers: randomPassengers,
-            departureDate: faker.date.future(),
+            departureDate: date,
             origin: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)],
             destination: Object.keys(californiaAddresses)[destinationIndex],
             photoUrl: Object.values(californiaAddresses)[destinationIndex],
@@ -185,12 +236,16 @@ const demoDriver = new User ({
 
 const driverCar = new Car ({
     owner: demoDriver._id,
-    make: faker.vehicle.manufacturer(),
-    model: faker.vehicle.model(),
-    year: faker.datatype.number({ min: 2000, max: 2022 }),
+    // make: faker.vehicle.manufacturer(),
+    // model: faker.vehicle.model(),
+    make: "Honda",
+    model: "Civic",
+    year: "2015",
+    mpg: "25",
+    // year: faker.datatype.number({ min: 2000, max: 2022 }),
     licensePlateNumber: faker.random.alphaNumeric(7).toUpperCase(),
     insurance: sampleInsuranceCompanies[Math.floor(Math.random() * sampleInsuranceCompanies.length)],
-    mpg: faker.datatype.number({ min: 10, max: 50 }),
+    // mpg: faker.datatype.number({ min: 10, max: 50 }),
     fueleconomyId: faker.datatype.number({ min: 1000, max: 9999 }),
 })
 
@@ -204,10 +259,19 @@ for (let i = 0; i < 3; i++) {
 
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
-        const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        // const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        // Generate unique passenger for the trip
+        function randomPassenger() {
+            while (true) {
+                let passengerId = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+                if (passengerId !== demoDriver._id || !randomPassengers.includes(passengerId)) {
+                    return passengerId
+                }
+            }
+        }
 
         const passengerInfo = {
-            passenger: randomPassenger,
+            passenger: randomPassenger(),
             dropoffPoint: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)]
         };
 
@@ -216,12 +280,15 @@ for (let i = 0; i < 3; i++) {
     // Add demo rider to passengers
     randomPassengers.push(demoInfo);
 
+    const randomBoolean = Math.random() < 0.5;
+    const date = randomBoolean ? faker.date.future() : faker.date.past()
+
     const destinationIndex = Math.floor(Math.random() *  Object.keys(californiaAddresses).length)
     const trip = new Trip ({
         driver: demoDriver._id,
         car: demoDriver.car,
         passengers: randomPassengers,
-        departureDate: faker.date.future(),
+        departureDate: date,
         origin: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)],
         destination: Object.keys(californiaAddresses)[destinationIndex],
         photoUrl: Object.values(californiaAddresses)[destinationIndex],
@@ -249,7 +316,7 @@ trips.push(
                 dropoffPoint: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)]
             }
         ],
-        departureDate: faker.date.future(),
+        departureDate: faker.date.past(),
         origin: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)],
         destination: Object.keys(californiaAddresses)[destinationIndex],
         photoUrl: Object.values(californiaAddresses)[destinationIndex],
@@ -261,6 +328,7 @@ users.push(
     new User({
         email: 'deleteduser@example.com',
         hashedPassword: bcrypt.hashSync('deleted', 10),
+        firstName: '[deleted]',
         firstName: '[deleted]',
         lastName: 'user',
         phoneNumber: '9999999999',
