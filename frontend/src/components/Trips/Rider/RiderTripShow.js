@@ -1,52 +1,93 @@
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory, useParams } from "react-router-dom";
+import StarRatings from 'react-star-ratings';
+import "./RiderTripShow.css";
+
+//STORE
+import { fetchTrip, updateTrip } from "../../../store/trips";
 import { openModal } from "../../../store/modal"
+
+//COMPONENTS
 import RouteShow from "../../RouteShow/RouteShow"
+import explodeAddress from "../AddressParser"
+import CarbonEmissions from "../../CarbonEmissions";
+import { placeholderGasPrice } from "../../GasPrices/GasPrices";
+
+//ASSETS
+import { ReactComponent as PassengerIcon } from "../../../assets/icons/Trips/person.svg"
+import { ReactComponent as SeatIcon } from "../../../assets/icons/Trips/seat.svg"
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import defaultProfilePic from '../../../assets/icons/user.png'
-import explodeAddress from "../AddressParser"
-import "./RiderTripShow.css"
-import CarbonEmissions from "../../CarbonEmissions";
-import { useEffect, useState } from "react";
-import { updateTrip } from "../../../store/trips";
-const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 
-export function RiderTripShow ({ trip }) {
+export function RiderTripShow () {
+    const {tripId} = useParams()
+    const trip = useSelector(state => state.trips)
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
+    const [image, setImage] = useState();
+    
     const date = new Date(trip.departureDate);
+    var pstDate = date.toUTCString().split(" ")
+    pstDate = pstDate.slice(0,4).join(" ")
+    
     const todaysDate =  new Date();
+    // eslint-disable-next-line
+    const [tripOver, setTripOver] = useState(date < todaysDate)
+    
     let rider = false;
     let riderId;
-    // const [rider, setRider] = useState(false)
+    
     const availableSeats = (trip.passengers ? (trip.availableSeats - trip.passengers.length) : (null));
+    const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
+    (trip.availableSeats ? (trip.passengers.length + 1)
+    : 0)) : 0
+    const hitchPrice = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
+    (trip.availableSeats ? (trip.passengers.length + 2)
+    : 0)) : 0
     let destinationCity;
     let originCity;
     let passengersArr;
-    const [tripOver, setTripOver] = useState(false)
-    const proxyUrl = "https://corsproxy.io/?";
-    const [image, setImage] = useState(sfPic);
-
-    if(date.getFullYear() < todaysDate.toDateString()){
-        setTripOver(true);
-    }else if(date.getFullYear() === todaysDate.toDateString()){
-        if(todaysDate.getMonth() > date.getMonth()){
-            setTripOver(true);
-        }else if(todaysDate.getDate() > date.getDate()){
-            setTripOver(true);
-        }
-    }
-
+    
+    useEffect(() => {
+        dispatch(fetchTrip(tripId)).then((res) => {
+            if(res.photoUrl) {
+                setImage(res.photoUrl)
+            } else {
+                setImage(sfPic)
+            }
+        })
+    }, [tripId, dispatch])
+    
     const handleClick = () => {
         if(rider){
-
             passengersArr = trip.passengers.filter((payload) => (payload._id !== riderId));
             dispatch(updateTrip({...trip, passengers: passengersArr})).then( history.push(`/trips/${trip._id}`)).then(history.go())
         }else{
             dispatch(openModal('request-ride-form'))
         }
     }
+
+    //DATE
+    // console.log("date:", date,"today:", todaysDate)
+    // console.log(date < todaysDate)
+    // if(date.getFullYear() < todaysDate.toDateString()){
+    //     setTripOver(true);
+    // }else if(date.getFullYear() === todaysDate.toDateString()){
+    //     if(todaysDate.getMonth() > date.getMonth()){
+    //         setTripOver(true);
+    //     }else if(todaysDate.getDate() > date.getDate()){
+    //         setTripOver(true);
+    //     }
+    // }
+
+    const handleUpdateDropoffClick = () => {
+        dispatch(openModal('request-ride-form'))
+    }
+
+    //ADDRESS
     explodeAddress(trip.destination, function(err,addressStr)
     {
         destinationCity = addressStr.city;
@@ -56,7 +97,8 @@ export function RiderTripShow ({ trip }) {
         originCity = addressStr.city;
     })
 
-    //can only request if logged in.
+    //PASSENGERS
+    //can only see if logged in
     const passengerFn = () => {
         const passengerArr = [];
         for(let payload of trip.passengers)
@@ -67,8 +109,8 @@ export function RiderTripShow ({ trip }) {
             }
 
             passengerArr.push(
-                <Link to={`/profile/${payload.passenger._id}`}>
-                    <button key={payload.passenger._id} id="passengers-list-btns">{payload.passenger.firstName}</button>
+                <Link to={`/profile/${payload.passenger._id}`} key={payload.passenger._id}>
+                    <button id="passengers-list-btns">{payload.passenger.firstName}</button>
                 </Link>
             )
         }
@@ -76,7 +118,6 @@ export function RiderTripShow ({ trip }) {
     }
 
     const checkUserPassenger = () => {
-
         if(trip){
             for(let payload of trip.passengers)
             {
@@ -89,34 +130,11 @@ export function RiderTripShow ({ trip }) {
         return rider
     }
 
-    // GET PLACE IMAGE
-    const fetchPhotoRef = async () => {
-        try{
-        const placesRequestUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destinationCity}/&key=${apiKey}`
-        const response = await fetch(proxyUrl + encodeURIComponent(placesRequestUrl))
-        const data = await response.json();
 
-        if (data.results !== undefined) {
-            if (data.results[0].photos !== undefined) {
-                return data.results[0].photos[0].photo_reference}}
-        else return false
-      } catch (error) {
-        return false
-      }
+
+    if (!trip) {
+        return <Loading />
     }
-
-    const fetchPhoto = async (photoRef) => {
-        const photoRequestUrl = `https://maps.googleapis.com/maps/api/place/photo?photoreference=${photoRef}&key=${apiKey}&maxwidth=700&maxheight=700`
-        const response = await fetch(proxyUrl + encodeURIComponent(photoRequestUrl))
-        return setImage(response.url)
-    }
-
-    useEffect(()=>{
-        fetchPhotoRef().then(res => {if (res) fetchPhoto(res)})
-        // eslint-disable-next-line
-    }, [destinationCity])
-
-
     return (
         <>
             { trip.origin ? (
@@ -125,39 +143,56 @@ export function RiderTripShow ({ trip }) {
                         <div className="Rider-show-destination-pic">
                             <img src={image} alt="rider-show-img" id='rider-show-img'/>
                         </div>
-                        <div className="rider-show-destintion-info">
+                        <div className="rider-show-destination-info">
                             <div className='trip-show-points-container'>
                                 <div className='trip-show-startPoint'>
-                                    <h3 id='trip-show-points'>{originCity}</h3>
+                                    <h1 id='trip-show-points'>{originCity}</h1>
                                 </div>
                                 <div>
                                     <h3 id='trip-show-points'>→</h3>
                                 </div>
                                 <div className='trip-show-endPoint'>
-                                    <h3 id='trip-show-points'>{destinationCity}</h3>
+                                    <h1 id='trip-show-points'>{destinationCity}</h1>
                                 </div>
                             </div>
-                            <div>
-                                <div className='trip-show-departure-time'>
-                                    <h3 id="trip-passenger-show-details">Date of trip: {date.toDateString()}.</h3>
+                            <div className="ride-show-details-container">
+                                <div className="ride-show-details">
+                                    <h3>Date of trip: <span className="light">{pstDate}</span></h3>
                                 </div>
-                                <div className='trip-show-passangers-ammount'>
-                                    <h3 id="trip-passenger-show-details"># of passengers: {trip.passengers.length}</h3>
+                                <div className="ride-show-details">
+                                    <h3># of passengers:</h3>
+                                    <div>{Array(trip.passengers.length).fill(true).map((_, i) => <PassengerIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
-                                <div className='trip-show-spots'>
-                                    <h3 id="trip-passenger-show-details">Seats left: {availableSeats}</h3>
+                                <div className="ride-show-details">
+                                    <h3>Seats left:</h3>
+                                    <div>{Array(availableSeats).fill(true).map((_, i) => <SeatIcon key={i} className="medium-icon"/>)}</div>
                                 </div>
-                                <div className="trip-show-min-price">
-                                    <h3 id="trip-passenger-show-details">Est. hitch price: $45</h3>
+                                <div className="ride-show-details">
+                                    <h3 id="trip-passenger-show-details">Est. cost for current passengers: <span className="light">{`$${price}`}</span></h3>
+                                </div>
+                                <div className="ride-show-details">
+                                    <h3 id="trip-passenger-show-details">Est. cost if another hitchHyper joins: <span className="light">{`$${hitchPrice}`}</span></h3>
                                 </div>
                                 <div className="rider-show-btn">
                                     { tripOver ? (
-                                        <button id="request-rides-btn" disabled>Trip Over</button>
+                                        <div>
+                                            {rider ? (
+                                                <Link to={`/review/${trip._id}/${trip.driver._id}`}>
+                                                    <button className="rides-btn">Leave a Review</button>
+                                                </Link>
+                                            ) : (
+                                                <></>
+                                            )}
+                                            <button className="rides-btn" disabled>Trip Over</button>
+                                        </div>
                                     ) : (
                                         <>
                                             { sessionUser  ? (
                                                 <> { checkUserPassenger() ? (
-                                                    <button id="request-rides-btn" onClick={ handleClick }>Leave Trip</button>
+                                                    <>
+                                                        <button id="request-rides-btn" onClick={ handleClick }>Leave Trip</button>
+                                                        <button id="request-rides-btn" onClick={ handleUpdateDropoffClick }>Update Dropoff Point</button>
+                                                    </>
                                                 ) : (
                                                     <> { trip.availableSeats - trip.passengers.length > 0 ? (
                                                         <button id="request-rides-btn" onClick={ handleClick }>Request Ride</button>
@@ -179,41 +214,52 @@ export function RiderTripShow ({ trip }) {
                     <div className="rider-show-driver-maps-container">
                         <div className="rider-show-driver-details">
                             <div className="rider-show-driver-pic">
-                                <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" className="large-icon" id='driver-img'/>
+                                <Link to={`/profile/${trip.driver._id}`}>
+                                    <img src={trip.driver.profilePicture ? trip.driver.profilePicture : defaultProfilePic} alt="show-img" className="large-icon" id='driver-img'/>
+                                </Link>
                             </div>
+
                             <div className="rider-show-driver-passenger-container">
                                 <div className="rider-show-driver-info">
-                                    <h2 id="trip-passenger-show-details">Driver: {trip.driver.firstName}</h2>
-                                    <div className="rider-show-driver-ratings">
-                                        {trip.driver.avgRating ? (
-                                            <h3 id="trip-passenger-show-details">Avg Rating: {Math.round(trip.driver.avgRating * 10) / 10}</h3>
-                                        ) : (<></>) }
-                                    </div>
+
+                                        <Link to={`/profile/${trip.driver._id}`}>
+                                            <h2>🚙 {trip.driver.firstName}</h2>
+                                        </Link>
+                                        <div className="rider-show-driver-ratings">
+                                            <StarRatings
+                                                rating={trip.driver.avgRating}
+                                                starRatedColor="#e8ae42"
+                                                starDimension="20px"
+                                                starSpacing="1px"
+                                                className='rating'
+                                            />
+                                        </div>
                                     {
                                         trip.driver.biography ? (
                                             <>
-                                                <h3 id="trip-passenger-show-details">Driver Bio</h3>
                                                 <p>{trip.driver.biography}</p>
                                             </>
                                         ) : (<></>)
                                     }
-
                                 </div>
+
                                 <div className="rider-show-passenger-info">
-                                    <h2>PASSENGERS</h2>
+                                    <h2>Passengers</h2>
                                     <div className="rider-show-passengers-list">
                                         {passengerFn()}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="rider-show-linear-map">
+                        <div className="rider-show-ce">
                             <CarbonEmissions trip={trip}/>
                         </div>
                         <div className="rider-show-maps-api">
                             <RouteShow trip={trip} driver={false} />
                         </div>
                     </div>
+
+                    <div className="rider-show-reviews-container"></div>
                 </div>
             ) : (
                 <></>

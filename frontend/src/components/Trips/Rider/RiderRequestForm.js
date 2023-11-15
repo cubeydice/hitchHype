@@ -24,21 +24,43 @@ export function RiderRequestForm(){
     const sessionUser = useSelector(state => state.session.user)
     const origin = trip.origin
     const destination = trip.destination
+    const [errors, setErrors] = useState('')
     const [waypoints, setWaypoints] = useState([])
     const [newWaypoint, setNewWaypoint] = useState(null);
     const [lastCalculatedWaypoint, setLastCalculatedWaypoint] = useState(null);
     const [directionsResponse, setDirectionsResponse] = useState(null)
     const [distance, setDistance] = useState('')
     const [duration, setDuration] = useState('')
+    const [isRouteValid, setIsRouteValid] = useState(false);
+    const [initialRouteCalculated, setInitialRouteCalculated] = useState(false);
     const waypointRef = useRef(null)
     const dispatch = useDispatch();
     const history = useHistory()
 
     useEffect(() => {
-        const preExistingWaypoints = passengers.map(passenger => ({ location: passenger.dropoffPoint }));
-        setWaypoints(preExistingWaypoints);
-    }, [passengers]);
-    
+        const initialWaypoints = passengers
+            .filter(passenger => passenger.passenger._id !== sessionUser._id) 
+            .map(passenger => ({ location: passenger.dropoffPoint }));
+        setWaypoints(initialWaypoints);
+        passengers.forEach((passenger) =>{
+            if (passenger.passenger._id === sessionUser._id) {
+                setNewWaypoint({location: passenger.dropoffPoint})
+            }
+        } )
+    }, [passengers, sessionUser._id]); 
+
+
+    useEffect(() => {
+        if (newWaypoint) {
+            const updatedWaypoints = waypoints
+                .filter(wp => wp.location !== lastCalculatedWaypoint?.location) 
+                .concat(newWaypoint); 
+            setWaypoints(updatedWaypoints);
+            setLastCalculatedWaypoint(newWaypoint);
+        }
+    }, [newWaypoint]); 
+
+
     if(!isLoaded) {
         return <div className='loading-page-container'><Loading/></div>   
     }
@@ -82,10 +104,19 @@ export function RiderRequestForm(){
                 const minutes = Math.floor((totalDuration % 3600) / 60);
                 setDistance(distanceInMiles);
                 setDuration(`${hours} hours ${minutes} min`);
+                if (!initialRouteCalculated) {
+                    setInitialRouteCalculated(true)
+                    setIsRouteValid(false)
+                    setErrors('Please calculate a new route before requesting a ride')
+                } else {
+                    setIsRouteValid(true)
+                    setErrors('')
+                }
             }
         } catch (error) {
             console.error(error)
-            console.log('invalid origin and destinaiton. Please ensure your route can be driven from start to finish')
+            setErrors('Invalid drop off point. Please ensure your route can be driven from start to finish')
+            setIsRouteValid(false)
         }
     }
 
@@ -98,17 +129,21 @@ export function RiderRequestForm(){
 
     const handleSubmit = () => {
         const passengerId = sessionUser._id
-        const previousPassengers = trip.passengers
+        const previousPassengers = trip.passengers.filter(passenger => passenger.passenger._id !== sessionUser._id)
         const passengers = [...previousPassengers, {passenger: passengerId, dropoffPoint: newWaypoint.location }]
         const newTrip = {...trip, passengers, distance}
-        dispatch(updateTrip(newTrip))
-        .then((res) => {
-            closeModal()
-            history.go()
-        })
-        .catch((error) => {
-            console.error(error)
-        })
+        if (!isRouteValid) {
+            setErrors('Please Calculate a valid route before submitting your request')
+        } else {
+            dispatch(updateTrip(newTrip))
+            .then((res) => {
+                closeModal()
+                history.go()
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+        }
     }
     
     const handleShowNewRoute = () => {
@@ -118,7 +153,7 @@ export function RiderRequestForm(){
     return(
         <div className='rider-request'>
             <div className="rider-request-form-header">
-                <h3>Request a Ride</h3>
+                <h3 className='request-a-ride'>Request a Ride</h3>
             </div>
             <div className="rider-request-form-div">
                 <h3>Drop off address</h3>
@@ -176,10 +211,9 @@ export function RiderRequestForm(){
                 </GoogleMap>
             </div>
             <div className="rider-request-form-btn-container">
-                <button onClick={() => handleShowNewRoute()}>Show New Route</button>
-            </div>
-            <div className="rider-request-form-btn-container">
-                <button onClick={handleSubmit}>Request Ride</button>
+                <button className='rider-request-buttons' onClick={() => handleShowNewRoute()}>Calculate New Route</button>
+                <button className='rider-request-buttons' onClick={handleSubmit} disabled={!isRouteValid}>Request Ride</button>
+                <span className='errors' id='rider-request-error' >{errors}</span>
             </div>
         </div>
     )

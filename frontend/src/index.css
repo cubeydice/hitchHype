@@ -61,6 +61,10 @@ table {
 }
 
 
+.light {
+  font-weight: 300;
+}
+
 .main-container {
   position: relative;
   max-width: 1440px;
@@ -90,7 +94,7 @@ table {
 
 .main-content {
   padding: 15px;
-  min-height: 100%;
+  min-height: 83.5vh;
 }
 
 body {
@@ -166,6 +170,7 @@ input[type=submit] {
   margin: 4px;
   color: var(--off-white);
   display: inline-block;
+  cursor: pointer;
 }
 
 button:disabled,
@@ -206,6 +211,11 @@ input[type=password], input[type=tel] {
   border-radius: var(--rounded-border);
 }
 
+/* IMAGES */
+img {
+  border-radius: var(--rounded-border);
+}
+
 /* ICONS */
 .tiny-icon {
   height: 16px;
@@ -225,9 +235,4 @@ input[type=password], input[type=tel] {
 .large-icon-unrounded {
   height: 100px;
   width: 100px;
-}
-
-/* IMAGES */
-img {
-  border-radius: var(--rounded-border);
 }

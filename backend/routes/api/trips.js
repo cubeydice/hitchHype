@@ -18,7 +18,8 @@ router.get("/", async (req, res) => {
                                 .populate("car", "make model year licensePlateNumber insurance mpg fueleconomyId" )
                                 .populate("passengers.passenger", "_id firstName lastName")
                                 .sort({ createdAt: -1 });
-        return res.json(trips);
+        const currentTrips = trips.filter(trip => new Date(trip.departureDate) >= new Date())
+        return res.json(currentTrips);
     }
     catch(err) {
         return res.json([]);
@@ -26,7 +27,7 @@ router.get("/", async (req, res) => {
 });
 
 
-// Retrieve all trips orgins and destinations
+// Retrieve all trips origins and destinations
 router.get("/places", async (req, res) => {
     try {
         const trips = await Trip.find()
@@ -121,7 +122,15 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
     try {
         // Extract the required data from the request
         const { user, body } = req;
-        const { car, departureDate, origin, destination, availableSeats, distance } = body;
+        const { car, departureDate, origin, destination, availableSeats, distance, photoUrl } = body;
+
+        // Check if date is in the past
+        if (new Date(departureDate) < new Date()) {
+            const error = new Error("Cannot enter past date");
+            error.statusCode = 400;
+            error.errors = { message: "You are not a time traveler" };
+            return next(error);
+        }
 
         const newTrip = new Trip({
             driver: user._id,
@@ -131,7 +140,8 @@ router.post("/", requireUser, validateTripInput, async (req, res, next) => {
             origin,
             destination,
             availableSeats,
-            distance
+            distance,
+            photoUrl
         });
     
         const trip = await newTrip.save();
@@ -180,6 +190,14 @@ router.patch('/:id', requireUser, validateTripInput, async (req, res, next) => {
             const error = new Error("Passengers cannot exceed available seats");
             error.status = 400;
             error.errors = { message: "Passengers cannot exceed available seats" }
+            return next(error);
+        }
+
+        // Check if date is in the past
+        if (new Date(departureDate) < new Date()) {
+            const error = new Error("Cannot enter past date");
+            error.statusCode = 400;
+            error.errors = { message: "You are not a time traveler" };
             return next(error);
         }
 

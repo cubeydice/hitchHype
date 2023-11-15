@@ -24,14 +24,12 @@ export function TripShow () {
                     { sesionUser._id === trip.driver._id ? (
                         <DriverTripShow trip={trip}/>
                     ) : (
-                        // <DriverTripShow trip={trip}/>
                         <div className='rider-show'>
                             <RiderTripShow trip={trip}/>
                         </div>
                     )}
                 </>
             ) : (
-                // <></>
                 <RiderTripShow trip={trip}/>
             )}
         </div>

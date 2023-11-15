@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom/";
+import './CarSettings.css'
+
+//STORE
+import { fetchUser } from "../../../store/users";
 import { clearCarErrors, createCar, fetchCar, updateCar, deleteCar } from "../../../store/cars";
+import { getCurrentUser } from "../../../store/session";
 import { openModal } from '../../../store/modal'
+
+//ASSETS
 import { ReactComponent as Loading } from "../../../assets/icons/loading-icon.svg"
 import CarImage from '../../../assets/images/car-3046424_1920.jpg'
-import './CarSettings.css'
-import { fetchUser, updateUser } from "../../../store/users";
-import { getCurrentUser } from "../../../store/session";
-import { useHistory } from "react-router-dom";
 
 const CarSettings = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   //Selecting Car
   const user = useSelector(state => state.session.user)
@@ -151,7 +154,7 @@ const CarSettings = () => {
         };
       })
       .then(dispatch(openModal('successful-update')))
-      .then(history.go('/car'))
+      .then(<Redirect from="/car/update" to="/car"/>)
     } else {
       dispatch(createCar(car))
       .then((res)=> {
@@ -161,7 +164,7 @@ const CarSettings = () => {
         };
       })
       .then(dispatch(openModal('successful-update')))
-      .then(history.go('/car'))
+      .then(<Redirect from="/car/update" to="/car"/>)
     }
   }
 
@@ -171,7 +174,6 @@ const CarSettings = () => {
     dispatch(deleteCar(carId))
     .then(dispatch(fetchUser(user._id)))
     .then(dispatch(openModal('successful-update')))
-    .then(history.go('/car'))
   }
 
   return (

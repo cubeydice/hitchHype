@@ -4,6 +4,7 @@
     margin: 15px 15px;
     min-width: 600px;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .profile-link{
     display: flex;
