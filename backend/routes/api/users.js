@@ -223,7 +223,6 @@ router.patch('/:id', requireUser, validateUserInput, async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => { //requireUser,
   try {
     const user = await User.findById(req.params.id)
-    console.log(user)
     if (!user) {
       const error = new Error("User not found");
       error.status = 404;

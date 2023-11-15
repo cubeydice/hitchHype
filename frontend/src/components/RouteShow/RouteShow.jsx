@@ -3,15 +3,15 @@ import { ReactComponent as Loading } from '../../assets/icons/loading-icon.svg'
 import { useState } from 'react'
 import { mapStyle } from '../../App'
 import './RouteShow.css'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateTrip } from '../../store/trips'
-import { useEffect } from 'react'
 
 const center = {lat: 37.7749, lng: -122.4194}
 const kmToMiles = (1000 * 0.621371)
 /* global google */
 
 const RouteShow = ({trip}) => {
+    const sessionUser = useSelector(state => state.session.user)
     const [ googleMapsLibraries ] = useState(['places'])
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -62,11 +62,14 @@ const RouteShow = ({trip}) => {
                 const minutes = Math.floor((totalDuration % 3600) / 60);
                 setDistance(`${distanceInMiles} mi`);
                 setDuration(`${hours} hours ${minutes} min `);
-                if (!trip.distance) {
+                
+                if (!trip.distance && sessionUser) {
                     const newDistance = parseInt(distanceInMiles.slice(0, -3))
                     const newTrip = {...trip, distance: newDistance}
                     dispatch(updateTrip(newTrip)).catch(error => console.error(error))
+                    
                 }
+                
             }
         } catch (error) {
             console.error(error)

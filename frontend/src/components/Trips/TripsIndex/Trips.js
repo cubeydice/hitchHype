@@ -25,9 +25,9 @@ export function Trips () {
     }
 
     useEffect(() => {
-        setTimeout(()=> {isLoaded(true)}, 500)
         dispatch(fetchTrips())
         dispatch(clearTripErrors());
+        setTimeout(()=> {isLoaded(true)}, 500)
     }, [dispatch])
 
     useEffect(() => {
