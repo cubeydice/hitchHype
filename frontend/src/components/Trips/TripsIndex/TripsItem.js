@@ -4,8 +4,6 @@ import { placeholderGasPrice } from "../../GasPrices/GasPrices";
 import sfPic from "../../../assets/icons/sf-img.jpg"
 import "./TripsItem.css"
 
-const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-
 export function TripsItem ({ trip }) {
     const showPage = '/trips/' + trip._id;
     const price = trip.car ? Math.round(trip.car.mpg * placeholderGasPrice /
@@ -13,7 +11,6 @@ export function TripsItem ({ trip }) {
                             : 0)) : 0
     const date = new Date(trip.departureDate);
     const [image, setImage] = useState();
-    const proxyUrl = "https://corsproxy.io/?";
 
     //GET ADDRESS
     let destinationCity;
@@ -35,6 +32,7 @@ export function TripsItem ({ trip }) {
         } else {
             setImage(sfPic)
         }
+    // eslint-disable-next-line
     }, [])
 
 
