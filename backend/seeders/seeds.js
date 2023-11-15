@@ -9,7 +9,7 @@ const { faker } = require('@faker-js/faker');
 
 const NUM_SEED_USERS = 10;
 const NUM_SEED_TRIPS = 10;
-const NUM_SEED_CARS = 10;
+// const NUM_SEED_CARS = 10;
 
 
 const images = [
@@ -176,6 +176,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
     const randomDriver = randomUser._id;
     const randomCarId = randomUser.car
     const randomPassengers = []
+    const trackPassengers = []
     const randomBoolean = Math.random() < 0.3;
     const randomBoolean2 = Math.random() < 0.3;
 
@@ -186,7 +187,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
         function randomPassenger() {
             while (true) {
                 let passengerId = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-                if (passengerId !== randomDriver || !randomPassengers.includes(passengerId)) {
+                if (passengerId !== randomDriver && !trackPassengers.includes(passengerId)) {
                     return passengerId
                 }
             }
@@ -196,7 +197,7 @@ for (let i = 0; i < NUM_SEED_TRIPS; i++) {
             passenger: randomPassenger(),
             dropoffPoint: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)]
         };
-
+        trackPassengers.push(passengerInfo.passenger)
         randomPassengers.push(passengerInfo);
     }
     if (randomBoolean) randomPassengers.push(demoInfo);
@@ -256,7 +257,7 @@ cars.push(driverCar)
 // Create demo drivers trips
 for (let i = 0; i < 3; i++) {
     const randomPassengers = []
-
+    const trackPassengers = []
     // Choose two random passengers and generate two dropoff points from the users array
     for (let j = 0; j < 2; j++) {
         // const randomPassenger = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
@@ -264,7 +265,7 @@ for (let i = 0; i < 3; i++) {
         function randomPassenger() {
             while (true) {
                 let passengerId = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
-                if (passengerId !== demoDriver._id || !randomPassengers.includes(passengerId)) {
+                if (passengerId !== demoDriver._id && !trackPassengers.includes(passengerId)) {
                     return passengerId
                 }
             }
@@ -274,7 +275,7 @@ for (let i = 0; i < 3; i++) {
             passenger: randomPassenger(),
             dropoffPoint: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)]
         };
-
+        trackPassengers.push(passengerInfo.passenger)
         randomPassengers.push(passengerInfo);
     }
     // Add demo rider to passengers
@@ -302,6 +303,15 @@ users.push(demoDriver);
 // Create trip where demo driver is a passenger
 const randomUser = users[Math.floor(Math.random() * users.length)]
 const destinationIndex = Math.floor(Math.random() *  Object.keys(californiaAddresses).length)
+// Generate uniq passenger
+function randomPassenger() {
+    while (true) {
+        let passengerId = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        if (passengerId !== randomUser._id && passengerId !== demoDriver._id) {
+            return passengerId
+        }
+    }
+}
 trips.push(
     new Trip ({
         driver: randomUser._id,
@@ -312,7 +322,7 @@ trips.push(
                 dropoffPoint: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)]
             },
             {
-                passenger: users[Math.floor(Math.random() * users.length)]._id,
+                passenger: randomPassenger(),
                 dropoffPoint: Object.keys(californiaAddresses)[Math.floor(Math.random() *  Object.keys(californiaAddresses).length)]
             }
         ],
