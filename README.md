@@ -62,15 +62,22 @@ const gasolineEmissions = (gallons) => {
 }
 ```
 
-### Trips Index & Search Bar 
+### Trips Index & Search Bar
 Users can view and search through all trips regardless of being logged in. On the index page all trips will appear. Once a user has entered inputs to the search bar trips will be filtered based on the input fields.
+readme-images/TripSearch.mov
 
-![Alt text](readme-images/TripIndex-SearchBar.PNG)
-
-### Trip Show Page(Ride Viewpoint)
-All users can view trip show pages by clicking on a trip from the Trips index page. Trip information, such as: origin, destination, passenger seats available, likely price to join trip as passenger, is available to all users despite not being logged in. Once a user is logged in a request ride button will appear prompting our request a ride modal. If a user is a passenger a button to leave trip will appear.
-
+### Trip Show Page (Rider Viewpoint)
+All users can view trip show pages by clicking on a trip from the Trips index page. Trip information, such as: origin, destination, passenger seats available, likely price to join trip as passenger, and your environmental impact by joining the ride is available to all users despite not being logged in. Once a user is logged in a request ride button will appear prompting our request a ride modal. If a user is a passenger a button to leave trip will appear.
+Additionally, upon completion of a trip, passengers will also be able to leave a review for their driver.
 ![Alt text](readme-images/RiderViewTripShow.PNG)
+
+### Trip Show Page (Driver Viewpoint)
+Once logged in and inside of a trip they have created, the drivers' side of the trip show page has additional information about their passengers and contact information. Once the date of a trip has passed, drivers can leave reviews for their passengers.
+![Alt text](readme-images/DriverViewTripShow.png)
+
+### Trip Update Page (Driver Viewpoint)
+Drivers can decide to update the amount of passengers they would like to drive or decline to pick up a passenger by removing them from the trip.
+![Alt text](readme-images/DriverViewTripUpdate.png)
 
 ## Future Updates
 ### Ride Request and Chat
