@@ -64,7 +64,6 @@ const gasolineEmissions = (gallons) => {
 
 ### Trips Index & Search Bar
 Users can view and search through all trips regardless of being logged in. On the index page all trips will appear. Once a user has entered inputs to the search bar trips will be filtered based on the input fields.
-
 https://github.com/cubeydice/hitchHype/assets/83056864/971d6011-dbe8-47e2-b6be-eb4ae7bcc5c6
 
 
