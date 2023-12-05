@@ -93,7 +93,7 @@ Drivers can decide to update the amount of passengers they would like to drive o
 * Implement AWS S3 cloud storage to store profile pictures
 
 ## Team
-* Queen Belle Dela Cruz, project lead, fullstack
-* Raymond Tan, backend lead
-* Brittiny Filbert, frontend-focused
-* Krikor Andonian, frontend-focused, Google Maps API
+* [Queen Belle Dela Cruz](https://github.com/cubeydice/), project lead, fullstack
+* [Raymond Tan](https://github.com/raymondtan676), backend lead
+* [Brittiny Filbert](https://github.com/FilbertBrit), frontend-focused
+* [Krikor Andonian](https://github.com/Andoniank), frontend-focused, Google Maps API
