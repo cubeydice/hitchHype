@@ -30,7 +30,7 @@ Users can Sign up to create a new account or log in to a pre-existing account wi
 ![Sign Up](readme-images/hitchHype1.PNG)![Login](readme-images/hitchHype2.PNG)
 
 ### Create a trip
-Users who are logged in and have a car saved in their profile can naviate over to the 'Create a Trip' page to create a trip using our interactive google maps
+Users who are logged in and have a car saved in their profile can navigate over to the 'Create a Trip' page to create a trip using our interactive google maps
 
 ![Create A Trip](readme-images/hitchHype5.PNG)
 
